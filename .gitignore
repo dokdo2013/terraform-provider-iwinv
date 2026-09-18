@@ -1,0 +1,29 @@
+# Terraform state and local credentials
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.plan
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*
+crash.log
+crash.*.log
+# Build and local evidence
+dist/
+bin/
+coverage.out
+*.test
+private-evidence/
+__pycache__/
+*.pyc
+.DS_Store

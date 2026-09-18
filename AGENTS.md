@@ -1,0 +1,15 @@
+# Contributor and agent instructions
+
+This is an independent community project owned by `dokdo2013`.
+
+- Start with `README.md`, `design/ko/architecture.md`, and `design/ko/verification.md` (English equivalents live in `design/en/`).
+- This initial repository is design-only. Do not claim that a provider binary, resource, Registry release, or live acceptance test exists before it does.
+- Keep API facts, design proposals, and live observations distinct. Cite public primary sources and record unresolved API contracts.
+- Maintain Korean and English documentation together. Identifiers and executable configuration remain English.
+- Follow Terraform Plugin Framework conventions. Call supported service APIs directly; do not automate a browser or shell out to iwinv CLI from the provider.
+- Never fabricate AWS capabilities such as tags, IAM, ARNs, or regions that the iwinv API does not expose.
+- Every new API capability needs an inventory entry, ownership and lifecycle design, import decision, and verification evidence.
+- Do not put credentials, account responses, real infrastructure identifiers, state, plans, or private organizational material in this public repository.
+- Cloud-changing tests require a specifically scoped test account/environment and cost/cleanup controls. Repository work is not authorization to mutate existing infrastructure.
+- The default branch is `main`. Validate with `python3 scripts/check_docs.py` before committing. Commit and push authorized changes; verify the remote commit and CI.
+- Do not change Git author configuration or overwrite unrelated work.

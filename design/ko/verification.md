@@ -1,0 +1,111 @@
+# 검증 계획
+
+[English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
+
+**인증된 API 검증과 Provider acceptance test는 아직 실행하지 않았습니다.** 문서 CI는 저장소 정합성만 검사하며
+클라우드 동작 검증으로 표현하지 않습니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
+각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 `not_run` 상태가 있습니다.
+
+## 증거 및 실행 규칙
+
+검증 ID, commit, Provider/Terraform/Go 버전, 환경 종류, API/상품/존, UTC 시각,
+입력 fixture 참조, 마스킹 결과, 성공/실패, 정리 결과를 기록합니다.
+mock 테스트와 실제 서비스 관측을 구분하며 실패·건너뛴 검증을 성공으로 표시하지 않습니다.
+실환경 테스트는 범위가 정해진 폐기 가능한 환경·비용 한도·공유 quota에 맞춘 직렬 실행·실행별 생성 ID 대장이 필요합니다.
+이름 prefix만으로 임의 리소스를 일괄 삭제하지 않습니다. 신뢰하지 않는 fork PR에서는 변경 테스트나 메시지 발송을 실행하지 않습니다.
+계정·출발 IP·예산·정리 절차가 준비되기 전에는 과금 가능한 acceptance workflow를 활성화하지 않습니다.
+
+## 검증 순서
+
+1. **G0 문서:** API/CLI 공백 열거, 모든 확인된 기능 분류, 한·영 문서 동기화.
+2. **G1 조회 계약:** 인증·전체 페이지·ID 매핑·타입·기존 서버 노출 검증.
+3. **G2 수명주기:** 서버 한 대의 import·무변경 plan·외부 변경 감지·삭제 완료 검증.
+4. **G3 실패 복구:** 요청 제한·timeout·생성 결과 불명확·취소·부분 state·정리 검증.
+5. **G4 서비스 확장:** 각 서비스에 수명주기/import/drift/실패 테스트 반복, 소유권 충돌 해소.
+6. **G5 출시:** 빌드된 Provider로 예제·문서·migration·호환 버전·서명·새 환경 설치 검증.
+
+서비스별로 검증을 통과하면 구현을 진행하되 미해결 기능은 지원되지 않음을 표시합니다.
+추가 서비스 API/CLI/MCP의 조사 공백이 남아 있으면 전체 기능 지원 완료라고 선언하지 않습니다.
+
+## 리소스별 필수 시나리오
+
+객체 한 개 생성 → 완료 대기 → refresh → 무변경 plan → 수정 가능한 필드 변경 → 무변경 plan →
+별도 테스트 state로 import → 지원 속성 비교 → 실제 값에 맞는 설정으로 무변경 plan →
+Terraform 외부에서 변경 → drift 감지 → 복원 → 외부 삭제 → 확정된 부재 감지.
+destroy·의존성 순서 테스트는 별도로 소유한 fixture를 사용하며 두 state가 동시에 하나의 객체를 수정하지 않게 합니다.
+교체 속성은 plan에 교체가 드러나야 하며 지원하지 않는 전이는 변경 전에 오류로 끝나야 합니다.
+
+CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTTP 테스트 서버,
+변환·서명은 table-driven 테스트를 사용합니다. 공유 클라이언트·limiter에는 race 검증도 수행합니다.
+`ImportStateVerifyIgnore`는 Cxx 근거와 함께 좁게 사용하며 import 결함을 가리는 용도로 쓰지 않습니다.
+문서 검사와 일반 단위 테스트에는 인증키가 필요하지 않습니다.
+
+## 완료 증거
+
+출시되는 각 Resource/Data/Action/Ephemeral에 기능 항목·통과한 검증 ID·양언어 문서·불변 릴리스·남은 한계를 연결합니다.
+읽기 전용 조사만으로 acceptance를 통과했다고 하지 않습니다.
+정리 실패는 대상 ID와 증거를 보존해 보고하며 CI를 성공시키려고 숨기지 않습니다.
+작업 순서는 [로드맵](roadmap.md)을 따릅니다. 근거: [acceptance testing](https://developer.hashicorp.com/terraform/plugin/testing/acceptance-tests),
+[import](https://developer.hashicorp.com/terraform/plugin/framework/resources/import),
+[Read](https://developer.hashicorp.com/terraform/plugin/framework/resources/read).
+
+## 검증 항목
+
+| ID | 단계 | 방법 | 합격 조건 | 상태 |
+| --- | --- | --- | --- | --- |
+| T001 | P1 | mock/live-read | Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다 | not_run |
+| T002 | P1 | mock/live-read | 시계 오차를 구분하고 재시도마다 새 Timestamp로 서명한다 | not_run |
+| T003 | P1 | live-read | 허용/차단 출발 IP의 인증 결과를 확인한다 | not_run |
+| T004 | P1 | mock/live-read | HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다 | not_run |
+| T005 | P1 | mock/live-read | 작업별 JSON/form/multipart 인코딩을 확인한다 | not_run |
+| T006 | P1 | mock/live-read | 모든 ID를 중복 없이 조회하고 올바른 조건에서 페이지를 종료한다 | not_run |
+| T007 | P1 | live-read | 계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다 | not_run |
+| T008 | P1 | mock/live-read | 상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다 | not_run |
+| T009 | P1 | mock/live-read | 누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다 | not_run |
+| T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | not_run |
+| T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | not_run |
+| T012 | P1 | mock | 인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다 | not_run |
+| T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | not_run |
+| T014 | P1 | review | 나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다 | not_run |
+| T015 | P2 | live | 생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다 | not_run |
+| T016 | P2 | mock/live | 모든 상태와 기한/취소를 완료 대기가 처리한다 | not_run |
+| T017 | P2 | live | apply 후 반복 refresh/plan에서 불필요한 변경이 없다 | not_run |
+| T018 | P2 | live | 이름/설명 변경/초기화가 교체나 무한 차이 없이 반영된다 | not_run |
+| T019 | P2 | live | 한글 NFC/NFD/멀티바이트 길이/공백/특수문자가 정확히 왕복한다 | not_run |
+| T020 | P2 | live | import가 지원 속성을 복원하고 일치하는 설정에서 plan이 비어 있다 | not_run |
+| T021 | P2 | mock/live | 읽지 못하는 SSH/스크립트 이력에 가짜 기본값을 넣지 않고 import 제약을 검증한다 | not_run |
+| T022 | P2 | live | 외부 변경을 감지하고 확정된 삭제에만 state를 제거한다 | not_run |
+| T023 | P2 | mock/live | 인증/제한/서버 오류와 잘못된 응답/빈 페이지를 삭제로 오인하지 않는다 | not_run |
+| T024 | P2 | mock/live | 생성 직후 404를 제한된 반영 지연 범위에서 처리한다 | not_run |
+| T025 | P2 | mock/live | 결과 불명확 생성 요청을 자동 재전송하거나 이름으로 자동 채택하지 않는다 | not_run |
+| T026 | P2 | mock/live | backoff/jitter/Retry-After와 합산 요청 부하가 제한된다 | not_run |
+| T027 | P2 | live | resize/교체 plan과 실제 중단/IP/디스크 영향이 일치한다 | not_run |
+| T028 | P2 | live | destroy가 실제 부재를 확인하고 잔여 리소스/과금 상태를 구분한다 | not_run |
+| T029 | P2 | mock/live | 부분 실패/중단/재실행에서 ID 보존과 문서화된 복구가 가능하다 | not_run |
+| T030 | P2 | mock | 병렬 리소스/클라이언트가 race 및 state 오염 검증을 통과한다 | not_run |
+| T031 | P3 | live | 보안 규칙 방향/프로토콜/포트/CIDR/ICMP/ID 정규화를 확인한다 | not_run |
+| T032 | P3 | live | 규칙 import/중복/외부 변경/부모 삭제 결과가 결정적이다 | not_run |
+| T033 | P3 | live | 보안 그룹 연결 개수와 추가/교체 의미를 검증한다 | not_run |
+| T034 | P3 | live | 스토리지 생성 연결/분리/재연결/존/보존을 검증한다 | not_run |
+| T035 | P3 | live | 연결 소유자는 하나이며 서버 삭제 시 관리 데이터 손실을 숨기지 않는다 | not_run |
+| T036 | P3 | live | 연결 해제와 볼륨/그룹/서버 삭제 순서를 검증한다 | not_run |
+| T037 | P4 | live-read | 추가 서비스마다 응답 타입/ID/오류/전체 목록 계약을 확보한다 | not_run |
+| T038 | P4 | live | 서비스별 수명주기/import/무변경 plan/drift를 출시 전에 검증한다 | not_run |
+| T039 | P4 | live | 허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다 | not_run |
+| T040 | P4 | live-read | 메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다 | not_run |
+| T041 | P4 | mock/live | 비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다 | not_run |
+| T042 | P4 | live-read | 청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다 | not_run |
+| T043 | P5 | mock/live | 오브젝트 서명/주소 형식/페이지/지원 기능 호환성을 검증한다 | not_run |
+| T044 | P5 | live | 객체 hash/ETag/multipart/version/삭제 의미를 검증하고 미지원 설정을 강제하지 않는다 | not_run |
+| T045 | P5 | mock/live | 임시 콘솔/presign 값이 plan/state에 남지 않고 만료를 검증한다 | not_run |
+| T046 | P5 | mock/live | Action은 명시적으로 실행되며 refresh/결과 불명확 오류에서 재실행되지 않는다 | not_run |
+| T047 | P5 | mock/live | rebuild/Action 결과가 이후 Read와 설정에 정합적이다 | not_run |
+| T048 | P5 | live | 메시징 템플릿 검수 상태와 허용 수정/삭제를 검증한다 | not_run |
+| T049 | P5 | mock/live | 발송/취소/시간대/바이트/중복 방지를 한정된 테스트에서 검증한다 | not_run |
+| T050 | P5 | review | 모든 잔여 원격 기능에 검증된 지원 또는 명시적인 공급사 제약이 있다 | not_run |
+| T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | not_run |
+| T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | not_run |
+| T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | not_run |
+| T054 | P6 | CI/live | 이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다 | not_run |
+| T055 | P6 | CI/review | 외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다 | not_run |
+| T056 | P6 | live | 실행별 ID 대장으로 정리를 증명하며 누수는 복구 근거와 함께 실패 처리한다 | not_run |

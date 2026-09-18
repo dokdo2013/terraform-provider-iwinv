@@ -1,0 +1,254 @@
+{
+  "scope": "Public CLI pages and SMS/Alimtalk URL references; URL presence is not a verified HTTP contract.",
+  "entries": [
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/account",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv account",
+        "iwinv bill"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/bill",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv bill",
+        "iwinv bill live"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/block-storages",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv block-storages",
+        "iwinv block-storages attach",
+        "iwinv block-storages create",
+        "iwinv block-storages delete",
+        "iwinv block-storages detach",
+        "iwinv block-storages show",
+        "iwinv block-storages types"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/completion",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv completion",
+        "iwinv completion bash",
+        "iwinv for the specified shell"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/flavors",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv flavors"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/help",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv help"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/images",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv images"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/instances",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv instances",
+        "iwinv instances create",
+        "iwinv instances delete",
+        "iwinv instances edit",
+        "iwinv instances reboot",
+        "iwinv instances rebuild",
+        "iwinv instances resize",
+        "iwinv instances show",
+        "iwinv instances shutdown",
+        "iwinv instances start",
+        "iwinv instances vnc"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/login",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv login"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/logout",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv logout"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/netstat",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv netstat",
+        "iwinv netstat iwinv"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/object-storage",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv object-storage",
+        "iwinv object-storage auth",
+        "iwinv object-storage cp",
+        "iwinv object-storage ll",
+        "iwinv object-storage ls",
+        "iwinv object-storage mv",
+        "iwinv object-storage presign",
+        "iwinv object-storage rm"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/reinstall",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv reinstall"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/ssh-keys",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv ssh-keys"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/theme",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv theme",
+        "iwinv theme example",
+        "iwinv theme test"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/uninstall",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv uninstall"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/update",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv update"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/user-script",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv user-script"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/cli/commands/zones",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [
+        "iwinv zones"
+      ],
+      "service_urls": [],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/api/Message_api/",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [],
+      "service_urls": [
+        "https://sms.bizservice.iwinv.kr/api/charge/",
+        "https://sms.bizservice.iwinv.kr/api/history/",
+        "https://sms.bizservice.iwinv.kr/api/v2/send/"
+      ],
+      "evidence": "documentation"
+    },
+    {
+      "source": "https://docs.iwinv.kr/developers/api/kakao_api/",
+      "live_verified": false,
+      "implemented": false,
+      "commands": [],
+      "service_urls": [
+        "https://alimtalk.bizservice.iwinv.kr/api/cancel/",
+        "https://alimtalk.bizservice.iwinv.kr/api/charge/",
+        "https://alimtalk.bizservice.iwinv.kr/api/history/",
+        "https://alimtalk.bizservice.iwinv.kr/api/template/",
+        "https://alimtalk.bizservice.iwinv.kr/api/template/add/",
+        "https://alimtalk.bizservice.iwinv.kr/api/template/delete/",
+        "https://alimtalk.bizservice.iwinv.kr/api/template/modify/",
+        "https://alimtalk.bizservice.iwinv.kr/api/v2/send/"
+      ],
+      "evidence": "documentation"
+    }
+  ]
+}

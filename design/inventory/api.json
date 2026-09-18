@@ -1,0 +1,4118 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-18",
+  "scope": "Seven official control-plane documentation indexes; not all iwinv services.",
+  "indexes": [
+    "https://iwinv.readme.io/llms.txt",
+    "https://iwinv-common.readme.io/llms.txt",
+    "https://iwinv-hosting.readme.io/llms.txt",
+    "https://iwinv-cache.readme.io/llms.txt",
+    "https://iwinv-dbms.readme.io/llms.txt",
+    "https://iwinv-api-nas.readme.io/llms.txt",
+    "https://iwinv-webmail.readme.io/llms.txt"
+  ],
+  "entries": [
+    {
+      "family": "iaas",
+      "title": "Introduction",
+      "source": "https://iwinv.readme.io/reference/introduction",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "iaas",
+      "title": "Zone List",
+      "source": "https://iwinv.readme.io/reference/getv1zones",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/zones",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Flavor List",
+      "source": "https://iwinv.readme.io/reference/getv1flavors",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/flavors",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "zone_id",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "image_id",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "image_type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "min_vcpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_vcpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "min_memory",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_memory",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "min_disk",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_disk",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "min_gpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_gpu",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "1"
+            },
+            {
+              "name": "page_no",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "10"
+            },
+            {
+              "name": "page_size",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "fields",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Flavor Detail",
+      "source": "https://iwinv.readme.io/reference/getv1flavorsflavorid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/flavors/{flavor_id}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "flavor_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "fields",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Image List",
+      "source": "https://iwinv.readme.io/reference/getv1images",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/images",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "zone_id",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "name",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "os",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "visibility",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "page_no",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "1"
+            },
+            {
+              "name": "page_size",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "10"
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Image Detail",
+      "source": "https://iwinv.readme.io/reference/getv1imagesimageid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/images/{image_id}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "image_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Instance List",
+      "source": "https://iwinv.readme.io/reference/getv1instances",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/instances",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "status",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "ip",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "name",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "zone_id",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "image_id",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "core_type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "min_vcpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_vcpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "min_memory",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_memory",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "min_disk",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_disk",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "min_gpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "max_gpu",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "page_no",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "1"
+            },
+            {
+              "name": "page_size",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "10"
+            },
+            {
+              "name": "fields",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Instance Detail",
+      "source": "https://iwinv.readme.io/reference/getv1instancesinstanceid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/instances/{instance_id}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/x-www-form-urlencoded"
+          ],
+          "body_fields": {
+            "application/x-www-form-urlencoded": {}
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "fields",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Create Instance",
+      "source": "https://iwinv.readme.io/reference/postv1instances",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {
+              "zone_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "image_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "flavor_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "count": {
+                "type": "integer",
+                "required": false,
+                "deprecated": false
+              },
+              "ssh_key_id": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "user_script_id": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "block_storage.N.size": {
+                "type": "integer",
+                "required": false,
+                "deprecated": false
+              },
+              "block_storage.N.name": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "block_storage.N.type": {
+                "type": "string",
+                "required": false,
+                "deprecated": true
+              },
+              "security_group": {
+                "type": "string",
+                "required": false,
+                "deprecated": true
+              },
+              "attach_public_ip": {
+                "type": "boolean",
+                "required": false,
+                "deprecated": true
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Edit Instance Info",
+      "source": "https://iwinv.readme.io/reference/putv1instancesinstanceid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "PUT",
+          "path": "/v1/instances/{instance_id}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {
+              "name": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "fields",
+              "in": "query",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Delete Instance",
+      "source": "https://iwinv.readme.io/reference/deletev1instancesinstanceid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/instances/{instance_id}",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Start(ON) Instance",
+      "source": "https://iwinv.readme.io/reference/postv1instancesinstanceidstart",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances/{instance_id}/start",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Shutdown(OFF) Instance",
+      "source": "https://iwinv.readme.io/reference/postv1instancesinstanceidshutdown",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances/{instance_id}/shutdown",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Reboot Instance",
+      "source": "https://iwinv.readme.io/reference/postv1instancesinstanceidreboot",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances/{instance_id}/reboot",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Rebuild(Image) Instance",
+      "source": "https://iwinv.readme.io/reference/postv1instancesinstanceidrebuild",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances/{instance_id}/rebuild",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {
+              "image_id": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Resize(Flavor) Instance",
+      "source": "https://iwinv.readme.io/reference/postv1instancesinstanceidresize",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances/{instance_id}/resize",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {
+              "flavor_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Remote Console",
+      "source": "https://iwinv.readme.io/reference/getv1instancesinstanceidremoteconsole",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/instances/{instance_id}/remote-console",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "User Script List",
+      "source": "https://iwinv.readme.io/reference/getv1instancescript",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/instance/script",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "name",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "page_no",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "page_size",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Block Storage Types",
+      "source": "https://iwinv.readme.io/reference/getv1blockstoragestypes",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/block-storages/types",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Block Storage List",
+      "source": "https://iwinv.readme.io/reference/getv1blockstorages",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/block-storages",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "zone_id",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "name",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Block Storage Detail",
+      "source": "https://iwinv.readme.io/reference/getv1blockstoragesblockstorageid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/block-storages/{block_storage_id}",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "block_storage_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Create Block Storage",
+      "source": "https://iwinv.readme.io/reference/postv1blockstorages",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/block-storages",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {
+              "instance_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "type": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "size": {
+                "type": "integer",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Delete Block Storage",
+      "source": "https://iwinv.readme.io/reference/deletev1blockstoragesblockstorageid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/block-storages/{block_storage_id}",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "block_storage_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Attach Block Storage",
+      "source": "https://iwinv.readme.io/reference/postv1blockstoragesblockstorageidattachinstanceid",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/block-storages/{block_storage_id}/attach/{instance_id}",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "block_storage_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "instance_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Detach Block Storage",
+      "source": "https://iwinv.readme.io/reference/postv1blockstoragesblockstorageiddetach",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/block-storages/{block_storage_id}/detach",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "multipart/form-data"
+          ],
+          "body_fields": {
+            "multipart/form-data": {}
+          },
+          "parameters": [
+            {
+              "name": "block_storage_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Security Group List",
+      "source": "https://iwinv.readme.io/reference/get_v1-security-groups",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups",
+          "responses": [
+            "200",
+            "404"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": false,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Security Group Detail",
+      "source": "https://iwinv.readme.io/reference/get_v1-security-groups-id",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Create Security Group",
+      "source": "https://iwinv.readme.io/reference/post_v1-security-groups",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/security-groups",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "title": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "content": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "icmp": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Edit Security Group",
+      "source": "https://iwinv.readme.io/reference/put_v1-security-groups-id",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "PUT",
+          "path": "/v1/security-groups/{id}",
+          "responses": [
+            "200",
+            "404"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "title": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "content": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "icmp": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Delete Security Group",
+      "source": "https://iwinv.readme.io/reference/delete_v1-security-groups-id",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/security-groups/{id}",
+          "responses": [
+            "200",
+            "404"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Security Group Rules List",
+      "source": "https://iwinv.readme.io/reference/get_v1-security-groups-id-rules",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}/rules",
+          "responses": [
+            "200",
+            "404"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Create Security Group Rule",
+      "source": "https://iwinv.readme.io/reference/post_v1-security-groups-id-rules",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/security-groups/{id}/rules",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "bound": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "protocol": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "port": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "ip": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "title": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "content": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Edit Security Group Rule",
+      "source": "https://iwinv.readme.io/reference/put_v1-security-groups-id-rules-rule-id",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "PUT",
+          "path": "/v1/security-groups/{id}/rules/{rule_id}",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "bound": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "protocol": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "port": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "ip": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "title": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "content": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "rule_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Delete Security Group Rule",
+      "source": "https://iwinv.readme.io/reference/delete_v1-security-groups-id-rules-rule-id",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/security-groups/{id}/rules/{rule_id}",
+          "responses": [
+            "200",
+            "404"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "rule_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Security Group Instances List",
+      "source": "https://iwinv.readme.io/reference/get_v1-security-groups-id-instances",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}/instances",
+          "responses": [
+            "200",
+            "404"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Attach Security Group to Instance",
+      "source": "https://iwinv.readme.io/reference/post_v1-security-groups-id-attach",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/security-groups/{id}/attach",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "instance_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "iaas",
+      "title": "Detach Security Group from Instance",
+      "source": "https://iwinv.readme.io/reference/post_v1-security-groups-id-detach",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/security-groups/{id}/detach",
+          "responses": [
+            "202"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "instance_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "common",
+      "title": "Welcome to iwinv-common",
+      "source": "https://iwinv-common.readme.io/docs/getting-started",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "common",
+      "title": "API Request",
+      "source": "https://iwinv-common.readme.io/reference/api-request",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "common",
+      "title": "API Response",
+      "source": "https://iwinv-common.readme.io/reference/api-response",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "common",
+      "title": "Live Bill",
+      "source": "https://iwinv-common.readme.io/reference/get_new-endpoint",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/bill/live",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "{timestamp}"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{accessKey}"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{signature}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "common",
+      "title": "Billing and Payment List",
+      "source": "https://iwinv-common.readme.io/reference/get_new-endpoint-1",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/bill",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "{timestamp}"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{accessKey}"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{signature}"
+            },
+            {
+              "name": "start_date",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "end_date",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "min_price",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "max_price",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "page_no",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "1"
+            },
+            {
+              "name": "page_size",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "common",
+      "title": "Billing and Payment Detail",
+      "source": "https://iwinv-common.readme.io/reference/get_new-endpoint-1-3",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/bill/{bill_id}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "{timestamp}"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{accessKey}"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{signature}"
+            },
+            {
+              "name": "bill_id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "common",
+      "title": "SSH Key List",
+      "source": "https://iwinv-common.readme.io/reference/get_new-endpoint-1-1",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/auth/ssh_key",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": true,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "name",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "page_no",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "1"
+            },
+            {
+              "name": "page_size",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": "10"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "hosting",
+      "title": "소개",
+      "source": "https://iwinv-hosting.readme.io/reference/소개",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "hosting",
+      "title": "웹 호스팅 생성",
+      "source": "https://iwinv-hosting.readme.io/reference/웹-호스팅-생성",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/webhosting",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "product_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "server_idx": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "ftppw": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "dbpw": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "domain": {
+                "type": "object",
+                "required": false,
+                "deprecated": false
+              },
+              "security": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "{timestamp}"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{accesskey}"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "{signature}"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "content-type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "hosting",
+      "title": "웹 호스팅 삭제",
+      "source": "https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/webhosting/{service_idx}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "hosting",
+      "title": "웹 호스팅 서비스 조회",
+      "source": "https://iwinv-hosting.readme.io/reference/웹-호스팅-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webhosting",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "hosting",
+      "title": "웹 호스팅 상품 버전 조회",
+      "source": "https://iwinv-hosting.readme.io/reference/상품-상세-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webhosting/servers",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "product_id",
+              "in": "query",
+              "required": true,
+              "type": "string",
+              "default": ""
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "hosting",
+      "title": "공유형/단독형",
+      "source": "https://iwinv-hosting.readme.io/reference/공유형단독형",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webhosting/products",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "cache",
+      "title": "소개",
+      "source": "https://iwinv-cache.readme.io/reference/소개",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "cache",
+      "title": "컨텐츠 캐시 생성",
+      "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-생성",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/cache",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "product_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "ftppw": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "allow_referer": {
+                "type": "array",
+                "required": false,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "cache",
+      "title": "컨텐츠 캐시 삭제",
+      "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-삭제",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/cache/{service_idx}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "cache",
+      "title": "컨텐츠 캐시 서비스 조회",
+      "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/cache",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "cache",
+      "title": "컨텐츠 캐시 상품 조회",
+      "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-상품-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/cache/products",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": ""
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "cache",
+      "title": "레퍼러 추가",
+      "source": "https://iwinv-cache.readme.io/reference/레퍼러-추가",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "PUT",
+          "path": "/v1/cache/{service_idx}/allow_referer",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "allow_referer",
+              "in": "query",
+              "required": true,
+              "type": "array",
+              "default": null
+            },
+            {
+              "name": "X-iwinv-Timestamp",
+              "in": "header",
+              "required": true,
+              "type": "integer",
+              "default": "timestamp"
+            },
+            {
+              "name": "X-iwinv-Credential",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "accesskey"
+            },
+            {
+              "name": "X-iwinv-Signature",
+              "in": "header",
+              "required": true,
+              "type": "string",
+              "default": "signature"
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "contents-type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "dbms",
+      "title": "소개",
+      "source": "https://iwinv-dbms.readme.io/reference/소개",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "dbms",
+      "title": "클라우드 DBMS 생성",
+      "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-생성",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/dbms",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "product_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "allowip": {
+                "type": "array",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "dbms",
+      "title": "클라우드 DBMS 삭제",
+      "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-삭제",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/dbms/{service_idx}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "dbms",
+      "title": "접근 허용 IP 추가",
+      "source": "https://iwinv-dbms.readme.io/reference/접근-허용-ip-추가",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "PUT",
+          "path": "/v1/dbms/{service_idx}/allowip",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "allowip": {
+                "type": "array",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "dbms",
+      "title": "클라우드 DBMS 서비스 조회",
+      "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-서비스-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/dbms",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "dbms",
+      "title": "클라우드 DBMS 상품 조회",
+      "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-상품-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/dbms/products",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "type",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            },
+            {
+              "name": "db",
+              "in": "query",
+              "required": false,
+              "type": "string",
+              "default": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "nas",
+      "title": "소개",
+      "source": "https://iwinv-api-nas.readme.io/reference/소개",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "nas",
+      "title": "공유 스토리지 생성",
+      "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-생성",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/apinas",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "product_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "sharename": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "hdd": {
+                "type": "integer",
+                "required": true,
+                "deprecated": false
+              },
+              "allowip": {
+                "type": "array",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "nas",
+      "title": "공유 스토리지 삭제",
+      "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-삭제",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/apinas/{service_idx}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "nas",
+      "title": "접근 허용 IP 추가",
+      "source": "https://iwinv-api-nas.readme.io/reference/접근-허용-ip-추가",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "PUT",
+          "path": "/v1/apinas/{service_idx}/allowip",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "allowip": {
+                "type": "array",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "nas",
+      "title": "공유 스토리지 서비스 조회",
+      "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-서비스-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/apinas",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "nas",
+      "title": "공유 스토리지 상품 조회",
+      "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-상품-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/apinas/products",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "webmail",
+      "title": "소개",
+      "source": "https://iwinv-webmail.readme.io/reference/소개",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": []
+    },
+    {
+      "family": "webmail",
+      "title": "웹 메일 생성",
+      "source": "https://iwinv-webmail.readme.io/reference/웹-메일-생성",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/webmail",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "product_id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "name": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "description": {
+                "type": "string",
+                "required": false,
+                "deprecated": false
+              },
+              "domain": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "webmail",
+      "title": "웹 메일 삭제",
+      "source": "https://iwinv-webmail.readme.io/reference/웹-메일-삭제",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/webmail/{service_idx}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "webmail",
+      "title": "웹 메일 계정 생성",
+      "source": "https://iwinv-webmail.readme.io/reference/웹-메일-계정-생성",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/webmail/{service_idx}/subid",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [
+            "application/json"
+          ],
+          "body_fields": {
+            "application/json": {
+              "id": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "pw": {
+                "type": "string",
+                "required": true,
+                "deprecated": false
+              },
+              "limit": {
+                "type": "integer",
+                "required": true,
+                "deprecated": false
+              }
+            }
+          },
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": null
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            },
+            {
+              "name": "Content-Type",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "multipart/form-data"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "webmail",
+      "title": "웹 메일 계정 삭제",
+      "source": "https://iwinv-webmail.readme.io/reference/웹-메일-계정-삭제",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "DELETE",
+          "path": "/v1/webmail/{service_idx}/subid/{id}",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "service_idx",
+              "in": "path",
+              "required": true,
+              "type": "integer",
+              "default": ""
+            },
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string",
+              "default": ""
+            },
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "webmail",
+      "title": "웹 메일 서비스 조회",
+      "source": "https://iwinv-webmail.readme.io/reference/웹-메일-서비스-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webmail",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "family": "webmail",
+      "title": "웹 메일 상품 조회",
+      "source": "https://iwinv-webmail.readme.io/reference/웹-메일-상품-조회",
+      "evidence": "documentation",
+      "implemented": false,
+      "live_verified": false,
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webmail/products",
+          "responses": [
+            "200"
+          ],
+          "response_schema_present": false,
+          "request_content_types": [],
+          "body_fields": {},
+          "parameters": [
+            {
+              "name": "accept",
+              "in": "header",
+              "required": false,
+              "type": "string",
+              "default": "application/json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

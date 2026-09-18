@@ -1,0 +1,58 @@
+# Terraform Provider for iwinv
+
+[English](README.en.md) · 한국어
+
+AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
+
+**현재 상태: 설계 및 API 검증 준비. 실행 가능한 Provider와 Registry 릴리스는 아직 없습니다.**
+문서 속 `iwinv_*` 리소스와 설정은 제안이며 현재 설치하거나 적용할 수 없습니다.
+스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
+
+## 목표
+
+- 공식 API·CLI가 제공하는 리소스와 작업 전체를 기능 대장으로 추적하고 단계적으로 지원합니다.
+- 생성·조회·수정·삭제, 기존 인프라 import, 변경 감지, 예측 가능한 plan을 제공합니다.
+- AWS 스타일의 사용 패턴을 제공하되 iwinv에 없는 기능은 만들지 않습니다.
+- 한국어와 영어 문서, 예제, 문제 해결 가이드를 함께 유지합니다.
+
+## 설계 읽기
+
+| 문서 | 내용 |
+| --- | --- |
+| [사용자 경험 및 아키텍처](design/ko/architecture.md) | AWS 스타일 매핑, 스키마, 상태·인증·오류 설계 |
+| [API 계약 및 제약](design/ko/api-contract.md) | 확인된 사실, 문서 불일치, 실제 검증이 필요한 사항 |
+| [전체 기능 범위](design/ko/coverage.md) | API·CLI·서비스별 Resource/Data/Action/Ephemeral 분류 |
+| [검증 계획](design/ko/verification.md) | 단계별 합격 기준과 실행 체크리스트 |
+| [개발 로드맵](design/ko/roadmap.md) | 의존 관계와 작업별 완료 조건 |
+| [한국어·영어 문서 정책](design/ko/documentation.md) | 초보자 가이드, 용어, 번역 동기화 |
+| [증거와 출처](design/sources.md) | 조사일과 공식 문서 링크 |
+
+## 진행 상태
+
+- [x] 공식 문서 기반 1차 조사 및 설계 저장소 구성
+- [x] 공개 control-plane 문서 75페이지에서 66개 HTTP 작업 식별
+- [x] CLI 및 메시징 문서 21페이지의 명령·URL 참조 정리
+- [ ] 실제 계정의 API 응답 및 동작 검증
+- [ ] Go API 클라이언트와 Provider 구현
+- [ ] 리소스별 acceptance test 및 서명 릴리스
+- [ ] Terraform Registry 게시
+
+위 숫자는 문서 조사 범위이며 구현 지원률이 아닙니다. 서비스별 API, S3 호환 기능,
+CLI 하위 옵션과 인증 후 MCP 도구는 계속 조사합니다. [기능 대장](design/inventory/api.json)은 모든 항목을 미구현·실환경 미검증으로 표시합니다.
+
+## 기여 및 검증
+
+[기여 안내](CONTRIBUTING.md)를 먼저 읽어주세요. 현재 문서 검증은 Python 3.10 이상으로 실행합니다.
+
+```sh
+python3 scripts/check_docs.py
+```
+
+공개 문서를 다시 조사하려면 다음 명령을 수동 실행하고 차이를 검토합니다. 계정 인증이나 리소스 생성은 하지 않습니다.
+
+```sh
+python3 scripts/discover_api.py
+python3 scripts/discover_surfaces.py
+```
+
+라이선스: [MPL-2.0](LICENSE). 회사의 기존 코드·설정·계정 데이터 없이 작성한 독립 프로젝트입니다.

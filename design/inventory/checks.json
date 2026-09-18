@@ -1,0 +1,509 @@
+{
+  "schema_version": 1,
+  "checks": [
+    {
+      "id": "T001",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "HMAC vectors match timestamp+path; query/trailing slash handling is exact",
+      "expected_ko": "Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T002",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "Clock window errors are diagnosed; every retry signs a fresh timestamp",
+      "expected_ko": "시계 오차를 구분하고 재시도마다 새 Timestamp로 서명한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T003",
+      "phase": "P1",
+      "method": "live-read",
+      "expected_en": "Allowed and denied egress IPs produce documented authentication outcomes",
+      "expected_ko": "허용/차단 출발 IP의 인증 결과를 확인한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T004",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "HTTP and business errors are both checked without masking unknown codes",
+      "expected_ko": "HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T005",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "JSON, form and multipart encoding are proven per operation",
+      "expected_ko": "작업별 JSON/form/multipart 인코딩을 확인한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T006",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "Pagination returns every ID once and terminates on documented conditions",
+      "expected_ko": "모든 ID를 중복 없이 조회하고 올바른 조건에서 페이지를 종료한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T007",
+      "phase": "P1",
+      "method": "live-read",
+      "expected_en": "Account inventory and supported-zone visibility agree with console evidence",
+      "expected_ko": "계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T008",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "Detail fields mask returns required fields without passwords or console tokens",
+      "expected_ko": "상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T009",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "Null, missing, empty and nested array/object shapes decode correctly",
+      "expected_ko": "누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T010",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "Single lookups reject zero or multiple matches; filters cannot select arbitrary first item",
+      "expected_ko": "단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T011",
+      "phase": "P1",
+      "method": "mock/live-read",
+      "expected_en": "Provider aliases isolate auth, endpoints and cached data",
+      "expected_ko": "alias 간 인증/endpoint/캐시가 섞이지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T012",
+      "phase": "P1",
+      "method": "mock",
+      "expected_en": "Credentials never follow cross-host redirects or enter diagnostics",
+      "expected_ko": "인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T013",
+      "phase": "P1",
+      "method": "review",
+      "expected_en": "Version ADR defines tested Go/Terraform/Framework combinations and feature gates",
+      "expected_ko": "Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T014",
+      "phase": "P1",
+      "method": "review",
+      "expected_en": "Remaining service APIs, CLI flags and authenticated MCP tools are enumerated with gaps",
+      "expected_ko": "나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T015",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Create returns exactly one stable ID and state preserves it during subsequent failures",
+      "expected_ko": "생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T016",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "Waiters handle building/pending/work/active/off/error with deadline and cancellation",
+      "expected_ko": "모든 상태와 기한/취소를 완료 대기가 처리한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T017",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Repeated refresh and plan after apply produce no changes",
+      "expected_ko": "apply 후 반복 refresh/plan에서 불필요한 변경이 없다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T018",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Name/description update and clear round-trip without replacement or perpetual diff",
+      "expected_ko": "이름/설명 변경/초기화가 교체나 무한 차이 없이 반영된다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T019",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Korean NFC/NFD, multibyte length, whitespace and special characters round-trip correctly",
+      "expected_ko": "한글 NFC/NFD/멀티바이트 길이/공백/특수문자가 정확히 왕복한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T020",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Import reconstructs supported fields and matching configuration yields an empty plan",
+      "expected_ko": "import가 지원 속성을 복원하고 일치하는 설정에서 plan이 비어 있다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T021",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "Unreadable SSH/script history has documented import behavior without fabricated defaults",
+      "expected_ko": "읽지 못하는 SSH/스크립트 이력에 가짜 기본값을 넣지 않고 import 제약을 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T022",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "External updates are detected; only confirmed external deletion removes state",
+      "expected_ko": "외부 변경을 감지하고 확정된 삭제에만 state를 제거한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T023",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "401/403/429/5xx, malformed responses and empty pages never imply deletion",
+      "expected_ko": "인증/제한/서버 오류와 잘못된 응답/빈 페이지를 삭제로 오인하지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T024",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "Creation-time 404 is handled within a bounded consistency window",
+      "expected_ko": "생성 직후 404를 제한된 반영 지연 범위에서 처리한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T025",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "Uncertain create outcome is not blindly retried or adopted by name",
+      "expected_ko": "결과 불명확 생성 요청을 자동 재전송하거나 이름으로 자동 채택하지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T026",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "Backoff, jitter, Retry-After and aggregate rate pressure stay bounded",
+      "expected_ko": "backoff/jitter/Retry-After와 합산 요청 부하가 제한된다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T027",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Resize and replacement plans match downtime, address and disk effects",
+      "expected_ko": "resize/교체 plan과 실제 중단/IP/디스크 영향이 일치한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T028",
+      "phase": "P2",
+      "method": "live",
+      "expected_en": "Destroy waits for absence and reports remaining resources/billing separately",
+      "expected_ko": "destroy가 실제 부재를 확인하고 잔여 리소스/과금 상태를 구분한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T029",
+      "phase": "P2",
+      "method": "mock/live",
+      "expected_en": "Partial failure, interruption and rerun preserve IDs and permit documented recovery",
+      "expected_ko": "부분 실패/중단/재실행에서 ID 보존과 문서화된 복구가 가능하다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T030",
+      "phase": "P2",
+      "method": "mock",
+      "expected_en": "Parallel resources and clients pass race tests without cross-resource state corruption",
+      "expected_ko": "병렬 리소스/클라이언트가 race 및 state 오염 검증을 통과한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T031",
+      "phase": "P3",
+      "method": "live",
+      "expected_en": "SG direction/protocol/port/CIDR/ICMP and rule ID normalization are verified",
+      "expected_ko": "보안 규칙 방향/프로토콜/포트/CIDR/ICMP/ID 정규화를 확인한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T032",
+      "phase": "P3",
+      "method": "live",
+      "expected_en": "Rule import, duplicates, external edits and parent deletion have deterministic outcomes",
+      "expected_ko": "규칙 import/중복/외부 변경/부모 삭제 결과가 결정적이다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T033",
+      "phase": "P3",
+      "method": "live",
+      "expected_en": "SG attachment multiplicity and additive-vs-replacement semantics are proven",
+      "expected_ko": "보안 그룹 연결 개수와 추가/교체 의미를 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T034",
+      "phase": "P3",
+      "method": "live",
+      "expected_en": "Storage creation attachment, detach/reattach, zone affinity and retention are proven",
+      "expected_ko": "스토리지 생성 연결/분리/재연결/존/보존을 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T035",
+      "phase": "P3",
+      "method": "live",
+      "expected_en": "Exactly one resource owns a storage connection; deleting server cannot silently lose managed data",
+      "expected_ko": "연결 소유자는 하나이며 서버 삭제 시 관리 데이터 손실을 숨기지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T036",
+      "phase": "P3",
+      "method": "live",
+      "expected_en": "Dependency teardown orders attachments before volume/group/instance deletion",
+      "expected_ko": "연결 해제와 볼륨/그룹/서버 삭제 순서를 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T037",
+      "phase": "P4",
+      "method": "live-read",
+      "expected_en": "Each additional service has typed response/ID/error and full list contracts",
+      "expected_ko": "추가 서비스마다 응답 타입/ID/오류/전체 목록 계약을 확보한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T038",
+      "phase": "P4",
+      "method": "live",
+      "expected_en": "Each service supports lifecycle/import/no-change plan/drift tests before release",
+      "expected_ko": "서비스별 수명주기/import/무변경 plan/drift를 출시 전에 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T039",
+      "phase": "P4",
+      "method": "live",
+      "expected_en": "Allowlists/referrers prove replace-vs-add, empty-set clear and external-change behavior",
+      "expected_ko": "허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T040",
+      "phase": "P4",
+      "method": "live-read",
+      "expected_en": "Mailbox accounts are authoritatively readable before managing their lifecycle",
+      "expected_ko": "메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T041",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "Password inputs never accidentally leak to logs; state/write-only behavior is explicit",
+      "expected_ko": "비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T042",
+      "phase": "P4",
+      "method": "live-read",
+      "expected_en": "Billing units, currency, VAT, timezone and sensitive fields are documented accurately",
+      "expected_ko": "청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T043",
+      "phase": "P5",
+      "method": "mock/live",
+      "expected_en": "Object storage signing, addressing, pagination and supported subfeatures pass compatibility tests",
+      "expected_ko": "오브젝트 서명/주소 형식/페이지/지원 기능 호환성을 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T044",
+      "phase": "P5",
+      "method": "live",
+      "expected_en": "Objects handle hash/ETag/multipart/version/delete semantics without forcing unsupported settings",
+      "expected_ko": "객체 hash/ETag/multipart/version/삭제 의미를 검증하고 미지원 설정을 강제하지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T045",
+      "phase": "P5",
+      "method": "mock/live",
+      "expected_en": "Ephemeral console/presign values are absent from plans/state and have tested expiry",
+      "expected_ko": "임시 콘솔/presign 값이 plan/state에 남지 않고 만료를 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T046",
+      "phase": "P5",
+      "method": "mock/live",
+      "expected_en": "Actions require explicit invocation and never replay on refresh or ambiguous errors",
+      "expected_ko": "Action은 명시적으로 실행되며 refresh/결과 불명확 오류에서 재실행되지 않는다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T047",
+      "phase": "P5",
+      "method": "mock/live",
+      "expected_en": "Rebuild/action results reconcile with later resource Read and configuration",
+      "expected_ko": "rebuild/Action 결과가 이후 Read와 설정에 정합적이다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T048",
+      "phase": "P5",
+      "method": "live",
+      "expected_en": "Messaging template review states and allowed updates/delete behavior are verified",
+      "expected_ko": "메시징 템플릿 검수 상태와 허용 수정/삭제를 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T049",
+      "phase": "P5",
+      "method": "mock/live",
+      "expected_en": "Send/cancel/timezone/byte limits and duplicate-delivery prevention are verified in scoped tests",
+      "expected_ko": "발송/취소/시간대/바이트/중복 방지를 한정된 테스트에서 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T050",
+      "phase": "P5",
+      "method": "review",
+      "expected_en": "All remaining remote capabilities have tested support or explicit upstream blockers",
+      "expected_ko": "모든 잔여 원격 기능에 검증된 지원 또는 명시적인 공급사 제약이 있다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T051",
+      "phase": "P6",
+      "method": "CI",
+      "expected_en": "All examples format and validate against the built provider without real credentials",
+      "expected_ko": "모든 예제가 실제 빌드 Provider로 format/validate를 통과한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T052",
+      "phase": "P6",
+      "method": "CI/review",
+      "expected_en": "Korean/English pages cover identical behavior and stable contract/test IDs",
+      "expected_ko": "한영 문서가 동일한 동작과 계약/검증 ID를 다룬다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T053",
+      "phase": "P6",
+      "method": "CI",
+      "expected_en": "Supported OS/architecture binaries, checksums, signatures and clean Registry install pass",
+      "expected_ko": "지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T054",
+      "phase": "P6",
+      "method": "CI/live",
+      "expected_en": "Previous-version state migration and dependency upgrades keep plans stable",
+      "expected_ko": "이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T055",
+      "phase": "P6",
+      "method": "CI/review",
+      "expected_en": "Untrusted PR CI has no live credentials; release permissions and actions are constrained",
+      "expected_ko": "외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다",
+      "status": "not_run",
+      "evidence": []
+    },
+    {
+      "id": "T056",
+      "phase": "P6",
+      "method": "live",
+      "expected_en": "Acceptance run inventory proves cleanup; leaks fail the run with recoverable evidence",
+      "expected_ko": "실행별 ID 대장으로 정리를 증명하며 누수는 복구 근거와 함께 실패 처리한다",
+      "status": "not_run",
+      "evidence": []
+    }
+  ]
+}
