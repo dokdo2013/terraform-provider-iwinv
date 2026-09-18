@@ -40,3 +40,12 @@ An ADR records context, alternatives, chosen behavior, consequences, evidence an
 Open decisions: exact minimum tool versions; replacement vs in-place transitions; attached-volume ownership;
 unreadable creation-only values; collection-wide allowlists; Action state reconciliation; service credential schema.
 Never finalize unknown API behavior just to unblock scaffolding.
+
+## GitHub tracking issues
+
+- [P1: API contracts and discovery](https://github.com/dokdo2013/terraform-provider-iwinv/issues/1)
+- [P2: Compute vertical slice](https://github.com/dokdo2013/terraform-provider-iwinv/issues/2)
+- [P3: Networking and storage](https://github.com/dokdo2013/terraform-provider-iwinv/issues/3)
+- [P4: Additional control-plane services](https://github.com/dokdo2013/terraform-provider-iwinv/issues/4)
+- [P5: Service APIs, Actions and Ephemeral](https://github.com/dokdo2013/terraform-provider-iwinv/issues/5)
+- [P6: Registry and bilingual guides](https://github.com/dokdo2013/terraform-provider-iwinv/issues/6)

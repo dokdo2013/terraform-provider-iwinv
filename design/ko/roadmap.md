@@ -40,3 +40,12 @@ ADR에는 배경·대안·선택·영향·근거·테스트를 기록합니다.
 미확정 사항은 최소 도구 버전, 수정/교체 정책, 연결된 볼륨 소유권, 읽을 수 없는 생성 입력,
 집합 허용 목록, Action 이후 state 정합성, 서비스별 인증 스키마입니다.
 scaffolding을 진행하려고 알 수 없는 API 동작을 임의 확정하지 않습니다.
+
+## GitHub 작업 이슈
+
+- [P1: API 계약 실측·전체 기능 조사](https://github.com/dokdo2013/terraform-provider-iwinv/issues/1)
+- [P2: Compute 첫 구현](https://github.com/dokdo2013/terraform-provider-iwinv/issues/2)
+- [P3: 보안 그룹·블록 스토리지](https://github.com/dokdo2013/terraform-provider-iwinv/issues/3)
+- [P4: 기타 control-plane 서비스](https://github.com/dokdo2013/terraform-provider-iwinv/issues/4)
+- [P5: 서비스 API·Action·Ephemeral](https://github.com/dokdo2013/terraform-provider-iwinv/issues/5)
+- [P6: Registry·한영 사용자 가이드](https://github.com/dokdo2013/terraform-provider-iwinv/issues/6)
