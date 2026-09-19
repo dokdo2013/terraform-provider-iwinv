@@ -5,7 +5,15 @@ import (
 	"encoding/json"
 	"errors"
 	"net/url"
+
+	"github.com/dokdo2013/terraform-provider-iwinv/internal/client"
 )
+
+// HostingCatalogAPI needs only authenticated reads; catalog data sources cannot write.
+type HostingCatalogAPI interface {
+	Get(context.Context, string, url.Values) (client.Envelope, error)
+}
+type HostingCatalogService struct{ API HostingCatalogAPI }
 
 // HostingProduct exposes the fields needed for an explicit creation choice.
 // Prices, VAT, disk and traffic are excluded until their units are verified.
@@ -20,7 +28,7 @@ type HostingServer struct {
 	ID, Charset, PHPVersion, Database, Program string
 }
 
-func (s *WebhostingService) Products(ctx context.Context, kind string) ([]HostingProduct, error) {
+func (s *HostingCatalogService) Products(ctx context.Context, kind string) ([]HostingProduct, error) {
 	if kind != "" && kind != "SHARE" && kind != "SINGLE" {
 		return nil, errors.New("hosting product type must be SHARE or SINGLE when supplied")
 	}
@@ -77,7 +85,7 @@ func (s *WebhostingService) Products(ctx context.Context, kind string) ([]Hostin
 // Servers always sends the required product_id query. The numeric idx is an
 // exact string selector; it is not the service identity and Read cannot recover
 // the server selector from a provisioned hosting service.
-func (s *WebhostingService) Servers(ctx context.Context, productID string) ([]HostingServer, error) {
+func (s *HostingCatalogService) Servers(ctx context.Context, productID string) ([]HostingServer, error) {
 	if productID == "" {
 		return nil, errors.New("hosting server lookup requires product_id")
 	}
@@ -113,4 +121,12 @@ func (s *WebhostingService) Servers(ctx context.Context, productID string) ([]Ho
 		out = append(out, HostingServer{ID: id, Charset: *row.Charset, PHPVersion: *row.PHPVersion, Database: *row.Database, Program: *row.Program})
 	}
 	return out, nil
+}
+
+// Lifecycle callers use the same validated catalog decoder.
+func (s *WebhostingService) Products(ctx context.Context, kind string) ([]HostingProduct, error) {
+	return (&HostingCatalogService{API: s.API}).Products(ctx, kind)
+}
+func (s *WebhostingService) Servers(ctx context.Context, productID string) ([]HostingServer, error) {
+	return (&HostingCatalogService{API: s.API}).Servers(ctx, productID)
 }

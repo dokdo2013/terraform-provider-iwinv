@@ -4,7 +4,7 @@
 
 **개발 Provider에 `iwinv_webhosting`을 등록했고 SHARE PHP 8.4 범위의 T060을 통과했습니다.**
 실제 스키마와 예제는 [리소스 가이드](../../docs/ko/resources/webhosting.md)를 참고하세요.
-상품/서버 카탈로그 Data Source, 다른 상품/버전 acceptance와 전체 T038은 미완료입니다.
+상품/서버 카탈로그 Data Source는 T061을 통과했습니다. 다른 상품/버전 수명주기 acceptance와 전체 T038은 미완료입니다.
 
 ## 교체와 계정명 재사용
 

@@ -4,7 +4,7 @@
 
 **`iwinv_webhosting` is registered in the development provider. T060 passed for SHARE PHP 8.4.**
 See the [resource guide](../../docs/resources/webhosting.md) for the executable schema and example.
-Product/server catalog data sources, other product/version acceptance and overall T038 remain open.
+Product/server catalog data sources passed T061. Other product/version lifecycle acceptance and overall T038 remain open.
 
 ## Replacement and account reuse
 

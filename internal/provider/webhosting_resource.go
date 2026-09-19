@@ -84,7 +84,7 @@ func (r *webhostingResource) Configure(_ context.Context, req resource.Configure
 	if req.ProviderData == nil {
 		return
 	}
-	s, ok := req.ProviderData.(*resourceServices)
+	s, ok := req.ProviderData.(*providerServices)
 	if !ok {
 		resp.Diagnostics.AddError("Invalid provider client", "Expected configured iwinv resource services.")
 		return

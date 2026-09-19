@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements seven zone/image/instance-type/SSH-key data sources
+There is no Registry release. The local binary implements nine zone/image/instance-type/SSH-key/hosting-catalog data sources
 and four [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -227,7 +227,7 @@ Successful control-plane tests do not validate traffic filtering or resolve the 
 
 ## Internal hosting adapter contract test
 
-The [hosting resource](../../docs/resources/webhosting.md) is registered; product/server catalog data sources remain unavailable.
+The [hosting resource](../../docs/resources/webhosting.md) is registered; [product](../../docs/data-sources/webhosting_products.md)/[server](../../docs/data-sources/webhosting_servers.md) catalog data sources are also registered (T061).
 The lower-level adapter test is separate from Terraform lifecycle acceptance.
 This opt-in test creates and deletes two new hosting services. It can incur costs and requires an authorized account,
 private credential environment variables and a mode-0700 journal directory outside the repository.
@@ -262,3 +262,13 @@ The test requires a SHARE product with custom domains and PHP 8.4, uses random d
 and records intent before each write. Acknowledged deletion and exact-ID absence must both be verified for every owned ID.
 Fallback cleanup does not blindly replay an uncertain deletion. Inspect private evidence after any failure.
 No DNS/content migration or billing termination is asserted. CI never enables this test.
+
+## Hosting catalog reads
+
+Use [`iwinv_webhosting_products`](../../docs/data-sources/webhosting_products.md) and
+[`iwinv_webhosting_servers`](../../docs/data-sources/webhosting_servers.md) to review explicit creation choices.
+The [catalog example](../../examples/data-sources/iwinv_webhosting_catalogs/main.tf) reads only and accepts a chosen product ID.
+`IWINV_PROTOCOL_TEST=1 go test ./internal/provider -run TestProtocolHostingCatalog` uses synthetic fixtures.
+`TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccHostingCatalogs$' -count=1`
+performs authenticated reads and a no-change plan, without creating services. Use the private environment/log controls above.
+Do not confuse catalog visibility with readiness or successful creation.

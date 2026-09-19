@@ -57,12 +57,12 @@ func (d *catalogDataSource) Configure(_ context.Context, req datasource.Configur
 	if req.ProviderData == nil {
 		return
 	}
-	service, ok := req.ProviderData.(*compute.Service)
+	service, ok := req.ProviderData.(*providerServices)
 	if !ok {
 		resp.Diagnostics.AddError("Invalid provider client", "Expected the configured iwinv compute client.")
 		return
 	}
-	d.compute = service
+	d.compute = service.Compute
 }
 func (d *catalogDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	if d.compute == nil {

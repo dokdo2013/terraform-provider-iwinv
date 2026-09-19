@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키 Data Source 7개와
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅 카탈로그 Data Source 9개와
 [웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 4개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
@@ -226,7 +226,7 @@ control-plane 테스트 성공이 트래픽 필터링 검증이나 차단된 서
 
 ## 호스팅 내부 어댑터 계약 테스트
 
-[호스팅 리소스](../../docs/ko/resources/webhosting.md)는 등록했으며 상품/서버 카탈로그 Data Source는 아직 없습니다.
+[호스팅 리소스](../../docs/ko/resources/webhosting.md)는 등록했으며 [상품](../../docs/ko/data-sources/webhosting_products.md)/[서버](../../docs/ko/data-sources/webhosting_servers.md) 카탈로그 Data Source도 등록했습니다(T061).
 내부 어댑터 테스트와 Terraform 수명주기 acceptance는 별도입니다.
 아래 opt-in 테스트는 신규 호스팅 두 개를 생성하고 삭제합니다. 실제 비용이 발생할 수 있으며
 승인된 계정·개인 키 환경변수·저장소 밖 mode-0700 journal 디렉터리가 필요합니다.
@@ -261,3 +261,13 @@ TF_ACC=1 IWINV_LIVE_TERRAFORM_HOSTING_WRITE=1 \
 쓰기 전에 의도를 기록합니다. 각 소유 ID의 삭제 응답과 정확한 부재를 모두 확인해야 합니다.
 실패 시 정리도 결과가 불확실한 삭제를 무조건 반복하지 않습니다. 비공개 근거를 확인해 복구하세요.
 DNS·콘텐츠 이전이나 과금 종료를 보증하지 않으며 CI에서는 이 테스트를 활성화하지 않습니다.
+
+## 호스팅 카탈로그 조회
+
+[`iwinv_webhosting_products`](../../docs/ko/data-sources/webhosting_products.md)와
+[`iwinv_webhosting_servers`](../../docs/ko/data-sources/webhosting_servers.md)로 생성 선택지를 검토합니다.
+[카탈로그 예제](../../examples/data-sources/iwinv_webhosting_catalogs/main.tf)는 선택한 상품 ID를 입력받아 조회만 합니다.
+`IWINV_PROTOCOL_TEST=1 go test ./internal/provider -run TestProtocolHostingCatalog`는 합성 데이터만 사용합니다.
+`TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccHostingCatalogs$' -count=1`은
+서비스 생성 없이 인증된 읽기와 무변경 plan을 검증합니다. 앞서 설명한 비공개 환경변수·로그 처리를 적용하세요.
+목록에 있다는 사실을 준비 완료나 생성 성공으로 해석하지 마세요.

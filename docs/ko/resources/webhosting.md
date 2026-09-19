@@ -11,7 +11,7 @@
 ## 시작하기
 
 [전체 예제](../../../examples/resources/iwinv_webhosting/main.tf)에 명시적인 상품/서버 카탈로그 ID,
-새 영문 6–12자 계정명과 서로 다른 ephemeral 비밀번호 변수 두 개를 입력합니다. 상품/서버 Data Source는 아직 없습니다.
+새 영문 6–12자 계정명과 서로 다른 ephemeral 비밀번호 변수 두 개를 입력합니다. [상품](../data-sources/webhosting_products.md)과 [서버](../data-sources/webhosting_servers.md) 목록을 검토해 ID를 선택하세요.
 계정명은 정수 서비스 ID와 다릅니다.
 
 ```hcl

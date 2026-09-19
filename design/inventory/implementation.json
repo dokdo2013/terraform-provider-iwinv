@@ -298,18 +298,36 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "webhosting_catalogs",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "terraform_type": "iwinv_webhosting_products",
+      "kind": "data_source",
+      "status": "development",
       "operations": [
         {
           "method": "GET",
           "path": "/v1/webhosting/products"
-        },
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Unfiltered and SHARE/SINGLE products, product-scoped server lookup, stable lexical ordering and subsequent no-change plan; catalog visibility is not provisioning or billing verification",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/provider/webhosting_catalog_data_source_test.go",
+        "internal/services/hosted/webhosting_test.go",
+        "docs/data-sources/webhosting_products.md",
+        "docs/ko/data-sources/webhosting_products.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_webhosting_servers",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
         {
           "method": "GET",
           "path": "/v1/webhosting/servers"
@@ -317,19 +335,18 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "SHARE/SINGLE product catalog partitions and PHP 8.4 server selection; catalog data sources are not registered.",
-      "ownership": "Read-only product/server metadata; prices, VAT and disk/traffic units excluded until verified.",
+      "live_scope": "Unfiltered and SHARE/SINGLE products, product-scoped server lookup, stable lexical ordering and subsequent no-change plan; catalog visibility is not provisioning or billing verification",
+      "ownership": "read_only",
       "import": "not_applicable",
       "evidence": [
-        "internal/services/hosted/webhosting.go",
-        "internal/services/hosted/webhosting_catalog.go",
+        "internal/provider/webhosting_catalog_data_source_test.go",
         "internal/services/hosted/webhosting_test.go",
-        "internal/client/webhosting_live_test.go",
-        "design/ko/webhosting-lifecycle.md",
-        "design/en/webhosting-lifecycle.md",
-        "design/ko/contract-progress.md",
-        "design/en/contract-progress.md"
+        "docs/data-sources/webhosting_servers.md",
+        "docs/ko/data-sources/webhosting_servers.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
       ]
     }
-  ]
+  ],
+  "internal_adapters": []
 }

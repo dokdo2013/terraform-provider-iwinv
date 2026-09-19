@@ -46,12 +46,12 @@ func (d *sshKeyDataSource) Configure(_ context.Context, req datasource.Configure
 	if req.ProviderData == nil {
 		return
 	}
-	service, ok := req.ProviderData.(*compute.Service)
+	service, ok := req.ProviderData.(*providerServices)
 	if !ok {
 		resp.Diagnostics.AddError("Invalid provider client", "Expected the configured iwinv compute client.")
 		return
 	}
-	d.compute = service
+	d.compute = service.Compute
 }
 
 type sshKeyModel struct {

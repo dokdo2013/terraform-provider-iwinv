@@ -87,7 +87,7 @@ func (r *securityGroupResource) Configure(_ context.Context, req resource.Config
 	if req.ProviderData == nil {
 		return
 	}
-	service, ok := req.ProviderData.(*resourceServices)
+	service, ok := req.ProviderData.(*providerServices)
 	if !ok {
 		resp.Diagnostics.AddError("Invalid provider client", "Expected the configured iwinv network client.")
 		return

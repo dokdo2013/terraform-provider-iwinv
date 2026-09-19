@@ -18,7 +18,7 @@ It does not manage website files, database contents, DNS, TLS certificates, traf
 ## Example
 
 Use [the complete example](../../examples/resources/iwinv_webhosting/main.tf) with explicit product/server catalog IDs,
-a fresh 6–12 letter account name, and two distinct ephemeral password variables. Product/server data sources are not registered yet.
+a fresh 6–12 letter account name, and two distinct ephemeral password variables. Review the [product](../data-sources/webhosting_products.md) and [server](../data-sources/webhosting_servers.md) catalogs before choosing IDs.
 The account name is not the decimal service ID.
 
 ```hcl

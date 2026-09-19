@@ -443,3 +443,17 @@ API errors and failed deletion state retention. Ordinary replacements require a 
 T060 passes for this scope, with evidence in `internal/provider/webhosting_resource_test.go` and `internal/provider/webhosting_live_test.go`.
 T038/T041 remain partial across other services. T056 remains failed for the earlier console-present webmail; these four hosting cleanups
 are not a blanket cleanup claim. Data-plane access, migration, other product/version variants and billing termination remain unverified.
+
+## Hosting catalog data sources (T061, 2026-09-19)
+
+Registered `iwinv_webhosting_products` and `iwinv_webhosting_servers` using the previously verified catalog decoders.
+Product queries support omitted, SHARE and SINGLE filters. Server queries require an exact product ID; decimal server IDs remain
+strings without float64 conversion. Both data sources sort by ID and publish complete typed results only. They do not select a
+provisioning product/server automatically. Prices, VAT and storage/traffic units remain excluded.
+
+Go 1.26.1/Terraform 1.14.2 live read-only acceptance passed in 18.40 seconds, covering the three product filters, a product-scoped
+server lookup and a subsequent no-change plan. No service was created, changed or deleted. Logs remain private.
+Synthetic Core tests passed IDs above 2^53, query preservation, literal display text, PHP-label sorting, empty optional strings,
+empty arrays and rejection of invalid inputs before requests. Duplicate/malformed arrays, changed pagination metadata and API errors
+fail both data sources rather than publish partial results. T061 passes for these catalog contracts; creation availability and
+other product/version lifecycle coverage are separate. Evidence: `internal/provider/webhosting_catalog_data_source_test.go`.

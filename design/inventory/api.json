@@ -2943,8 +2943,8 @@
       "title": "웹 호스팅 상품 버전 조회",
       "source": "https://iwinv-hosting.readme.io/reference/상품-상세-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -3000,8 +3000,8 @@
       "title": "공유형/단독형",
       "source": "https://iwinv-hosting.readme.io/reference/공유형단독형",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

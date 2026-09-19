@@ -677,6 +677,20 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T061",
+      "phase": "P4",
+      "method": "mock/live-read",
+      "expected_en": "Hosting catalog data sources verify SHARE/SINGLE filters, exact server IDs, sorted complete output, invalid/empty/error cases and live read/no-change plans",
+      "expected_ko": "호스팅 카탈로그 Data Source의 SHARE/SINGLE 필터, 정확한 서버 ID, 정렬된 전체 결과, 잘못된 입력/빈 목록/오류와 실환경 읽기/무변경 plan을 검증한다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/webhosting_catalog_data_source_test.go",
+        "internal/services/hosted/webhosting_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

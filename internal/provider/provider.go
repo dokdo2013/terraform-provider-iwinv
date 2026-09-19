@@ -24,9 +24,11 @@ type IwinvProvider struct {
 	newClient clientFactory
 }
 
-type resourceServices struct {
-	Network *network.Service
-	Hosting *hosted.WebhostingService
+type providerServices struct {
+	Compute         *compute.Service
+	HostingCatalogs *hosted.HostingCatalogService
+	Network         *network.Service
+	Hosting         *hosted.WebhostingService
 }
 
 type providerModel struct {
@@ -47,7 +49,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key data sources plus security-group attributes, independent ingress/egress rules and webhosting accounts. Instance attachments are not implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting-catalog data sources plus security-group attributes, independent ingress/egress rules and webhosting accounts. Instance attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -77,8 +79,8 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		resp.Diagnostics.AddError("Invalid iwinv configuration", err.Error())
 		return
 	}
-	resp.DataSourceData = &compute.Service{API: api}
-	services := &resourceServices{}
+	services := &providerServices{Compute: &compute.Service{API: api}, HostingCatalogs: &hosted.HostingCatalogService{API: api}}
+	resp.DataSourceData = services
 	if writes, ok := api.(network.API); ok {
 		services.Network = &network.Service{API: writes}
 	}
@@ -89,7 +91,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource}
+	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource}
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {

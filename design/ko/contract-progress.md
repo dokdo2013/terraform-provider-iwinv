@@ -443,3 +443,17 @@ T056은 이 미정리 테스트 서비스 때문에 `failed`로 표시했습니�
 이 범위로 T060을 통과 처리합니다. 근거는 `internal/provider/webhosting_resource_test.go`, `internal/provider/webhosting_live_test.go`입니다.
 다른 서비스까지 포함한 T038/T041은 부분 완료이며, 콘솔에 남은 기존 테스트 웹메일 때문에 T056은 실패 상태를 유지합니다.
 이번 호스팅 4개 정리를 전체 정리 완료로 보지 않습니다. 데이터 연결·이전·다른 상품/버전과 과금 종료는 미검증입니다.
+
+## 호스팅 카탈로그 Data Source (T061, 2026-09-19)
+
+앞서 검증한 디코더로 `iwinv_webhosting_products`, `iwinv_webhosting_servers`를 등록했습니다.
+상품 필터는 생략/SHARE/SINGLE을 지원하고 서버 조회는 정확한 상품 ID를 요구합니다. 서버 정수 ID는 float64 변환 없이
+문자열로 보존합니다. 두 Data Source 모두 ID순으로 정렬한 완전한 타입 결과만 제공하고 생성 상품/서버를 자동 선택하지 않습니다.
+가격·VAT·저장공간/트래픽 단위는 계속 제외합니다.
+
+Go 1.26.1/Terraform 1.14.2 실환경 읽기 acceptance가 18.40초에 통과했습니다. 세 상품 필터, 상품별 서버 조회,
+후속 무변경 plan을 검증했고 서비스 생성·변경·삭제는 없었습니다. 로그는 비공개입니다.
+합성 Core 테스트는 2^53 초과 ID, 쿼리 보존, 표시 텍스트 원문, PHP 라벨 정렬, 선택 문자열의 빈 값, 빈 배열을 확인했으며
+잘못된 입력은 요청 전에 거부했습니다. 중복/잘못된 배열, 변경된 페이지 메타데이터와 API 오류는 두 Data Source 모두
+부분 결과 대신 실패로 처리합니다. 카탈로그 계약 범위로 T061을 통과 처리하며 생성 가용성과 다른 상품/버전 수명주기는 별도입니다.
+근거: `internal/provider/webhosting_catalog_data_source_test.go`.

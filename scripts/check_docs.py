@@ -29,11 +29,11 @@ for file in ko.glob("*.md"):
 
 provider_docs = ROOT / "docs"
 provider_ko = provider_docs / "ko"
-english_provider_paths = {p.relative_to(provider_docs) for section in ("resources", "guides")
+english_provider_paths = {p.relative_to(provider_docs) for section in ("resources", "data-sources", "guides")
                           for p in (provider_docs / section).glob("*.md")}
-korean_provider_paths = {p.relative_to(provider_ko) for section in ("resources", "guides")
+korean_provider_paths = {p.relative_to(provider_ko) for section in ("resources", "data-sources", "guides")
                          for p in (provider_ko / section).glob("*.md")}
-require(english_provider_paths == korean_provider_paths, "Provider resource/guide translations differ")
+require(english_provider_paths == korean_provider_paths, "Provider resource/data-source/guide translations differ")
 for relative in english_provider_paths & korean_provider_paths:
     en_text = (provider_docs / relative).read_text()
     ko_text = (provider_ko / relative).read_text()
