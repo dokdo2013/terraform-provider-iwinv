@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: sixteen data sources and seven security-group/rule/webhosting/DBMS/cache/NAS resources implemented and live-tested. No Registry release yet.**
+**Status: seventeen data sources and seven security-group/rule/webhosting/DBMS/cache/NAS resources implemented and live-tested. No Registry release yet.**
 See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 

@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시·NAS 카탈로그·청구·보안 그룹 Data Source 16개와
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시·NAS 카탈로그·청구·보안 그룹·블록 스토리지 타입 Data Source 17개와
 [NAS](../../docs/ko/resources/shared_storage.md)·[캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 7개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
@@ -382,3 +382,9 @@ T072: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestA
 `iwinv_security_groups`는 API에 보이는 모든 그룹 ID·속성을 ID 사전 순서로 반환합니다. `iwinv_security_group`은 정확한 ID 한 개가 필수이고 없거나 모호한 결과는 오류입니다. 이름·한 번 디코딩한 nullable 설명·ICMP를 제공하며 규칙·연결을 소유하지 않습니다. [목록 가이드](../../docs/ko/data-sources/security_groups.md) · [ID 조회 가이드](../../docs/ko/data-sources/security_group.md).
 
 T073: `TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/directory go test -race ./internal/provider -run '^TestAccSecurityGroupDataSources$' -v -count=1`. 테스트는 소유권을 제한한 어댑터로 전용 그룹 하나를 생성·이름 수정하고 Terraform으로 읽은 뒤 삭제·상세/목록 부재를 확인합니다. fixture 쓰기 승인과 0700 비공개 journal 경로가 필요합니다. Data Source 자체에는 쓰기 동작이 없습니다.
+
+## 블록 스토리지 타입 카탈로그
+
+[`iwinv_block_storage_types`](../../docs/ko/data-sources/block_storage_types.md)로 전체 또는 정확한 타입을 조회합니다. null 존의 의미는 미확정이며 모든 존에서 사용 가능하다고 해석하지 않습니다. 타입이 보여도 계정에서 인스턴스·볼륨 생성이 가능하다는 뜻은 아닙니다.
+
+T074: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccBlockStorageTypes$' -v -count=1`은 조회만 수행하며 볼륨 생성이나 정리 journal을 요구하지 않습니다.

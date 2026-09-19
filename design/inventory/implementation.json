@@ -643,6 +643,32 @@
         "docs/ko/data-sources/security_group.md"
       ],
       "import": "not_applicable"
+    },
+    {
+      "terraform_type": "iwinv_block_storage_types",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/block-storages/types"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "T074: complete catalog, SSD/SATA filters, null SSD zones and read-only Terraform no-change plan. Unknown type probe returns CHECK_PARAM. Volume provisioning/attachment/lifecycle and the meaning of null zones are not established.",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/storage/types.go",
+        "internal/services/storage/types_test.go",
+        "internal/provider/block_storage_types_data_source.go",
+        "internal/provider/block_storage_types_data_source_test.go",
+        "docs/data-sources/block_storage_types.md",
+        "docs/ko/data-sources/block_storage_types.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ],
   "internal_adapters": []

@@ -1297,8 +1297,8 @@
       "title": "Block Storage Types",
       "source": "https://iwinv.readme.io/reference/getv1blockstoragestypes",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

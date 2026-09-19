@@ -628,3 +628,15 @@ state 민감 표시와 안정적인 관측 구간의 무변경 plan을 확인했
 실환경 Terraform 1.14.2 + Go race acceptance가 **26.94초**에 통과했습니다. 이번 실행에서 새 연결 없는 그룹 하나를 만들고 전체 목록과 상세의 일치, 한글·HTML 특수문자 설명 왕복, fixture 외부 이름 변경의 refresh 반영과 후속 무변경 plan을 검증했습니다. 읽기 전용 Provider 어댑터는 모든 쓰기를 거절했고 별도 fixture 어댑터만 생성·수정·삭제했습니다. 비공개 0600 journal에 생성 ID를 기록했고 삭제 승인 응답 후 상세와 전체 목록 모두 부재를 확인했습니다. 시작 전 그룹 ID는 모두 계속 보였습니다. 실제 ID·원응답·state·키는 공개하지 않습니다. 실환경 50개 초과 그룹·null 설명·연결·트래픽 효력은 이번에 검증하지 않았습니다.
 
 개발 지원은 Data Source 16개·리소스 7개입니다. 이번 fixture는 정리됐지만 별도 웹메일 정리 실패 T056, Compute 제한, 청구 상세 접근, 나머지 기능과 Registry 릴리스 때문에 전체 완료는 아닙니다.
+
+## T074: 블록 스토리지 타입 (2026-09-19)
+
+타입이 있는 `storage.Service` 어댑터와 `iwinv_block_storage_types`를 등록했습니다. 공식 API는 선택적인 `type` 필터와 GB 범위를 설명합니다. 응답 스키마는 존 배열로 설명하지만 예시에는 null도 있습니다. 실측은 문서의 202 대신 HTTP 200, SSD 10–2000 GB와 null 존, SATA 10–20000 GB와 존 하나였습니다. 예시의 SATA 존은 실측과 다릅니다. SSD/SATA 정확한 필터는 전체 카탈로그의 해당 행과 일치했습니다. 알 수 없는 타입은 HTTP 400 `CHECK_PARAM`으로 거절됐으며 이 오류를 그대로 유지합니다. enum·기본 상품·null 존의 의미를 만들어내지 않습니다.
+
+T074 실환경 Terraform 1.14.2 + Go race가 **15.10초**에 통과했습니다. 전체/SSD/SATA 조회, null 보존, 필터와 전체 행의 일치 및 무변경 plan을 검증했습니다. 별도 인증된 읽기 전용 probe로 지원하지 않는 필터 오류도 확인했습니다. 리소스 생성·변경은 없었고 원응답·Terraform 산출물은 비공개로 보관합니다.
+
+어댑터 단위 및 Core 테스트는 2^53 초과 int64, null/빈 존 목록 구분, 존 코드 원문, 타입/존 순서 변경, 잘못되거나 누락된 필드·메타데이터, 중복 타입/존, 필터 불일치, 정상 빈 결과, API 오류, unknown 필터의 전체 조회 방지를 검증합니다. 존 구분자나 GB 단위를 바꾸지 않고 정렬하며, 페이지 없는 카탈로그의 행 수를 확인합니다. 원격 소유권·import 없는 조회 기능이며 볼륨 생성·연결·resize·삭제·과금·생성 자격은 미검증입니다.
+
+개발 지원은 Data Source 17개·리소스 7개입니다. Compute 생성 제한, 별도 웹메일 정리 실패 T056, 청구 상세 접근과 전체 릴리스 게이트는 계속 열어 둡니다.
+
+출처: [API 타입 조회](https://iwinv.readme.io/reference/getv1blockstoragestypes), [CLI](https://docs.iwinv.kr/developers/cli/commands/block-storages). 기존 CLI v0.2.2 대장의 types 하위 명령에도 `--type` 옵션이 있습니다.

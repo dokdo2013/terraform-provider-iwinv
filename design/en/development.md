@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements sixteen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group data sources
+There is no Registry release. The local binary implements seventeen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group/block-storage-type data sources
 and seven [NAS](../../docs/resources/shared_storage.md), [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -384,3 +384,9 @@ Synthetic `TestProtocolBilling` tests run with `IWINV_PROTOCOL_TEST=1` and inspe
 `iwinv_security_groups` lists all API-visible group IDs and attributes in lexical ID order. `iwinv_security_group` requires one exact ID and fails on absence or ambiguity. Both expose name, nullable once-decoded description and ICMP, without rules or attachment ownership. [List guide](../../docs/data-sources/security_groups.md) · [Exact-ID guide](../../docs/data-sources/security_group.md).
 
 T073: `TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/directory go test -race ./internal/provider -run '^TestAccSecurityGroupDataSources$' -v -count=1`. The test creates and renames one dedicated fixture via the guarded adapter, reads with Terraform, then deletes it and verifies detail/list absence. Explicit fixture-write authorization and a 0700 journal directory are required. The data sources themselves have no write behavior.
+
+## Block-storage type catalog
+
+Use [`iwinv_block_storage_types`](../../docs/data-sources/block_storage_types.md) for full or exact-type catalog reads. Null zones remain unknown in meaning, rather than granting availability in every zone. A visible disk type is not proof that the account can create an instance or volume.
+
+T074: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccBlockStorageTypes$' -v -count=1` performs reads only; it does not provision a volume or require a cleanup journal.

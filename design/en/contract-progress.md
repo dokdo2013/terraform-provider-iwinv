@@ -631,3 +631,15 @@ Registered `iwinv_security_groups` and exact-ID `iwinv_security_group` on the ex
 Live Terraform 1.14.2 + Go race acceptance passed in **26.94s** using one newly created unattached group. Complete list and detail agreed; Korean/HTML-special description round-tripped, an external fixture rename appeared on refresh and subsequent plans had no changes. The read-only provider adapter rejected all writes. The fixture adapter made the sole create/update/delete; a private 0600 journal recorded the returned ID and acknowledged deletion followed by detail and full-list absence. All pre-run group IDs remained visible. Actual identifiers, raw responses, state and credentials are not published. More than 50 live groups, null live descriptions, attachments and traffic effects were not newly tested.
 
 Development support is now sixteen data sources and seven resources. This fixture is cleaned up; the separate webmail cleanup failure T056, compute restriction, billing detail access, remaining capabilities and Registry release still prevent overall completion.
+
+## T074: block-storage types (2026-09-19)
+
+Registered `iwinv_block_storage_types` with a typed `storage.Service` adapter. The public API documents optional `type` and GB bounds. Its response schema describes zone arrays but the example also contains null; the live endpoint returned HTTP 200 rather than documented 202, SSD 10–2000 GB with null zones and SATA 10–20000 GB with one zone. The example SATA zone and observed zone differ. Exact SSD and SATA filters matched the corresponding full-catalog rows. An unknown type returned HTTP 400 `CHECK_PARAM`, which remains an error. No enum, default selection or null-zone meaning is invented.
+
+T074 live Terraform 1.14.2 + Go race passed in **15.10s**: full/SSD/SATA catalog, null preservation, filter/full-list agreement and a no-change plan. A separate authenticated read-only probe verified the unsupported-filter error. No resources were created or modified. Raw responses and Terraform artifacts remain private.
+
+Adapter unit and Core tests cover exact int64 values above 2^53, null versus empty zones, literal zone codes, type/zone reordering, malformed/missing fields and metadata, duplicate identities/zones, filter mismatches, empty successful results, API errors and unknown filters without unfiltered fallback. Results are sorted without converting zone delimiters or GB units. The catalog is unpaginated and has a validated row count. This is read-only with no import; volume creation/attachment/resize/deletion, billing and creation eligibility remain unverified.
+
+Development support is seventeen data sources and seven resources. The compute creation restriction, separate webmail cleanup failure T056, billing detail access and broader release gates remain open.
+
+Sources: [API types](https://iwinv.readme.io/reference/getv1blockstoragestypes) and [CLI](https://docs.iwinv.kr/developers/cli/commands/block-storages); the inventoried CLI v0.2.2 types subcommand exposes `--type`.

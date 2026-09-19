@@ -900,6 +900,24 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T074",
+      "phase": "P3",
+      "method": "mock/live-read",
+      "expected_en": "Block-storage type data source preserves nullable zone lists and exact integer GB bounds, validates filters and complete responses, rejects API errors, and passes read-only live all/SSD/SATA queries with a no-change plan",
+      "expected_ko": "블록 스토리지 타입 Data Source가 nullable 존 목록·정확한 정수 GB 범위를 보존하고 필터·전체 응답을 검증하며 API 오류를 거절하고 실환경 전체/SSD/SATA 조회·무변경 plan을 통과한다",
+      "status": "passed",
+      "evidence": [
+        "internal/services/storage/types.go",
+        "internal/services/storage/types_test.go",
+        "internal/provider/block_storage_types_data_source.go",
+        "internal/provider/block_storage_types_data_source_test.go",
+        "docs/data-sources/block_storage_types.md",
+        "docs/ko/data-sources/block_storage_types.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

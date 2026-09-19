@@ -4,7 +4,7 @@
 
 AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
 
-**현재 상태: Data Source 16개와 보안 그룹·ingress·egress·웹호스팅·DBMS·캐시·NAS 리소스 7개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
+**현재 상태: Data Source 17개와 보안 그룹·ingress·egress·웹호스팅·DBMS·캐시·NAS 리소스 7개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
 실행 가능한 범위는 [개발용 실행 안내](design/ko/development.md)와 [보안 그룹 가이드](docs/ko/resources/security_group.md)를 참고하세요. 인스턴스·연결 등 나머지 설계 예제는 아직 적용할 수 없습니다.
 스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
 
