@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 `iwinv_availability_zones`만 구현합니다.
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품 Data Source를 구현합니다.
 관리 리소스와 수명주기 작업은 등록하지 않았습니다. 설계 문서의 인스턴스 예제는 아직 적용하면 안 됩니다.
 
 ## 빌드와 검증
@@ -91,3 +91,33 @@ plugin-testing의 재연결 방식 alias만으로 계정 격리를 증명하지 
 ```sh
 IWINV_LIVE_READ=1 python3 scripts/test_alias_isolation.py
 ```
+
+## 이미지와 상품 카탈로그
+
+[카탈로그 예제](../../examples/data-sources/iwinv_catalogs/main.tf)는 같은 개발 override와 환경변수 인증을 사용합니다.
+`iwinv_images`, `iwinv_instance_types`는 정확한 API ID를 사전순으로 정렬한 `ids` 목록을 제공합니다.
+모든 페이지를 조회하며 목록 순서에서 이름·가격·사용 가능 여부를 추론하지 않습니다.
+ID를 직접 선택한 다음 예제의 `image_id` 또는 `instance_type_id`를 지정하면 상세 정보를 조회합니다.
+
+| Data Source | 필수 입력 | 계산 출력 |
+| --- | --- | --- |
+| `iwinv_image` | `id`: 정확한 이미지 ID | `visibility`, `image_type`: API 원문 문자열 |
+| `iwinv_instance_type` | `id`: 정확한 flavor ID | `name`: 상품 표시 이름 |
+
+상품 ID의 점은 그대로 보존합니다. 암묵적 필터·최신 이미지 선택·기본 상품 선택은 제공하지 않습니다.
+없는 ID, 여러 결과, 요청과 다른 ID가 반환되면 오류입니다.
+조회 전용 카탈로그이므로 원격 객체를 소유하지 않으며 import는 해당하지 않습니다.
+목록에 있다는 사실만으로 존별 제공 여부·이미지/상품 호환성·잔여 용량·현재 청구 가격을 보장하지 않습니다.
+공개 이미지 상세를 실환경 검증했으며 비공개 이미지 응답 변형과 상세 상품 사양은 미검증입니다.
+
+실측한 페이지 크기 10을 사용하고 page/count를 검사하며 중복 ID와 도중에 바뀐 상품 total을 거부합니다.
+이미지는 짧은 페이지, 상품은 정확한 total에 도달하면 종료합니다. 이미지의 마지막 페이지가 꽉 차면 다음 페이지까지 조회합니다.
+1,000페이지를 넘으면 명시적으로 실패합니다. 도중에 실패해도 부분 목록을 반환하지 않습니다.
+API snapshot 토큰이 없어 조회 중 카탈로그 변경을 완전히 배제할 수는 없습니다. 조회를 자동 재시도하지 않습니다.
+
+```sh
+TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccCatalogs$' -v
+```
+
+이 조회 전용 acceptance는 테스트 입력으로만 첫 정렬 ID를 골라 두 상세 정보를 읽고,
+후속 plan이 무변경인지 확인합니다. 실제 사용할 이미지·상품을 추천하는 선택 로직이 아닙니다.

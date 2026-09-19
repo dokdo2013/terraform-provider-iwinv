@@ -4,7 +4,7 @@
 
 AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
 
-**현재 상태: 개발용 Provider와 `iwinv_availability_zones` 조회 기능을 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
+**현재 상태: 개발용 Provider와 존·이미지·상품 Data Source 5개를 구현하고 실환경 조회 검증했습니다. Registry 릴리스는 아직 없습니다.**
 관리 리소스는 미구현이며, 설계 문서의 리소스 예제는 아직 적용할 수 없습니다. [개발용 실행 안내](design/ko/development.md)를 참고하세요.
 스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
 
@@ -34,7 +34,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 - [x] CLI 및 메시징 문서 21페이지의 명령·URL 참조 정리
 - [ ] 실제 계정의 API 응답 및 동작 검증
 - [x] 읽기 전용 Go 클라이언트 및 합성 계약 테스트
-- [x] Provider 골격과 존 Data Source의 실환경 읽기 acceptance
+- [x] Provider 골격과 존·이미지·상품 Data Source의 실환경 읽기 acceptance
 - [ ] 관리 리소스 구현
 - [ ] 리소스별 acceptance test 및 서명 릴리스
 - [ ] Terraform Registry 게시

@@ -120,3 +120,18 @@ The cause, backend outcome and billing state are unverified, so compute CRUD rem
 T015 is failed for this API contract experiment; no Terraform instance resource acceptance was claimed.
 
 [CI evidence](../inventory/evidence.json) links source commits to successful workflow runs.
+
+## Image and product read implementation evidence (2026-09-19)
+
+Added `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, and `iwinv_instance_type`.
+Read-only Terraform acceptance verified complete catalogs, public-image detail, product detail, and a subsequent empty plan.
+At page size 10, images returned 40 entries followed by an empty page; products returned total 33 with a final three-entry page.
+These are observations from this run, not constants embedded in the implementation or acceptance assertions.
+For synthetic nonexistent IDs, image detail returned HTTP 400 / `ID_INVALID`, while product detail returned HTTP 200 / an empty array.
+Both are lookup failures. Singular reads also require exactly one result with the exact requested ID.
+
+[Image detail](https://iwinv.readme.io/reference/getv1imagesimageid) documents differences between public and private images.
+Private images and the complete detail fields remain unverified; outputs are deliberately limited.
+[Product detail](https://iwinv.readme.io/reference/getv1flavorsflavorid) IDs can contain dots, which are preserved.
+Synthetic tests cover duplicates, malformed metadata, changing totals, late failures, page bounds and cancellation.
+These checks improve catalog consistency; they do not resolve create failures or establish pagination contracts for other services.

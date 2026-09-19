@@ -69,8 +69,8 @@
       "title": "Flavor List",
       "source": "https://iwinv.readme.io/reference/getv1flavors",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -217,8 +217,8 @@
       "title": "Flavor Detail",
       "source": "https://iwinv.readme.io/reference/getv1flavorsflavorid",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -274,8 +274,8 @@
       "title": "Image List",
       "source": "https://iwinv.readme.io/reference/getv1images",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -370,8 +370,8 @@
       "title": "Image Detail",
       "source": "https://iwinv.readme.io/reference/getv1imagesimageid",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

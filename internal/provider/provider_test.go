@@ -23,7 +23,7 @@ func TestProviderSchema(t *testing.T) {
 	if err != nil || len(resp.Diagnostics) != 0 {
 		t.Fatalf("schema diagnostics: %v %v", err, resp.Diagnostics)
 	}
-	if len(resp.ResourceSchemas) != 0 || len(resp.DataSourceSchemas) != 1 || resp.DataSourceSchemas["iwinv_availability_zones"] == nil {
+	if len(resp.ResourceSchemas) != 0 || len(resp.DataSourceSchemas) != 5 || resp.DataSourceSchemas["iwinv_availability_zones"] == nil {
 		t.Fatal("unexpected public schema")
 	}
 }

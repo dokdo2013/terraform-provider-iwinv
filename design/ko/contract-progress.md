@@ -119,3 +119,18 @@ HTTP 500과 `DEV_CHECK_RETURN`이 반환되었고 인스턴스 ID는 없었습�
 이 API 계약 실험의 T015는 실패이며 Terraform 인스턴스 리소스 acceptance를 수행했다고 하지 않습니다.
 
 [CI 실행 증거](../inventory/evidence.json): 소스 commit과 실제 성공한 실행 링크를 기록합니다.
+
+## 이미지·상품 조회 구현 증거 (2026-09-19)
+
+`iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`를 추가했습니다.
+조회 전용 Terraform acceptance로 전체 목록, 공개 이미지 상세, 상품 상세와 후속 무변경 plan을 검증했습니다.
+페이지 크기 10에서 이미지는 40개와 마지막 빈 페이지, 상품은 total 33과 마지막 3개 페이지를 관찰했습니다.
+이는 해당 실행의 카탈로그 수치이며 코드나 테스트에 고정하지 않습니다.
+없는 합성 ID에 대해 이미지 상세는 HTTP 400 / `ID_INVALID`, 상품 상세는 HTTP 200 / 빈 배열이었습니다.
+두 경우 모두 조회 실패로 처리합니다. 단일 조회의 정확한 ID 일치와 결과 수 1도 검사합니다.
+
+[이미지 상세](https://iwinv.readme.io/reference/getv1imagesimageid)는 공개/비공개 응답 차이를 명시합니다.
+비공개 이미지와 전체 상세 필드는 검증되지 않았으므로 제한된 출력만 제공합니다.
+[상품 상세](https://iwinv.readme.io/reference/getv1flavorsflavorid)의 ID는 점을 포함할 수 있으며 그대로 사용합니다.
+모의 테스트는 중복·잘못된 metadata·변하는 total·도중 실패·페이지 상한·취소를 검사합니다.
+목록 조회의 정합성 개선이며, 생성 실패나 다른 서비스의 페이지 계약을 해결했다는 의미는 아닙니다.

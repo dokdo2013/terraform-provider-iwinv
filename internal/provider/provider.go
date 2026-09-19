@@ -40,7 +40,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: only the availability-zone data source is implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: read-only zone, image, and instance-type data sources are implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -74,7 +74,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{NewAvailabilityZonesDataSource}
+	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource}
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource { return nil }

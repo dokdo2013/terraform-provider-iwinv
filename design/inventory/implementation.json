@@ -20,6 +20,94 @@
         "design/en/development.md",
         "design/ko/development.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_images",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/images"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "API-visible catalog and public-image detail; private-image variants and full response fields are not verified",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/compute/catalogs_test.go",
+        "internal/provider/catalog_data_source_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_image",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/images/{image_id}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "API-visible catalog and public-image detail; private-image variants and full response fields are not verified",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/compute/catalogs_test.go",
+        "internal/provider/catalog_data_source_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_instance_types",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/flavors"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "API-visible catalog and public-image detail; private-image variants and full response fields are not verified",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/compute/catalogs_test.go",
+        "internal/provider/catalog_data_source_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_instance_type",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/flavors/{flavor_id}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "API-visible catalog and public-image detail; private-image variants and full response fields are not verified",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/compute/catalogs_test.go",
+        "internal/provider/catalog_data_source_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
     }
   ]
 }

@@ -67,4 +67,6 @@ jobs:
             direct {}
           }
           EOF
-          TF_CLI_CONFIG_FILE="$RUNNER_TEMP/iwinv.tfrc" terraform -chdir=examples/data-sources/iwinv_availability_zones validate
+          for example in examples/data-sources/*; do
+            TF_CLI_CONFIG_FILE="$RUNNER_TEMP/iwinv.tfrc" terraform -chdir="$example" validate
+          done

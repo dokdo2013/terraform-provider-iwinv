@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements only `iwinv_availability_zones`.
+There is no Registry release. The local binary implements zone, image and instance-type data sources.
 No managed resources or lifecycle operations are registered. Never apply the proposed instance examples yet.
 
 ## Build and verify
@@ -91,3 +91,33 @@ After building, repeat the native binary alias check with:
 ```sh
 IWINV_LIVE_READ=1 python3 scripts/test_alias_isolation.py
 ```
+
+## Image and instance-type catalogs
+
+The [catalog example](../../examples/data-sources/iwinv_catalogs/main.tf) uses the same development override and environment credentials.
+`iwinv_images` and `iwinv_instance_types` expose `ids`, a lexically sorted list of exact API IDs.
+They traverse every page; no names, prices or availability are inferred from list position.
+Choose an ID deliberately, then set `image_id` or `instance_type_id` in the example to read its detail.
+
+| Data source | Required input | Computed output |
+| --- | --- | --- |
+| `iwinv_image` | `id`: exact image ID | `visibility`, `image_type`: exact API strings |
+| `iwinv_instance_type` | `id`: exact flavor ID | `name`: product display name |
+
+Dots in flavor IDs are preserved. There are no implicit filters, latest-image selection or default product choices.
+A missing ID, multiple results, or a returned ID differing from the requested ID is an error.
+These are read-only catalog data sources: they do not own objects and import does not apply.
+Catalog membership does not establish zone availability, image/product compatibility, capacity or current billing prices.
+Public image detail is live-tested; private-image variants and richer product specifications remain unverified.
+
+Pagination uses the observed page size of 10, validates page/count metadata, rejects duplicate IDs and changed product totals,
+and stops at a short image page or the exact product total. A full image page requires reading the next page.
+After 1,000 pages it fails explicitly. A late error returns no partial catalog. There is no API snapshot token,
+so concurrent catalog changes cannot be fully excluded even with these checks. Reads are not automatically retried.
+
+```sh
+TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccCatalogs$' -v
+```
+
+This read-only acceptance selects the first sorted IDs solely as test inputs, reads both details,
+and checks a subsequent empty plan. It is not an image or product selection recommendation.
