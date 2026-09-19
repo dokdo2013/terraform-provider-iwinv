@@ -1,3 +1,10 @@
+---
+page_title: "iwinv_security_group Resource - iwinv"
+subcategory: "네트워크"
+description: |-
+  보안 그룹의 이름, 비어 있지 않은 설명과 ICMP 설정을 관리합니다.
+---
+
 # iwinv_security_group 리소스
 
 [English](../../resources/security_group.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_security_group-resource)

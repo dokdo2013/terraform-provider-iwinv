@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_content_cache (Resource)
 
-[한국어](../ko/resources/content_cache.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_content_cache-resource)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/resources/content_cache.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_content_cache-resource)
 
 Development control-plane resource, verified with `cache_lite`; no Registry release yet.
 This manages a service and its complete referrer list. FTP content, tenant API credentials, purge,
@@ -16,7 +16,7 @@ Other product variants need acceptance before support is claimed.
 
 ## Example
 
-The [complete example](../../examples/resources/iwinv_content_cache/main.tf) requires a reviewed product,
+The [complete example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/resources/iwinv_content_cache/main.tf) requires a reviewed product,
 a fresh account and an ephemeral password. Supply secrets through your private environment rather than HCL literals or checked-in files.
 
 ```hcl
@@ -79,6 +79,7 @@ nonempty list separately. Initially empty sets need no PUT. The API rejects empt
 and deletes the **entire service and its content**, requiring a known different account and an initial password. Unknown whole sets
 are conservatively treated as a possible clear when the prior set is nonempty. A known nonempty set with unknown members can update
 once those members resolve. Inspect replacement plans; `prevent_destroy` in the example blocks them until explicitly removed.
+Removing the resource block also removes this guard; console/API deletion remains possible. [Scope](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 
 Name/product/account/description/version changes also replace. Deletion is irreversible and the vendor prohibits account-name reuse
 for **24 hours**. Choose a fresh account for every replacement. `create_before_destroy` creates the new account first but does not
@@ -110,7 +111,7 @@ Accepted requests, generic errors, uncertain transport failures and create reque
 retained on failed updates or deletion waits; refresh before deciding how to recover. An acknowledged deletion plus exact-ID absence
 verifies control-plane cleanup, not independent termination of billing.
 
-See [lifecycle decisions](../../design/en/cache-lifecycle.md) and [verification evidence](../../design/en/contract-progress.md).
+See [lifecycle decisions](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/cache-lifecycle.md) and [verification evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md).
 The separate unresolved webmail cleanup is not covered by cache acceptance.
 
 Sources: [create](https://iwinv-cache.readme.io/reference/컨텐츠-캐시-생성),

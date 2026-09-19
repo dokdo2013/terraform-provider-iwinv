@@ -42,6 +42,6 @@ The provider validates every ten-row page until a short page, including an extra
 
 Read-only; import does not apply. API errors do not become empty results.
 
-[Example](../../examples/data-sources/iwinv_ssh_keys/main.tf) · [Evidence](../../design/en/contract-progress.md)
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_ssh_keys/main.tf) · [Evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 [Official API](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1)

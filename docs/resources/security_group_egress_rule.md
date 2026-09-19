@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group_egress_rule (Resource)
 
-[한국어](../ko/resources/security_group_egress_rule.md) · [Installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group_egress_rule-resource)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/resources/security_group_egress_rule.md) · [Installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group_egress_rule-resource)
 
 Development resource for one egress rule. It owns the rule's attributes, not its parent group or other rules.
 There is no Registry release yet. Live control-plane lifecycle tests passed on dedicated, unattached groups; actual packet filtering remains unverified.
@@ -30,7 +30,7 @@ resource "iwinv_security_group_egress_rule" "example" {
 }
 ```
 
-[Complete runnable development example](../../examples/resources/iwinv_security_group_egress_rule/main.tf).
+[Complete runnable development example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/resources/iwinv_security_group_egress_rule/main.tf).
 The parent reference gives Terraform a dependency: delete managed rules before deleting their group.
 
 ## Schema
@@ -69,4 +69,4 @@ A new description that is unknown during planning also conservatively requires r
 This prevents discovering a new replacement requirement only during apply; use known description values to retain in-place updates.
 
 Read the shared [rule lifecycle and recovery guide](../guides/security_group_rules.md) before using replacements, import or cleanup.
-Verification: T058; [live and synthetic evidence](../../design/en/contract-progress.md).
+Verification: T058; [live and synthetic evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md).

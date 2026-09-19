@@ -23,7 +23,7 @@ troubleshooting and official API links. Translate behavior, not just titles.
 
 ## Source and generation layout
 
-Current capability pages are maintained in `docs/` and `docs/ko/`, with direct links between languages; do not assume the Registry supports a locale router. The [complete schema reference](../../docs/guides/schema_reference.md) is generated in both languages from the actual provider binary. It covers provider configuration, resources, data sources, nested attributes, timeout blocks and input/sensitivity/write-only flags. Curated pages retain behavioral and lifecycle explanations that schema JSON cannot express. This is not a claim that `terraform-plugin-docs` or Registry rendering has been verified.
+Current capability pages are maintained in `docs/` and `docs/ko/`, with direct links between languages; do not assume the Registry supports a locale router. The [complete schema reference](../../docs/guides/schema_reference.md) is generated in both languages from the actual provider binary. It covers provider configuration, resources, data sources, nested attributes, timeout blocks and input/sensitivity/write-only flags. Curated pages retain behavioral and lifecycle explanations that schema JSON cannot express. Official `tfplugindocs` format validation is now included as described below; the official body preview was checked separately, while published Registry navigation remains unverified.
 
 All 52 provider/capability HCL snippets currently pass format and validation with a common provider configuration added where needed. Korean and English executable snippets are identical. Each page links to the same complete example directory. Design proposals elsewhere remain explicitly non-runnable. The historical `scripts/check_intro_docs.py` name now covers all provider pages, compares runtime registration with the capability ledger, and checks both generated schema references. It uses an isolated CLI configuration without account credentials, init, plan or apply.
 
@@ -35,7 +35,27 @@ python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/pat
 python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform
 ```
 
-Use an actual Terraform executable, not a home-dependent version-manager wrapper. CI checks without regenerating on Terraform 1.14.0 and 1.14.2. T080 covers this structural/example verification. T052 still requires review of all narrative semantics and Registry rendering; generated tables do not prove default, validator, plan-modifier or live API behavior. A bilingual documentation site and Registry publication remain release work.
+Use an actual Terraform executable, not a home-dependent version-manager wrapper. CI checks without regenerating on Terraform 1.14.0 and 1.14.2. T080 covers this structural/example verification. T052 still requires full narrative review and published Registry navigation checks; generated tables do not prove default, validator, plan-modifier or live API behavior. A bilingual documentation site and Registry publication remain release work.
+
+### Official Registry format validation
+
+CI also supplies `--tfplugindocs bin/tfplugindocs`, installed with `GOBIN="$PWD/bin" go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0`. This runs `validate`, never `generate`, against the same freshly exported runtime schema and the curated pages. Local reproduction:
+
+```sh
+GOBIN="$PWD/bin" go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0
+python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform --tfplugindocs bin/tfplugindocs
+python3 scripts/test_doc_failures.py --provider-dir bin --terraform /absolute/path/to/terraform --tfplugindocs bin/tfplugindocs
+```
+
+Version 0.25.0 looks up the JSON provider schema by short name or a `hashicorp` address. The runner therefore changes only the lookup key from the exact verified `registry.terraform.io/dokdo2013/iwinv` address to `iwinv` in a temporary file, preserving all schema content. It does not change the provider's installation address or pretend it belongs to HashiCorp. The tool ignores `docs/ko`, so an unchanged temporary copy of the Korean pages is separately validated as a `docs` root. Both 28-page trees must pass. No curated files are generated or overwritten.
+
+This catches directory/file layout, frontmatter, file limits and registered-page coverage. It found missing frontmatter in both rule guides and four Korean resource pages; they are corrected. Two additional injected failures remove the required guide title separately in English and Korean, and CI must reject both. The six regression cases include the four earlier HCL/translation/schema checks. Neither this tool nor the temporary Korean layout establishes Registry locale support, rendered navigation/links or complete behavioral correctness.
+
+The public [Registry documentation preview](https://registry.terraform.io/tools/doc-preview), linked from the [official FAQ](https://developer.hashicorp.com/terraform/registry/faq), was exercised on all 56 English/Korean pages on 2026-09-19. The rendered bodies showed every primary heading, hid frontmatter and contained all 106 expected tables; Korean text and the generated page outline were also inspected visually. [Per-page hashes and observations](../inventory/doc-preview.json) identify that specific content snapshot, not future revisions.
+
+The preview exposed repository-only relative links resolving under the Registry host. All 91 links from English Registry pages to Korean docs, design, examples or other repository-only files now use explicit GitHub URLs, and the preview confirmed the new destinations. `check_docs.py` rejects those relative escapes and checks the local target of this repository's absolute GitHub `main` links. Links among English Registry pages remain relative. Development links currently track `main`; review version-specific destinations before release. This body preview does not exercise an actual published provider's sidebar, version routing or complete link navigation, and it does not establish Registry locale routes for Korean pages.
+
+Sources: [official tool and validation scope](https://github.com/hashicorp/terraform-plugin-docs/tree/v0.25.0), [schema lookup implementation](https://github.com/hashicorp/terraform-plugin-docs/blob/v0.25.0/internal/provider/schema.go), [Registry documentation format](https://developer.hashicorp.com/terraform/registry/providers/docs).
 
 Diagnostics have stable searchable codes and English technical details, with Korean/English troubleshooting pages.
 Avoid locale-dependent identifiers or unstable translated error matching. A future CLI language option needs an ADR.

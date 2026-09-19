@@ -1,3 +1,10 @@
+---
+page_title: "보안 그룹 규칙의 수명주기와 복구"
+subcategory: ""
+description: |-
+  보안 그룹 규칙의 소유권, 수정, 교체, import와 실패 복구를 설명합니다.
+---
+
 # 보안 그룹 규칙의 수명주기와 복구
 
 [English](../../guides/security_group_rules.md) · [Ingress](../resources/security_group_ingress_rule.md) · [Egress](../resources/security_group_egress_rule.md)

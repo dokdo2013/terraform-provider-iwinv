@@ -66,6 +66,7 @@ resource "iwinv_shared_storage" "example" {
 교체에는 알려진 새 공유 이름이 필요합니다. NAS 이름 재사용 규칙은 미검증이며 호스팅·캐시의 재사용 시간을 적용하지 않습니다.
 `create_before_destroy`는 새 공유를 먼저 만들 수 있지만 **데이터 복사나 클라이언트 재설정을 하지 않습니다**.
 예제의 `prevent_destroy`는 명시적으로 제거하기 전까지 삭제를 막습니다. 교체 전 백업과 이전 계획을 준비하세요.
+리소스 블록을 설정에서 삭제하면 이 보호도 사라지며, 콘솔·API 삭제를 막지는 않습니다. [동작 범위](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 명시적인 taint/`-replace`는 일반 속성 비교를 우회할 수 있으므로 적용 전 새 이름을 지정하세요.
 
 ```sh

@@ -1,6 +1,13 @@
+---
+page_title: "Security group rule lifecycle and recovery"
+subcategory: ""
+description: |-
+  Ownership, updates, replacement, import and failure recovery for security group rules.
+---
+
 # Security-group rule lifecycle and recovery
 
-[한국어](../ko/guides/security_group_rules.md) · [Ingress](../resources/security_group_ingress_rule.md) · [Egress](../resources/security_group_egress_rule.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/guides/security_group_rules.md) · [Ingress](../resources/security_group_ingress_rule.md) · [Egress](../resources/security_group_egress_rule.md)
 
 Each resource owns one exact numeric rule ID within one exact parent group. It never adopts a matching tuple or name.
 The parent resource manages group attributes only; independent rules are the sole Terraform writers of rule attributes.
@@ -63,7 +70,7 @@ TF_ACC=1 IWINV_LIVE_TERRAFORM_RULE_WRITE=1 \
   go test -race ./internal/provider -run '^TestAccSecurity(Rules|EgressRule)$' -v -timeout 20m
 ```
 
-Use environment credentials as in the [development guide](../../design/en/development.md). This opt-in is never enabled in CI.
+Use environment credentials as in the [development guide](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md). This opt-in is never enabled in CI.
 Keep state, raw output and cleanup journals private. A failed or unidentifiable create remains a reconciliation task, not a reason to repeat the request.
 
 Official sources: [list](https://iwinv.readme.io/reference/get_v1-security-groups-id-rules), [create](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules), [update](https://iwinv.readme.io/reference/put_v1-security-groups-id-rules-rule-id), [delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id-rules-rule-id).

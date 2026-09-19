@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting (Resource)
 
-[한국어](../ko/resources/webhosting.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting-resource)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/resources/webhosting.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting-resource)
 
 Development support for the public hosting control plane. No Registry release exists yet.
 The live-tested scope is shared hosting with PHP 8.4, default/custom domains and explicit web-firewall Y/N.
@@ -17,7 +17,7 @@ It does not manage website files, database contents, DNS, TLS certificates, traf
 
 ## Example
 
-Use [the complete example](../../examples/resources/iwinv_webhosting/main.tf) with explicit product/server catalog IDs,
+Use [the complete example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/resources/iwinv_webhosting/main.tf) with explicit product/server catalog IDs,
 a fresh 6–12 letter account name, and two distinct ephemeral password variables. Review the [product](../data-sources/webhosting_products.md) and [server](../data-sources/webhosting_servers.md) catalogs before choosing IDs.
 The account name is not the decimal service ID.
 
@@ -64,6 +64,7 @@ Local timeout changes alone do not write to the API.
 Use a new account, back up/migrate content separately, and review DNS cutover before deletion. `create_before_destroy = true` can create
 a fresh account before deleting the old one, but does not guarantee custom-domain reuse or move data/DNS for you.
 The example uses `prevent_destroy` to block accidental deletion. Removing that protection requires an intentional configuration edit.
+Removing the resource block also removes this guard; console/API deletion remains possible. [Scope](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 
 **Explicit `-replace`, taint and external deletion are separate Core behaviors.** The provider cannot detect/block every such replacement
 through attribute comparison. A same-name recreation may fail after deletion; inspect the plan and use a fresh account name.
@@ -125,7 +126,7 @@ Do not generalize this hosting contract to webmail, whose API can omit an existi
 T060 covers synthetic Core failure/drift/replacement tests and live two-service create/import/no-op, fresh-account create-before-destroy,
 persisted re-import without historical inputs, external deletion and cleanup. Saved plan archives and state were checked for ephemeral passwords.
 Explicit taint/`-replace` tests inspect the plan only, without performing unsafe same-name recreation.
-See [evidence](../../design/en/contract-progress.md) and [lifecycle decisions](../../design/en/webhosting-lifecycle.md).
+See [evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md) and [lifecycle decisions](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/webhosting-lifecycle.md).
 
 Sources: [creation](https://iwinv-hosting.readme.io/reference/웹-호스팅-생성),
 [deletion](https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제),

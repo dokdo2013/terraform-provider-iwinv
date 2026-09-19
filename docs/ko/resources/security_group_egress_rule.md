@@ -1,3 +1,10 @@
+---
+page_title: "iwinv_security_group_egress_rule Resource - iwinv"
+subcategory: "네트워크"
+description: |-
+  보안 그룹의 egress TCP/UDP 규칙 하나를 관리합니다.
+---
+
 # iwinv_security_group_egress_rule 리소스
 
 [English](../../resources/security_group_egress_rule.md) · [설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_security_group_egress_rule-resource)

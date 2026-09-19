@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group (Resource)
 
-[한국어](../ko/resources/security_group.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group-resource)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/resources/security_group.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group-resource)
 
 Development support for security-group attributes. No Registry release exists yet.
 This resource owns `name`, `description` and `allow_icmp` for one exact `firewall_id`.
@@ -32,7 +32,7 @@ resource "iwinv_security_group" "example" {
 }
 ```
 
-The [complete example](../../examples/resources/iwinv_security_group/main.tf) requires development installation and environment credentials.
+The [complete example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/resources/iwinv_security_group/main.tf) requires development installation and environment credentials.
 `apply` creates a real cloud object; `destroy` removes it. Keep state outside public Git and review plans before applying.
 
 ## Schema
@@ -87,7 +87,7 @@ API absence is not independent billing confirmation.
 
 Synthetic Terraform CLI tests cover lifecycle, import, drift, timeout-only edits and failed-create cleanup with retained ID.
 The opt-in live test covers create/read/update, exact-ID import with full attribute comparison, no-change plans, external drift repair, external deletion/recreation and final cleanup.
-See [evidence](../../design/en/contract-progress.md) and [test execution](../../design/en/development.md).
+See [evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md) and [test execution](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md).
 Empty group-description creation/clearing, full account pagination, rule packet behavior, attachments and compute availability remain separate unresolved contracts.
 
 Sources: official [create](https://iwinv.readme.io/reference/post_v1-security-groups), [detail](https://iwinv.readme.io/reference/get_v1-security-groups-id), [update](https://iwinv.readme.io/reference/put_v1-security-groups-id), [delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id), and [Terraform create state rules](https://developer.hashicorp.com/terraform/plugin/framework/resources/create).

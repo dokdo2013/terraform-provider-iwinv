@@ -602,7 +602,10 @@
         "docs/guides/schema_reference.md",
         "docs/ko/guides/schema_reference.md",
         "design/en/documentation.md",
-        "design/ko/documentation.md"
+        "design/ko/documentation.md",
+        "docs/guides/security_group_rules.md",
+        "docs/ko/guides/security_group_rules.md",
+        "design/inventory/doc-preview.json"
       ]
     },
     {

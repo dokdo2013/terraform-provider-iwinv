@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting_products (Data Source)
 
-[한국어](../ko/data-sources/webhosting_products.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting_products-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/webhosting_products.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting_products-data-source)
 
 Lists hosting products without creating or adopting a service. Development provider only; no Registry release yet.
 Catalog membership and status do not guarantee successful creation. Review a product and its server choices explicitly.
@@ -40,7 +40,7 @@ partial results are never returned as complete. Errors and HTTP 404 are not empt
 This read-only data source has no import or remote ownership.
 
 Use [server choices](webhosting_servers.md) with an explicitly selected product ID, then configure
-[the hosting resource](../resources/webhosting.md) with a selected server ID. The [combined example](../../examples/data-sources/iwinv_webhosting_catalogs/main.tf)
+[the hosting resource](../resources/webhosting.md) with a selected server ID. The [combined example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_webhosting_catalogs/main.tf)
 only reads catalogs. T061 covers synthetic invalid/empty/error contracts and live reads followed by a no-change plan;
 actual service lifecycle coverage remains limited to the resource's documented product/version scope.
 

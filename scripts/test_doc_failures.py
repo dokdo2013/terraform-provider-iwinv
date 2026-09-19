@@ -8,7 +8,7 @@ import tempfile
 import check_intro_docs as checker
 
 
-def check_failures(terraform, provider_dir):
+def check_failures(terraform, provider_dir, tfplugindocs=None):
     source = checker.ROOT
     with tempfile.TemporaryDirectory(prefix="iwinv-doc-regression-") as tmp:
         root = Path(tmp)
@@ -26,6 +26,15 @@ def check_failures(terraform, provider_dir):
              '| `bills[].price` | `number` | computed, sensitive (inherited) |',
              '| `bills[].price` | `number` | computed |', "Runtime schema reference differs:"),
         ]
+        if tfplugindocs:
+            cases += [
+                ("missing English guide title", "docs/guides/security_group_rules.md",
+                 'page_title: "Security group rule lifecycle and recovery"\n', "",
+                 "Registry format validation failed (en):"),
+                ("missing Korean guide title", "docs/ko/guides/security_group_rules.md",
+                 'page_title: "보안 그룹 규칙의 수명주기와 복구"\n', "",
+                 "Registry format validation failed (ko):"),
+            ]
         checker.ROOT = root
         try:
             for label, relative, old, new, reason in cases:
@@ -36,7 +45,7 @@ def check_failures(terraform, provider_dir):
                 try:
                     path.write_text(original.replace(old, new))
                     try:
-                        checker.check(terraform, provider_dir)
+                        checker.check(terraform, provider_dir, tfplugindocs=tfplugindocs)
                     except ValueError as error:
                         if not str(error).startswith(reason):
                             raise AssertionError(f"Unexpected rejection path: {label}") from error
@@ -53,5 +62,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--terraform", type=Path, required=True)
     parser.add_argument("--provider-dir", type=Path, required=True)
+    parser.add_argument("--tfplugindocs", type=Path)
     args = parser.parse_args()
-    check_failures(str(args.terraform.resolve()), args.provider_dir.resolve())
+    check_failures(str(args.terraform.resolve()), args.provider_dir.resolve(),
+                   str(args.tfplugindocs.resolve()) if args.tfplugindocs else None)

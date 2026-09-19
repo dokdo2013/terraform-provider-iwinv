@@ -53,11 +53,21 @@ for file in ROOT.rglob("*.md"):
     require(content.count("```") % 2 == 0, f"Unbalanced code fence: {file.relative_to(ROOT)}")
     for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", content):
         url = urllib.parse.urlsplit(target)
+        repo_prefix = "https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/"
+        if target.startswith(repo_prefix):
+            repo_path = urllib.parse.unquote(url.path.split("/blob/main/", 1)[1])
+            resolved = (ROOT / repo_path).resolve()
+            require(resolved.is_relative_to(ROOT) and resolved.is_file(),
+                    f"Missing GitHub repository link: {file.relative_to(ROOT)} -> {target}")
         if url.scheme or target.startswith("#"):
             continue
         path = urllib.parse.unquote(url.path)
         if path:
             require((file.parent / path).is_file(), f"Missing local link: {file.relative_to(ROOT)} -> {target}")
+            if file.is_relative_to(provider_docs) and not file.is_relative_to(provider_ko):
+                resolved = (file.parent / path).resolve()
+                require(resolved.is_relative_to(provider_docs) and not resolved.is_relative_to(provider_ko),
+                        f"Registry page needs an absolute repository link: {file.relative_to(ROOT)} -> {target}")
 
 inventory = json.loads((ROOT / "design/inventory/api.json").read_text())
 operations = []

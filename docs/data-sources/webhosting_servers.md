@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting_servers (Data Source)
 
-[한국어](../ko/data-sources/webhosting_servers.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting_servers-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/webhosting_servers.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting_servers-data-source)
 
 Reads server choices for one explicitly selected hosting product; does not provision a service. Development provider only.
 
@@ -33,7 +33,7 @@ A server ID is a creation selector, distinct from a provisioned service's `servi
 
 Choose a server after reviewing charset, PHP and database requirements. Catalog membership does not guarantee availability,
 compatibility with arbitrary inputs, or successful provisioning. Do not silently pick the first row.
-The [combined example](../../examples/data-sources/iwinv_webhosting_catalogs/main.tf) exposes the choices for review.
+The [combined example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_webhosting_catalogs/main.tf) exposes the choices for review.
 
 The full array is validated before publishing results. An empty list is valid; malformed/duplicate rows, changed pagination/count
 metadata and API errors fail the read. No partial list or HTTP 404 is treated as successful absence.

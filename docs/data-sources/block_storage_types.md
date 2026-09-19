@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_block_storage_types
 
-[한국어](../ko/data-sources/block_storage_types.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_block_storage_types-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/block_storage_types.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_block_storage_types-data-source)
 
 Reads the disk-type catalog without provisioning storage. Development provider; no Registry release yet.
 
@@ -47,7 +47,7 @@ T074 combines adapter unit tests and Terraform Core tests for strict decoding, e
 unknown values. Live reads cover the complete catalog plus SSD and SATA filters followed by a no-change plan;
 a separate read-only probe confirms unsupported-filter failure. This does not verify volume creation, attachment, resize or deletion.
 
-[Example](../../examples/data-sources/iwinv_block_storage_types/main.tf) · [Evidence](../../design/en/contract-progress.md)
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_block_storage_types/main.tf) · [Evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 Sources: [official API](https://iwinv.readme.io/reference/getv1blockstoragestypes),
 [official CLI commands](https://docs.iwinv.kr/developers/cli/commands/block-storages).

@@ -1,3 +1,10 @@
+---
+page_title: "iwinv_webhosting Resource - iwinv"
+subcategory: "호스팅"
+description: |-
+  초기 쓰기 전용 비밀번호와 명시적인 교체 조건으로 웹호스팅 계정을 관리합니다.
+---
+
 # iwinv_webhosting 리소스
 
 [English](../../resources/webhosting.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_webhosting-resource)
@@ -57,6 +64,7 @@ resource "iwinv_webhosting" "example" {
 새 계정을 사용하고 콘텐츠 백업·이전, DNS 전환을 별도로 준비하세요. `create_before_destroy = true`는 새 계정을
 먼저 만들 수 있지만 사용자 도메인 재사용을 보장하거나 데이터·DNS를 옮겨주지 않습니다.
 예제의 `prevent_destroy`는 실수로 삭제하는 것을 막습니다. 삭제하려면 의도적으로 해당 보호 설정을 수정해야 합니다.
+리소스 블록을 설정에서 삭제하면 이 보호도 사라지며, 콘솔·API 삭제를 막지는 않습니다. [동작 범위](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 
 **`-replace`, taint, 외부 삭제는 별도의 Terraform Core 동작입니다.** 속성 비교만으로 모든 교체를 감지·차단할 수 없습니다.
 삭제 후 같은 계정명 재생성이 실패할 수 있으므로 계획을 확인하고 새 계정명을 사용하세요.

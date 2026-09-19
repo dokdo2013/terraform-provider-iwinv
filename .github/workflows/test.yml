@@ -71,6 +71,8 @@ jobs:
             TF_CLI_CONFIG_FILE="$RUNNER_TEMP/iwinv.tfrc" terraform -chdir="$example" validate
           done
       - name: Validate all bilingual provider examples and complete schema references
-        run: python3 scripts/check_intro_docs.py --provider-dir bin --terraform "$(command -v terraform)"
+        run: |
+          GOBIN="$GITHUB_WORKSPACE/bin" go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.25.0
+          python3 scripts/check_intro_docs.py --provider-dir bin --terraform "$(command -v terraform)" --tfplugindocs bin/tfplugindocs
       - name: Reject documentation regressions with the actual provider binary
-        run: python3 scripts/test_doc_failures.py --provider-dir bin --terraform "$(command -v terraform)"
+        run: python3 scripts/test_doc_failures.py --provider-dir bin --terraform "$(command -v terraform)" --tfplugindocs bin/tfplugindocs

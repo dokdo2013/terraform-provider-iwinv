@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_db_instance (Resource)
 
-[한국어](../ko/resources/db_instance.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_db_instance-resource)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/resources/db_instance.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_db_instance-resource)
 
 Development control-plane resource; no Registry release yet. The verified service family is an available STD Redis product.
 It manages service creation/deletion and the complete allowed-IP set. It does not manage database content, users/passwords,
@@ -15,8 +15,9 @@ backups, replication, DNS, SQL/Redis queries, engine upgrades or data migration.
 
 ## Example and ownership
 
-Use the [complete example](../../examples/resources/iwinv_db_instance/main.tf) with a reviewed product ID, fresh account name
+Use the [complete example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/resources/iwinv_db_instance/main.tf) with a reviewed product ID, fresh account name
 and your intended nonempty IPv4 host set. The example enables `prevent_destroy` because service deletion is irreversible.
+Removing the resource block also removes this guard; console/API deletion remains possible. [Scope](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 
 ```hcl
 variable "product_id" { type = string }
@@ -100,7 +101,7 @@ Update errors, mismatched acknowledgements and convergence timeouts preserve pri
 the remote outcome may differ. API errors, HTTP 404, partial lists, duplicates and changed pagination metadata never establish absence.
 Writes are not automatically replayed. Delete acknowledgement plus exact-ID absence is required; it does not independently prove billing termination.
 
-See the [lifecycle decisions](../../design/en/dbms-lifecycle.md) and [verification evidence](../../design/en/contract-progress.md).
+See the [lifecycle decisions](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/dbms-lifecycle.md) and [verification evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md).
 The separate webmail cleanup failure remains open and does not change DBMS's scoped evidence.
 
 Sources: [create](https://iwinv-dbms.readme.io/reference/클라우드-dbms-생성),

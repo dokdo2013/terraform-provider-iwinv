@@ -8,7 +8,7 @@ description: |-
 
 [한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/index.md)
 
-Manage supported iwinv control-plane resources using Terraform configuration, references, import and drift detection. This is an independent community project, not an official SmileServ/iwinv product. The development provider currently implements eighteen data sources and seven resources. **No Registry version has been published.** Follow the [development installation guide](../design/en/development.md) before running the example; the source address below identifies the provider but does not make it downloadable yet.
+Manage supported iwinv control-plane resources using Terraform configuration, references, import and drift detection. This is an independent community project, not an official SmileServ/iwinv product. The development provider currently implements eighteen data sources and seven resources. **No Registry version has been published.** Follow the [development installation guide](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) before running the example; the source address below identifies the provider but does not make it downloadable yet.
 
 ## Example Usage
 
@@ -35,7 +35,7 @@ output "zone_ids" {
 
 Provide `IWINV_ACCESS_KEY` and `IWINV_SECRET_KEY` through your private environment or secret manager. They are control-plane API credentials, not console login credentials, SSH keys, S3 keys or MCP OAuth tokens. Do not paste real keys into `.tf` files, examples, shell history or issue reports. Keep the key's allowed source IP consistent with the machine running Terraform. The provider uses the fixed HTTPS endpoint `https://api-kr.iwinv.kr`, verifies TLS and does not read CLI profiles or perform interactive login.
 
-With a development override configured, run `terraform validate` and then `terraform plan`. Validation requires no API credentials; reading data during plan does. The override setup deliberately skips Registry `init`. A separate unsigned filesystem-mirror installation rehearsal is described in [release preparation](../design/en/release-readiness.md). Neither method proves a signed Registry installation.
+With a development override configured, run `terraform validate` and then `terraform plan`. Validation requires no API credentials; reading data during plan does. The override setup deliberately skips Registry `init`. A separate unsigned filesystem-mirror installation rehearsal is described in [release preparation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/release-readiness.md). Neither method proves a signed Registry installation.
 
 ## Argument Reference
 
@@ -62,7 +62,7 @@ Both resolved values must be non-empty and known when configuring the provider. 
 
 Data sources read remote information and do not own or import objects. Resources can create, change and delete services and incur charges. Read the resource's import, replacement, secret and deletion constraints before applying; use dedicated test resources and check cleanup against their exact IDs.
 
-Compute instances, attachments, webmail service/mailbox management, service-specific object/message operations and the broader roadmap remain incomplete. Catalog visibility does not prove creation eligibility, available capacity or compatibility. There is no AWS IAM/ARN/tag model hidden behind the AWS-familiar naming. The [capability ledger](../design/inventory/implementation.json) and [verification record](../design/en/contract-progress.md) distinguish implemented features from proposals and unresolved contracts.
+Compute instances, attachments, webmail service/mailbox management, service-specific object/message operations and the broader roadmap remain incomplete. Catalog visibility does not prove creation eligibility, available capacity or compatibility. There is no AWS IAM/ARN/tag model hidden behind the AWS-familiar naming. The [capability ledger](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/inventory/implementation.json) and [verification record](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md) distinguish implemented features from proposals and unresolved contracts.
 
 ## Troubleshooting
 

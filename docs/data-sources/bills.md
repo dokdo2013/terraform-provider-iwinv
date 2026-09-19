@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_bills (Data Source)
 
-[한국어](../ko/data-sources/bills.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_bills-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/bills.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_bills-data-source)
 
 Reads complete bill summaries without modifying billing records. No Registry release yet. This data source calls the list endpoint;
 it does not replace the unavailable detail endpoint's nested groups/items.
@@ -56,7 +56,7 @@ No snapshot token is available, so concurrent changes can cause undetectable omi
 T072 covers stable ordering/no-change plans, exact amounts above 2^53, sensitivity in plan/state, unmarked-output rejection, excluded
 payment fields, unknown filters, zero/negative bounds and live read-only acceptance. This is summary access, not detail or payment support.
 
-[Example](../../examples/data-sources/iwinv_bills/main.tf) · [Contracts and evidence](../../design/en/billing-contract.md) ·
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_bills/main.tf) · [Contracts and evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/billing-contract.md) ·
 [Current estimate](current_bill.md)
 
 Source: [official bill list API](https://iwinv-common.readme.io/reference/get_new-endpoint-1).

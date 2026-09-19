@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_db_instance_products (Data Source)
 
-[한국어](../ko/data-sources/db_instance_products.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_db_instance_products-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/db_instance_products.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_db_instance_products-data-source)
 
 Reads the DBMS product catalog without creating a database. Development provider only; no Registry release exists yet.
 
@@ -47,6 +47,6 @@ pagination/count metadata fail the entire Read. HTTP/API failures are errors, no
 
 T064 covers synthetic errors/empty results/unknown and invalid filters, preservation of empty and repeated IDs, and live reads followed by
 no-change plans for the unfiltered catalog, all six engine filters, both tier filters and STD/redis together. These tests do not provision
-all engine variants or independently verify engine identity/connectivity. See the [read-only example](../../examples/data-sources/iwinv_db_instance_products/main.tf).
+all engine variants or independently verify engine identity/connectivity. See the [read-only example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_db_instance_products/main.tf).
 
 Source: [official DBMS product API](https://iwinv-dbms.readme.io/reference/클라우드-dbms-상품-조회).

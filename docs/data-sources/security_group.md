@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group
 
-[한국어](../ko/data-sources/security_group.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/security_group.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group-data-source)
 
 Development provider; no Registry release yet. Reads one exact existing group ID without name matching or automatic selection.
 
@@ -38,6 +38,6 @@ The list validates counts, page numbers/sizes, fields and unique IDs across all 
 
 T073: synthetic Core tests cover 51-row pagination, reordered responses, duplicate names, null/empty descriptions, exact IDs, invalid/missing IDs, permission/late-page errors and unknown references. Live acceptance uses one run-owned fixture to compare list/detail, round-trip descriptions, refresh after an external rename and verify no-change plans, then deletes that fixture. More than 50 live groups, attachments and firewall traffic enforcement remain separate checks.
 
-[Example](../../examples/data-sources/iwinv_security_group/main.tf) · [Verification](../../design/en/contract-progress.md)
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_security_group/main.tf) · [Verification](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 Sources: [official list](https://iwinv.readme.io/reference/get_v1-security-groups), [official detail](https://iwinv.readme.io/reference/get_v1-security-groups-id).

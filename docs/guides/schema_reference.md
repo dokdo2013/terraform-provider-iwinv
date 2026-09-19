@@ -7,7 +7,7 @@ description: |-
 
 # Provider schema reference
 
-[한국어](../ko/guides/schema_reference.md) · [Getting started](../index.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/guides/schema_reference.md) · [Getting started](../index.md)
 
 Generated from the built provider's `terraform providers schema -json` output. There is no Registry release yet.
 

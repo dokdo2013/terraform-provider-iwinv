@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webmail_products
 
-[한국어](../ko/data-sources/webmail_products.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webmail_products-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/webmail_products.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webmail_products-data-source)
 
 Reads catalog metadata only. Development provider; no Registry release yet.
 
@@ -44,6 +44,6 @@ those blockers. This catalog data source sends only GET requests; it neither cre
 T075 covers strict adapter and Terraform Core checks, empty IDs, distinct placeholders, duplicate display names, literal Korean/HTML-like names,
 response reordering, malformed/empty/error responses and a live complete read followed by a no-change plan. Catalog growth can change output.
 
-[Example](../../examples/data-sources/iwinv_webmail_products/main.tf) · [Evidence](../../design/en/contract-progress.md)
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_webmail_products/main.tf) · [Evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 Source: [official product endpoint](https://iwinv-webmail.readme.io/reference/웹-메일-상품-조회).

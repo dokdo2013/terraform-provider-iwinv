@@ -48,6 +48,6 @@ Exactly one matching row with a non-empty name is required. An empty successful 
 
 Read-only; import does not apply. API errors do not become empty results.
 
-[Example](../../examples/data-sources/iwinv_catalogs/main.tf) · [Evidence](../../design/en/contract-progress.md)
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_catalogs/main.tf) · [Evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 [Official API](https://iwinv.readme.io/reference/getv1flavorsflavorid)

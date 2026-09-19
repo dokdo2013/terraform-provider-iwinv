@@ -7,14 +7,14 @@ description: |-
 
 # iwinv_shared_storage (Resource)
 
-[한국어](../ko/resources/shared_storage.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_shared_storage-resource)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/resources/shared_storage.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_shared_storage-resource)
 
 Development control-plane resource for API NAS. No Registry release yet. This resource manages service configuration;
 it does not mount storage, access files, execute mount information, manage tenant credentials or migrate data.
 
 ## Example
 
-Review the available product and use a fresh share name. The [complete example](../../examples/resources/iwinv_shared_storage/main.tf)
+Review the available product and use a fresh share name. The [complete example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/resources/iwinv_shared_storage/main.tf)
 uses documentation-only IPs; replace them with reviewed client IPv4 addresses.
 
 ```hcl
@@ -66,6 +66,7 @@ Only permissions update in place. Product, share-name history, name, description
 Replacement requires a known fresh share name. NAS share-name reuse rules remain unverified; no hosting/cache reuse interval is assumed.
 `create_before_destroy` can establish the new share first, but **does not copy data or reconfigure clients**.
 The example's `prevent_destroy` blocks destruction until explicitly removed. Back up and plan migration before replacement.
+Removing the resource block also removes this guard; console/API deletion remains possible. [Scope](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 Explicit taint/`-replace` can bypass ordinary attribute comparisons; supply a fresh name before applying these paths.
 
 ```sh
@@ -89,7 +90,7 @@ Delete requires a successful acknowledgement and validated absence. No NAS write
 Refresh and reconcile an uncertain outcome before another write; inspect retained failed-create state before Core replacement.
 API cleanup does not independently establish billing termination.
 
-See [lifecycle decisions](../../design/en/nas-lifecycle.md) and [verification evidence](../../design/en/contract-progress.md).
+See [lifecycle decisions](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/nas-lifecycle.md) and [verification evidence](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md).
 Sources: [create](https://iwinv-api-nas.readme.io/reference/공유-스토리지-생성),
 [permissions](https://iwinv-api-nas.readme.io/reference/접근-허용-ip-추가),
 [delete](https://iwinv-api-nas.readme.io/reference/공유-스토리지-삭제).

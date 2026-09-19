@@ -8,6 +8,7 @@ import argparse
 import json
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 
@@ -91,7 +92,7 @@ def schema_reference(schema, locale):
     title = "Provider 스키마 참조" if ko else "Provider schema reference"
     description = "실행 바이너리에서 확인한 전체 속성·중첩 구조와 입력·비밀값 표시입니다." if ko else "Complete runtime attribute, nesting, input and secret flags."
     lines = ["---", 'page_title: "Schema reference - iwinv"', 'subcategory: ""', "description: |-", f"  {description}", "---", "", f"# {title}", "",
-             "[English](../../guides/schema_reference.md) · [시작 가이드](../index.md)" if ko else "[한국어](../ko/guides/schema_reference.md) · [Getting started](../index.md)", "",
+             "[English](../../guides/schema_reference.md) · [시작 가이드](../index.md)" if ko else "[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/guides/schema_reference.md) · [Getting started](../index.md)", "",
              "이 표는 빌드한 Provider의 `terraform providers schema -json` 결과로 생성합니다. 아직 Registry 릴리스는 없습니다." if ko else
              "Generated from the built provider's `terraform providers schema -json` output. There is no Registry release yet.", "",
              "`[]`는 목록·집합 원소, `[key]`는 맵 값입니다. 필수/선택/계산은 프로토콜 스키마 표시이며 생성 시 조건부 필수 여부는 개별 가이드를 따릅니다. 민감 표시는 화면 가림이며 state 암호화가 아닙니다. 쓰기 전용 값은 리소스 plan/state에서 제외하지만 설정에 직접 적은 비밀값의 보관 위험까지 없애지는 않습니다. 부모가 민감하면 자식에도 상속 표시합니다." if ko else
@@ -116,7 +117,31 @@ def verify_reference(actual, expected, label):
     require(actual == expected, f"Runtime schema reference differs: {label}; regenerate and review both languages")
 
 
-def check(terraform, provider_dir, write_reference=False):
+def check_registry_format(tfplugindocs, envelope, base, env):
+    # tfplugindocs v0.25.0 accepts a short-name key, but not this namespace.
+    # Adapt only that lookup key in a temporary copy; retain the exact schema.
+    require(set(envelope["provider_schemas"]) == {SOURCE}, "Unexpected provider in documentation schema")
+    adapted = dict(envelope)
+    adapted["provider_schemas"] = {"iwinv": envelope["provider_schemas"][SOURCE]}
+    schema_file = base / "tfplugindocs-schema.json"
+    schema_file.write_text(json.dumps(adapted))
+    for locale in ("en", "ko"):
+        root = ROOT
+        if locale == "ko":
+            # The official validator ignores docs/ko. Validate an unchanged
+            # copy as its own docs root so Korean pages receive the same checks.
+            root = base / "korean-provider"
+            shutil.copytree(ROOT / "docs/ko", root / "docs")
+        result = subprocess.run([tfplugindocs, "validate", "--provider-dir", str(root),
+                                 "--provider-name", "iwinv", "--providers-schema", str(schema_file)],
+                                env=env, capture_output=True, text=True, timeout=60)
+        output = result.stdout + result.stderr
+        failure = output[output.find("Error executing command:"):] if "Error executing command:" in output else output
+        require(result.returncode == 0, f"Registry format validation failed ({locale}): {failure[-8000:]}")
+    print("Official tfplugindocs format/file-coverage validation passed for English and Korean; Registry UI rendering is not verified.")
+
+
+def check(terraform, provider_dir, write_reference=False, tfplugindocs=None):
     with tempfile.TemporaryDirectory(prefix="iwinv-doc-hcl-") as tmp:
         base = Path(tmp)
         cli = base / "terraform.tfrc"
@@ -177,6 +202,8 @@ def check(terraform, provider_dir, write_reference=False):
             if write_reference:
                 target.write_text(expected)
             verify_reference(target.read_text(), expected, str(target.relative_to(ROOT)))
+        if tfplugindocs:
+            check_registry_format(tfplugindocs, envelope, base, env)
     print(f"{len(documents)} provider-page HCL examples passed format/validate and translation checks; complete bilingual runtime schema references match.")
     print("Narrative semantics, validators/plan modifiers, Registry rendering and live API behavior remain separate checks.")
 
@@ -186,13 +213,15 @@ def main():
     parser.add_argument("--terraform", type=Path, required=True, help="Actual Terraform executable, not a home-dependent wrapper")
     parser.add_argument("--provider-dir", type=Path, required=True, help="Directory containing the built provider binary")
     parser.add_argument("--write-schema-reference", action="store_true", help="Regenerate only the two schema reference pages after HCL checks")
+    parser.add_argument("--tfplugindocs", type=Path, help="Optional tfplugindocs 0.25.0 binary for both languages' Registry format checks")
     args = parser.parse_args()
     try:
-        check(str(args.terraform.resolve()), args.provider_dir.resolve(), args.write_schema_reference)
+        check(str(args.terraform.resolve()), args.provider_dir.resolve(), args.write_schema_reference,
+              str(args.tfplugindocs.resolve()) if args.tfplugindocs else None)
     except (OSError, KeyError, ValueError, subprocess.SubprocessError) as error:
-        # Do not dump subprocess output or inherited environment values.
+        # Public documentation diagnostics are bounded; never dump environment values.
         detail = str(error) if type(error) is ValueError else type(error).__name__
-        parser.exit(1, f"Introductory documentation validation failed: {detail}\n")
+        parser.exit(1, f"Provider documentation validation failed: {detail}\n")
 
 
 if __name__ == "__main__":

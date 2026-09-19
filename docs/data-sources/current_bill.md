@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_current_bill (Data Source)
 
-[한국어](../ko/data-sources/current_bill.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_current_bill-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/current_bill.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_current_bill-data-source)
 
 Reads the current month-to-date estimate. This development data source does not perform payment or create a bill.
 The estimate can change on every refresh; it is not a finalized charge or evidence that deleted infrastructure stopped billing.
@@ -44,7 +44,7 @@ No import or remote ownership applies. T072 verifies Core sensitivity, exact mon
 A no-change plan can be observed while the estimate remains stable; it is not a promise that future refreshes retain the same amount.
 The separate `iwinv_bill` detail type is not implemented because its endpoint rejects current test access.
 
-[Example](../../examples/data-sources/iwinv_current_bill/main.tf) · [Contract and limitations](../../design/en/billing-contract.md) ·
+[Example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_current_bill/main.tf) · [Contract and limitations](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/billing-contract.md) ·
 [Bill list](bills.md)
 
 Source: [official current estimate API](https://iwinv-common.readme.io/reference/get_new-endpoint).

@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_shared_storage_products (Data Source)
 
-[한국어](../ko/data-sources/shared_storage_products.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_shared_storage_products-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/shared_storage_products.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_shared_storage_products-data-source)
 
 Reads all API NAS products without creating storage. Development provider; no Registry release yet.
 No filter arguments are documented for this endpoint, so this data source has no configurable attributes.
@@ -45,7 +45,7 @@ T070 covers synthetic malformed/empty/order cases and live catalog reads followe
 an available api_nas with 100–2000 GB bounds and coming-soon rows with empty IDs, null versions and zero bounds. Other products,
 file access, pricing and billing remain separate verification requirements.
 
-[Read-only example](../../examples/data-sources/iwinv_shared_storage_products/main.tf) ·
-[Verification](../../design/en/contract-progress.md)
+[Read-only example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_shared_storage_products/main.tf) ·
+[Verification](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 Source: [official API NAS products](https://iwinv-api-nas.readme.io/reference/공유-스토리지-상품-조회).

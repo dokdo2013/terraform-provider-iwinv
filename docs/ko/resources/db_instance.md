@@ -17,6 +17,7 @@ description: |-
 
 [전체 예제](../../../examples/resources/iwinv_db_instance/main.tf)에 검토한 상품 ID, 새 계정명과 허용할 IPv4 호스트 집합을 입력합니다.
 서비스 삭제는 복구할 수 없으므로 예제에서 `prevent_destroy`를 사용합니다.
+리소스 블록을 설정에서 삭제하면 이 보호도 사라지며, 콘솔·API 삭제를 막지는 않습니다. [동작 범위](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 
 ```hcl
 variable "product_id" { type = string }

@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_content_cache_products (Data Source)
 
-[한국어](../ko/data-sources/content_cache_products.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_content_cache_products-data-source)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/content_cache_products.md) · [Development installation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_content_cache_products-data-source)
 
 Reads the content-cache product catalog without creating a service. Development provider only; no Registry release exists yet.
 
@@ -41,7 +41,7 @@ name/type combinations, filter mismatches, changed pagination/count metadata and
 No import or remote ownership applies. T067 covers these synthetic cases and live unfiltered/SHARE/SINGLE reads followed by
 no-change plans, including nullable IDs. This is catalog acceptance, not acceptance of every product or content/FTP connectivity.
 
-[Read-only example](../../examples/data-sources/iwinv_content_cache_products/main.tf) ·
-[Verification](../../design/en/contract-progress.md)
+[Read-only example](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/examples/data-sources/iwinv_content_cache_products/main.tf) ·
+[Verification](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/contract-progress.md)
 
 Source: [official cache product API](https://iwinv-cache.readme.io/reference/컨텐츠-캐시-상품-조회).
