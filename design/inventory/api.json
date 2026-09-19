@@ -2656,8 +2656,8 @@
       "title": "SSH Key List",
       "source": "https://iwinv-common.readme.io/reference/get_new-endpoint-1-1",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

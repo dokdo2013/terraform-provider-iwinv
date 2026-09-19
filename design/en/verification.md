@@ -2,7 +2,7 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**Authenticated read-only zone/image/instance-type data-source acceptance has passed. Managed-resource acceptance has not passed.**
+**Authenticated read-only zone/image/instance-type/SSH-key data-source acceptance has passed. Managed-resource acceptance has not passed.**
 [Current evidence](contract-progress.md) separates live observations from mock tests.
 Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.

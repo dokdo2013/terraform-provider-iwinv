@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: development provider and five zone/image/instance-type data sources implemented and live-tested. No Registry release yet.**
+**Status: development provider and seven zone/image/instance-type/SSH-key data sources implemented and live-tested. No Registry release yet.**
 Managed resources remain unimplemented. Resource examples in design documents are proposals; see the [development guide](design/en/development.md) for runnable scope.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -34,7 +34,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Command and URL references collected from 21 CLI and messaging pages
 - [ ] Verify authenticated API responses and behavior
 - [x] Go read/write client and synthetic contract tests
-- [x] Provider skeleton and authenticated read-only zone/image/instance-type acceptance
+- [x] Provider skeleton and authenticated read-only zone/image/instance-type/SSH-key acceptance
 - [ ] Managed resource implementation
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry

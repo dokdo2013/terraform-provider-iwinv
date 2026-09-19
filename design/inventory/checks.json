@@ -74,7 +74,9 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md",
         "internal/services/compute/catalogs_test.go",
-        "internal/provider/catalog_data_source_test.go"
+        "internal/provider/catalog_data_source_test.go",
+        "internal/services/compute/ssh_keys_test.go",
+        "internal/provider/ssh_key_data_source_test.go"
       ]
     },
     {
@@ -104,7 +106,9 @@
       "status": "in_progress",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/services/compute/ssh_keys_test.go",
+        "internal/provider/ssh_key_data_source_test.go"
       ]
     },
     {
@@ -117,7 +121,9 @@
       "evidence": [
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md",
-        "internal/services/compute/catalogs_test.go"
+        "internal/services/compute/catalogs_test.go",
+        "internal/services/compute/ssh_keys_test.go",
+        "internal/provider/ssh_key_data_source_test.go"
       ]
     },
     {

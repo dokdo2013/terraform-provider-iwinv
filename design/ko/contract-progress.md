@@ -254,3 +254,20 @@ Git에는 합성 fixture만 포함합니다. 이 보조 코드는 호스팅 계�
 출처: [웹메일 생성](https://iwinv-webmail.readme.io/reference/웹-메일-생성),
 [계정 생성](https://iwinv-webmail.readme.io/reference/웹-메일-계정-생성),
 [서비스 조회](https://iwinv-webmail.readme.io/reference/웹-메일-서비스-조회).
+
+## SSH 키 참조 구현 (2026-09-19)
+
+`iwinv_ssh_keys`, `iwinv_ssh_key`로 C18의 읽기 전용 부분을 구현했습니다.
+인증된 API는 문자열 `ssh_key_id`/`name`/`start_date`, 숫자 count/page를 반환했고 total은 없었습니다.
+페이지 크기 1에서 기존 키 하나가 첫 페이지를 채웠고 2/3페이지는 일치하는 페이지 번호와 빈 배열을 반환했습니다.
+구현은 페이지당 10개를 요청합니다. 실제 Terraform acceptance로 기존 키를 조회하고 후속 무변경 plan을 통과했습니다.
+state에는 ID와 이름만 들어갑니다. 키를 생성·다운로드·변경·삭제하거나 서버에 접속하지 않았습니다.
+
+합성 테스트는 여러 full page 뒤 빈 페이지, 이름 중복에도 안정적인 ID 정렬, 없는 ID,
+앞 페이지에서 ID를 찾은 뒤 발생한 후속 오류, 잘못된 메타데이터, 중복 ID, 응답 메타데이터 변화,
+취소, 페이지 상한, 빈 Terraform 컬렉션, 알 수 없는 키 본문 필드 배제를 검증합니다.
+단건 Data Source도 모든 페이지를 검증한 뒤 정확한 ID를 반환하며 이름으로 고르거나 없는 상세 API를 만들지 않습니다.
+T006/T009/T010의 추가 근거일 뿐 다른 API 계약까지 완료한 것은 아닙니다.
+키 생성·삭제와 서버 SSH 설치는 미해결 또는 미검증이며 관리 키 리소스 지원을 주장하지 않습니다.
+
+출처: [SSH 키 목록](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).

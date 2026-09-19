@@ -255,3 +255,20 @@ Only synthetic fixtures are committed. This helper is not a claim of an implemen
 Sources: [webmail create](https://iwinv-webmail.readme.io/reference/웹-메일-생성),
 [account create](https://iwinv-webmail.readme.io/reference/웹-메일-계정-생성),
 [service list](https://iwinv-webmail.readme.io/reference/웹-메일-서비스-조회).
+
+## SSH key reference implementation (2026-09-19)
+
+`iwinv_ssh_keys` and `iwinv_ssh_key` now implement the read-only portion of C18.
+The authenticated API returned string `ssh_key_id`/`name`/`start_date`, numeric count/page metadata and no total.
+With page size 1, the existing single key filled page 1 and pages 2/3 returned empty arrays with matching page numbers.
+The implementation requests 10 per page; live Terraform acceptance read the existing key and passed a subsequent no-change plan.
+Only IDs and names enter state. No keys were created, downloaded, changed or deleted, and no server was accessed.
+
+Synthetic tests cover multiple full pages followed by an empty page, stable ID ordering despite duplicate names,
+missing IDs, late errors after an early match, malformed metadata, duplicate IDs, changed response metadata,
+cancellation, page bounds, empty Terraform collections and omitted unknown key-material fields.
+The exact-ID data source validates every page before returning a match. It never selects by name or uses an invented detail endpoint.
+These results add evidence for T006/T009/T010; they do not complete contracts for unrelated APIs.
+Key creation/deletion and server SSH installation remain unresolved or unverified, and no managed key resource is claimed.
+
+Source: [SSH key list](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).

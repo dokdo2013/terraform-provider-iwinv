@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품 Data Source를 구현합니다.
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키 Data Source를 구현합니다.
 관리 리소스와 수명주기 작업은 등록하지 않았습니다. 설계 문서의 인스턴스 예제는 아직 적용하면 안 됩니다.
 
 ## 빌드와 검증
@@ -149,3 +149,32 @@ IWINV_LIVE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/test-journals \
 키는 기존 `IWINV_ACCESS_KEY`/`IWINV_SECRET_KEY` 환경변수로만 전달합니다. CI에서는 이 조건을 켜지 않습니다.
 이 테스트는 Go JSON POST/PUT/DELETE의 실환경 동작과 보안 그룹 설명의 빈 값 무시 동작을 검증합니다.
 multipart 성공 수명주기나 Terraform 관리 리소스를 검증했다는 의미는 아닙니다.
+
+## 기존 SSH 키 참조
+
+[SSH 키 예제](../../examples/data-sources/iwinv_ssh_keys/main.tf)는 같은 개발용 override와 환경변수 인증을 사용합니다.
+iwinv에 이미 등록된 키의 참조만 조회하며 키 생성·업로드·교체·삭제는 하지 않습니다.
+`ssh_key_id`에 사용할 키의 정확한 ID를 지정하세요. 이름 중복은 허용되며 이름으로 자동 선택하지 않습니다.
+
+| Data Source | 입력 | 출력 |
+| --- | --- | --- |
+| `iwinv_ssh_keys` | 없음 | `ids`: list(string); `keys`: `id`, `name`을 가진 list(object). 둘 다 ID 사전순으로 일치 |
+| `iwinv_ssh_key` | 필수 `id`, 정확한 API `ssh_key_id` | Computed `name` |
+
+문서에 목록 API만 있어 단건 조회도 전체 페이지를 읽고 검증합니다.
+없는 ID는 오류입니다. 빈 목록은 빈 목록으로 보존하고 오류를 빈 성공 state로 바꾸지 않습니다.
+개인키·공개키 본문과 생성 시각은 출력 속성이 아닙니다. 참조 ID와 이름은 Terraform state에 저장됩니다.
+읽기 전용이라 import가 적용되지 않습니다. 서버에 키가 실제 설치되었거나 콘솔 전체 계정이 조회됨을 보장하지 않습니다.
+검토한 공개 API에 키 생성·삭제 작업이 없는 제약은 C18에 유지합니다.
+
+페이지당 10개를 요청하고 count/page 일치, 중복 ID, 예상 밖 total/page 필드를 검증합니다.
+꽉 찬 페이지 뒤에는 다음 페이지도 조회하며 짧은 페이지에서 끝냅니다. 최대 1,000페이지 이후 명시적으로 실패하고 중간 오류에 부분 결과를 반환하지 않습니다.
+API에 snapshot token이 없어 동시에 키가 변경되는 상황의 완전한 일관성은 보장할 수 없습니다. 자동 재시도는 하지 않습니다.
+
+```sh
+TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccSSHKeys$' -v
+```
+
+이 실환경 테스트에는 기존 키가 최소 하나 필요합니다. 두 Data Source를 조회하고 후속 무변경 plan을 확인합니다.
+첫 정렬 ID는 테스트 입력일 뿐 추천 선택 정책이 아닙니다. 클라우드 객체를 만들거나 수정하지 않습니다.
+출처: [공식 SSH 키 목록](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).

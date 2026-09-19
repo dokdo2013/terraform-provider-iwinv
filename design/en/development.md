@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements zone, image and instance-type data sources.
+There is no Registry release. The local binary implements zone, image, instance-type and SSH-key data sources.
 No managed resources or lifecycle operations are registered. Never apply the proposed instance examples yet.
 
 ## Build and verify
@@ -149,3 +149,32 @@ IWINV_LIVE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/test-journals \
 Supply keys through the existing `IWINV_ACCESS_KEY`/`IWINV_SECRET_KEY` environment variables. CI never enables this gate.
 The test verifies live Go JSON POST/PUT/DELETE and the security-group behavior that ignores empty descriptions.
 It does not verify a successful multipart lifecycle or a Terraform managed resource.
+
+## Existing SSH key references
+
+The [SSH key example](../../examples/data-sources/iwinv_ssh_keys/main.tf) uses the same development override and environment credentials.
+It lists references to keys already registered with iwinv; it never generates, uploads, rotates or deletes a key.
+Select the intended exact ID for `ssh_key_id`. Duplicate names are allowed and are not selectors.
+
+| Data source | Input | Output |
+| --- | --- | --- |
+| `iwinv_ssh_keys` | None | `ids`: list(string); `keys`: list(object) with `id` and `name`, in the same lexical ID order |
+| `iwinv_ssh_key` | Required `id`, exact API `ssh_key_id` | Computed `name` |
+
+The API only documents a list operation, so even singular lookup traverses and validates all pages.
+A missing ID is an error. Empty lists remain empty lists; errors never become empty successful state.
+Private/public key material and creation timestamps are not output attributes. Returned reference IDs/names are stored in Terraform state.
+Ownership is read-only; import does not apply. These data sources do not establish server-side SSH installation or account-wide visibility.
+The reviewed public API has no key creation/deletion operation: that gap remains in C18.
+
+Pagination uses 10 entries per request, requires consistent count/page metadata, rejects duplicates and unexpected total/page fields,
+and reads another page after a full page. It stops on a short page and fails after 1,000 pages; late failures return no partial results.
+The API does not offer a snapshot token, so concurrent key changes can still affect pagination. Reads are not automatically retried.
+
+```sh
+TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccSSHKeys$' -v
+```
+
+This live test requires at least one pre-existing key. It reads both data sources and verifies a subsequent empty plan.
+Its first sorted ID is only a test input, not a recommended key-selection policy. No cloud objects are created or modified.
+Source: [official SSH key list](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).

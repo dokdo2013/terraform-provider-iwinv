@@ -108,6 +108,50 @@
         "design/en/development.md",
         "design/ko/development.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_ssh_keys",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/auth/ssh_key"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Existing-key list and exact-ID reference lookup; pagination boundary at page_size=1; no key mutation or server installation verification",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/compute/ssh_keys_test.go",
+        "internal/provider/ssh_key_data_source_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_ssh_key",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/auth/ssh_key"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Existing-key list and exact-ID reference lookup; pagination boundary at page_size=1; no key mutation or server installation verification",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/compute/ssh_keys_test.go",
+        "internal/provider/ssh_key_data_source_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
     }
   ]
 }
