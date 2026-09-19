@@ -33,7 +33,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] 66 HTTP operations identified across 75 public control-plane documentation pages
 - [x] Command and URL references collected from 21 CLI and messaging pages
 - [ ] Verify authenticated API responses and behavior
-- [x] Read-only Go client and synthetic contract tests
+- [x] Go read/write client and synthetic contract tests
 - [x] Provider skeleton and authenticated read-only zone/image/instance-type acceptance
 - [ ] Managed resource implementation
 - [ ] Resource acceptance tests and signed releases

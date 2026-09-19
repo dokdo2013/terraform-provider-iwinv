@@ -121,3 +121,31 @@ TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccCatalogs$' 
 
 This read-only acceptance selects the first sorted IDs solely as test inputs, reads both details,
 and checks a subsequent empty plan. It is not an image or product selection recommendation.
+
+## Shared write-client verification
+
+The internal Go client supports JSON POST/PUT, multipart POST/PUT, and bodyless DELETE.
+Requests are capped at 1 MiB; invalid paths, field names and payloads fail before network I/O.
+Multipart values are transmitted verbatim; endpoint-specific percent encoding belongs in the verified service layer.
+API errors, redirects and connection loss do not trigger automatic retries.
+Successful HTTP 202 is preserved without claiming asynchronous completion or deletion.
+
+Inspection of the Go 1.26.1 transport source identified transparent replay paths.
+The client uses fresh HTTP/1 connections, disabling HTTP/2 stream replay and HTTP/1 retries on reused connections.
+TLS verification remains enabled, at the cost of additional connections. Transport optimization needs a proven idempotency/explicit retry contract.
+[Go HTTP/1 transport](https://cs.opensource.google/go/go/+/refs/tags/go1.26.1:src/net/http/transport.go),
+[Go HTTP/2 transport](https://cs.opensource.google/go/go/+/refs/tags/go1.26.1:src/net/http/h2_bundle.go).
+
+The following test is **not read-only**: it creates, updates and deletes one unattached security group.
+Run only against an explicitly scoped test account and select a private journal directory outside the repository.
+The directory requires mode 0700; files use 0600 and retain the create response/ID and deletion verification.
+Cleanup targets only the ID returned by this run's create, including after test failure. Forced process termination requires journal-based manual recovery.
+
+```sh
+IWINV_LIVE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/test-journals \
+  go test ./internal/client -run '^TestAccControlPlaneWrites$' -v -count=1
+```
+
+Supply keys through the existing `IWINV_ACCESS_KEY`/`IWINV_SECRET_KEY` environment variables. CI never enables this gate.
+The test verifies live Go JSON POST/PUT/DELETE and the security-group behavior that ignores empty descriptions.
+It does not verify a successful multipart lifecycle or a Terraform managed resource.

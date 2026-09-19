@@ -165,3 +165,40 @@ C15/C16과 T031/T032의 부분 근거이며 완료로 표시하지 않습니다.
 [그룹 상세](https://iwinv.readme.io/reference/get_v1-security-groups-id),
 [규칙 생성](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
 [그룹 삭제](https://iwinv.readme.io/reference/delete_v1-security-groups-id).
+
+## 생성 제한 원인과 쓰기 클라이언트 (2026-09-19)
+
+존·상품 제공 여부를 다시 확인하고 이전 생성 이름이 지연 목록에 없음을 확인한 뒤,
+설명·SSH 키·스크립트를 생략한 별도 최소 multipart 진단 요청 한 번을 수행했습니다.
+HTTP 500 / `DEV_CHECK_RETURN`이 다시 발생했고, 내부 결과에는 숫자 code 12와
+“리소스 사용이 제한된 ZONE입니다.”라는 메시지가 있었습니다. 원문에 포함된 실행 코드는 실행하거나 Provider 진단에 노출하지 않습니다.
+이 결과는 생성 제한을 보여주지만 계정/존 정책 중 어떤 설정이 원인인지는 공급사 확인이 필요합니다.
+생성 ID는 없었고 직후 API 목록은 비어 있었습니다. C05/T015는 해결되지 않았습니다.
+
+공통 Go 클라이언트에 JSON·multipart 쓰기와 DELETE를 추가했습니다.
+서명, 빈 값/생략 구분, 한국어·특수문자 전송, payload 제한, 리다이렉트 차단, HTTP 오류·끊어진 연결에서의 비재전송을 합성 테스트로 검사합니다.
+실제 Go 클라이언트로 별도 테스트 보안 그룹의 JSON 생성·수정·삭제와 삭제 후 빈 상세 결과를 검증했습니다.
+설명을 빈 문자열로 PUT하면 HTTP 200이어도 이전 설명이 유지됩니다. 처음에는 clear 성공을 기대한 테스트가 실패했고,
+재실측으로 필드별 차이를 확인한 후 **현재 API의 빈 값 무시 동작**을 회귀 테스트로 고정했습니다.
+미래 Resource는 이를 clear 성공으로 state에 기록해서는 안 됩니다. 모든 Go 테스트 그룹은 삭제 후 부재를 확인했습니다.
+
+## NAS control-plane 부분 수명주기 (2026-09-19)
+
+사용 가능한 최소 디스크 상품을 선택해 임시 NAS 하나를 생성하고 허용 IP를 변경한 뒤 삭제했습니다.
+문서에 `array(string)`으로 적힌 `allowip`는 `{ "192.0.2.1": "RO" }` 형태의 JSON object로 생성에 성공했습니다.
+아래 주소는 문서용 합성 주소이며 실제 접근 주소나 계정 식별자가 아닙니다.
+
+| 항목 | 실측 | 남은 검증/설계 영향 |
+| --- | --- | --- |
+| POST JSON | HTTP 200, result는 단일 object, `service_idx` 정수 | IaaS의 result 배열 decoder를 재사용하지 않음 |
+| GET 목록 | result 배열, count/page 없음, 동일 ID와 설정 확인 | 전체 목록·외부 추가/삭제 정합성은 추가 검증 |
+| 상태 | 생성·즉시 Read에서 `pending` | HTTP 200은 실제 스토리지 준비 완료가 아님; ready/mount/과금은 미검증 |
+| `allowip` | Read에서도 IP→RW/RO object | map 소유권 설계 근거 |
+| PUT `{ "192.0.2.2": "RW" }` | 기존 IP 제거, 새 IP만 남음 | 단일 Resource가 전체 허용 집합을 소유해야 함 |
+| PUT 빈 object | HTTP 422, `message`/`errors.allowip`, 기존 값 유지 | 빈 집합 clear 미지원 관측; 일반 성공 envelope를 가정하지 않음 |
+| Read 필드 | `spec.disk` 정수, `stop_date` null, `mount_info` 문자열 | 실제 domain/mount 값은 공개 fixture·로그에 포함하지 않음 |
+| DELETE | HTTP 200, result 문자열; 후속 목록에서 정확한 ID 부재 | 이 테스트 NAS의 삭제 확인 |
+
+C19–C21과 T037/T039의 부분 근거입니다. 프로비저닝 완료를 기다리거나 데이터를 기록·마운트하지 않았고,
+서비스 API 토큰 인증·파일 작업·Terraform lifecycle/import를 검증하지 않았습니다. NAS Resource는 아직 구현하지 않았습니다.
+[공식 NAS 생성 문서](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).

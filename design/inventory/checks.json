@@ -58,7 +58,9 @@
       "status": "in_progress",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/client/write_test.go",
+        "internal/client/write_live_test.go"
       ]
     },
     {
@@ -111,8 +113,12 @@
       "method": "mock/live-read",
       "expected_en": "Single lookups reject zero or multiple matches; filters cannot select arbitrary first item",
       "expected_ko": "단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "internal/services/compute/catalogs_test.go"
+      ]
     },
     {
       "id": "T011",
@@ -380,8 +386,11 @@
       "method": "live-read",
       "expected_en": "Each additional service has typed response/ID/error and full list contracts",
       "expected_ko": "추가 서비스마다 응답 타입/ID/오류/전체 목록 계약을 확보한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T038",
@@ -398,8 +407,11 @@
       "method": "live",
       "expected_en": "Allowlists/referrers prove replace-vs-add, empty-set clear and external-change behavior",
       "expected_ko": "허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T040",

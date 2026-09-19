@@ -66,7 +66,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T007 | P1 | live-read | Account inventory and supported-zone visibility agree with console evidence | not_run |
 | T008 | P1 | mock/live-read | Detail fields mask returns required fields without passwords or console tokens | not_run |
 | T009 | P1 | mock/live-read | Null, missing, empty and nested array/object shapes decode correctly | in_progress |
-| T010 | P1 | mock/live-read | Single lookups reject zero or multiple matches; filters cannot select arbitrary first item | not_run |
+| T010 | P1 | mock/live-read | Single lookups reject zero or multiple matches; filters cannot select arbitrary first item | in_progress |
 | T011 | P1 | mock/live-read | Provider aliases isolate auth, endpoints and cached data | passed |
 | T012 | P1 | mock | Credentials never follow cross-host redirects or enter diagnostics | passed |
 | T013 | P1 | review | Version ADR defines tested Go/Terraform/Framework combinations and feature gates | passed |
@@ -93,9 +93,9 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T034 | P3 | live | Storage creation attachment, detach/reattach, zone affinity and retention are proven | not_run |
 | T035 | P3 | live | Exactly one resource owns a storage connection; deleting server cannot silently lose managed data | not_run |
 | T036 | P3 | live | Dependency teardown orders attachments before volume/group/instance deletion | not_run |
-| T037 | P4 | live-read | Each additional service has typed response/ID/error and full list contracts | not_run |
+| T037 | P4 | live-read | Each additional service has typed response/ID/error and full list contracts | in_progress |
 | T038 | P4 | live | Each service supports lifecycle/import/no-change plan/drift tests before release | not_run |
-| T039 | P4 | live | Allowlists/referrers prove replace-vs-add, empty-set clear and external-change behavior | not_run |
+| T039 | P4 | live | Allowlists/referrers prove replace-vs-add, empty-set clear and external-change behavior | in_progress |
 | T040 | P4 | live-read | Mailbox accounts are authoritatively readable before managing their lifecycle | not_run |
 | T041 | P4 | mock/live | Password inputs never accidentally leak to logs; state/write-only behavior is explicit | not_run |
 | T042 | P4 | live-read | Billing units, currency, VAT, timezone and sensitive fields are documented accurately | not_run |

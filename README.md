@@ -33,7 +33,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 - [x] 공개 control-plane 문서 75페이지에서 66개 HTTP 작업 식별
 - [x] CLI 및 메시징 문서 21페이지의 명령·URL 참조 정리
 - [ ] 실제 계정의 API 응답 및 동작 검증
-- [x] 읽기 전용 Go 클라이언트 및 합성 계약 테스트
+- [x] Go 조회·쓰기 클라이언트 및 합성 계약 테스트
 - [x] Provider 골격과 존·이미지·상품 Data Source의 실환경 읽기 acceptance
 - [ ] 관리 리소스 구현
 - [ ] 리소스별 acceptance test 및 서명 릴리스

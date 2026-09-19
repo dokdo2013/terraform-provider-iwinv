@@ -11,6 +11,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -83,7 +84,23 @@ type Client struct {
 // New creates a TLS-verifying, redirect-rejecting client for the official API.
 // Keys are required and must come from provider configuration, not CLI profiles.
 func New(accessKey, secretKey string) (*Client, error) {
-	return newClient(accessKey, secretKey, endpoint, http.DefaultTransport, time.Now, time.Second)
+	return newClient(accessKey, secretKey, endpoint, singleAttemptTransport(), time.Now, time.Second)
+}
+
+// Disable transparent transport replay: Go's HTTP/2 transport can reconstruct
+// request bodies after stream errors, and HTTP/1 can retry on reused connections.
+// Until endpoint-specific idempotency is proven, use fresh HTTP/1 connections.
+func singleAttemptTransport() *http.Transport {
+	protocols := new(http.Protocols)
+	protocols.SetHTTP1(true)
+	return &http.Transport{
+		Proxy:                 http.ProxyFromEnvironment,
+		DialContext:           (&net.Dialer{Timeout: 30 * time.Second, KeepAlive: 30 * time.Second}).DialContext,
+		Protocols:             protocols,
+		DisableKeepAlives:     true,
+		TLSHandshakeTimeout:   10 * time.Second,
+		ExpectContinueTimeout: time.Second,
+	}
 }
 
 func newClient(accessKey, secretKey, baseURL string, transport http.RoundTripper, now func() time.Time, interval time.Duration) (*Client, error) {
@@ -133,6 +150,10 @@ func (c *Client) wait(ctx context.Context) error {
 // Paths must be canonical ASCII paths. Escaped/non-ASCII IDs need a verified
 // signing contract before support is added. Query values are encoded once.
 func (c *Client) Get(ctx context.Context, path string, query url.Values) (Envelope, error) {
+	return c.request(ctx, http.MethodGet, path, query, "", nil)
+}
+
+func (c *Client) request(ctx context.Context, method, path string, query url.Values, contentType string, bodyReader io.Reader) (Envelope, error) {
 	var empty Envelope
 	if !validPath(path) {
 		return empty, &Error{Kind: "invalid_path"}
@@ -144,16 +165,22 @@ func (c *Client) Get(ctx context.Context, path string, query url.Values) (Envelo
 	if q := query.Encode(); q != "" {
 		u += "?" + q
 	}
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u, nil)
+	req, err := http.NewRequestWithContext(ctx, method, u, bodyReader)
 	if err != nil {
 		return empty, &Error{Kind: "invalid_request"}
+	}
+	if method != http.MethodGet {
+		req.GetBody = nil
 	}
 	ts := strconv.FormatInt(c.now().Unix(), 10)
 	req.Header.Set("X-iwinv-Timestamp", ts)
 	req.Header.Set("X-iwinv-Credential", c.accessKey)
 	req.Header.Set("X-iwinv-Signature", signature(c.secretKey, ts, path))
+	if contentType != "" {
+		req.Header.Set("Content-Type", contentType)
+	}
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "terraform-provider-iwinv/contract-probe")
+	req.Header.Set("User-Agent", "terraform-provider-iwinv/dev")
 	resp, err := c.http.Do(req)
 	if err != nil {
 		if ctx.Err() != nil {

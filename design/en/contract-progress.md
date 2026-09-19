@@ -166,3 +166,40 @@ Sources: [group create](https://iwinv.readme.io/reference/post_v1-security-group
 [group detail](https://iwinv.readme.io/reference/get_v1-security-groups-id),
 [rule create](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
 [group delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id).
+
+## Create restriction diagnosis and write client (2026-09-19)
+
+After rechecking catalog availability and the absence of the earlier create name in delayed inventory,
+one separate minimal multipart diagnostic request omitted description, SSH keys and scripts.
+It again returned HTTP 500 / `DEV_CHECK_RETURN`. The nested result had numeric code 12 and
+a Korean message stating that resource use is restricted in the selected zone. Embedded executable text was neither executed nor exposed in provider diagnostics.
+This establishes a create restriction but does not distinguish account policy from zone policy; vendor clarification is required.
+No create ID was returned and the immediate API inventory was empty. C05/T015 remain unresolved.
+
+The shared Go client now supports JSON/multipart writes and DELETE.
+Synthetic tests cover signing, empty-versus-omitted fields, Korean/special-character transport, size bounds, redirects, and no replay after HTTP errors or a dropped connection.
+The actual Go client created, updated and deleted separate test security groups, verifying empty detail results after deletion.
+PUT with an empty description returns HTTP 200 but retains the previous description. The initial test expecting a successful clear failed;
+a targeted follow-up isolated the field difference, then regression coverage captured the **observed empty-value-ignore contract**.
+A future resource must not record a successful clear in state. All Go test groups were verified absent after deletion.
+
+## Partial NAS control-plane lifecycle (2026-09-19)
+
+One temporary NAS used an available minimum-disk product, changed its allowed IPs, and was deleted.
+Despite the documented `array(string)` type, creation accepted a JSON object such as `{ "192.0.2.1": "RO" }` for `allowip`.
+The addresses below are documentation-only synthetic addresses, not access addresses or account identifiers.
+
+| Item | Observation | Remaining verification/design implication |
+| --- | --- | --- |
+| POST JSON | HTTP 200; result is one object; integer `service_idx` | Do not reuse an IaaS result-array decoder |
+| GET list | Result array without count/page; exact ID/settings observed | Complete inventory and external-change consistency need further testing |
+| Status | `pending` on create/immediate Read | HTTP 200 does not prove storage readiness; ready/mount/billing remain unverified |
+| `allowip` | Read also returns an IP→RW/RO object | Evidence for map ownership design |
+| PUT `{ "192.0.2.2": "RW" }` | Old IP removed; only new IP remains | One resource must own the complete allowlist |
+| PUT empty object | HTTP 422 with `message`/`errors.allowip`; old value retained | Empty-set clearing observed as unsupported; not a standard success envelope |
+| Read fields | Integer `spec.disk`, null `stop_date`, string `mount_info` | Actual domain/mount values stay out of public fixtures/logs |
+| DELETE | HTTP 200; string result; exact ID absent in subsequent list | This test NAS was verified deleted |
+
+This is partial evidence for C19–C21 and T037/T039. The test did not await completed provisioning, mount storage or write data.
+Tenant service authentication/file operations and Terraform lifecycle/import remain unverified. No NAS resource is implemented yet.
+[Official NAS create documentation](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).

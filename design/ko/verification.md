@@ -62,7 +62,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T007 | P1 | live-read | 계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다 | not_run |
 | T008 | P1 | mock/live-read | 상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다 | not_run |
 | T009 | P1 | mock/live-read | 누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다 | in_progress |
-| T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | not_run |
+| T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | in_progress |
 | T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | passed |
 | T012 | P1 | mock | 인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다 | passed |
 | T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | passed |
@@ -89,9 +89,9 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T034 | P3 | live | 스토리지 생성 연결/분리/재연결/존/보존을 검증한다 | not_run |
 | T035 | P3 | live | 연결 소유자는 하나이며 서버 삭제 시 관리 데이터 손실을 숨기지 않는다 | not_run |
 | T036 | P3 | live | 연결 해제와 볼륨/그룹/서버 삭제 순서를 검증한다 | not_run |
-| T037 | P4 | live-read | 추가 서비스마다 응답 타입/ID/오류/전체 목록 계약을 확보한다 | not_run |
+| T037 | P4 | live-read | 추가 서비스마다 응답 타입/ID/오류/전체 목록 계약을 확보한다 | in_progress |
 | T038 | P4 | live | 서비스별 수명주기/import/무변경 plan/drift를 출시 전에 검증한다 | not_run |
-| T039 | P4 | live | 허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다 | not_run |
+| T039 | P4 | live | 허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다 | in_progress |
 | T040 | P4 | live-read | 메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다 | not_run |
 | T041 | P4 | mock/live | 비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다 | not_run |
 | T042 | P4 | live-read | 청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다 | not_run |

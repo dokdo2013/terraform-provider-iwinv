@@ -82,5 +82,6 @@ finding, capability entry, schema decision and verification gate.
 The official NAS create OpenAPI types `allowip` as `array(string)`, but its description shows an object
 whose keys are IP addresses and values are `RW`/`RO`. This adds uncertainty to C20/C21.
 The multipart header versus JSON requestBody discrepancy also remains.
-Do not finalize `list(string)` or `map(string)` before a live contract check.
+A subsequent live test accepted JSON objects and whole-map replacement; an empty object returned HTTP 422.
+Use the [live evidence](contract-progress.md) without generalizing to other services.
 Source: [NAS create](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).

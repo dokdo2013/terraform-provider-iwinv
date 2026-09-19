@@ -79,5 +79,6 @@ Git에는 검토된 합성 또는 마스킹 fixture만 넣고 실제 계정 원�
 공식 NAS 생성 문서의 `allowip` OpenAPI 타입은 `array(string)`이지만 설명은 IP를 key로,
 `RW`/`RO`를 value로 가지는 object 예시입니다. C20/C21의 추가 문서 불일치입니다.
 요청 헤더의 multipart 표기와 JSON requestBody 차이도 함께 남아 있으므로
-실측 전 `list(string)` 또는 `map(string)`을 확정하지 않습니다.
+후속 실측에서 JSON object 생성과 map 전체 교체를 확인했고, 빈 object는 HTTP 422로 거부됐습니다.
+[실측 근거](contract-progress.md)를 반영하되 나머지 서비스로 일반화하지 않습니다.
 출처: [NAS 생성](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).

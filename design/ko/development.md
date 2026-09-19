@@ -121,3 +121,31 @@ TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccCatalogs$' 
 
 이 조회 전용 acceptance는 테스트 입력으로만 첫 정렬 ID를 골라 두 상세 정보를 읽고,
 후속 plan이 무변경인지 확인합니다. 실제 사용할 이미지·상품을 추천하는 선택 로직이 아닙니다.
+
+## 공통 쓰기 클라이언트 검증
+
+내부 Go 클라이언트는 JSON POST/PUT, multipart POST/PUT, body 없는 DELETE를 지원합니다.
+요청은 1 MiB로 제한하며 잘못된 path·field 이름·payload를 전송 전에 거부합니다.
+multipart 값은 그대로 전달하므로 API별 percent encoding은 서비스 계층에서 검증 후 적용합니다.
+오류 응답·리다이렉트·연결 중단에 대해 자동 재시도하지 않습니다.
+성공 HTTP 202는 보존하며, 비동기 완료나 삭제를 뜻한다고 가정하지 않습니다.
+
+Go 1.26.1의 전송 소스에서 자동 replay 경로를 확인했습니다.
+클라이언트는 새 HTTP/1 연결을 사용해 HTTP/2 stream 재전송과 재사용 연결에서의 HTTP/1 재전송을 차단합니다.
+TLS 검증은 유지하며 추가 연결 비용이 발생합니다. 전송 최적화는 향후 멱등성·명시적 재시도 계약을 검증한 뒤 진행합니다.
+[Go HTTP/1 전송](https://cs.opensource.google/go/go/+/refs/tags/go1.26.1:src/net/http/transport.go),
+[Go HTTP/2 전송](https://cs.opensource.google/go/go/+/refs/tags/go1.26.1:src/net/http/h2_bundle.go).
+
+아래 테스트는 **조회 전용이 아닙니다**. 인증된 계정에 연결되지 않은 보안 그룹 하나를 만들고 수정·삭제합니다.
+명시적으로 지정한 테스트 계정에서만 실행하고, 저장소 밖의 private journal 디렉터리를 지정합니다.
+디렉터리는 0700, 생성 파일은 0600이며 생성 응답·ID와 삭제 확인 결과를 보존합니다.
+테스트가 실패해도 이번 create에서 얻은 ID만 정리하며, 프로세스 강제 종료 시에는 journal로 수동 복구해야 합니다.
+
+```sh
+IWINV_LIVE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/test-journals \
+  go test ./internal/client -run '^TestAccControlPlaneWrites$' -v -count=1
+```
+
+키는 기존 `IWINV_ACCESS_KEY`/`IWINV_SECRET_KEY` 환경변수로만 전달합니다. CI에서는 이 조건을 켜지 않습니다.
+이 테스트는 Go JSON POST/PUT/DELETE의 실환경 동작과 보안 그룹 설명의 빈 값 무시 동작을 검증합니다.
+multipart 성공 수명주기나 Terraform 관리 리소스를 검증했다는 의미는 아닙니다.
