@@ -653,3 +653,15 @@ Live Terraform 1.14.2 + Go race read and no-change-plan acceptance passed in **5
 Only product ID/name/status/type are exposed. Pricing, disk and traffic units remain outside this schema pending independent contracts. No cloud resources were created, mail sent or DNS changed; raw account-authenticated responses and test artifacts remain private. This does not solve webmail service/mailbox Read, deletion or import: T040 remains in progress and the separate stuck test service keeps cleanup T056 failed. Development support is now eighteen data sources and seven resources; remaining API features and Registry publication are still open.
 
 Source: [official webmail products](https://iwinv-webmail.readme.io/reference/웹-메일-상품-조회).
+
+## MCP authorization and capture preparation (2026-09-19)
+
+C27/T014 remain open. [The MCP audit](mcp-audit.md) records a real 401 scope challenge, public OAuth/S256 discovery and one temporary
+client registration (201). Owner consent was not granted; the SDK session ended without a token or authenticated tool inventory.
+Registration cleanup is unverified: returned management-URL DELETE was 404, while GET returned the same new client with 200 and unchanged
+management credentials. No extra clients, grants or tools/call were attempted. Private registration evidence is retained for reconciliation.
+The machine inventory uses null, rather than zero or an invented list, for unobserved tools.
+
+T076 passes offline synthetic capture validation: cursor chains, completion, duplicates, structural fields, omitted arbitrary values and
+redacted errors. It runs in documentation CI and does not authenticate or execute MCP tools. It is preparation, not proof of live tool
+support. The Provider remains at eighteen data sources/seven resources; this audit adds no MCP runtime dependency or cloud capability.

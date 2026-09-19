@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-19",
+  "server_url": "https://mcp.iwinv.kr/",
+  "protected_resource_metadata": "https://mcp.iwinv.kr/.well-known/oauth-protected-resource",
+  "authorization_server": "https://oauth.iwinv.kr",
+  "authorization_metadata": "https://oauth.iwinv.kr/.well-known/oauth-authorization-server",
+  "authorization_endpoint": "https://oauth.iwinv.kr/auth",
+  "token_endpoint": "https://oauth.iwinv.kr/token",
+  "registration_endpoint": "https://oauth.iwinv.kr/reg",
+  "challenge_scope": [
+    "mcp:tools"
+  ],
+  "pkce_method": "S256",
+  "sdk_version": "2.2.0",
+  "initialize_without_token_http": 401,
+  "client_registration_http": 201,
+  "registration_management_read_http": 200,
+  "registration_delete_http": 404,
+  "authentication_status": "owner_consent_not_granted",
+  "access_token_received": false,
+  "client_cleanup_status": "unverified_delete_404_followed_by_matching_management_get_200",
+  "tool_count": null,
+  "tools": null,
+  "evidence": [
+    "design/en/mcp-audit.md",
+    "design/ko/mcp-audit.md",
+    "scripts/summarize_mcp.py",
+    "scripts/test_summarize_mcp.py"
+  ],
+  "limitations": [
+    "No authenticated initialize or tools/list result was obtained.",
+    "Registered client management DELETE did not establish cleanup. No additional clients or grants were created.",
+    "No tools/call, cloud mutation, mail send or DNS change was performed.",
+    "Client IDs, management credentials, authorization URLs and private responses are excluded."
+  ]
+}

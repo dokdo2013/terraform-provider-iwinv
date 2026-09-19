@@ -22,5 +22,7 @@ jobs:
           persist-credentials: false
       - name: Validate bilingual design and inventory
         run: python3 scripts/check_docs.py
+      - name: Test offline MCP inventory validation
+        run: python3 -m unittest discover -s scripts -p 'test_summarize_mcp.py' -v
       - name: Check whitespace
         run: git diff --check HEAD

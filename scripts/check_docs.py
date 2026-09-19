@@ -96,6 +96,16 @@ for entry in inventory["entries"]:
     require(entry["live_verified"] == (expected and all(c["live_verified"] for c in matches)),
             f"Live verification flag drift: {entry['source']}")
 
+mcp = json.loads((ROOT / "design/inventory/mcp.json").read_text())
+require(mcp["authentication_status"] in {"owner_consent_not_granted", "verified"}, "Unknown MCP authentication status")
+if mcp["tools"] is None:
+    require(mcp["tool_count"] is None, "Unobserved MCP tool count must be null, not zero")
+else:
+    require(mcp["authentication_status"] == "verified", "MCP tools claimed without authenticated evidence")
+    require(isinstance(mcp["tools"], list) and mcp["tool_count"] == len(mcp["tools"]), "MCP inventory count mismatch")
+for evidence in mcp["evidence"]:
+    require((ROOT / evidence).is_file(), f"Missing MCP evidence: {evidence}")
+
 cli = json.loads((ROOT / "design/inventory/cli.json").read_text())["entries"]
 require(len({c["command"] for c in cli}) == len(cli), "Duplicate CLI command")
 require(all(c["exit_code"] == 0 for c in cli), "CLI discovery failed")

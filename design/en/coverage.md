@@ -49,7 +49,7 @@ All 66 operations belong to these groups; missing update/read operations are doc
 | [Cache service API](https://help.iwinv.kr/manual/938) | Configuration/query and purge as appropriate | G: enumerate contracts; subscription API alone is insufficient |
 | [SMS](https://docs.iwinv.kr/developers/api/Message_api/) | Send SMS/LMS/MMS/international (A), history/balance (D), reservation operations if supported | Endpoint URLs collected; classify semantic reads even if POST; verify quotas, scheduling timezone, payload bytes and PII handling |
 | [Alimtalk](https://docs.iwinv.kr/developers/api/kakao_api/) | Templates (R/D), send/cancel (A), history/balance (D) | Template review-state constraints and no-replay semantics required |
-| [MCP](https://docs.iwinv.kr/developers/mcp/) | Compare authenticated tools with inventory | G: tools/list not inspected; API parity not assumed |
+| [MCP](https://docs.iwinv.kr/developers/mcp/) | Compare authenticated tools with inventory | G: tools/list unverified; OAuth/cleanup evidence in [MCP audit](mcp-audit.md) |
 | SDK/other products | Discover newly documented services, including any API outside the central developer index | G: public index is not proof of completeness |
 
 All remote service capabilities remain within the long-term discovery scope. Sending messages, object transfer and

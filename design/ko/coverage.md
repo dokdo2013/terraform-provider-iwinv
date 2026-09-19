@@ -49,7 +49,7 @@
 | [캐시 서비스 API](https://help.iwinv.kr/manual/938) | 설정/조회와 purge | G: 별도 계약 조사, 가입 API만으로 범위 완료 처리 금지 |
 | [문자](https://docs.iwinv.kr/developers/api/Message_api/) | SMS/LMS/MMS/국제 발송(A), 이력/잔액(D), 지원되는 예약 작업 | URL 수집 완료; POST 조회 구분, quota·예약 시간대·바이트·개인정보 처리 검증 |
 | [알림톡](https://docs.iwinv.kr/developers/api/kakao_api/) | 템플릿(R/D), 발송/취소(A), 이력/잔액(D) | 검수 상태별 제약·중복 발송 방지 검증 |
-| [MCP](https://docs.iwinv.kr/developers/mcp/) | 인증 후 도구와 기능 대장 비교 | G: tools/list 미확인, API와 동등하다고 가정하지 않음 |
+| [MCP](https://docs.iwinv.kr/developers/mcp/) | 인증 후 도구와 기능 대장 비교 | G: tools/list 미확인; OAuth·등록 정리 근거는 [MCP 조사](mcp-audit.md) 참조 |
 | SDK/기타 상품 | 중앙 개발자 목록 외 API와 신규 서비스 발견 | G: 공개 목록만으로 전체 조사 완료 판단 금지 |
 
 모든 원격 서비스 기능은 장기 조사 범위에 포함합니다. 발송·객체 이동 같은 데이터 작업은 명시적 실행 의미를 정의하고,

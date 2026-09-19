@@ -25,6 +25,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 | [NAS 수명주기 설계](design/ko/nas-lifecycle.md) | IP별 RO/RW 전체 맵, 공유 이름 이력 없는 import, 용량 교체·정리 |
 | [DBMS 수명주기 설계](design/ko/dbms-lifecycle.md) | 전체 허용 IP 집합, 생성 계정 이력·상품 모호성·import·복구 |
 | [청구 조회 계약](design/ko/billing-contract.md) | 금액·날짜·페이지·민감 plan/state 처리; 예상 청구·목록 조회 지원, 상세 권한 제한 |
+| [MCP 조사](design/ko/mcp-audit.md) | OAuth 동의·등록 정리 제약과 도구 목록의 오프라인 검증 |
 | [API 계약 및 제약](design/ko/api-contract.md) | 확인된 사실, 문서 불일치, 실제 검증이 필요한 사항 |
 | [전체 기능 범위](design/ko/coverage.md) | API·CLI·서비스별 Resource/Data/Action/Ephemeral 분류 |
 | [검증 계획](design/ko/verification.md) | 단계별 합격 기준과 실행 체크리스트 |

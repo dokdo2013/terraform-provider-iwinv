@@ -936,6 +936,20 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T076",
+      "phase": "P1",
+      "method": "offline",
+      "expected_en": "Offline MCP inventory validation rejects incomplete/reordered/repeated pages and duplicate tools, excludes descriptions/defaults/examples/meta/cursors, and never treats tool hints or structural discovery as authorization or verified API support",
+      "expected_ko": "오프라인 MCP 목록 검증이 불완전/순서 변경/반복 페이지와 중복 도구를 거절하고 설명/기본값/예시/meta/cursor를 제외하며 도구 힌트나 구조 조사를 권한·검증된 API 지원으로 취급하지 않는다",
+      "status": "passed",
+      "evidence": [
+        "scripts/summarize_mcp.py",
+        "scripts/test_summarize_mcp.py",
+        "design/en/mcp-audit.md",
+        "design/ko/mcp-audit.md"
+      ]
     }
   ]
 }
