@@ -1,9 +1,10 @@
 # API contracts and unresolved behavior
 
-[한국어](../ko/api-contract.md) · [Index](../../README.en.md) · Revision: 1
+[한국어](../ko/api-contract.md) · [Index](../../README.en.md) · Revision: 2
 
-Evidence date: 2026-09-18. All facts below are **documented**, not authenticated live observations.
-Public documentation and OAuth discovery were read. No account API, mutation, or billable test was executed.
+Documentation reviewed: 2026-09-18–19. The table below records **documented contracts**.
+Authenticated reads and scoped mutation experiments are tracked separately in [contract progress](contract-progress.md);
+observed differences take precedence over examples when implementing a verified capability.
 The [inventory](../inventory/api.json) extracts endpoint facts from embedded OpenAPI definitions, not a vendor SDK.
 It is not a validated unified OpenAPI specification or proof that all services are covered.
 
@@ -75,3 +76,11 @@ Do not normalize unrecognized business success codes into success.
 
 These are prepared questions, not messages sent to the vendor. Each answer must update the associated Cxx
 finding, capability entry, schema decision and verification gate.
+
+## Additional NAS input type discrepancy
+
+The official NAS create OpenAPI types `allowip` as `array(string)`, but its description shows an object
+whose keys are IP addresses and values are `RW`/`RO`. This adds uncertainty to C20/C21.
+The multipart header versus JSON requestBody discrepancy also remains.
+Do not finalize `list(string)` or `map(string)` before a live contract check.
+Source: [NAS create](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).

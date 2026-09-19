@@ -1,9 +1,10 @@
 # API 계약과 미확정 동작
 
-[English](../en/api-contract.md) · [목차](../../README.md) · 리비전: 1
+[English](../en/api-contract.md) · [목차](../../README.md) · 리비전: 2
 
-조사일: 2026-09-18. 아래 사실은 모두 **문서 근거**이며 인증된 실제 API 관측이 아닙니다.
-공개 문서와 OAuth 메타데이터만 읽었고 계정 API·변경·과금 테스트는 실행하지 않았습니다.
+문서 조사일: 2026-09-18–19. 아래 표는 **문서에 기재된 계약**입니다.
+인증된 조회와 통제된 변경 실측은 [검증 현황](contract-progress.md)에 별도로 기록합니다.
+검증된 기능을 구현할 때는 문서 예시와의 차이를 반영합니다.
 [기능 대장](../inventory/api.json)은 문서에 포함된 OpenAPI에서 사실을 추출한 것으로,
 검증된 통합 OpenAPI 명세나 모든 서비스 조사 완료를 의미하지 않습니다.
 
@@ -72,3 +73,11 @@ Git에는 검토된 합성 또는 마스킹 fixture만 넣고 실제 계정 원�
 8. 고객이 접근 가능한 표준 OpenStack endpoint가 있는가?
 
 질문만 준비했으며 공급사에 발송하지 않았습니다. 답변은 Cxx 항목·기능 대장·스키마 결정·검증 조건에 함께 반영합니다.
+
+## NAS 입력 타입 추가 확인
+
+공식 NAS 생성 문서의 `allowip` OpenAPI 타입은 `array(string)`이지만 설명은 IP를 key로,
+`RW`/`RO`를 value로 가지는 object 예시입니다. C20/C21의 추가 문서 불일치입니다.
+요청 헤더의 multipart 표기와 JSON requestBody 차이도 함께 남아 있으므로
+실측 전 `list(string)` 또는 `map(string)`을 확정하지 않습니다.
+출처: [NAS 생성](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).

@@ -2,7 +2,7 @@
 
 [English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
 
-**존 Data Source의 인증된 읽기 acceptance를 통과했습니다. 관리 리소스 acceptance는 아직 통과하지 않았습니다.**
+**존·이미지·상품 Data Source의 인증된 읽기 acceptance를 통과했습니다. 관리 리소스 acceptance는 아직 통과하지 않았습니다.**
 [현재 근거](contract-progress.md)에서 실측과 모의 테스트를 구분합니다. 문서 CI는 저장소 정합성만 검사합니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
 각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 실행 상태가 있습니다. `in_progress`는 일부 근거만 확보된 상태로 합격이 아닙니다.
 
