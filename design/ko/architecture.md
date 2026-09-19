@@ -140,3 +140,18 @@ context 기한 안에서 polling하며 pending·active·off·work·error와 생�
 [API 계약](api-contract.md)과 [검증 계획](verification.md)을 통과한 뒤 공개 스키마를 확정합니다.
 변경은 ADR로 기록하고 state migration과 변경 불가능한 semantic version 릴리스로 관리합니다.
 근거는 [출처 대장](../sources.md)에 있습니다.
+
+## 보안 그룹 서비스 경계: 내부 구현
+
+타입이 있는 network 어댑터는 계약 준비이며 Terraform 리소스로 등록하지 않았습니다.
+API `title`은 이름, `content`는 설명, `icmp` Y/N은 boolean으로 매핑합니다.
+설명 응답만 HTML 디코딩을 한 번 수행하며 이름은 디코딩하거나 정규화하지 않습니다.
+설명의 null·빈 값·생략을 구분합니다. 빈 값 수정은 거부하고, 검증한 수정 계약에서 생략은 기존 설명을 유지합니다.
+생성 시 설명 생략은 미해결입니다.
+
+향후 그룹 리소스는 그룹 속성만 소유하고 정확한 `FIREWALL-…` import ID와 상세 Read를 사용할 계획입니다.
+inline 규칙과 서버 연결은 그룹 모델에서 제외하며 별도 수명주기·소유권 검증이 필요합니다.
+생성 응답의 다른 부분 검증이 실패해도 확보한 생성 ID는 state에 보존해야 합니다.
+삭제 성공 응답 이후에도 상세 Read의 부재를 확인해야 합니다.
+API 오류로 state를 제거하지 않으며 import·스키마·timeouts·부분 state 복구는 아직 Terraform 단계에서 구현하지 않았습니다.
+해당 단계 구현 전 [실측/합성 근거](contract-progress.md)를 확인합니다.

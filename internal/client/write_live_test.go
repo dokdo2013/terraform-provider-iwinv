@@ -3,14 +3,40 @@ package client_test
 import (
 	"context"
 	"encoding/json"
+	"net/url"
 	"os"
 	"path/filepath"
-	"regexp"
 	"testing"
 	"time"
 
 	"github.com/dokdo2013/terraform-provider-iwinv/internal/client"
+	"github.com/dokdo2013/terraform-provider-iwinv/internal/services/network"
 )
+
+// journalWriteClient captures the raw create receipt before adapter validation.
+// The test registers ID-based cleanup before persisting it, so journal I/O
+// failure after creation still runs cleanup. Recovery files stay outside Git.
+type journalWriteClient struct {
+	*client.Client
+	capture     func(client.Envelope)
+	captureList func(client.Envelope)
+}
+
+func (c *journalWriteClient) Get(ctx context.Context, path string, q url.Values) (client.Envelope, error) {
+	e, err := c.Client.Get(ctx, path, q)
+	if err == nil && path == "/v1/security-groups" {
+		c.captureList(e)
+	}
+	return e, err
+}
+
+func (c *journalWriteClient) PostJSON(ctx context.Context, path string, body any) (client.Envelope, error) {
+	e, err := c.Client.PostJSON(ctx, path, body)
+	if err == nil {
+		c.capture(e)
+	}
+	return e, err
+}
 
 // TestAccControlPlaneWrites is deliberately opt-in and is never enabled in CI.
 // Only a group returned by this run's create is mutated. Persist the response
@@ -40,6 +66,8 @@ func TestAccControlPlaneWrites(t *testing.T) {
 	}
 	record := struct {
 		CreateResponse json.RawMessage `json:"create_response,omitempty"`
+		ListResponse   json.RawMessage `json:"list_response,omitempty"`
+		CreateError    string          `json:"create_error,omitempty"`
 		Name           string          `json:"requested_name,omitempty"`
 		ID             string          `json:"created_id,omitempty"`
 		Deleted        bool            `json:"deleted_verified"`
@@ -76,34 +104,25 @@ func TestAccControlPlaneWrites(t *testing.T) {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	type group struct {
-		ID          string `json:"firewall_id"`
-		Name        string `json:"title"`
-		Description string `json:"content"`
-		ICMP        string `json:"icmp"`
-	}
-	before, err := c.Get(ctx, "/v1/security-groups", nil)
+	service := network.Service{API: &journalWriteClient{Client: c, capture: func(e client.Envelope) { record.CreateResponse = e.Result }, captureList: func(e client.Envelope) { record.ListResponse = e.Result }}}
+	baseline, err := service.Groups(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}
-	var baseline []group
-	if before.Status != 200 || json.Unmarshal(before.Result, &baseline) != nil || baseline == nil {
-		t.Fatal("invalid baseline group inventory")
-	}
-	name := "tf-go-" + time.Now().UTC().Format("20060102T150405.000000000")
+	name := "tf-net-" + time.Now().UTC().Format("150405.000000000")
 	record.Name = name
 	save()
-	created, err := c.PostJSON(ctx, "/v1/security-groups", map[string]string{"title": name, "content": "Go client contract test", "icmp": "N"})
-	if err != nil {
-		t.Fatal(err)
+	// Use the previously verified explicit-description create contract.
+	initialDescription := "Go &amp; <test> +"
+	created, createErr := service.CreateGroup(ctx, network.GroupInput{Name: name, Description: &initialDescription, AllowICMP: false})
+	if createErr != nil {
+		record.CreateError = createErr.Error()
 	}
-	record.CreateResponse = created.Result
-	var rows []group
-	if json.Unmarshal(created.Result, &rows) != nil || len(rows) != 1 || !regexp.MustCompile(`^FIREWALL-[A-Za-z0-9_-]+$`).MatchString(rows[0].ID) {
+	if created.ID == "" {
 		save()
-		t.Fatal("create identity unresolved; inspect private journal without retrying create")
+		t.Fatalf("create identity unresolved; inspect private journal without retrying create: %v", createErr)
 	}
-	id := rows[0].ID
+	id := created.ID
 	for _, existing := range baseline {
 		if existing.ID == id {
 			save()
@@ -114,14 +133,12 @@ func TestAccControlPlaneWrites(t *testing.T) {
 	defer func() {
 		cleanupCtx, cleanupCancel := context.WithTimeout(context.Background(), 2*time.Minute)
 		defer cleanupCancel()
-		_, deleteErr := c.Delete(cleanupCtx, "/v1/security-groups/"+id)
-		if deleteErr != nil {
+		if err := service.DeleteGroup(cleanupCtx, id); err != nil {
 			t.Error("delete failed; reconcile private cleanup journal")
 		}
 		for attempt := 0; attempt < 10; attempt++ {
-			result, readErr := c.Get(cleanupCtx, "/v1/security-groups/"+id, nil)
-			var remaining []group
-			if readErr == nil && result.Status == 200 && json.Unmarshal(result.Result, &remaining) == nil && remaining != nil && len(remaining) == 0 && string(result.Count) == "0" {
+			remaining, readErr := service.Group(cleanupCtx, id)
+			if readErr == nil && remaining == nil {
 				record.Deleted = true
 				save()
 				return
@@ -133,31 +150,58 @@ func TestAccControlPlaneWrites(t *testing.T) {
 		t.Error("created group absence not verified; inspect private cleanup journal")
 	}()
 	save()
-	updated, err := c.PutJSON(ctx, "/v1/security-groups/"+id, map[string]string{"title": name, "content": "Updated Go contract", "icmp": "Y"})
+	if createErr != nil {
+		t.Fatal(createErr)
+	}
+	if created.Group == nil || created.Group.Description == nil || *created.Group.Description != initialDescription {
+		t.Fatal("create description escaping contract changed")
+	}
+	detail, err := service.Group(ctx, id)
+	if err != nil || detail == nil || detail.Name != name || detail.AllowICMP {
+		t.Fatal("created fields did not round-trip")
+	}
+	inventory, err := service.Groups(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if updated.Status != 200 {
-		t.Fatal("unexpected update HTTP status")
+	found := false
+	for _, g := range inventory {
+		if g.ID == id {
+			found = true
+		}
 	}
-	detail, err := c.Get(ctx, "/v1/security-groups/"+id, nil)
-	if err != nil {
+	if !found {
+		t.Fatal("created group missing from validated inventory")
+	}
+	description := "Updated Go 계약 & + %"
+	if _, err := service.UpdateGroup(ctx, id, network.GroupInput{Name: name, Description: &description, AllowICMP: true}); err != nil {
 		t.Fatal(err)
 	}
-	if json.Unmarshal(detail.Result, &rows) != nil || len(rows) != 1 || rows[0].ID != id || rows[0].Name != name || rows[0].Description != "Updated Go contract" || rows[0].ICMP != "Y" {
+	detail, err = service.Group(ctx, id)
+	if err != nil || detail == nil || detail.Name != name || detail.Description == nil || *detail.Description != description || !detail.AllowICMP {
 		t.Fatal("updated fields did not round-trip")
 	}
 
-	// Observed endpoint behavior: an explicitly empty content is ignored, not
-	// a clear operation. A future resource must not claim that it cleared it.
-	if _, err := c.PutJSON(ctx, "/v1/security-groups/"+id, map[string]string{"title": name, "content": "", "icmp": "Y"}); err != nil {
-		t.Fatal(err)
+	// The adapter must reject an unsupported clear without changing the remote
+	// description. Raw empty updates have also shown non-preserving behavior for
+	// HTML-escaped text; do not use them as a harmless no-op.
+	emptyDescription := ""
+	if _, err := service.UpdateGroup(ctx, id, network.GroupInput{Name: name, Description: &emptyDescription, AllowICMP: true}); err == nil {
+		t.Fatal("unsupported clear was accepted")
 	}
-	detail, err = c.Get(ctx, "/v1/security-groups/"+id, nil)
-	if err != nil {
-		t.Fatal(err)
+	detail, err = service.Group(ctx, id)
+	if err != nil || detail == nil || detail.Description == nil || *detail.Description != description {
+		t.Fatal("rejected clear changed remote description")
 	}
-	if json.Unmarshal(detail.Result, &rows) != nil || len(rows) != 1 || rows[0].ID != id || rows[0].Description != "Updated Go contract" {
-		t.Fatal("empty-description update contract changed")
+
+	// Omission is distinct from clearing: name/ICMP can change while preserving
+	// description. Verify the adapter's response and a separate authoritative Read.
+	updated, err := service.UpdateGroup(ctx, id, network.GroupInput{Name: name + "-u", AllowICMP: false})
+	if err != nil || updated == nil || updated.Description == nil || *updated.Description != description {
+		t.Fatal("omitted-description update contract changed")
+	}
+	detail, err = service.Group(ctx, id)
+	if err != nil || detail == nil || detail.Name != name+"-u" || detail.AllowICMP || detail.Description == nil || *detail.Description != description {
+		t.Fatal("omitted fields or rename failed read-back")
 	}
 }

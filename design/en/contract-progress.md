@@ -179,8 +179,8 @@ No create ID was returned and the immediate API inventory was empty. C05/T015 re
 The shared Go client now supports JSON/multipart writes and DELETE.
 Synthetic tests cover signing, empty-versus-omitted fields, Korean/special-character transport, size bounds, redirects, and no replay after HTTP errors or a dropped connection.
 The actual Go client created, updated and deleted separate test security groups, verifying empty detail results after deletion.
-PUT with an empty description returns HTTP 200 but retains the previous description. The initial test expecting a successful clear failed;
-a targeted follow-up isolated the field difference, then regression coverage captured the **observed empty-value-ignore contract**.
+In these ASCII-only tests, PUT with an empty description returned HTTP 200 but retained the previous description. The initial test expecting a successful clear failed.
+Later escaped-text tests below invalidate treating this as a general no-op contract; the adapter now rejects empty updates.
 A future resource must not record a successful clear in state. All Go test groups were verified absent after deletion.
 
 ## Partial NAS control-plane lifecycle (2026-09-19)
@@ -272,3 +272,39 @@ These results add evidence for T006/T009/T010; they do not complete contracts fo
 Key creation/deletion and server SSH installation remain unresolved or unverified, and no managed key resource is claimed.
 
 Source: [SSH key list](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).
+
+## Typed security-group adapter and corrected contracts (2026-09-19)
+
+The internal network service now implements group list/detail/create/update/delete contracts. This is P1 contract preparation;
+no Terraform group/rule/attachment resource is registered, and P2/P3 gates remain open.
+
+The first adapter live run failed **before creation** because the list includes `page_no`/`page_size` omitted from earlier shape summaries.
+The API default was 50; explicit page size 1 and page numbers 1/2 were echoed on empty inventory.
+Nonempty listing with the typed adapter used page size 50. Detail/create/update have count but no page metadata.
+The list implementation validates and traverses pages, rejects duplicates/late errors, and bounds traversal at 1,000 pages.
+Synthetic tests exercise full pages and termination; a live account with more than one page of groups has not been tested.
+The discovered OpenAPI lists no pagination parameters for this endpoint, so these remain live observations rather than edited vendor claims.
+
+| Contract | Evidence and implementation |
+| --- | --- |
+| Group identity | Validate an exact `FIREWALL-…` path segment; a create receipt with one ID preserves it even if other fields/count/status fail validation |
+| Detail absence | Only HTTP 200 plus an empty array and count 0 becomes absent; 404, business errors, mismatched IDs and malformed results remain errors |
+| Description transport | JSON sends literal input. Responses escape description as HTML; the adapter decodes it exactly once. Name is preserved verbatim |
+| Encoding probes | Quotes, angle brackets, ampersands, literal `&amp;`/`&#39;`/`&lt;`, Korean and decomposed Unicode round-trip after one description decode; URL-encoding is stored literally and must not be applied |
+| Empty description update | Earlier ASCII-only tests retained the previous value. A later test with escaped text failed preservation, so empty updates must not be treated as harmless no-ops; the adapter rejects them before I/O |
+| Omitted update description | Scoped API and typed Go tests preserved the existing description while changing name/ICMP; omission is distinct from clearing |
+| Create without description | An exploratory request produced no usable receipt; that harness did not retain the error classification. Later inventory was empty. This does not establish that the field is required; omission remains unresolved |
+| Delete | One request validates acknowledgement only; a separate exact-ID detail Read verifies absence |
+
+After correcting pagination and description decoding, the live Go adapter test passed create receipt validation,
+list/detail reads, Korean/special-character updates, rejected-clear preservation, omitted-description rename/ICMP update,
+and deletion followed by absence. Three Go groups with recorded IDs and two focused encoding-probe groups were verified deleted.
+The failed no-ID create was not adopted by name or automatically retried; a later inventory contained no matching test name.
+All raw responses, real IDs and cleanup journals remain private. Synthetic tests also cover partial create identity,
+ambiguous result counts, invalid paths, cancellation, bounded pagination, null/empty/missing fields, and one-attempt errors.
+The test harness now retains safe create-error classification and registers cleanup before persisting a known create ID.
+
+These are additional T005/T006/T009/T010 and C15 findings, not Terraform state/import, attachments or rule-cascade acceptance.
+Sources: [group list](https://iwinv.readme.io/reference/get_v1-security-groups),
+[group detail](https://iwinv.readme.io/reference/get_v1-security-groups-id),
+[group create](https://iwinv.readme.io/reference/post_v1-security-groups).

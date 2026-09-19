@@ -147,3 +147,18 @@ an upstream quota, so local limiting alone is insufficient: handle 429 and docum
 Do not finalize public schemas until [contract gaps](api-contract.md) and [verification gates](verification.md) are resolved.
 Record schema changes as ADRs, preserve state with migrations, and release immutable semantic versions.
 Official source references and AWS examples are indexed in [sources](../sources.md).
+
+## Security-group service boundary (internal implementation)
+
+The typed network adapter is contract preparation, not a registered Terraform resource.
+It maps API `title` to name, `content` to description and `icmp` Y/N to a boolean.
+Description responses are HTML-decoded once; names are not decoded or normalized.
+Null, empty and omitted descriptions remain distinct. Empty update requests are rejected;
+an omitted update leaves the existing description under the tested contract. Create omission remains unresolved.
+
+The eventual group resource will own group attributes only, with an exact `FIREWALL-…` import ID and authoritative detail Read.
+Inline rules and instance attachments are excluded from the group model and need their own lifecycle/ownership tests.
+A known create ID must be persisted even when validation of the remaining receipt fails.
+A successful delete acknowledgement requires subsequent detail absence verification.
+API errors never delete state, and import/schema/timeouts/partial-state recovery remain unimplemented Terraform gates.
+See the [live and synthetic evidence](contract-progress.md) before implementing those gates.

@@ -147,7 +147,8 @@ IWINV_LIVE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/test-journals \
 ```
 
 키는 기존 `IWINV_ACCESS_KEY`/`IWINV_SECRET_KEY` 환경변수로만 전달합니다. CI에서는 이 조건을 켜지 않습니다.
-이 테스트는 Go JSON POST/PUT/DELETE의 실환경 동작과 보안 그룹 설명의 빈 값 무시 동작을 검증합니다.
+이 테스트는 타입이 있는 network 어댑터를 통한 Go JSON POST/PUT/DELETE, 페이지 목록/정확한 ID 조회, 설명 1회 디코딩, 설명 생략 수정, 빈 값 clear의 전송 전 거부와 정리를 검증합니다.
+앞선 ASCII 빈 값 관찰을 이스케이프된 설명으로 일반화하면 안 됩니다. 최신 [계약 근거](contract-progress.md)를 참고하세요.
 multipart 성공 수명주기나 Terraform 관리 리소스를 검증했다는 의미는 아닙니다.
 
 ## 기존 SSH 키 참조

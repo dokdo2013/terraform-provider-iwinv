@@ -147,7 +147,8 @@ IWINV_LIVE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/test-journals \
 ```
 
 Supply keys through the existing `IWINV_ACCESS_KEY`/`IWINV_SECRET_KEY` environment variables. CI never enables this gate.
-The test verifies live Go JSON POST/PUT/DELETE and the security-group behavior that ignores empty descriptions.
+The test verifies live Go JSON POST/PUT/DELETE through the typed network adapter, paginated inventory and exact-ID reads, single-pass description decoding, omitted-description updates, rejection of unsupported empty clears, and cleanup.
+Earlier raw ASCII empty-update observations must not be generalized to escaped descriptions; see the latest [contract findings](contract-progress.md).
 It does not verify a successful multipart lifecycle or a Terraform managed resource.
 
 ## Existing SSH key references
