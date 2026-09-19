@@ -3,7 +3,7 @@
 [한국어](../ko/nas-lifecycle.md) · [Architecture](architecture.md) · 2026-09-19
 
 The typed adapter covers five NAS control-plane operations: products, complete service list, create, whole permission-map replacement and delete.
-`iwinv_shared_storage` is registered after T069 Core acceptance. Product lookup remains an internal adapter without a Terraform data source.
+`iwinv_shared_storage` is registered after T069 Core acceptance. Product lookup is registered as `iwinv_shared_storage_products` after T070 catalog acceptance.
 
 ## Evidence and identity
 

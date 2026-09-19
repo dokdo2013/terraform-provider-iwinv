@@ -4,7 +4,7 @@
 
 AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
 
-**현재 상태: Data Source 11개와 보안 그룹·ingress·egress·웹호스팅·DBMS·캐시·NAS 리소스 7개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
+**현재 상태: Data Source 12개와 보안 그룹·ingress·egress·웹호스팅·DBMS·캐시·NAS 리소스 7개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
 실행 가능한 범위는 [개발용 실행 안내](design/ko/development.md)와 [보안 그룹 가이드](docs/ko/resources/security_group.md)를 참고하세요. 인스턴스·연결 등 나머지 설계 예제는 아직 적용할 수 없습니다.
 스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
 
@@ -48,6 +48,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 - [x] 캐시 리퍼러 수정·새 계정 초기화 교체·import·비밀번호 비저장·정리 검증 (`cache_lite`)
 - [x] 캐시 상품 전체/SHARE/SINGLE 조회와 null ID 보존·무변경 plan 검증
 - [x] [NAS 리소스](docs/ko/resources/shared_storage.md)의 active 대기·권한 수정·import·용량 교체·정리 검증
+- [x] [NAS 상품 카탈로그](docs/ko/data-sources/shared_storage_products.md)의 빈 ID·null 버전·GB 범위 보존과 무변경 plan 검증
 - [ ] 나머지 관리 리소스 구현
 - [ ] 리소스별 acceptance test 및 서명 릴리스
 - [ ] Terraform Registry 게시

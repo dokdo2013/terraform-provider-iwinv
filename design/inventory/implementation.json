@@ -512,13 +512,11 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "shared_storage_products",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "terraform_type": "iwinv_shared_storage_products",
+      "kind": "data_source",
+      "status": "development",
       "operations": [
         {
           "method": "GET",
@@ -527,18 +525,19 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "Read-only NAS catalog preserves coming-soon empty IDs, null versions and integer disk bounds; available api_nas observed with 100–2000 GB bounds. No registered catalog data source yet.",
-      "ownership": "Read-only product catalog",
+      "live_scope": "Complete API NAS catalog with no-change plan: available api_nas bounds 100–2000 GB and coming-soon empty IDs/null versions/zero bounds. Stable order, no auto-selection, no provisioning/data-plane/billing claim.",
+      "ownership": "Read-only complete catalog",
       "import": "not_applicable",
       "evidence": [
-        "internal/services/hosted/nas.go",
+        "internal/provider/shared_storage_products_data_source.go",
+        "internal/provider/shared_storage_products_data_source_test.go",
         "internal/services/hosted/nas_test.go",
-        "internal/client/nas_live_test.go",
-        "design/en/nas-lifecycle.md",
-        "design/ko/nas-lifecycle.md",
+        "docs/data-sources/shared_storage_products.md",
+        "docs/ko/data-sources/shared_storage_products.md",
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
     }
-  ]
+  ],
+  "internal_adapters": []
 }

@@ -34,6 +34,7 @@ type providerServices struct {
 	Cache           *hosted.CacheService
 	CacheCatalogs   *hosted.CacheCatalogService
 	NAS             *hosted.NASService
+	NASCatalogs     *hosted.NASCatalogService
 }
 
 type providerModel struct {
@@ -54,7 +55,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting/DBMS/cache-catalog data sources plus security-group attributes, independent ingress/egress rules, webhosting accounts, cloud DBMS, content-cache and shared-storage services. Instance attachments are not implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting/DBMS/cache/NAS-catalog data sources plus security-group attributes, independent ingress/egress rules, webhosting accounts, cloud DBMS, content-cache and shared-storage services. Instance attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -84,7 +85,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		resp.Diagnostics.AddError("Invalid iwinv configuration", err.Error())
 		return
 	}
-	services := &providerServices{Compute: &compute.Service{API: api}, HostingCatalogs: &hosted.HostingCatalogService{API: api}, DBMSCatalogs: &hosted.DBMSCatalogService{API: api}, CacheCatalogs: &hosted.CacheCatalogService{API: api}}
+	services := &providerServices{Compute: &compute.Service{API: api}, HostingCatalogs: &hosted.HostingCatalogService{API: api}, DBMSCatalogs: &hosted.DBMSCatalogService{API: api}, CacheCatalogs: &hosted.CacheCatalogService{API: api}, NASCatalogs: &hosted.NASCatalogService{API: api}}
 	resp.DataSourceData = services
 	if writes, ok := api.(network.API); ok {
 		services.Network = &network.Service{API: writes}
@@ -105,7 +106,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource, NewDBInstanceProductsDataSource, NewContentCacheProductsDataSource}
+	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource, NewDBInstanceProductsDataSource, NewContentCacheProductsDataSource, NewSharedStorageProductsDataSource}
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {

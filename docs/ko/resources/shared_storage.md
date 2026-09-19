@@ -55,6 +55,8 @@ resource "iwinv_shared_storage" "example" {
 개별 항목을 여러 리소스·state로 나누지 마세요. 빈 맵·CIDR·IPv6·null 권한·다른 권한 표기는 거부합니다.
 외부 변경은 drift로 처리해 설정한 권한을 복구합니다. API 재조회는 NFS 권한 강제 검증을 대신하지 않습니다.
 
+[읽기 전용 상품 카탈로그](../data-sources/shared_storage_products.md)로 정확한 ID와 문서상 용량 범위를 검토할 수 있습니다.
+
 ## 교체와 import
 
 권한만 제자리 수정합니다. 상품·공유 이름 이력·이름·설명·용량 변경은 스토리지를 교체하고 삭제합니다.

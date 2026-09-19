@@ -55,6 +55,8 @@ One resource owns the **entire permission map**. A PUT removes omitted hosts and
 Do not split individual memberships across resources/states. Empty maps, CIDR, IPv6, null permissions and alternate role spellings
 are rejected. External changes are drift; Terraform restores configured permissions. Read-back verifies API configuration, not NFS behavior.
 
+Review exact IDs and documented capacity bounds with the [read-only product catalog](../data-sources/shared_storage_products.md).
+
 ## Replacement and import
 
 Only permissions update in place. Product, share-name history, name, description and capacity changes replace and delete storage.

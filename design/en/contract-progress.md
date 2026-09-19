@@ -574,3 +574,19 @@ other products and billing termination remain unverified. Overall T038 and indep
 
 Registration is eleven data sources and seven managed resources. NAS product lookup remains an internal adapter. See the
 [resource guide](../../docs/resources/shared_storage.md) and [lifecycle decisions](nas-lifecycle.md). No Registry release exists.
+
+## NAS product data source (T070), 2026-09-19
+
+`iwinv_shared_storage_products` exposes the complete catalog, sorted by ID/name, retaining coming-soon empty IDs,
+nullable versions and zero capacity bounds. Minimum/maximum capacity uses the API's documented GB; this is not an in-place resize
+capability or an independent version selector. No default product is selected and no undocumented filters are invented.
+
+`TestAccStorageProducts` passed in 3.13 seconds with Terraform 1.14.2/Go race, including a no-change plan. It observed an available
+api_nas row with 100–2000 GB bounds and unselectable rows with empty IDs, null versions and zero bounds. The run was read-only.
+Synthetic Core checks reverse response ordering, distinguish null and empty versions, preserve literal names, accept empty arrays,
+and reject API errors, missing/null/non-string IDs, missing/non-string versions, missing/negative/fractional/reversed bounds,
+duplicate identities and changed metadata. Catalog visibility does not validate every product, pricing, files or billing.
+
+Registration is now twelve data sources and seven resources. All five documented NAS control-plane operations have registered
+coverage; separate tenant/NFS surfaces, overall T038, webmail cleanup T056 and Registry release remain incomplete.
+[Catalog guide](../../docs/data-sources/shared_storage_products.md) · [NAS lifecycle](nas-lifecycle.md).

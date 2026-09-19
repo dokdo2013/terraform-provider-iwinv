@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: eleven data sources and seven security-group/rule/webhosting/DBMS/cache/NAS resources implemented and live-tested. No Registry release yet.**
+**Status: twelve data sources and seven security-group/rule/webhosting/DBMS/cache/NAS resources implemented and live-tested. No Registry release yet.**
 See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -48,6 +48,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Cache referrer updates, fresh-account clear/replacement, import, secret exclusion and cleanup (`cache_lite`)
 - [x] Cache product unfiltered/SHARE/SINGLE reads, null-ID preservation and no-change plans
 - [x] [NAS resource](docs/resources/shared_storage.md) readiness, permission updates, import, capacity replacement and cleanup
+- [x] [NAS product catalog](docs/data-sources/shared_storage_products.md) with empty IDs, nullable versions, GB bounds and no-change plan
 - [ ] Remaining managed resources
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry

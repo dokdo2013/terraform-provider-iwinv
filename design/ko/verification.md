@@ -122,3 +122,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T067 | P4 | mock/live-read | 캐시 상품 Data Source가 null·빈 ID를 보존하고 전체 필터 응답·안정 정렬을 검증하며 전체/SHARE/SINGLE 실환경 조회와 무변경 plan을 통과한다 | passed |
 | T068 | P4 | mock/live | NAS 어댑터가 정확한 ID와 공유 이름 이력의 불확실성을 보존하고 active 대기·전체 RO/RW 맵 및 기존 호스트 권한 교체·다른 서비스 보존·소유 ID 삭제 접수와 정리를 검증한다 | passed |
 | T069 | P4 | mock/live | NAS Core의 전체 권한 맵 수정·drift, 공유 이름 이력 없는 import·무변경 plan·수정, 새 공유로 용량 교체, 실패 시 ID 보존과 삭제 접수·정확한 ID 정리를 검증한다 | passed |
+| T070 | P4 | mock/live-read | NAS 상품 Data Source가 빈 ID·null 버전·정수 GB 범위를 보존하고 잘못된 전체 카탈로그를 거절하며 안정 정렬·실환경 조회·무변경 plan을 통과하고 상품을 자동 선택하지 않는다 | passed |

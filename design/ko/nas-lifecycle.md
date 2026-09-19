@@ -3,7 +3,7 @@
 [English](../en/nas-lifecycle.md) · [아키텍처](architecture.md) · 2026-09-19
 
 타입 어댑터는 NAS control-plane 5개 작업인 상품·전체 서비스 조회, 생성, 전체 권한 맵 교체, 삭제를 구현합니다.
-`iwinv_shared_storage`는 T069 Core acceptance 후 등록했습니다. 상품 조회는 Terraform Data Source 없는 내부 어댑터입니다.
+`iwinv_shared_storage`는 T069 Core acceptance 후 등록했습니다. 상품 조회는 T070 카탈로그 acceptance 후 `iwinv_shared_storage_products`로 등록했습니다.
 
 ## 근거와 식별자
 

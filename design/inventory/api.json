@@ -3820,8 +3820,8 @@
       "title": "공유 스토리지 상품 조회",
       "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-상품-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

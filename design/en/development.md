@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements eleven zone/image/instance-type/SSH-key/hosting/DBMS/cache-catalog data sources
+There is no Registry release. The local binary implements twelve zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog data sources
 and seven [NAS](../../docs/resources/shared_storage.md), [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -340,7 +340,7 @@ IWINV_LIVE_NAS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directo
 Use the private credential/log workflow above. Every intended create/update/delete is journaled, baseline IDs cannot be mutated, and
 an independent cleanup deadline requires acknowledged deletion plus exact-ID absence. Uncertain writes are not repeated. The test
 does not mount storage, access files, authenticate to tenant APIs or verify billing. See [NAS decisions](nas-lifecycle.md).
-The catalog remains an internal adapter; the NAS resource has separate Core acceptance below. CI enables neither paid gates nor live credentials.
+The NAS resource and catalog data source have separate Core acceptance below. CI enables neither paid gates nor live credentials.
 
 ## NAS Terraform acceptance
 
@@ -357,3 +357,10 @@ TF_ACC=1 IWINV_LIVE_TERRAFORM_NAS_WRITE=1 \
 Inject temporary HMAC credentials privately and keep all logs/journals/state outside this repository. This gate verifies only API NAS
 control-plane behavior, including import without share history and capacity replacement; it does not mount or migrate files.
 Use `IWINV_PROTOCOL_TEST=1` for synthetic `TestProtocolSharedStorage` coverage without live credentials or paid resources.
+
+## NAS catalog acceptance
+
+T070 is read-only: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccStorageProducts$' -v -count=1`.
+Set the private credential environment and `TF_ACC_TERRAFORM_PATH` as above. It checks complete catalog output, empty-ID/null-version
+rows, documented capacity bounds and a no-change plan. No paid resources or tenant API operations are created.
+The offline `TestProtocolStorageProducts` suite uses `IWINV_PROTOCOL_TEST=1` and synthetic responses.

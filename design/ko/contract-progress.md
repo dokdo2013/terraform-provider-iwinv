@@ -571,3 +571,19 @@ NFS·파일 접근·실제 권한 강제·tenant API·백업·다른 상품·과
 
 개발 지원은 Data Source 11개와 관리 리소스 7개입니다. NAS 상품 조회는 내부 어댑터입니다.
 [리소스 가이드](../../docs/ko/resources/shared_storage.md)와 [수명주기 설계](nas-lifecycle.md)를 참고하세요. Registry 릴리스는 아직 없습니다.
+
+## NAS 상품 Data Source (T070), 2026-09-19
+
+`iwinv_shared_storage_products`는 전체 상품을 ID·이름 순으로 정렬하며 준비 중인 상품의 빈 ID·null 버전·용량 0을 보존합니다.
+최소·최대 용량은 API 문서상 GB이며 제자리 resize 지원이나 독립적인 버전 선택을 뜻하지 않습니다.
+기본 상품을 자동 선택하거나 문서에 없는 필터를 만들지 않습니다.
+
+`TestAccStorageProducts`는 Terraform 1.14.2·Go race에서 무변경 plan을 포함해 3.13초로 통과했습니다.
+100–2000 GB의 available api_nas와 빈 ID·null 버전·용량 0인 생성 불가 행을 확인했으며 읽기 전용 실행입니다.
+합성 Core에서는 응답 순서 반전, null·빈 버전 구분, 이름 원문 보존, 빈 배열 수용과 API 오류·누락/null/잘못된 ID 타입·
+버전 누락/잘못된 타입·용량 누락/음수/소수/역전·식별자 중복·메타데이터 변경 거절을 검증합니다.
+상품 노출만으로 모든 상품·가격·파일·과금을 검증하지 않습니다.
+
+개발 지원은 Data Source 12개·관리 리소스 7개입니다. 문서화된 NAS control-plane 5개 작업 모두 등록된 구현으로 연결했습니다.
+별도 tenant/NFS 기능, 전체 T038·웹메일 정리 T056·Registry 릴리스는 미완료입니다.
+[상품 가이드](../../docs/ko/data-sources/shared_storage_products.md) · [NAS 수명주기](nas-lifecycle.md).

@@ -821,6 +821,23 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T070",
+      "phase": "P4",
+      "method": "mock/live-read",
+      "expected_en": "NAS product data source preserves empty IDs, null versions and integer GB bounds, rejects malformed full catalogs, sorts stably and passes live reads with no-change plans without auto-selecting a product",
+      "expected_ko": "NAS 상품 Data Source가 빈 ID·null 버전·정수 GB 범위를 보존하고 잘못된 전체 카탈로그를 거절하며 안정 정렬·실환경 조회·무변경 plan을 통과하고 상품을 자동 선택하지 않는다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/shared_storage_products_data_source.go",
+        "internal/provider/shared_storage_products_data_source_test.go",
+        "internal/services/hosted/nas_test.go",
+        "docs/data-sources/shared_storage_products.md",
+        "docs/ko/data-sources/shared_storage_products.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }
