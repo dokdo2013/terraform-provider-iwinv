@@ -108,7 +108,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T049 | P5 | mock/live | Send/cancel/timezone/byte limits and duplicate-delivery prevention are verified in scoped tests | not_run |
 | T050 | P5 | review | All remaining remote capabilities have tested support or explicit upstream blockers | not_run |
 | T051 | P6 | CI | All examples format and validate against the built provider without real credentials | passed |
-| T052 | P6 | CI/review | Korean/English pages cover identical behavior and stable contract/test IDs | not_run |
+| T052 | P6 | CI/review | Korean/English pages cover identical behavior and stable contract/test IDs | in_progress |
 | T053 | P6 | CI | Supported OS/architecture binaries, checksums, signatures and clean Registry install pass | in_progress |
 | T054 | P6 | CI/live | Previous-version state migration and dependency upgrades keep plans stable | not_run |
 | T055 | P6 | CI/review | Untrusted PR CI has no live credentials; release permissions and actions are constrained | not_run |

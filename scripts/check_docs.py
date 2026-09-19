@@ -33,6 +33,10 @@ english_provider_paths = {p.relative_to(provider_docs) for section in ("resource
                           for p in (provider_docs / section).glob("*.md")}
 korean_provider_paths = {p.relative_to(provider_ko) for section in ("resources", "data-sources", "guides")
                          for p in (provider_ko / section).glob("*.md")}
+for directory, paths in ((provider_docs, english_provider_paths), (provider_ko, korean_provider_paths)):
+    require((directory / "index.md").is_file(), f"Missing provider overview: {directory.relative_to(ROOT)}")
+    if (directory / "index.md").is_file():
+        paths.add(pathlib.Path("index.md"))
 require(english_provider_paths == korean_provider_paths, "Provider resource/data-source/guide translations differ")
 for relative in english_provider_paths & korean_provider_paths:
     en_text = (provider_docs / relative).read_text()
@@ -67,6 +71,16 @@ families = {e["family"] for e in inventory["entries"]}
 require(families == {"iaas", "common", "hosting", "cache", "dbms", "nas", "webmail"}, "Missing API family")
 
 ledger = json.loads((ROOT / "design/inventory/implementation.json").read_text())["capabilities"]
+for capability in ledger:
+    section = {"resource": "resources", "data_source": "data-sources"}.get(capability["kind"])
+    require(section is not None, "Unmapped documentation kind in capability ledger")
+    if section:
+        filename = capability["terraform_type"].removeprefix("iwinv_") + ".md"
+        for directory in (provider_docs, provider_ko):
+            file = directory / section / filename
+            require(file.is_file(), f"Registered capability lacks documentation: {file.relative_to(ROOT)}")
+            if file.is_file():
+                require(file.stat().st_size < 500_000, f"Provider page exceeds Registry size limit: {file.relative_to(ROOT)}")
 implemented = {}
 for capability in ledger:
     require(capability["ownership"] and capability["import"], "Missing lifecycle decision")

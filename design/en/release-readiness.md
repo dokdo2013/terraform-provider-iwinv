@@ -27,7 +27,7 @@ The package workflow has read-only repository permissions, pinned actions/tool v
 ## Remaining release gates
 
 - Resolve or explicitly scope outstanding capability contracts and the cleanup failure T056, including the work-created webmail service and unconsented MCP client registration. Never describe them as deleted without evidence.
-- Complete Registry-format overview and missing catalog pages in both languages, review schema/documentation parity (T052), and verify Registry rendering. Design pages alone are insufficient.
+- Overview and capability pages now exist in both languages. Finish the full behavior/schema documentation review (T052) and verify Registry rendering; page existence alone does not prove those gates.
 - Establish project-specific signing-key custody and recovery. Register its public key in the `dokdo2013` Registry namespace; verify current accepted key algorithms before creation. No key has been generated or uploaded by this rehearsal.
 - Add a restricted signing/publication workflow only after the release gates and credential storage are ready. The GoReleaser configuration describes checksum signing using `GPG_FINGERPRINT` and a draft release, but those steps have **not** been executed or verified.
 - Select an immutable semantic version, verify its release manifest/archives/checksums and detached binary GPG signature, then publish and verify a fresh Registry install. Never replace an existing published version. Check minimum Terraform requirements as well as plugin protocol metadata; protocol 6 alone does not encode the minimum CLI version.

@@ -104,7 +104,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T049 | P5 | mock/live | 발송/취소/시간대/바이트/중복 방지를 한정된 테스트에서 검증한다 | not_run |
 | T050 | P5 | review | 모든 잔여 원격 기능에 검증된 지원 또는 명시적인 공급사 제약이 있다 | not_run |
 | T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | passed |
-| T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | not_run |
+| T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | in_progress |
 | T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | in_progress |
 | T054 | P6 | CI/live | 이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다 | not_run |
 | T055 | P6 | CI/review | 외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다 | not_run |

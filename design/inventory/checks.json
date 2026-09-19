@@ -586,8 +586,16 @@
       "method": "CI/review",
       "expected_en": "Korean/English pages cover identical behavior and stable contract/test IDs",
       "expected_ko": "한영 문서가 동일한 동작과 계약/검증 ID를 다룬다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "docs/index.md",
+        "docs/ko/index.md",
+        "scripts/check_docs.py",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "scripts/check_intro_docs.py",
+        ".github/workflows/test.yml"
+      ]
     },
     {
       "id": "T053",

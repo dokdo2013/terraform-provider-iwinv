@@ -18,7 +18,9 @@
       "evidence": [
         "internal/provider/provider_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/availability_zones.md",
+        "docs/ko/data-sources/availability_zones.md"
       ]
     },
     {
@@ -40,7 +42,9 @@
         "internal/services/compute/catalogs_test.go",
         "internal/provider/catalog_data_source_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/images.md",
+        "docs/ko/data-sources/images.md"
       ]
     },
     {
@@ -62,7 +66,9 @@
         "internal/services/compute/catalogs_test.go",
         "internal/provider/catalog_data_source_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/image.md",
+        "docs/ko/data-sources/image.md"
       ]
     },
     {
@@ -84,7 +90,9 @@
         "internal/services/compute/catalogs_test.go",
         "internal/provider/catalog_data_source_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/instance_types.md",
+        "docs/ko/data-sources/instance_types.md"
       ]
     },
     {
@@ -106,7 +114,9 @@
         "internal/services/compute/catalogs_test.go",
         "internal/provider/catalog_data_source_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/instance_type.md",
+        "docs/ko/data-sources/instance_type.md"
       ]
     },
     {
@@ -128,7 +138,9 @@
         "internal/services/compute/ssh_keys_test.go",
         "internal/provider/ssh_key_data_source_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/ssh_keys.md",
+        "docs/ko/data-sources/ssh_keys.md"
       ]
     },
     {
@@ -150,7 +162,9 @@
         "internal/services/compute/ssh_keys_test.go",
         "internal/provider/ssh_key_data_source_test.go",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "docs/data-sources/ssh_key.md",
+        "docs/ko/data-sources/ssh_key.md"
       ]
     },
     {

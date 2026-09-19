@@ -19,6 +19,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 
 | 문서 | 내용 |
 | --- | --- |
+| [Provider 시작 가이드](docs/ko/index.md) | 개발 설치, 인증 설정, 기능 선택과 문제 해결 |
 | [사용자 경험 및 아키텍처](design/ko/architecture.md) | AWS 스타일 매핑, 스키마, 상태·인증·오류 설계 |
 | [호스팅 수명주기 설계](design/ko/webhosting-lifecycle.md) | 24시간 계정명 재사용 제한, 비밀번호·import·교체 정책; SHARE PHP 8.4 실환경 검증 |
 | [캐시 수명주기 설계](design/ko/cache-lifecycle.md) | 중첩 비밀번호·리퍼러 전체 교체·작업중 오류·정리 계약; Terraform import·교체·비밀번호 비저장 검증 |

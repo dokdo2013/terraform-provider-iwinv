@@ -19,6 +19,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 
 | Document | Contents |
 | --- | --- |
+| [Provider getting started](docs/index.md) | Development installation, credentials, feature selection and troubleshooting |
 | [User experience and architecture](design/en/architecture.md) | AWS mapping, schemas, state, authentication, errors |
 | [Hosting lifecycle design](design/en/webhosting-lifecycle.md) | Account reuse restriction, password/import/replacement policies; SHARE PHP 8.4 live-tested |
 | [Cache lifecycle decisions](design/en/cache-lifecycle.md) | Nested password input, referrer-set replacement, busy errors and cleanup; Terraform import/replacement/write-only verification |
