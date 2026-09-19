@@ -4090,8 +4090,8 @@
       "title": "웹 메일 상품 조회",
       "source": "https://iwinv-webmail.readme.io/reference/웹-메일-상품-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

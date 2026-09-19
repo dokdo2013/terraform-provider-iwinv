@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시·NAS 카탈로그·청구·보안 그룹·블록 스토리지 타입 Data Source 17개와
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시·NAS 카탈로그·청구·보안 그룹·블록 스토리지 타입·웹메일 상품 Data Source 18개와
 [NAS](../../docs/ko/resources/shared_storage.md)·[캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 7개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
@@ -388,3 +388,9 @@ T073: `TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/pr
 [`iwinv_block_storage_types`](../../docs/ko/data-sources/block_storage_types.md)로 전체 또는 정확한 타입을 조회합니다. null 존의 의미는 미확정이며 모든 존에서 사용 가능하다고 해석하지 않습니다. 타입이 보여도 계정에서 인스턴스·볼륨 생성이 가능하다는 뜻은 아닙니다.
 
 T074: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccBlockStorageTypes$' -v -count=1`은 조회만 수행하며 볼륨 생성이나 정리 journal을 요구하지 않습니다.
+
+## 웹메일 카탈로그 조회만 지원
+
+[`iwinv_webmail_products`](../../docs/ko/data-sources/webmail_products.md)는 빈 ID의 준비 중 상품을 포함해 전체 메타데이터를 읽습니다. 빈 ID가 먼저 정렬되므로 첫 번째 행을 생성 기본값으로 쓰지 마세요. 신뢰할 Read·정리 계약이 미해결이라 서비스/계정 관리 리소스는 미지원입니다.
+
+T075: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccWebmailProducts$' -v -count=1`은 카탈로그만 읽으며 웹메일 서비스나 계정을 생성·삭제하지 않습니다.

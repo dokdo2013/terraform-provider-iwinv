@@ -127,3 +127,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T072 | P4 | mock/live-read | 청구 Data Source가 정확한 금액·plan/state 민감 표시·결제정보 제외를 보존하고 표시 없는 출력·unknown/잘못된 필터를 거절하며 읽기 전용 실환경 조회와 안정 구간 무변경 plan을 통과한다 | passed |
 | T073 | P3 | mock/live | 보안 그룹 Data Source가 정확한 ID·null 설명·정렬된 전체 페이지를 보존하고 모호한 결과·오류를 거절하며 소유 테스트 그룹의 목록·상세·refresh·무변경 plan과 삭제 확인을 통과한다 | passed |
 | T074 | P3 | mock/live-read | 블록 스토리지 타입 Data Source가 nullable 존 목록·정확한 정수 GB 범위를 보존하고 필터·전체 응답을 검증하며 API 오류를 거절하고 실환경 전체/SSD/SATA 조회·무변경 plan을 통과한다 | passed |
+| T075 | P4 | mock/live-read | 웹메일 상품 카탈로그가 빈 ID와 서로 다른 준비 중 행을 보존하고 메타데이터를 정렬하며 잘못된/중복/오류 응답을 거절하고 서비스 수명주기 지원을 주장하지 않은 채 실환경 전체 조회·무변경 plan을 통과한다 | passed |

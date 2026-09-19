@@ -669,6 +669,32 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_webmail_products",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webmail/products"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "T075: full catalog of twelve SHARE products, including eight coming-soon empty IDs and four available distinct IDs, and live Terraform read/no-change plan. No service/mailbox lifecycle, units, pricing or cleanup guarantee.",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/hosted/webmail_catalog.go",
+        "internal/services/hosted/webmail_catalog_test.go",
+        "internal/provider/webmail_products_data_source.go",
+        "internal/provider/webmail_products_data_source_test.go",
+        "docs/data-sources/webmail_products.md",
+        "docs/ko/data-sources/webmail_products.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ],
   "internal_adapters": []

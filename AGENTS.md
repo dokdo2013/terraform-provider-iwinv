@@ -3,7 +3,7 @@
 This is an independent community project owned by `dokdo2013`.
 
 - Start with `README.md`, `design/ko/architecture.md`, and `design/ko/verification.md` (English equivalents live in `design/en/`).
-- This repository has a development provider, seventeen live-tested zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group/block-storage-type data sources, seven live-tested security-group/rule/webhosting/DBMS/cache/NAS resources, and contract tooling. Attachments and other managed resources remain unimplemented. No Registry release exists yet. Keep claims aligned with the implementation ledger and evidence.
+- This repository has a development provider, eighteen live-tested zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group/block-storage-type/webmail-catalog data sources, seven live-tested security-group/rule/webhosting/DBMS/cache/NAS resources, and contract tooling. Attachments and other managed resources remain unimplemented. No Registry release exists yet. Keep claims aligned with the implementation ledger and evidence.
 - Keep API facts, design proposals, and live observations distinct. Cite public primary sources and record unresolved API contracts.
 - Maintain Korean and English documentation together. Identifiers and executable configuration remain English.
 - Follow Terraform Plugin Framework conventions. Call supported service APIs directly; do not automate a browser or shell out to iwinv CLI from the provider.

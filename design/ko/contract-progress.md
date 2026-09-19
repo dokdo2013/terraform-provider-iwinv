@@ -640,3 +640,13 @@ T074 실환경 Terraform 1.14.2 + Go race가 **15.10초**에 통과했습니다.
 개발 지원은 Data Source 17개·리소스 7개입니다. Compute 생성 제한, 별도 웹메일 정리 실패 T056, 청구 상세 접근과 전체 릴리스 게이트는 계속 열어 둡니다.
 
 출처: [API 타입 조회](https://iwinv.readme.io/reference/getv1blockstoragestypes), [CLI](https://docs.iwinv.kr/developers/cli/commands/block-storages). 기존 CLI v0.2.2 대장의 types 하위 명령에도 `--type` 옵션이 있습니다.
+
+## T075: 웹메일 상품 카탈로그 (2026-09-19)
+
+읽기 전용 타입 어댑터와 `iwinv_webmail_products`를 등록했습니다. 인증된 실제 응답은 SHARE 상품 12개로, 서로 다른 비어 있지 않은 ID의 사용 가능 상품 4개와 빈 ID·서로 다른 이름의 준비 중 상품 8개였습니다. HTTP 200에 count·페이지 메타데이터는 없었습니다. 공식 endpoint 문서에는 응답 필드 스키마나 필터가 없으므로 이 상세 계약은 문서 보장이 아닌 실측으로 구분합니다.
+
+실환경 Terraform 1.14.2 + Go race의 조회·무변경 plan acceptance가 **5.09초**에 통과했습니다. 어댑터/Core 합성 테스트는 빈 ID의 모든 행, 다른 ID의 중복 표시 이름, 한글/HTML 모양 이름 원문, ID/유형/이름 정렬을 보존하고 누락/null/잘못된 필드·중복 ID/모호한 준비 중 행·메타데이터 변경·오류를 부분 결과 없이 거절합니다. 취소된 context는 요청하지 않으며 정상 빈 배열은 빈 목록입니다. enum이나 자동 상품 선택은 도입하지 않습니다.
+
+상품 ID·이름·상태·유형만 노출합니다. 가격·디스크·트래픽 단위는 별도 계약을 확보하기 전까지 제외합니다. 클라우드 리소스 생성·메일 발송·DNS 변경은 없었고 인증된 원응답과 테스트 산출물은 비공개입니다. 웹메일 서비스/계정 Read·삭제·import 문제를 해결한 것은 아닙니다. T040은 진행 중이고 별도로 남은 테스트 서비스 때문에 정리 T056은 실패 상태입니다. 개발 지원은 Data Source 18개·리소스 7개이며 나머지 API 기능과 Registry 게시도 미완료입니다.
+
+출처: [공식 웹메일 상품 조회](https://iwinv-webmail.readme.io/reference/웹-메일-상품-조회).

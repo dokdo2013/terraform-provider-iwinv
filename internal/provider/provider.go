@@ -27,6 +27,7 @@ type IwinvProvider struct {
 }
 
 type providerServices struct {
+	WebmailCatalogs *hosted.WebmailCatalogService
 	BlockStorage    *storage.Service
 	Compute         *compute.Service
 	HostingCatalogs *hosted.HostingCatalogService
@@ -89,7 +90,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		resp.Diagnostics.AddError("Invalid iwinv configuration", err.Error())
 		return
 	}
-	services := &providerServices{BlockStorage: &storage.Service{API: api}, Compute: &compute.Service{API: api}, HostingCatalogs: &hosted.HostingCatalogService{API: api}, DBMSCatalogs: &hosted.DBMSCatalogService{API: api}, CacheCatalogs: &hosted.CacheCatalogService{API: api}, NASCatalogs: &hosted.NASCatalogService{API: api}, Billing: &billing.Service{API: api}}
+	services := &providerServices{WebmailCatalogs: &hosted.WebmailCatalogService{API: api}, BlockStorage: &storage.Service{API: api}, Compute: &compute.Service{API: api}, HostingCatalogs: &hosted.HostingCatalogService{API: api}, DBMSCatalogs: &hosted.DBMSCatalogService{API: api}, CacheCatalogs: &hosted.CacheCatalogService{API: api}, NASCatalogs: &hosted.NASCatalogService{API: api}, Billing: &billing.Service{API: api}}
 	resp.DataSourceData = services
 	if writes, ok := api.(network.API); ok {
 		services.Network = &network.Service{API: writes}
@@ -110,7 +111,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{NewBlockStorageTypesDataSource, NewSecurityGroupsDataSource, NewSecurityGroupDataSource, NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource, NewDBInstanceProductsDataSource, NewContentCacheProductsDataSource, NewSharedStorageProductsDataSource, NewCurrentBillDataSource, NewBillsDataSource}
+	return []func() datasource.DataSource{NewWebmailProductsDataSource, NewBlockStorageTypesDataSource, NewSecurityGroupsDataSource, NewSecurityGroupDataSource, NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource, NewDBInstanceProductsDataSource, NewContentCacheProductsDataSource, NewSharedStorageProductsDataSource, NewCurrentBillDataSource, NewBillsDataSource}
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {

@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements seventeen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group/block-storage-type data sources
+There is no Registry release. The local binary implements eighteen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group/block-storage-type/webmail-catalog data sources
 and seven [NAS](../../docs/resources/shared_storage.md), [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -390,3 +390,9 @@ T073: `TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/pr
 Use [`iwinv_block_storage_types`](../../docs/data-sources/block_storage_types.md) for full or exact-type catalog reads. Null zones remain unknown in meaning, rather than granting availability in every zone. A visible disk type is not proof that the account can create an instance or volume.
 
 T074: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccBlockStorageTypes$' -v -count=1` performs reads only; it does not provision a volume or require a cleanup journal.
+
+## Webmail catalog only
+
+[`iwinv_webmail_products`](../../docs/data-sources/webmail_products.md) reads all product metadata, including coming-soon rows with empty IDs. Empty IDs sort first and must not be selected as creation defaults. Service/mailbox resources remain unsupported because reliable Read and cleanup contracts are unresolved.
+
+T075: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccWebmailProducts$' -v -count=1` performs catalog reads only and does not create or delete a webmail service or account.

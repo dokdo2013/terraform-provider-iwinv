@@ -643,3 +643,13 @@ Adapter unit and Core tests cover exact int64 values above 2^53, null versus emp
 Development support is seventeen data sources and seven resources. The compute creation restriction, separate webmail cleanup failure T056, billing detail access and broader release gates remain open.
 
 Sources: [API types](https://iwinv.readme.io/reference/getv1blockstoragestypes) and [CLI](https://docs.iwinv.kr/developers/cli/commands/block-storages); the inventoried CLI v0.2.2 types subcommand exposes `--type`.
+
+## T075: webmail product catalog (2026-09-19)
+
+Registered `iwinv_webmail_products` using a read-only typed catalog adapter. The authenticated endpoint returned twelve SHARE rows: four available products with distinct nonempty IDs and eight coming-soon products with empty IDs and distinct names. HTTP 200 had no count or pagination metadata. The official endpoint documentation provides no response field schema or filters; these details are live observations, not invented documented guarantees.
+
+Live Terraform 1.14.2 + Go race read and no-change-plan acceptance passed in **5.09s**. Synthetic adapter/Core tests preserve all empty-ID rows, duplicate display names across distinct IDs, literal Korean/HTML-like names and stable ID/type/name ordering; they reject missing/null/malformed fields, duplicate IDs/ambiguous placeholders, metadata changes and errors without partial results. Context cancellation avoids a request. Successful empty arrays remain empty lists. No enum or implicit product selection is introduced.
+
+Only product ID/name/status/type are exposed. Pricing, disk and traffic units remain outside this schema pending independent contracts. No cloud resources were created, mail sent or DNS changed; raw account-authenticated responses and test artifacts remain private. This does not solve webmail service/mailbox Read, deletion or import: T040 remains in progress and the separate stuck test service keeps cleanup T056 failed. Development support is now eighteen data sources and seven resources; remaining API features and Registry publication are still open.
+
+Source: [official webmail products](https://iwinv-webmail.readme.io/reference/웹-메일-상품-조회).
