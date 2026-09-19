@@ -2,9 +2,8 @@
 
 [한국어](../ko/nas-lifecycle.md) · [Architecture](architecture.md) · 2026-09-19
 
-The internal typed adapter covers the five NAS control-plane operations: products, complete service list, create,
-whole permission-map replacement and delete. It is **not a registered Terraform NAS resource or data source**.
-The proposed resource is `iwinv_shared_storage`; Core state/import/replacement acceptance must precede registration.
+The typed adapter covers five NAS control-plane operations: products, complete service list, create, whole permission-map replacement and delete.
+`iwinv_shared_storage` is registered after T069 Core acceptance. Product lookup remains an internal adapter without a Terraform data source.
 
 ## Evidence and identity
 
@@ -23,15 +22,15 @@ A fresh `api_nas` probe reached active after a pending observation; active was f
 It matched the requested 100 GB, literal Korean description and initial RO map, accepted a replacement containing RW/RO, and was
 acknowledged deleted and absent. This is an observation, not a fixed readiness delay or latency guarantee.
 
-## Capacity, creation and import proposal
+## Capacity, creation and import
 
 The official create API documents 100–2000 GB and an alphanumeric share name of 6–20 characters. The adapter sends integer `hdd`
 and exact `sharename`. Catalog rows include an available `api_nas` with disk bounds and coming-soon entries with empty IDs, zero bounds
 and null versions. Preserve these rows; empty IDs cannot create. Retain documented disk units, but exclude pricing until verified.
-Product visibility does not imply provisioning eligibility; only the available minimum-capacity product has live lifecycle evidence.
+Product visibility does not imply provisioning eligibility; the available api_nas product has live lifecycle evidence at 100 and 200 GB.
 No resize, rename or description-update endpoint is documented in this control-plane surface.
 
-`sharename` is **absent from Read**. Do not parse the domain or mount string to invent creation history. A proposed optional `share_name`
+`sharename` is **absent from Read**. Do not parse the domain or mount string to invent creation history. The optional `share_name`
 input is required on create and retained only for objects created by Terraform; import omits it. Adding/changing/removing that history,
 product, name, description or capacity must explicitly replace the service. Import by exact service ID should restore every readable
 setting and obtain a no-change plan without a share name. A new share name is the conservative replacement policy; reuse restrictions
@@ -39,14 +38,14 @@ for NAS remain unverified, and the hosting/cache 24-hour restriction is not gene
 
 Deletion destroys the storage and is documented as irreversible. Replacement is not an in-place resize or data migration.
 Use `prevent_destroy`, backups and an explicit migration plan for real data. `create_before_destroy` may establish a new share first
-but does not copy files or reconfigure clients. Explicit taint/`-replace` and failed-create recovery need separate Core acceptance.
+but does not copy files or reconfigure clients. Synthetic acceptance checks failed-create recovery and explicit taint/`-replace` plans; it does not verify same-name recreation.
 
 ## Permission-map ownership and waiters
 
 One parent resource should own the **complete** nonempty map of canonical IPv4 hosts to exact `RO` or `RW`.
 Updates replace the map, remove omitted hosts and change permissions for retained hosts. Do not split membership into independent
 resources or allow multiple Terraform states to manage the same map. Empty PUTs were rejected with 422 in the earlier probe;
-IPv6/CIDR and alternate permission values remain unsupported. A proposed resource must reject these inputs before writes.
+IPv6/CIDR and alternate permission values remain unsupported. The resource rejects these inputs before writes.
 API read-back proves configuration, not NFS permission enforcement.
 
 Creation must retain the ID while waiting for active status and matching readable settings. Pending/waiting are bounded by context;
@@ -57,7 +56,7 @@ classification must not be applied to NAS. A timeout, transport failure or gener
 
 ## Remaining acceptance
 
-Terraform schema/unknown values, import, no-change plan, drift, replacement, partial-create recovery and timeout behavior are pending.
+T069 covers Terraform schema/unknown values, import, no-change plans, drift and replacement. Failure and timeout paths have synthetic acceptance; live tests exercise successful outcomes.
 NFS mounts, file access, tenant API authentication/operations, backups, snapshots, migration, other products and billing termination
 remain outside the control-plane evidence. Overall T038 and the independent unresolved webmail cleanup T056 remain incomplete.
 
@@ -74,4 +73,13 @@ host was removed. The peer remained unchanged. Both services were acknowledged d
 probe this stage cleaned three new identities. The API NAS console independently showed an empty unfiltered list afterward.
 Synthetic checks preserve IDs after bad receipts, reject malformed/partial lists and wrong permission acknowledgements, and prohibit
 invalid inputs or automatic write replay. Catalog bounds/version/nullability are verified separately from provisioning eligibility.
-This is adapter acceptance only; Terraform registration and the remaining gates above are still pending.
+This stage was adapter-only acceptance; subsequent Terraform acceptance is recorded below.
+
+## Terraform acceptance (T069)
+
+The resource passed live Core acceptance in 82.29 seconds: two 100 GB services, permission update/drift, full import,
+persisted import/no-op and update without share history, fresh-share replacement at 200 GB, external deletion/recreation,
+and four acknowledged deletions with exact-ID absence. The independently refreshed console was empty.
+Synthetic tests cover unknown values, invalid inputs, failures/timeouts, delayed visibility and ID retention, and exact-parent checks
+before PUT. No writes are replayed. Taint/`-replace` are plan-only tests; no same-share reuse guarantee is made.
+See the [user guide](../../docs/resources/shared_storage.md) and [detailed evidence](contract-progress.md).

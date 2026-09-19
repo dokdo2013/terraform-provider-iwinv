@@ -3,7 +3,7 @@
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
 There is no Registry release. The local binary implements eleven zone/image/instance-type/SSH-key/hosting/DBMS/cache-catalog data sources
-and six [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
+and seven [NAS](../../docs/resources/shared_storage.md), [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
 
@@ -340,4 +340,20 @@ IWINV_LIVE_NAS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directo
 Use the private credential/log workflow above. Every intended create/update/delete is journaled, baseline IDs cannot be mutated, and
 an independent cleanup deadline requires acknowledged deletion plus exact-ID absence. Uncertain writes are not repeated. The test
 does not mount storage, access files, authenticate to tenant APIs or verify billing. See [NAS decisions](nas-lifecycle.md).
-NAS remains an internal adapter; CI enables neither paid gate nor live credentials.
+The catalog remains an internal adapter; the NAS resource has separate Core acceptance below. CI enables neither paid gates nor live credentials.
+
+## NAS Terraform acceptance
+
+T069 requires a separate paid gate. It creates four fresh identities through a 100 GB lifecycle and a 200 GB replacement,
+restricts writes to a private ownership journal, and requires acknowledged deletion plus exact-ID absence for all fixtures.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_NAS_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccSharedStorage$' -v -count=1 -timeout 15m
+```
+
+Inject temporary HMAC credentials privately and keep all logs/journals/state outside this repository. This gate verifies only API NAS
+control-plane behavior, including import without share history and capacity replacement; it does not mount or migrate files.
+Use `IWINV_PROTOCOL_TEST=1` for synthetic `TestProtocolSharedStorage` coverage without live credentials or paid resources.

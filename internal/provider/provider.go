@@ -33,6 +33,7 @@ type providerServices struct {
 	DBMSCatalogs    *hosted.DBMSCatalogService
 	Cache           *hosted.CacheService
 	CacheCatalogs   *hosted.CacheCatalogService
+	NAS             *hosted.NASService
 }
 
 type providerModel struct {
@@ -53,7 +54,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting/DBMS/cache-catalog data sources plus security-group attributes, independent ingress/egress rules, webhosting accounts, cloud DBMS and content-cache services. Instance attachments are not implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting/DBMS/cache-catalog data sources plus security-group attributes, independent ingress/egress rules, webhosting accounts, cloud DBMS, content-cache and shared-storage services. Instance attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -97,6 +98,9 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 	if cache, ok := api.(hosted.CacheAPI); ok {
 		services.Cache = &hosted.CacheService{API: cache}
 	}
+	if nas, ok := api.(hosted.NASAPI); ok {
+		services.NAS = &hosted.NASService{API: nas}
+	}
 	resp.ResourceData = services
 }
 
@@ -105,5 +109,5 @@ func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataS
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource, NewDBInstanceResource, NewContentCacheResource}
+	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource, NewDBInstanceResource, NewContentCacheResource, NewSharedStorageResource}
 }

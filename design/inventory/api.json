@@ -3631,8 +3631,8 @@
       "title": "공유 스토리지 생성",
       "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-생성",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "POST",
@@ -3702,8 +3702,8 @@
       "title": "공유 스토리지 삭제",
       "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-삭제",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "DELETE",
@@ -3738,8 +3738,8 @@
       "title": "접근 허용 IP 추가",
       "source": "https://iwinv-api-nas.readme.io/reference/접근-허용-ip-추가",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "PUT",
@@ -3791,8 +3791,8 @@
       "title": "공유 스토리지 서비스 조회",
       "source": "https://iwinv-api-nas.readme.io/reference/공유-스토리지-서비스-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

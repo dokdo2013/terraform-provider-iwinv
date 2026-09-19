@@ -555,3 +555,22 @@ an ip/acl object array, distinct from create/Read's IP-to-mode map. Synthetic te
 completeness, permissions/duplicate acknowledgements, errors, no write retry and excluded credentials/creation history.
 See [NAS lifecycle decisions](nas-lifecycle.md). NAS Terraform registration/import/replacement, NFS/files, tenant APIs, billing, overall T038
 and the separate webmail cleanup failure T056 remain incomplete. Existing infrastructure was untouched.
+
+## NAS Terraform Core acceptance (T069), 2026-09-19
+
+`TestAccSharedStorage` passed in 82.29 seconds using Terraform 1.14.2 and Go race. Two fresh api_nas services coexisted at 100 GB.
+The test verified full RO/RW map replacement with stable identity, external permission drift restoration, full readable-attribute import,
+persisted import/no-change plan without `share_name`, and permission updates after that import. A fresh-share create-before-destroy
+replacement changed capacity to 200 GB and preserved a literal Korean description; the next plan had no changes. External deletion
+followed by a fresh-share recreation also passed. All four created IDs received deletion acknowledgements and validated exact-ID absence.
+The independently refreshed API NAS console at /na showed an empty list with a blank search field. No pre-existing services were mutated.
+
+Synthetic Core tests cover map ordering, unknown permission/capacity values, invalid input rejection, exact IDs above 2^53,
+failed-create ID retention and cleanup, never-verified missing identities, concurrent-parent guards, read/update/delete failures,
+wait timeouts and no write replay. Explicit taint/`-replace` paths are plan-only tests; same-share recreation is not claimed.
+Capacity changes are destructive replacement, not resize or migration. Only permissions update in place. Import intentionally omits
+unreadable share-name history; mount information remains opaque. NFS/file access, actual permission enforcement, tenant API, backups,
+other products and billing termination remain unverified. Overall T038 and independent webmail cleanup T056 stay incomplete.
+
+Registration is eleven data sources and seven managed resources. NAS product lookup remains an internal adapter. See the
+[resource guide](../../docs/resources/shared_storage.md) and [lifecycle decisions](nas-lifecycle.md). No Registry release exists.

@@ -3,7 +3,7 @@
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
 Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시 카탈로그 Data Source 11개와
-[캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 6개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
+[NAS](../../docs/ko/resources/shared_storage.md)·[캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 7개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
 
@@ -338,4 +338,20 @@ IWINV_LIVE_NAS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directo
 
 위 비공개 인증·로그 절차를 사용하세요. 생성·수정·삭제 의도를 기록하고 기존 ID 쓰기를 차단하며 독립된 정리 기한으로
 삭제 접수와 정확한 ID 부재를 요구합니다. 결과가 불확실한 쓰기는 반복하지 않습니다. mount·파일 접근·tenant API 인증·과금은
-검증하지 않습니다. [NAS 설계](nas-lifecycle.md)를 참고하세요. NAS는 내부 어댑터이며 CI에 유료 gate나 실키를 설정하지 않습니다.
+검증하지 않습니다. [NAS 설계](nas-lifecycle.md)를 참고하세요. 상품 조회는 내부 어댑터이며 NAS 리소스는 아래 별도 Core acceptance를 통과했습니다. CI에 유료 gate나 실키를 설정하지 않습니다.
+
+## NAS Terraform acceptance
+
+T069는 별도 유료 gate가 필요합니다. 100 GB 수명주기와 200 GB 교체에서 새 ID 총 4개를 만들고,
+비공개 소유 대장으로 쓰기를 제한하며 모든 테스트 리소스의 삭제 접수와 정확한 ID 부재를 요구합니다.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_NAS_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccSharedStorage$' -v -count=1 -timeout 15m
+```
+
+임시 HMAC 키는 비공개로 주입하고 모든 로그·대장·state를 저장소 밖에 보관하세요.
+이 gate는 공유 이름 이력 없는 import와 용량 교체를 포함한 API NAS control-plane만 검증하며 파일을 마운트하거나 이전하지 않습니다.
+실키·유료 리소스 없는 합성 `TestProtocolSharedStorage` 검사는 `IWINV_PROTOCOL_TEST=1`을 사용합니다.

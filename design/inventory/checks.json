@@ -803,6 +803,24 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T069",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "NAS Core lifecycle verifies whole permission-map updates/drift, import/no-op and update without share history, capacity replacement with a fresh share, failure identity retention and acknowledged exact-ID cleanup",
+      "expected_ko": "NAS Core의 전체 권한 맵 수정·drift, 공유 이름 이력 없는 import·무변경 plan·수정, 새 공유로 용량 교체, 실패 시 ID 보존과 삭제 접수·정확한 ID 정리를 검증한다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/shared_storage_resource_test.go",
+        "internal/provider/shared_storage_live_test.go",
+        "docs/resources/shared_storage.md",
+        "docs/ko/resources/shared_storage.md",
+        "design/en/nas-lifecycle.md",
+        "design/ko/nas-lifecycle.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

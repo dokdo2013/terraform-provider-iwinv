@@ -552,3 +552,22 @@ active 대기, 설명 원문/생략, 호스트 2개의 전체 권한 맵 교체,
 잘못된 입력, 전체 목록, 권한·중복 응답, 오류, 쓰기 비재시도, 인증정보·생성 이력 제외를 검증합니다.
 [NAS 수명주기 설계](nas-lifecycle.md)를 참고하세요. NAS Terraform 등록·import·교체, NFS/파일, tenant API, 과금,
 전체 T038과 별도 웹메일 정리 실패 T056은 미완료입니다. 기존 인프라는 변경하지 않았습니다.
+
+## NAS Terraform Core acceptance (T069), 2026-09-19
+
+`TestAccSharedStorage`가 Terraform 1.14.2·Go race에서 82.29초로 통과했습니다. 새 api_nas 두 개가 100 GB로 공존했고,
+ID를 유지하는 전체 RO/RW 맵 교체, 외부 권한 drift 복구, 모든 조회 속성의 import, `share_name` 없는 영속 import·무변경 plan,
+그 import 이후 권한 수정을 검증했습니다. 새 공유 이름의 create-before-destroy 교체로 200 GB를 생성하고 한글 설명 원문을
+보존했으며 후속 plan도 무변경이었습니다. 외부 삭제 후 새 공유 이름으로 재생성도 통과했습니다.
+생성한 4개 ID 모두 삭제 접수·검증된 정확한 ID 부재를 확인했습니다. 별도로 새로고침한 /na API NAS 콘솔은 검색어가 비어 있고
+목록도 비어 있었습니다. 기존 서비스는 변경하지 않았습니다.
+
+합성 Core 검사는 맵 순서, unknown 권한·용량, 잘못된 입력 거절, 2^53보다 큰 정확한 ID, 생성 실패 ID 보존·정리,
+검증 전 ID 부재, 쓰기 전 동시 변경 감지, 조회·수정·삭제 실패, 대기 timeout과 쓰기 자동 반복 금지를 다룹니다.
+명시적인 taint/`-replace`는 plan만 검증했으며 같은 공유 이름 재생성을 보장하지 않습니다.
+용량 변경은 데이터 삭제를 수반하는 교체이며 resize·이전이 아닙니다. 권한만 제자리 수정합니다.
+import에서 읽을 수 없는 공유 이름 이력은 생략하고 mount 정보는 관측 문자열로 보존합니다.
+NFS·파일 접근·실제 권한 강제·tenant API·백업·다른 상품·과금 종료는 미검증이며 전체 T038과 별도 웹메일 정리 T056은 미완료입니다.
+
+개발 지원은 Data Source 11개와 관리 리소스 7개입니다. NAS 상품 조회는 내부 어댑터입니다.
+[리소스 가이드](../../docs/ko/resources/shared_storage.md)와 [수명주기 설계](nas-lifecycle.md)를 참고하세요. Registry 릴리스는 아직 없습니다.

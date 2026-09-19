@@ -4,7 +4,7 @@
 
 AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
 
-**현재 상태: Data Source 11개와 보안 그룹·ingress·egress·웹호스팅·DBMS·캐시 리소스 6개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
+**현재 상태: Data Source 11개와 보안 그룹·ingress·egress·웹호스팅·DBMS·캐시·NAS 리소스 7개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
 실행 가능한 범위는 [개발용 실행 안내](design/ko/development.md)와 [보안 그룹 가이드](docs/ko/resources/security_group.md)를 참고하세요. 인스턴스·연결 등 나머지 설계 예제는 아직 적용할 수 없습니다.
 스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
 
@@ -22,7 +22,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 | [사용자 경험 및 아키텍처](design/ko/architecture.md) | AWS 스타일 매핑, 스키마, 상태·인증·오류 설계 |
 | [호스팅 수명주기 설계](design/ko/webhosting-lifecycle.md) | 24시간 계정명 재사용 제한, 비밀번호·import·교체 정책; SHARE PHP 8.4 실환경 검증 |
 | [캐시 수명주기 설계](design/ko/cache-lifecycle.md) | 중첩 비밀번호·리퍼러 전체 교체·작업중 오류·정리 계약; Terraform import·교체·비밀번호 비저장 검증 |
-| [NAS 수명주기 설계](design/ko/nas-lifecycle.md) | IP별 RO/RW 전체 맵, 준비 상태·공유 이름 이력·정리; 내부 어댑터 단계 |
+| [NAS 수명주기 설계](design/ko/nas-lifecycle.md) | IP별 RO/RW 전체 맵, 공유 이름 이력 없는 import, 용량 교체·정리 |
 | [DBMS 수명주기 설계](design/ko/dbms-lifecycle.md) | 전체 허용 IP 집합, 생성 계정 이력·상품 모호성·import·복구 |
 | [API 계약 및 제약](design/ko/api-contract.md) | 확인된 사실, 문서 불일치, 실제 검증이 필요한 사항 |
 | [전체 기능 범위](design/ko/coverage.md) | API·CLI·서비스별 Resource/Data/Action/Ephemeral 분류 |
@@ -47,7 +47,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 - [x] DBMS 허용 IP 전체 교체·import·drift·새 계정 교체·정리 검증 (STD Redis)
 - [x] 캐시 리퍼러 수정·새 계정 초기화 교체·import·비밀번호 비저장·정리 검증 (`cache_lite`)
 - [x] 캐시 상품 전체/SHARE/SINGLE 조회와 null ID 보존·무변경 plan 검증
-- [x] NAS 내부 어댑터의 active 대기·권한 맵 교체·다른 서비스 보존·정리 검증
+- [x] [NAS 리소스](docs/ko/resources/shared_storage.md)의 active 대기·권한 수정·import·용량 교체·정리 검증
 - [ ] 나머지 관리 리소스 구현
 - [ ] 리소스별 acceptance test 및 서명 릴리스
 - [ ] Terraform Registry 게시

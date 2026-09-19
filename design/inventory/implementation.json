@@ -474,18 +474,12 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "shared_storage",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "terraform_type": "iwinv_shared_storage",
+      "kind": "resource",
+      "status": "development",
       "operations": [
-        {
-          "method": "GET",
-          "path": "/v1/apinas/products"
-        },
         {
           "method": "GET",
           "path": "/v1/apinas"
@@ -505,9 +499,37 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "Available api_nas at its 100 GB catalog minimum: two coexisting services reach active, literal/omitted descriptions, full RO/RW permission-map replacement and retained-host permission change, peer preservation and two acknowledged deletions with exact-ID absence. One preceding readiness probe also deleted; independent API NAS console empty. No Terraform, NFS mount, file access, tenant API, resize, other product or billing claim.",
-      "ownership": "Only newly created exact IDs; one parent owns its complete permission map",
-      "import": "Proposed exact service-ID import restores readable fields but cannot recover initial sharename; no reconstruction from domain/mount_info",
+      "live_scope": "api_nas Terraform Core: two coexisting 100 GB services, full RO/RW map update and drift restoration, full readable import and persisted import/no-op without share history, permission update after import, fresh-share create-before-destroy at 200 GB, external deletion/recreation and four acknowledged deletes with exact-ID absence; independent console empty. No file access, in-place resize, data migration, tenant API or billing claim.",
+      "ownership": "One exact NAS service and its entire nonempty IPv4 permission map; files/mounts/tenant credentials/DNS/other services excluded",
+      "import": "Exact positive decimal service_idx; omit unreadable share_name history, match all readable settings. Only permissions update in place; capacity and other creation settings replace with a fresh known share name.",
+      "evidence": [
+        "internal/provider/shared_storage_resource_test.go",
+        "internal/provider/shared_storage_live_test.go",
+        "docs/resources/shared_storage.md",
+        "docs/ko/resources/shared_storage.md",
+        "design/en/nas-lifecycle.md",
+        "design/ko/nas-lifecycle.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    }
+  ],
+  "internal_adapters": [
+    {
+      "name": "shared_storage_products",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/apinas/products"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Read-only NAS catalog preserves coming-soon empty IDs, null versions and integer disk bounds; available api_nas observed with 100–2000 GB bounds. No registered catalog data source yet.",
+      "ownership": "Read-only product catalog",
+      "import": "not_applicable",
       "evidence": [
         "internal/services/hosted/nas.go",
         "internal/services/hosted/nas_test.go",
