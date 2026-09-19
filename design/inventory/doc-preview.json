@@ -5,7 +5,7 @@
   "pages": [
     {
       "path": "docs/index.md",
-      "sha256": "aadeb9ce7722768d3853c16797e9888bf209fe8a3576c6547a63404313b6772d",
+      "sha256": "14e5350b89caceb424752d66ce92206ac33d0492c5915e97c4a7d59c74f724c0",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 2,
@@ -239,7 +239,7 @@
     },
     {
       "path": "docs/ko/index.md",
-      "sha256": "6ba77e4da136a2df772b1094150e36a01dfca7ee637303170b3e8a94695e3bab",
+      "sha256": "31c9403092d4790a4cf4af9c67ac27c67aece53c066c8ca8e73a833993600786",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 2,

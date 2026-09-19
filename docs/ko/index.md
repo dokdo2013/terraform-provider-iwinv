@@ -44,7 +44,7 @@ output "zone_ids" {
 | `access_key` | optional, sensitive string | 명시한 값이 `IWINV_ACCESS_KEY`보다 우선합니다. 생략/null이면 환경변수를 사용합니다. |
 | `secret_key` | optional, sensitive string | 명시한 값이 `IWINV_SECRET_KEY`보다 우선합니다. 생략/null이면 환경변수를 사용합니다. |
 
-Provider 구성 시 두 값이 모두 알려져 있고 공백 외 문자가 있어야 하며 줄바꿈을 포함하면 안 됩니다. 입력을 그대로 사용하므로 앞뒤 공백을 자동으로 제거하지 않습니다. 명시적인 빈 값이나 unknown은 오류이며 다른 계정의 환경변수로 전환하지 않습니다. 두 인자를 각각 해석하므로 다른 계정의 alias를 사용할 때는 의도한 같은 계정의 키 **두 개 모두** 지정하세요. Terraform 표준 `alias`, `provider = iwinv.alias_name`으로 설정을 선택할 수 있습니다. `region`, endpoint override, `profile`, `default_tags` 설정은 구현하지 않았습니다.
+Provider 구성 시 두 값이 모두 알려져 있고 공백 외 문자가 있어야 하며 줄바꿈을 포함하면 안 됩니다. Provider는 앞뒤 공백을 자체적으로 제거하지 않고 입력값을 클라이언트에 전달합니다. 명시적인 빈 값이나 unknown은 오류이며 다른 계정의 환경변수로 전환하지 않습니다. 두 인자를 각각 해석하므로 다른 계정의 alias를 사용할 때는 의도한 같은 계정의 키 **두 개 모두** 지정하세요. Terraform 표준 `alias`, `provider = iwinv.alias_name`으로 설정을 선택할 수 있습니다. `region`, endpoint override, `profile`, `default_tags` 설정은 구현하지 않았습니다.
 
 `Sensitive`는 일반 CLI 표시를 가리는 기능이며 암호화가 아닙니다. 임의의 Terraform 변수·출력·저장 plan을 공개해도 안전하다는 뜻도 아닙니다. 키는 환경변수 주입을 권장합니다. 리소스 비밀번호와 청구 state의 민감정보 정책은 해당 문서를 확인하세요.
 
