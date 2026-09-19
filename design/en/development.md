@@ -3,7 +3,7 @@
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
 There is no Registry release. The local binary implements nine zone/image/instance-type/SSH-key/hosting-catalog data sources
-and four [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
+and five [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
 
@@ -272,3 +272,24 @@ The [catalog example](../../examples/data-sources/iwinv_webhosting_catalogs/main
 `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccHostingCatalogs$' -count=1`
 performs authenticated reads and a no-change plan, without creating services. Use the private environment/log controls above.
 Do not confuse catalog visibility with readiness or successful creation.
+
+## Cloud DBMS lifecycle
+
+See the [DBMS resource guide](../../docs/resources/db_instance.md) and [design decisions](dbms-lifecycle.md).
+Synthetic Core tests use `IWINV_PROTOCOL_TEST=1 go test ./internal/provider -run TestProtocolDBInstance` without cloud credentials.
+The adapter and Terraform live tests are separate opt-in runs:
+
+```sh
+IWINV_LIVE_DBMS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test -race ./internal/client -run '^TestAccDBMSControlPlaneWrites$' -v -count=1 -timeout 12m
+
+TF_ACC=1 IWINV_LIVE_TERRAFORM_DBMS_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccDBInstance$' -v -count=1 -timeout 15m
+```
+
+These create two and four new STD Redis service identities respectively, and may incur costs. Use an authorized account and the private
+credential/log controls above. Every write intent and returned creation identity is journaled; existing IDs are excluded from mutation.
+Each deletion requires an acknowledgement and exact-ID absence. Fallback cleanup never blindly repeats an uncertain deletion.
+No SQL/Redis client query, data write, DNS change or billing termination verification is performed. CI never enables paid tests.

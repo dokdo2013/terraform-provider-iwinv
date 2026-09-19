@@ -691,6 +691,34 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T062",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "DBMS adapter preserves catalog ambiguity and exact IDs, verifies two-service create/read/allowlist replacement, peer preservation and acknowledged exact-ID cleanup",
+      "expected_ko": "DBMS 어댑터가 상품 모호성과 정확한 ID를 보존하고 두 서비스 생성/조회/허용 목록 교체, 다른 서비스 보존과 삭제 응답/정확한 ID 정리를 검증한다",
+      "status": "passed",
+      "evidence": [
+        "internal/services/hosted/dbms_test.go",
+        "internal/client/dbms_live_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    },
+    {
+      "id": "T063",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "STD Redis Core lifecycle passes authoritative allowlist update/drift, import/no-op without account history, fresh-account replacement, failure identity retention and exact-ID cleanup",
+      "expected_ko": "STD Redis Core 수명주기의 허용 목록 수정/drift, 계정 이력 없는 import/무변경 plan, 새 계정 교체, 실패 시 ID 보존과 정확한 ID 정리를 검증한다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/db_instance_resource_test.go",
+        "internal/provider/db_instance_live_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

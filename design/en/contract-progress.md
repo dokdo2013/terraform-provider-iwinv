@@ -457,3 +457,28 @@ Synthetic Core tests passed IDs above 2^53, query preservation, literal display 
 empty arrays and rejection of invalid inputs before requests. Duplicate/malformed arrays, changed pagination metadata and API errors
 fail both data sources rather than publish partial results. T061 passes for these catalog contracts; creation availability and
 other product/version lifecycle coverage are separate. Evidence: `internal/provider/webhosting_catalog_data_source_test.go`.
+
+## DBMS adapter and Terraform lifecycle (T062/T063, 2026-09-19)
+
+Fresh catalog validation stopped the first adapter run before any create: the complete 113-row catalog contains four `available` rows
+with empty-string product IDs. C30 records this alongside product IDs shared by versions. The adapter preserves empty-ID rows for
+review, rejects null/missing IDs and blocks creation with an empty ID. It does not invent a version selector or silently deduplicate.
+The corrected adapter run selected one available STD Redis product with an unambiguous nonempty ID and passed in 75.17 seconds.
+Two new services reached active; omitted descriptions read as empty strings and literal descriptions round-tripped without HTML decoding.
+A two-IP JSON update wholly replaced the first service's allowlist while preserving the peer. Both exact IDs were acknowledged deleted and absent.
+
+Terraform 1.14.2 / Go 1.26.1 race-enabled acceptance passed in 180.69 seconds. Two resources coexisted and four total service identities
+were created across fresh-account replacement and external-deletion recovery. In-place authoritative-set updates retained the ID;
+external allowlist drift was restored. Full readable-attribute import, persisted re-import without initial account history and no-change
+plans passed. Fresh-account create-before-destroy preserved the peer, and final deletion/absence was verified for all four identities.
+Together the adapter and Terraform runs created six DBMS services and cleaned up all six. No pre-existing DBMS, database contents,
+network attachment, DNS or message recipient was modified. Intents, receipts, identifiers, Terraform state and logs remain private.
+
+Synthetic tests cover exact IDs above 2^53, separate create/list domain shapes, malformed/partial lists, failed-create ID recovery through
+Core cleanup, unknown values, invalid/empty/CIDR/IPv6 allowlists, order-insensitive sets, update/delete failures and wait expiry retaining
+state, hidden creation identity, conservative replacement guards and explicit replacement plans. Explicit same-account replacement is
+planned only, not applied. The account name is creation history absent from Read; it is not inferred from the domain on import.
+
+T062/T063 pass within the documented STD Redis control-plane scope. T037/T038/T039 remain partial across other products/services;
+T056 remains failed for the earlier webmail. Data connectivity, backup/migration, engine variants, account reuse timing and billing
+termination remain unverified. DBMS catalog lookup is internal, not a registered data source. See [design decisions](dbms-lifecycle.md).

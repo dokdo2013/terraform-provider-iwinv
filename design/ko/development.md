@@ -3,7 +3,7 @@
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
 Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅 카탈로그 Data Source 9개와
-[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 4개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
+[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 5개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
 
@@ -271,3 +271,24 @@ DNS·콘텐츠 이전이나 과금 종료를 보증하지 않으며 CI에서는 
 `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccHostingCatalogs$' -count=1`은
 서비스 생성 없이 인증된 읽기와 무변경 plan을 검증합니다. 앞서 설명한 비공개 환경변수·로그 처리를 적용하세요.
 목록에 있다는 사실을 준비 완료나 생성 성공으로 해석하지 마세요.
+
+## 클라우드 DBMS 수명주기
+
+[DBMS 리소스 가이드](../../docs/ko/resources/db_instance.md)와 [설계 결정](dbms-lifecycle.md)을 참고하세요.
+합성 Core 테스트는 실키 없이 `IWINV_PROTOCOL_TEST=1 go test ./internal/provider -run TestProtocolDBInstance`로 실행합니다.
+어댑터와 Terraform 실환경 테스트는 별도 opt-in입니다.
+
+```sh
+IWINV_LIVE_DBMS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test -race ./internal/client -run '^TestAccDBMSControlPlaneWrites$' -v -count=1 -timeout 12m
+
+TF_ACC=1 IWINV_LIVE_TERRAFORM_DBMS_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccDBInstance$' -v -count=1 -timeout 15m
+```
+
+각각 신규 STD Redis 서비스 ID 2개와 4개를 생성하므로 비용이 발생할 수 있습니다. 승인된 계정과 앞서 설명한 비공개 인증/로그 처리를 사용하세요.
+각 쓰기 의도와 생성 ID를 대장에 기록하고 기존 ID는 변경 대상에서 제외합니다. 모든 삭제는 응답과 정확한 ID 부재를 확인하며,
+실패 시 정리도 불확실한 삭제를 무조건 반복하지 않습니다. SQL/Redis 접속 쿼리, 데이터 쓰기, DNS 변경이나 과금 종료 확인은 하지 않습니다.
+CI에서는 유료 테스트를 활성화하지 않습니다.

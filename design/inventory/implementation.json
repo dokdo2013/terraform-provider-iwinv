@@ -346,7 +346,71 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_db_instance",
+      "kind": "resource",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/dbms"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/dbms"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/dbms/{service_idx}/allowip"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/dbms/{service_idx}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "STD Redis control plane: two coexisting services, nonempty authoritative IPv4 set updates preserving ID, drift restoration, full readable-attribute import and persisted re-import/no-op without account history, fresh-account create-before-destroy, external deletion/recreation and four acknowledged deletes with exact-ID absence. No database access, backup, data migration, engine selection or billing assertion.",
+      "ownership": "One exact DBMS service and its complete nonempty allowed-IP set; database contents, users, credentials, backups, DNS and other services excluded",
+      "import": "Exact decimal service_idx. Read cannot recover initial account_name; omit creation history for import. Other creation settings replace with a fresh known account; only allowed_ips changes in place.",
+      "evidence": [
+        "internal/services/hosted/dbms_test.go",
+        "internal/client/dbms_live_test.go",
+        "internal/provider/db_instance_resource_test.go",
+        "internal/provider/db_instance_live_test.go",
+        "docs/resources/db_instance.md",
+        "docs/ko/resources/db_instance.md",
+        "design/en/dbms-lifecycle.md",
+        "design/ko/dbms-lifecycle.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ],
-  "internal_adapters": []
+  "internal_adapters": [
+    {
+      "name": "dbms_catalogs",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/dbms/products"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Unfiltered 113-row catalog including four available empty-ID rows and STD/redis filter; only a nonempty globally unambiguous creation ID was used in lifecycle tests. Other filters not live-verified.",
+      "ownership": "Read-only catalog preserving version rows and empty creation IDs; excludes unverified unit fields",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/hosted/dbms.go",
+        "internal/services/hosted/dbms_test.go",
+        "internal/client/dbms_live_test.go",
+        "design/en/dbms-lifecycle.md",
+        "design/ko/dbms-lifecycle.md"
+      ]
+    }
+  ]
 }

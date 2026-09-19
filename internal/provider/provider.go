@@ -29,6 +29,7 @@ type providerServices struct {
 	HostingCatalogs *hosted.HostingCatalogService
 	Network         *network.Service
 	Hosting         *hosted.WebhostingService
+	DBMS            *hosted.DBMSService
 }
 
 type providerModel struct {
@@ -49,7 +50,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting-catalog data sources plus security-group attributes, independent ingress/egress rules and webhosting accounts. Instance attachments are not implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key/hosting-catalog data sources plus security-group attributes, independent ingress/egress rules webhosting accounts and cloud DBMS services. Instance attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -87,6 +88,9 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 	if hosting, ok := api.(hosted.WebhostingAPI); ok {
 		services.Hosting = &hosted.WebhostingService{API: hosting}
 	}
+	if dbms, ok := api.(hosted.DBMSAPI); ok {
+		services.DBMS = &hosted.DBMSService{API: dbms}
+	}
 	resp.ResourceData = services
 }
 
@@ -95,5 +99,5 @@ func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataS
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource}
+	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource, NewDBInstanceResource}
 }

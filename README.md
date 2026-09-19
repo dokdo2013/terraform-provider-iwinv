@@ -4,7 +4,7 @@
 
 AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
 
-**현재 상태: Data Source 9개와 보안 그룹·ingress·egress·웹호스팅 리소스 4개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
+**현재 상태: Data Source 9개와 보안 그룹·ingress·egress·웹호스팅·DBMS 리소스 5개를 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
 실행 가능한 범위는 [개발용 실행 안내](design/ko/development.md)와 [보안 그룹 가이드](docs/ko/resources/security_group.md)를 참고하세요. 인스턴스·연결 등 나머지 설계 예제는 아직 적용할 수 없습니다.
 스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
 
@@ -21,6 +21,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 | --- | --- |
 | [사용자 경험 및 아키텍처](design/ko/architecture.md) | AWS 스타일 매핑, 스키마, 상태·인증·오류 설계 |
 | [호스팅 수명주기 설계](design/ko/webhosting-lifecycle.md) | 24시간 계정명 재사용 제한, 비밀번호·import·교체 정책; SHARE PHP 8.4 실환경 검증 |
+| [DBMS 수명주기 설계](design/ko/dbms-lifecycle.md) | 전체 허용 IP 집합, 생성 계정 이력·상품 모호성·import·복구 |
 | [API 계약 및 제약](design/ko/api-contract.md) | 확인된 사실, 문서 불일치, 실제 검증이 필요한 사항 |
 | [전체 기능 범위](design/ko/coverage.md) | API·CLI·서비스별 Resource/Data/Action/Ephemeral 분류 |
 | [검증 계획](design/ko/verification.md) | 단계별 합격 기준과 실행 체크리스트 |
@@ -40,6 +41,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 - [x] ingress/egress 규칙의 import·drift·교체·의존성 삭제 검증
 - [x] 웹호스팅 상품·서버 카탈로그 조회와 무변경 plan 검증
 - [x] 웹호스팅의 새 계정 교체/import/비밀번호 비저장/삭제 검증 (SHARE PHP 8.4)
+- [x] DBMS 허용 IP 전체 교체·import·drift·새 계정 교체·정리 검증 (STD Redis)
 - [ ] 나머지 관리 리소스 구현
 - [ ] 리소스별 acceptance test 및 서명 릴리스
 - [ ] Terraform Registry 게시

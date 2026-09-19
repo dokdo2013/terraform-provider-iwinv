@@ -3395,8 +3395,8 @@
       "title": "클라우드 DBMS 생성",
       "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-생성",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "POST",
@@ -3461,8 +3461,8 @@
       "title": "클라우드 DBMS 삭제",
       "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-삭제",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "DELETE",
@@ -3497,8 +3497,8 @@
       "title": "접근 허용 IP 추가",
       "source": "https://iwinv-dbms.readme.io/reference/접근-허용-ip-추가",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "PUT",
@@ -3550,8 +3550,8 @@
       "title": "클라우드 DBMS 서비스 조회",
       "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-서비스-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
