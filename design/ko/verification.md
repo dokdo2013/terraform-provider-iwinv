@@ -107,7 +107,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | in_progress |
 | T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | in_progress |
 | T054 | P6 | CI/live | 이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다 | not_run |
-| T055 | P6 | CI/review | 외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다 | not_run |
+| T055 | P6 | CI/review | 외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다 | in_progress |
 | T056 | P6 | live | 실행별 ID 대장으로 정리를 증명하며 누수는 복구 근거와 함께 실패 처리한다 | failed |
 | T057 | P3 | mock/live | 미연결 전용 그룹 속성의 생성/수정/import/무변경 plan/drift/재생성/삭제가 통과하고 생성 실패 ID로 정리할 수 있다 | passed |
 | T058 | P3 | mock/live | 소유한 TCP/UDP 규칙의 CRUD/import/무변경 plan/방향 drift/초기화·부모 교체/외부 삭제와 자식 우선 destroy가 통과한다 | passed |

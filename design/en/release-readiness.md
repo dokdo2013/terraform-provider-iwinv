@@ -38,6 +38,27 @@ The runner excludes inherited cloud/publishing credentials and user Git/GPG conf
 
 The package workflow runs this rehearsal with read-only repository permissions, pinned actions/tool versions and no stored signing secrets or release upload. Existing protocol CI continues to test Terraform 1.14.0/1.14.2 independently. Local signing was verified with GnuPG 2.5.22 on Darwin arm64; CI supplies its runner's GnuPG version in the log.
 
+## Workflow permissions and review (T055)
+
+The repository settings were read through GitHub's API on 2026-09-19: default workflow token permissions are read-only, workflow approval of pull requests is disabled, and first-time fork contributors require approval. There were no repository Actions secrets or environments. Full commit-SHA pinning was enabled at the repository level and read back successfully; allowed actions remain `all`. SHA pinning fixes an action revision, not its trustworthiness. These observations are time-bound, not permanent guarantees.
+
+All four current workflows use `push` to `main` and `pull_request`, `contents: read`, GitHub-hosted Ubuntu runners and checkout without persisted credentials. None references stored secrets, OIDC write permissions, a release environment, `pull_request_target`, `workflow_run`, or a publication step. PR code still executes arbitrary code with network access on its runner; a static audit is not a sandbox. The ordinary fork event withholds repository secrets and limits the token according to GitHub's policy. No real external-fork run was performed in this audit.
+
+`Workflow audit` runs actionlint **1.7.12** for syntax/expressions/shell analysis and zizmor **1.30.1** in offline pedantic mode, failing on low-or-higher severity findings, for workflow security patterns. The zizmor wheel is installed in a temporary virtual environment using `scripts/requirements-workflow.txt`, exact SHA-256 hashes, binary-only installation and no dependencies. The audit receives no API token and performs no online advisory or action-owner review. Go's module checksum verification remains enabled for actionlint. The tools themselves are dependencies that require review when upgraded.
+
+The first scan flagged the package job's shared Go cache as a potential artifact cache-poisoning path. Its GoReleaser step is install-only and the signing harness skips publication, so this was not evidence of an exploitable published release. Shared cache restore/save was nevertheless removed from the package job to keep signed rehearsal artifacts independent of another run's build cache. Within-run Go caching remains; protocol test caching remains separate from publication. After this change actionlint and zizmor's offline pedantic audit passed at the low severity threshold. Five informational missing job display names remain below that threshold; these do not change job permissions. Synthetic temporary files were rejected for title-template injection and invalid expression contexts without executing them. A write-all permission finding appeared only in pedantic mode, which is why CI explicitly selects that mode.
+
+To reproduce with installed tools:
+
+```sh
+go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 -color
+zizmor --offline --no-progress --persona pedantic --min-severity low .github/workflows
+```
+
+Use zizmor 1.30.1 installed from the hash-locked requirements; the workflow shows the exact isolated installation command. Tool success does not prove runtime secret isolation, dependency safety or release authorization. T055 remains in progress until an actual external-fork run and the eventual production signing/publication workflow are reviewed. Before adding production keys, review protected environments, immutable release/tag selection, minimal job-level publication permissions, separation from PR artifacts/caches, key cleanup and failed-release recovery. Do not grant those permissions to the current PR jobs.
+
+Sources: [GitHub repository Actions settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository), [GitHub permissions API](https://docs.github.com/en/rest/actions/permissions), [zizmor operating modes and limits](https://docs.zizmor.sh/usage/), [actionlint](https://github.com/rhysd/actionlint).
+
 ## Remaining release gates
 
 - Resolve or explicitly scope outstanding capability contracts and the cleanup failure T056, including the work-created webmail service and unconsented MCP client registration. Never describe them as deleted without evidence.

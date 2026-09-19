@@ -38,6 +38,27 @@ python3 scripts/check_signing.py --goreleaser /absolute/path/to/goreleaser --ter
 
 패키지 workflow는 저장소 읽기 권한, 고정된 action·도구 버전으로 이 검증을 실행하며 저장된 서명 비밀키나 릴리스 업로드를 사용하지 않습니다. 기존 프로토콜 CI는 Terraform 1.14.0/1.14.2를 독립적으로 검증합니다. 로컬 서명은 Darwin arm64의 GnuPG 2.5.22로 확인했으며 CI는 runner의 GnuPG 버전을 로그에 기록합니다.
 
+## Workflow 권한과 검토 (T055)
+
+2026-09-19 GitHub API로 저장소 설정을 조회했습니다. 기본 workflow 토큰은 읽기 전용이며 workflow의 PR 승인 권한은 꺼져 있고 첫 fork 기여자는 실행 승인이 필요합니다. 저장소 Actions secret과 environment는 없었습니다. 전체 commit SHA 고정을 저장소 정책으로 활성화한 뒤 다시 조회해 반영을 확인했습니다. 허용 Action 범위는 `all`입니다. SHA 고정은 실행 리비전을 고정할 뿐 작성자를 신뢰할 수 있다는 보장은 아닙니다. 이 결과는 조회 시점의 관측값입니다.
+
+현재 workflow 4개는 `main` push와 `pull_request`, `contents: read`, GitHub 호스팅 Ubuntu runner, 인증정보를 남기지 않는 checkout을 사용합니다. 저장된 secret, OIDC 쓰기 권한, 릴리스 environment, `pull_request_target`, `workflow_run`, 게시 단계는 참조하지 않습니다. PR 코드는 네트워크에 접근할 수 있는 runner에서 임의 코드를 실행하므로 정적 검사가 sandbox는 아닙니다. 일반 fork 이벤트의 secret 차단과 토큰 제한은 GitHub 정책을 따릅니다. 이번 점검에서 실제 외부 fork 실행은 수행하지 않았습니다.
+
+`Workflow audit`는 actionlint **1.7.12**로 문법·표현식·셸을, zizmor **1.30.1** 오프라인 pedantic 모드로 workflow 보안 패턴을 검사하며 low 이상 발견 시 실패합니다. zizmor는 `scripts/requirements-workflow.txt`의 정확한 SHA-256 해시를 확인해 임시 가상환경에 wheel만 설치하며 추가 의존성은 없습니다. 분석기에 API 토큰을 전달하지 않으며 온라인 보안 공지나 Action 소유자 검토를 수행하지 않습니다. actionlint에는 Go 모듈 체크섬 검증을 유지합니다. 분석 도구도 의존성이므로 갱신 시 검토가 필요합니다.
+
+첫 검사에서 패키지 작업의 공유 Go 캐시가 산출물 캐시 오염 가능 경로로 표시됐습니다. 해당 GoReleaser 단계는 설치만 하고 서명 실행기는 게시를 생략하므로 실제 게시 릴리스의 취약점이 확인된 것은 아닙니다. 다만 서명 검증 산출물이 다른 실행의 빌드 캐시에 의존하지 않도록 패키지 작업의 공유 캐시 복원·저장을 제거했습니다. 한 실행 안의 Go 캐시는 유지하며 프로토콜 테스트 캐시는 게시와 분리합니다. 변경 후 actionlint와 zizmor의 오프라인 pedantic 검사를 low 기준으로 통과했습니다. 기준 아래 정보 수준의 작업 표시 이름 누락 5건은 남아 있으며 권한에는 영향을 주지 않습니다. 임시 합성 파일의 제목 템플릿 삽입과 잘못된 표현식 context가 실행 없이 거부됐습니다. write-all 권한은 pedantic 모드에서만 발견되어 CI에서 이 모드를 명시합니다.
+
+도구 설치 후 재현 명령:
+
+```sh
+go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 -color
+zizmor --offline --no-progress --persona pedantic --min-severity low .github/workflows
+```
+
+zizmor는 해시를 고정한 요구사항 파일로 설치한 1.30.1을 사용합니다. 정확한 격리 설치 명령은 workflow에 있습니다. 정적 검사 성공이 런타임 secret 격리, 의존성 안전성, 릴리스 권한을 증명하지는 않습니다. 실제 외부 fork 실행과 향후 운영 서명·게시 workflow 검토가 남아 있어 T055는 진행 중입니다. 운영 키를 추가하기 전에 보호 environment, 변경 불가능한 버전·태그 선택, 게시 job의 최소 권한, PR 산출물·캐시와의 분리, 키 정리, 릴리스 실패 복구를 검토해야 합니다. 현재 PR job에 해당 권한을 부여하지 않습니다.
+
+출처: [GitHub 저장소 Actions 설정](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository), [GitHub 권한 API](https://docs.github.com/en/rest/actions/permissions), [zizmor 실행 모드와 한계](https://docs.zizmor.sh/usage/), [actionlint](https://github.com/rhysd/actionlint).
+
 ## 남은 출시 조건
 
 - 미해결 기능 계약과 정리 실패 T056을 해결하거나 정확한 출시 범위에 반영합니다. 작업에서 만든 웹메일 서비스와 동의하지 않은 MCP 클라이언트 등록도 포함하며, 근거 없이 삭제됐다고 표시하지 않습니다.

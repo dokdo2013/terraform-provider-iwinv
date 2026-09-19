@@ -632,8 +632,16 @@
       "method": "CI/review",
       "expected_en": "Untrusted PR CI has no live credentials; release permissions and actions are constrained",
       "expected_ko": "외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        ".github/workflows/workflow-audit.yml",
+        ".github/workflows/package.yml",
+        "scripts/requirements-workflow.txt",
+        "design/ko/release-readiness.md",
+        "design/en/release-readiness.md",
+        "design/ko/contract-progress.md",
+        "design/en/contract-progress.md"
+      ]
     },
     {
       "id": "T056",
