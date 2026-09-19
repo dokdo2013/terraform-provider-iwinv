@@ -364,3 +364,10 @@ T070 is read-only: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider
 Set the private credential environment and `TF_ACC_TERRAFORM_PATH` as above. It checks complete catalog output, empty-ID/null-version
 rows, documented capacity bounds and a no-change plan. No paid resources or tenant API operations are created.
 The offline `TestProtocolStorageProducts` suite uses `IWINV_PROTOCOL_TEST=1` and synthetic responses.
+
+## Internal billing read acceptance
+
+T071: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/services/billing -run '^TestAccBillingReads$' -v -count=1`.
+Inject HMAC credentials privately and keep logs outside the repository. This test requires existing multi-page bill history;
+it does not create invoices, perform payment or alter services. Current/list typed adapters do not register Terraform data sources.
+Detail access and timezone remain unresolved; see [billing contracts](billing-contract.md).

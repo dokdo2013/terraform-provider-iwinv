@@ -362,3 +362,10 @@ T070은 읽기 전용입니다: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./inte
 앞서 설명한 비공개 인증 환경변수와 `TF_ACC_TERRAFORM_PATH`를 설정하세요.
 전체 상품 결과·빈 ID/null 버전 행·문서상 용량 범위·무변경 plan을 검증하며 유료 리소스나 tenant API 작업을 생성하지 않습니다.
 오프라인 `TestProtocolStorageProducts`는 `IWINV_PROTOCOL_TEST=1`에서 합성 응답으로 실행합니다.
+
+## 내부 청구 조회 acceptance
+
+T071: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/services/billing -run '^TestAccBillingReads$' -v -count=1`.
+HMAC 인증정보는 비공개로 주입하고 로그를 저장소 밖에 보관하세요. 기존 여러 페이지 청구 이력이 필요한 테스트이며
+청구서 생성·결제·서비스 변경을 하지 않습니다. 현재/목록 타입 어댑터는 Terraform Data Source로 아직 등록하지 않았습니다.
+상세 접근·시간대는 미해결입니다. [청구 계약](billing-contract.md)을 참고하세요.

@@ -483,8 +483,16 @@
       "method": "live-read",
       "expected_en": "Billing units, currency, VAT, timezone and sensitive fields are documented accurately",
       "expected_ko": "청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "internal/services/billing/billing.go",
+        "internal/services/billing/billing_test.go",
+        "internal/services/billing/billing_live_test.go",
+        "design/en/billing-contract.md",
+        "design/ko/billing-contract.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T043",
@@ -835,6 +843,23 @@
         "internal/services/hosted/nas_test.go",
         "docs/data-sources/shared_storage_products.md",
         "docs/ko/data-sources/shared_storage_products.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    },
+    {
+      "id": "T071",
+      "phase": "P4",
+      "method": "mock/live-read",
+      "expected_en": "Billing read adapter preserves exact integer amounts, excludes payment instruments and document URLs, validates complete pagination/filter/empty-result contracts and never turns permission or late-page failures into partial results",
+      "expected_ko": "청구 조회 어댑터가 정확한 정수 금액을 보존하고 결제수단·문서 URL을 제외하며 전체 페이지·필터·빈 결과 계약을 검증하고 권한·중간 페이지 오류를 부분 결과로 바꾸지 않는다",
+      "status": "passed",
+      "evidence": [
+        "internal/services/billing/billing.go",
+        "internal/services/billing/billing_test.go",
+        "internal/services/billing/billing_live_test.go",
+        "design/en/billing-contract.md",
+        "design/ko/billing-contract.md",
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]

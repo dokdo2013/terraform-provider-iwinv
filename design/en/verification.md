@@ -98,7 +98,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T039 | P4 | live | Allowlists/referrers prove replace-vs-add, empty-set clear and external-change behavior | in_progress |
 | T040 | P4 | live-read | Mailbox accounts are authoritatively readable before managing their lifecycle | in_progress |
 | T041 | P4 | mock/live | Password inputs never accidentally leak to logs; state/write-only behavior is explicit | in_progress |
-| T042 | P4 | live-read | Billing units, currency, VAT, timezone and sensitive fields are documented accurately | not_run |
+| T042 | P4 | live-read | Billing units, currency, VAT, timezone and sensitive fields are documented accurately | in_progress |
 | T043 | P5 | mock/live | Object storage signing, addressing, pagination and supported subfeatures pass compatibility tests | not_run |
 | T044 | P5 | live | Objects handle hash/ETag/multipart/version/delete semantics without forcing unsupported settings | not_run |
 | T045 | P5 | mock/live | Ephemeral console/presign values are absent from plans/state and have tested expiry | not_run |
@@ -127,3 +127,4 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T068 | P4 | mock/live | NAS adapter preserves exact identities and share-name uncertainty, waits for active, replaces complete RO/RW maps including retained-host permissions, preserves peers and verifies acknowledged owned-ID cleanup | passed |
 | T069 | P4 | mock/live | NAS Core lifecycle verifies whole permission-map updates/drift, import/no-op and update without share history, capacity replacement with a fresh share, failure identity retention and acknowledged exact-ID cleanup | passed |
 | T070 | P4 | mock/live-read | NAS product data source preserves empty IDs, null versions and integer GB bounds, rejects malformed full catalogs, sorts stably and passes live reads with no-change plans without auto-selecting a product | passed |
+| T071 | P4 | mock/live-read | Billing read adapter preserves exact integer amounts, excludes payment instruments and document URLs, validates complete pagination/filter/empty-result contracts and never turns permission or late-page failures into partial results | passed |

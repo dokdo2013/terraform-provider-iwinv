@@ -24,6 +24,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | [Cache lifecycle decisions](design/en/cache-lifecycle.md) | Nested password input, referrer-set replacement, busy errors and cleanup; Terraform import/replacement/write-only verification |
 | [NAS lifecycle decisions](design/en/nas-lifecycle.md) | Whole RO/RW map, import without share history, capacity replacement and cleanup |
 | [DBMS lifecycle decisions](design/en/dbms-lifecycle.md) | Authoritative allowlists, account history, product ambiguity, import and recovery |
+| [Billing read contracts](design/en/billing-contract.md) | Exact money, dates, pagination, privacy and detail access gap; internal adapter stage |
 | [API contracts and limitations](design/en/api-contract.md) | Evidence, inconsistencies, live verification gaps |
 | [Full capability coverage](design/en/coverage.md) | Resource/Data/Action/Ephemeral classification |
 | [Verification plan](design/en/verification.md) | Acceptance criteria and execution checklist |

@@ -590,3 +590,20 @@ duplicate identities and changed metadata. Catalog visibility does not validate 
 Registration is now twelve data sources and seven resources. All five documented NAS control-plane operations have registered
 coverage; separate tenant/NFS surfaces, overall T038, webmail cleanup T056 and Registry release remain incomplete.
 [Catalog guide](../../docs/data-sources/shared_storage_products.md) · [NAS lifecycle](nas-lifecycle.md).
+
+## Billing read contracts (C32/T071), 2026-09-19
+
+Read-only probes verified integer KRW amounts, page-local `count`, string page/size metadata and size-one/size-two page agreement.
+Date filters use bill date in the tested records, including a record with a different usage start; exact date/price boundaries include
+matches. VAT-exclusive price filters are checked against full typed rows. Empty filtered queries return exact HTTP 400 `EMPTY_SET`,
+whereas an offset after the end returns HTTP 200 and an empty array. Only first-page list EMPTY_SET is normalized; late errors fail.
+
+The new internal `billing.Service` preserves exact signed int64 amounts and literal dates/names; it excludes payment instruments,
+invoice and tax URLs. Synthetic tests cover precision above 2^53, malformed/null/overflow data, pagination metadata and duplicate pages,
+iteration bounds, cancellation, invalid filters, privacy exclusions and no partial output on errors. No billing Terraform type is
+registered yet. `TestAccBillingReads` passed in 18.07 seconds with Go race, including exact, one-sided and negative-bound filters; see [billing contracts](billing-contract.md).
+
+Two listed historical bill IDs and the documented BILL-live detail ID returned HTTP 403 CHECK_IP (nested code 9), while current/list
+reads succeeded with the same local credentials. Detail remains unavailable and no allowlist or account setting was changed.
+Currency scaling is not invented; timezone, alternate currencies, refunds/credits, unpaid variants and nested detail need further evidence.
+T042 is now in progress; T056 webmail cleanup and the full goal remain incomplete. No billing record or cloud resource was mutated.

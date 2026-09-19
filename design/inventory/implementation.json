@@ -539,5 +539,35 @@
       ]
     }
   ],
-  "internal_adapters": []
+  "internal_adapters": [
+    {
+      "name": "billing_reads",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/bill/live"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/bill"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Read-only current estimate and complete multi-page list; date/price filter boundaries, string pagination with page-local counts and endpoint-specific empty result behavior. Historical bill detail and BILL-live detail returned 403 CHECK_IP. No Terraform registration, nested detail, payment mutation, currency conversion or timezone guarantee.",
+      "ownership": "Read-only financial summaries; payment instruments and receipt/tax URLs excluded",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/services/billing/billing.go",
+        "internal/services/billing/billing_test.go",
+        "internal/services/billing/billing_live_test.go",
+        "design/en/billing-contract.md",
+        "design/ko/billing-contract.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    }
+  ]
 }

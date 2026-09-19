@@ -94,7 +94,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T039 | P4 | live | 허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다 | in_progress |
 | T040 | P4 | live-read | 메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다 | in_progress |
 | T041 | P4 | mock/live | 비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다 | in_progress |
-| T042 | P4 | live-read | 청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다 | not_run |
+| T042 | P4 | live-read | 청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다 | in_progress |
 | T043 | P5 | mock/live | 오브젝트 서명/주소 형식/페이지/지원 기능 호환성을 검증한다 | not_run |
 | T044 | P5 | live | 객체 hash/ETag/multipart/version/삭제 의미를 검증하고 미지원 설정을 강제하지 않는다 | not_run |
 | T045 | P5 | mock/live | 임시 콘솔/presign 값이 plan/state에 남지 않고 만료를 검증한다 | not_run |
@@ -123,3 +123,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T068 | P4 | mock/live | NAS 어댑터가 정확한 ID와 공유 이름 이력의 불확실성을 보존하고 active 대기·전체 RO/RW 맵 및 기존 호스트 권한 교체·다른 서비스 보존·소유 ID 삭제 접수와 정리를 검증한다 | passed |
 | T069 | P4 | mock/live | NAS Core의 전체 권한 맵 수정·drift, 공유 이름 이력 없는 import·무변경 plan·수정, 새 공유로 용량 교체, 실패 시 ID 보존과 삭제 접수·정확한 ID 정리를 검증한다 | passed |
 | T070 | P4 | mock/live-read | NAS 상품 Data Source가 빈 ID·null 버전·정수 GB 범위를 보존하고 잘못된 전체 카탈로그를 거절하며 안정 정렬·실환경 조회·무변경 plan을 통과하고 상품을 자동 선택하지 않는다 | passed |
+| T071 | P4 | mock/live-read | 청구 조회 어댑터가 정확한 정수 금액을 보존하고 결제수단·문서 URL을 제외하며 전체 페이지·필터·빈 결과 계약을 검증하고 권한·중간 페이지 오류를 부분 결과로 바꾸지 않는다 | passed |
