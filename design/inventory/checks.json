@@ -663,6 +663,20 @@
         "design/ko/contract-progress.md",
         "design/en/contract-progress.md"
       ]
+    },
+    {
+      "id": "T060",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "Hosting Core lifecycle verifies fresh-account replacement, import/no-op without historical inputs, ephemeral write-only plan/state exclusion, failed-create identity recovery and exact-ID cleanup",
+      "expected_ko": "호스팅 Core 수명주기의 새 계정 교체, 생성 이력 없는 import/무변경 plan, ephemeral write-only 값의 plan/state 비저장, 생성 실패 ID 복구와 정확한 ID 정리를 검증한다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/webhosting_resource_test.go",
+        "internal/provider/webhosting_live_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

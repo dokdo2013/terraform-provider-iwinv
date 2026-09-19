@@ -2,7 +2,7 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**Authenticated read acceptance passed for seven data sources, and lifecycle acceptance passed for security-group attributes and independent ingress/egress rules. Compute and remaining managed-resource gates have not passed.**
+**Authenticated read acceptance passed for seven data sources, and lifecycle acceptance passed for security-group attributes and independent ingress/egress rules, plus SHARE PHP 8.4 hosting (T060). Compute and remaining managed-resource gates have not passed.**
 [Current evidence](contract-progress.md) separates live observations from mock tests.
 Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.
@@ -116,3 +116,4 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T057 | P3 | mock/live | Dedicated unattached group attributes pass create/update/import/no-op plan/drift/recreation/destroy; failed create retains an ID for cleanup | passed |
 | T058 | P3 | mock/live | Owned TCP/UDP rules pass CRUD/import/no-op plan/direction drift/clear and parent replacements/external deletion and child-before-parent destroy | passed |
 | T059 | P4 | mock/live | Hosting adapter catalogs, two-service create/read/delete, peer preservation and exact-ID cleanup pass; Terraform lifecycle and billing remain separate | passed |
+| T060 | P4 | mock/live | Hosting Core lifecycle verifies fresh-account replacement, import/no-op without historical inputs, ephemeral write-only plan/state exclusion, failed-create identity recovery and exact-ID cleanup | passed |

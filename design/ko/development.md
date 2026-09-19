@@ -3,7 +3,7 @@
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
 Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키 Data Source 7개와
-[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 3개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
+[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 4개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
 
@@ -226,7 +226,8 @@ control-plane 테스트 성공이 트래픽 필터링 검증이나 차단된 서
 
 ## 호스팅 내부 어댑터 계약 테스트
 
-호스팅은 [수명주기 설계](webhosting-lifecycle.md)와 내부 어댑터 단계이며 Terraform에서 사용할 수 없습니다.
+[호스팅 리소스](../../docs/ko/resources/webhosting.md)는 등록했으며 상품/서버 카탈로그 Data Source는 아직 없습니다.
+내부 어댑터 테스트와 Terraform 수명주기 acceptance는 별도입니다.
 아래 opt-in 테스트는 신규 호스팅 두 개를 생성하고 삭제합니다. 실제 비용이 발생할 수 있으며
 승인된 계정·개인 키 환경변수·저장소 밖 mode-0700 journal 디렉터리가 필요합니다.
 
@@ -240,3 +241,23 @@ SHARE 상품 중 사용자 도메인을 지원하는 상품과 PHP 8.4 선택지
 생성 전 intent, 생성 응답·ID, 삭제 시도·접수·목록 부재를 private journal에 기록합니다.
 실패하면 해당 기록을 확인하고 미확정 생성 요청을 재전송하지 마세요. 동일 계정명 재사용에는 문서상 24시간 제한이 있습니다.
 이 테스트는 Terraform import/state, 데이터 접속 또는 과금 종료를 검증하지 않습니다. CI에서는 실행하지 않습니다.
+
+## Terraform 호스팅 acceptance
+
+[리소스 가이드](../../docs/ko/resources/webhosting.md)와 [수명주기 결정](webhosting-lifecycle.md)을 함께 확인하세요.
+합성 Core 테스트는 실키 없이 `IWINV_PROTOCOL_TEST=1`, `-run TestProtocolWebhosting`으로 실행합니다.
+별도 실환경 테스트는 계정 ID 4개를 생성하고 두 서비스를 함께 유지하면서 새 계정 교체, import, 무변경 plan,
+실제 상태 재import, 외부 삭제와 정리를 검증합니다. 기존 서비스는 변경하지 않습니다.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_HOSTING_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccWebhosting$' -v -count=1 -timeout 12m
+```
+
+승인된 인증은 자식 프로세스 환경변수로만 전달하고 로그·state·대장은 Git 밖에 보관하세요.
+사용자 도메인을 지원하는 SHARE 상품과 PHP 8.4를 요구하며, 임의의 서로 다른 계정명과 ephemeral 초기 비밀번호를 사용하고
+쓰기 전에 의도를 기록합니다. 각 소유 ID의 삭제 응답과 정확한 부재를 모두 확인해야 합니다.
+실패 시 정리도 결과가 불확실한 삭제를 무조건 반복하지 않습니다. 비공개 근거를 확인해 복구하세요.
+DNS·콘텐츠 이전이나 과금 종료를 보증하지 않으며 CI에서는 이 테스트를 활성화하지 않습니다.

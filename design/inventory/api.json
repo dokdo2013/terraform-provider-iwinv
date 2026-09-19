@@ -2729,8 +2729,8 @@
       "title": "웹 호스팅 생성",
       "source": "https://iwinv-hosting.readme.io/reference/웹-호스팅-생성",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "POST",
@@ -2836,8 +2836,8 @@
       "title": "웹 호스팅 삭제",
       "source": "https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "DELETE",
@@ -2893,8 +2893,8 @@
       "title": "웹 호스팅 서비스 조회",
       "source": "https://iwinv-hosting.readme.io/reference/웹-호스팅-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

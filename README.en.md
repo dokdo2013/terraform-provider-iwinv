@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: seven data sources and three security-group/rule resources implemented and live-tested. No Registry release yet.**
+**Status: seven data sources and four security-group/rule/webhosting resources implemented and live-tested. No Registry release yet.**
 See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -20,7 +20,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | Document | Contents |
 | --- | --- |
 | [User experience and architecture](design/en/architecture.md) | AWS mapping, schemas, state, authentication, errors |
-| [Hosting lifecycle design](design/en/webhosting-lifecycle.md) | Account reuse restriction, password/import/replacement gates; resource not registered |
+| [Hosting lifecycle design](design/en/webhosting-lifecycle.md) | Account reuse restriction, password/import/replacement policies; SHARE PHP 8.4 live-tested |
 | [API contracts and limitations](design/en/api-contract.md) | Evidence, inconsistencies, live verification gaps |
 | [Full capability coverage](design/en/coverage.md) | Resource/Data/Action/Ephemeral classification |
 | [Verification plan](design/en/verification.md) | Acceptance criteria and execution checklist |
@@ -38,6 +38,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Provider skeleton and authenticated read-only zone/image/instance-type/SSH-key acceptance
 - [x] Security-group attributes: create/update/import/drift/destroy verification
 - [x] Ingress/egress rules: import, drift, replacement and dependency-ordered deletion
+- [x] Hosting fresh-account replacement/import/write-only secret exclusion/destroy (SHARE PHP 8.4)
 - [ ] Remaining managed resources
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry

@@ -1,81 +1,79 @@
-# Webhosting lifecycle design
+# Webhosting lifecycle decisions
 
 [한국어](../ko/webhosting-lifecycle.md) · [Architecture](architecture.md) · 2026-09-19
 
-**Design stage. A hosting API adapter exists, but no `iwinv_webhosting` resource or catalog data source is registered.**
-Attribute names below are proposals, not executable HCL contracts. Overall service acceptance remains open under T038.
+**`iwinv_webhosting` is registered in the development provider. T060 passed for SHARE PHP 8.4.**
+See the [resource guide](../../docs/resources/webhosting.md) for the executable schema and example.
+Product/server catalog data sources, other product/version acceptance and overall T038 remain open.
 
-## Why replacement needs special treatment
+## Replacement and account reuse
 
-The public hosting API offers product/server/service reads, creation and deletion, without an update endpoint.
-The vendor's deletion documentation states that account deletion is irreversible and the deleted account name cannot be
-reused for 24 hours (C29). This is a documented restriction, not a live measurement of the reuse deadline or successful recreation after 24 hours.
+The public API exposes reads, creation and deletion, but no update endpoint. All remote creation attributes therefore require
+replacement on change. Vendor documentation restricts reuse of a deleted account name for 24 hours (C29); this is a documented
+restriction, not a live measurement of the deadline or successful recreation after that interval.
 
-Applying `RequiresReplace` to every name/description change could delete a service's data and then fail to recreate it under the same account.
-`create_before_destroy` does not establish that two services can share an account name.
-The provider must not silently ignore desired changes, invent a private update API, or retry creation for 24 hours.
+Ordinary replacement plans require a known different account name, a server selection and both initial passwords before deletion.
+Unknown changed attributes conservatively require replacement; an unknown account name cannot authorize it. Timeout-only changes
+are local and do not mutate the service. Synthetic Core tests cover these cases and missing replacement inputs.
 
-Before resource registration, establish these policies with Terraform Core tests:
+Explicit `-replace`, taint and recreation after external deletion can bypass comparison with the prior attributes. Plan-only tests
+confirm Core's replacement behavior without executing a same-name recreate. Users must choose a fresh account themselves in these
+cases. The provider never retries a create for 24 hours or invents a password/update endpoint.
 
-- Changes to readable creation attributes must visibly require replacement instead of pretending to update the remote service.
-- Automatic replacement plans should check for an explicitly new account name. Verify safe handling of unchanged and unknown planned names.
-- The reuse restriction also affects `-replace`, taint, and recreation after external deletion. Do not promise detection of every Core replacement cause.
-- Backup, migration and DNS cutover are separate work. Explain `prevent_destroy` and validate an example that creates a new account before cutover.
-- Successful account replacement does not imply automatic migration of web content, databases or domain ownership.
+Live acceptance created a fresh account before destroying the previous account while preserving a second independent service.
+This does not prove custom-domain reuse between two accounts, or migrate content, databases or DNS. The example uses `prevent_destroy`;
+backup, migration and cutover remain deliberate user operations. Deletion destroys hosted data.
 
-## Proposed attributes and ownership
+## Ownership and import
 
-| Proposed attribute | Remote contract / ownership | Import and change decision |
-| --- | --- | --- |
-| `id` | Positive integer `service_idx`, preserved as an exact decimal string | Exact-ID import only; no name-based adoption |
-| `product_id` | Actual product ID | Restored by Read; replacement candidate |
-| `server_id` | Product server catalog integer `idx`, sent as a string | Required for creation, absent from service Read; never fabricated on import |
-| `account_name` | API `id`, the login account name, distinct from service identity | Restored by Read; new accounts use 6–12 letters; changes replace |
-| `name`, `description` | Literal alias and description | Restored by Read; no public update API; omit empty descriptions on create |
-| `web_firewall_enabled` | Y/N `security` | Both values observed in the control plane; packet effects require separate verification |
-| `domains` | Domain-to-folder object | Design configured and observed sets separately, without duplicate ownership of the default domain |
-| `ftp_password_wo`, `database_password_wo` | Distinct initial passwords | WriteOnly + Sensitive, read from req.Config only, never persist in plan/state |
-| `status`, `ip_address` | Control-plane status and IP | Read-only; `active` does not prove HTTP/FTP/database access |
-| `timeouts` | Local operation deadlines | Bound visibility/deletion waits and cancellation; do not authorize write replay |
+- The identity is an exact positive decimal `service_idx`, never converted through float64. Import is by ID, not account/name adoption.
+- Read restores product, account, alias, description, firewall flag, status, IP and domain mappings.
+- `server_id` is a historical creation selector absent from Read. It is optional for import, required for create/replacement, and any
+  later addition/change/removal requires replacement. A stored selector does not assert current server placement.
+- `custom_domains` owns the entire custom domain-to-folder map. `domains` observes all mappings. The documented generated
+  `account_name.iwinv.net` domain is verified in the response and excluded from configured ownership; its absence is an error.
+- External custom-map changes are drift. Reconcile configuration to adopt them or use a fresh account for replacement. Neither DNS
+  nor folder creation is managed. Default `/` mappings were live-tested; arbitrary folder normalization remains unverified.
+- Omit `server_id`, passwords and local `password_wo_version` when importing without creation history. Match all readable configuration.
+  Full import comparison and persisted re-import followed by a no-change plan passed without these historical inputs.
 
-`server_id` records a creation input, not a currently verified setting. Test a schema that allows omission during import while
-requiring it for new creation. Adding a selector after import must not silently attest to the remote setting; document its
-configuration/replacement semantics explicitly.
+## Password handling
 
-Write-only password changes alone cannot produce a plan difference. Decide and test whether an explicit version field triggers
-replacement or credentials are limited to initial creation. There is no public password update API, so in-place rotation cannot be promised.
-Import must neither require passwords nor synthesize saved defaults.
-Follow [HashiCorp's write-only guidance](https://developer.hashicorp.com/terraform/plugin/framework/resources/write-only-arguments).
+Initial FTP/database passwords are distinct `Sensitive` + `WriteOnly` inputs read from `req.Config`, never the plan. Both are required
+only for creation/replacement. The provider persists neither their value nor a hash. Changing only a write-only value cannot produce a
+plan; a positive optional `password_wo_version` signals full account replacement, not in-place credential rotation.
 
-## Internal adapter boundary
+Synthetic and live tests use ephemeral sensitive variables and inspect parsed plans, actual compressed saved-plan contents and state
+for the supplied values. Import neither requires passwords nor synthesizes them. Readable response models exclude echoed credentials.
+Supported inputs are distinct 7–20 character printable ASCII values from at least two character classes; this is not exhaustive live
+verification of every vendor password boundary. See [HashiCorp guidance](https://developer.hashicorp.com/terraform/plugin/framework/resources/write-only-arguments).
 
-`internal/services/hosted/webhosting*.go` implements product/server reads, JSON creation, exact-ID selection from a complete list,
-and deletion acknowledgement. Product metadata includes PHP choices and domain policy; prices, VAT, disk and traffic units are
-excluded until verified. Catalog availability alone does not prove that a particular combination can be created.
+## API and failure boundary
 
-- Integer IDs never pass through float64. Invalid IDs are rejected before requests.
-- Creation returns identity before validating remaining fields or metadata. Callers must preserve it before processing errors.
-- An unambiguous identity in an HTTP 201/202 receipt is returned for recovery, together with an error for the unverified success contract.
-- Duplicate/malformed rows or new pagination metadata fail the entire list. A partial list cannot establish absence.
-- Names, descriptions and domains are not HTML-decoded. Passwords and unknown response fields are excluded from readable models.
-- Explicit empty descriptions are rejected before I/O, reflecting the observed HTTP 422 response; nil omits description.
-- Internal password inputs are restricted to distinct 7–20 character printable ASCII values using at least two character classes. This is not exhaustive live validation of all vendor password rules.
-- Empty domain maps are rejected until their meaning is verified; nil requests the default domain.
-- Deletion acknowledgement and subsequent list absence are separate. API errors/404 never become absence, and writes are never automatically replayed.
+The typed adapter validates complete service lists, rejects duplicate/malformed rows or changed pagination/count metadata, and
+preserves int64 identities. Names/descriptions are literal; explicit empty descriptions returned HTTP 422, so the resource omits its
+empty default on create. Product catalogs exclude unverified prices, VAT and storage/traffic units.
 
-## Gates before resource registration
+Create sends one request, saves an unambiguous identity before validating remaining receipt fields, and waits for active Read with
+matching managed attributes. HTTP 201/202 receipts with an identity preserve it while reporting their unverified success contract.
+Malformed receipts, delayed visibility and waiter expiry retain the ID for reconciliation. A never-verified creation hidden from a
+successful list is not silently forgotten: Read fails with identity retained; destroy addresses that known ID once.
 
-- [ ] Core retains the ID after a failed apply following a create receipt, and destroy can recover it.
-- [ ] Neither password appears in plan files, state, private state or diagnostics; ephemeral variables work.
-- [ ] Import without historical server choice or passwords supports Read and a no-change plan.
-- [ ] Ordinary changes, unknown inputs, taint and explicit replacement expose account reuse risk.
-- [ ] Default domains absent from configuration, external domain changes and folder normalization do not cause perpetual diffs.
-- [ ] Temporary post-create absence, asynchronous/error states, cancellation and ID preservation are tested.
-- [ ] Two-service parallel lifecycles, external drift/deletion, partial failure recovery and exact-ID cleanup pass.
-- [ ] Service deletion evidence remains distinct from billing termination; user documentation explains data loss.
-- [ ] Korean/English resource guides and examples validated against the actual binary are complete.
+A previously active service missing from a validated complete list is treated as externally deleted. An API error/404 never establishes
+absence. Delete requires acknowledgement followed by exact-ID absence. The provider does not replay writes. These hosting observations
+must not be generalized to webmail, whose console-present service was omitted by its successful API list.
 
-[Vendor creation documentation](https://iwinv-hosting.readme.io/reference/웹-호스팅-생성),
-[deletion documentation](https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제),
-[server choices](https://iwinv-hosting.readme.io/reference/상품-상세-조회).
-Live observations are recorded separately in [contract progress](contract-progress.md).
+## Verified scope and remaining gates
+
+T059 covers adapter contracts. T060 covers Core create/read/no-op, full import, persisted re-import without history, fresh-account
+replacement, peer preservation, external deletion/recreation, password artifact exclusion and four exact-ID cleanups in live acceptance.
+Synthetic tests additionally cover failed-create ID cleanup, hidden creation recovery, unknown inputs, errors/timeouts, external domain
+drift, missing replacement inputs and explicit replacement plans. CI uses synthetic fixtures only.
+
+HTTP/FTP/database connectivity, migration, arbitrary product/version/domain combinations and billing termination remain unverified.
+T056 remains failed for the separately tracked webmail cleanup; hosting cleanup does not close that gate. No signed Registry release exists.
+
+Sources: [creation](https://iwinv-hosting.readme.io/reference/웹-호스팅-생성),
+[deletion](https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제),
+[default domain](https://docs.iwinv.kr/service/web-hosting/web-hosting-guide/webhosting_domain/).
+See [live evidence](contract-progress.md).

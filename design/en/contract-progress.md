@@ -420,3 +420,26 @@ evidence, but the overall cleanup gate is not satisfied. C23/T040's reliable Rea
 A private vendor-support draft requests cancellation of this test service only, billing termination confirmation and an explanation of the API omission.
 No external message has been sent; separate user authorization was requested.
 Actual IDs, account/domain names, login information and raw console output are excluded from the public repository.
+
+## Terraform hosting lifecycle (T060, 2026-09-19)
+
+The development provider now registers `iwinv_webhosting`; the previous internal-only limitation is superseded for this resource.
+Product/server catalogs remain internal. Live acceptance used Go 1.26.1, Terraform 1.14.2 and `go test -race` and passed in 62.53 seconds.
+The run selected a SHARE product supporting custom domains and a PHP 8.4 server. Inputs, exact IDs, intent/receipt journals and logs
+remain private; no existing service was mutated.
+
+Four owned service identities were created and all four received deletion acknowledgements followed by exact-ID absence.
+The test maintained two services concurrently, verified initial no-change plans and full readable-attribute import, then created a fresh
+account with custom `.invalid` domain, literal description and firewall N before deleting its predecessor. The other service remained
+active. Ownership was relinquished without deletion, then persistently re-imported without historical server/password/version inputs;
+Read and a no-change plan passed. An external deletion was detected and a new account was created, followed by final cleanup.
+
+Actual compressed saved plans and state were inspected for the ephemeral initial passwords, in addition to parsed plan checks.
+Synthetic Core tests passed malformed-create receipt recovery with the ID retained, fresh-account destroy-before-create replacement,
+unknown changed attributes, missing replacement inputs, domain drift and local timeout-only updates. Taint/explicit `-replace` tests
+inspect destructive plans only and do not perform same-name recreation. Direct resource tests cover hidden creates, deadline expiry,
+API errors and failed deletion state retention. Ordinary replacements require a known different account, server and initial passwords.
+
+T060 passes for this scope, with evidence in `internal/provider/webhosting_resource_test.go` and `internal/provider/webhosting_live_test.go`.
+T038/T041 remain partial across other services. T056 remains failed for the earlier console-present webmail; these four hosting cleanups
+are not a blanket cleanup claim. Data-plane access, migration, other product/version variants and billing termination remain unverified.

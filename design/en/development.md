@@ -3,7 +3,7 @@
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
 There is no Registry release. The local binary implements seven zone/image/instance-type/SSH-key data sources
-and three [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
+and four [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
 
@@ -227,7 +227,8 @@ Successful control-plane tests do not validate traffic filtering or resolve the 
 
 ## Internal hosting adapter contract test
 
-Hosting remains at the [lifecycle design](webhosting-lifecycle.md) and internal adapter stage; it is unavailable in Terraform.
+The [hosting resource](../../docs/resources/webhosting.md) is registered; product/server catalog data sources remain unavailable.
+The lower-level adapter test is separate from Terraform lifecycle acceptance.
 This opt-in test creates and deletes two new hosting services. It can incur costs and requires an authorized account,
 private credential environment variables and a mode-0700 journal directory outside the repository.
 
@@ -241,3 +242,23 @@ It uses distinct temporary account names and `.invalid` domains, without uploadi
 A private journal records intent before creation, receipts/IDs, deletion attempts, acknowledgements and list absence.
 Inspect it after failure; do not replay uncertain creates. Account name reuse has a documented 24-hour restriction.
 This test does not establish Terraform import/state behavior, data connectivity or billing termination. CI does not enable it.
+
+## Terraform hosting acceptance
+
+Use the [resource guide](../../docs/resources/webhosting.md) and [lifecycle decisions](webhosting-lifecycle.md).
+Synthetic Core tests run with `IWINV_PROTOCOL_TEST=1` and `-run TestProtocolWebhosting`, without live credentials.
+The separate live test creates four account identities, maintains two services concurrently, and tests fresh-account replacement,
+import, no-change plans, persisted re-import, external deletion and cleanup. It never mutates pre-existing services.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_HOSTING_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccWebhosting$' -v -count=1 -timeout 12m
+```
+
+Provide authorized credentials only through the child process environment. Keep logs, state and journals outside Git.
+The test requires a SHARE product with custom domains and PHP 8.4, uses random distinct account names and ephemeral initial passwords,
+and records intent before each write. Acknowledged deletion and exact-ID absence must both be verified for every owned ID.
+Fallback cleanup does not blindly replay an uncertain deletion. Inspect private evidence after any failure.
+No DNS/content migration or billing termination is asserted. CI never enables this test.

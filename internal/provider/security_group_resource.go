@@ -60,7 +60,10 @@ func (r *securityGroupResource) Schema(ctx context.Context, _ resource.SchemaReq
 	}
 }
 
-type groupTextLength struct{ min, max int }
+type groupTextLength struct {
+	min, max int
+	summary  string
+}
 
 func (v groupTextLength) Description(context.Context) string {
 	return fmt.Sprintf("Must contain between %d and %d Unicode characters.", v.min, v.max)
@@ -72,7 +75,11 @@ func (v groupTextLength) ValidateString(ctx context.Context, req validator.Strin
 	}
 	n := utf8.RuneCountInString(req.ConfigValue.ValueString())
 	if n < v.min || n > v.max {
-		resp.Diagnostics.AddAttributeError(req.Path, "Invalid security group text", v.Description(ctx))
+		summary := v.summary
+		if summary == "" {
+			summary = "Invalid security group text"
+		}
+		resp.Diagnostics.AddAttributeError(req.Path, summary, v.Description(ctx))
 	}
 }
 
@@ -80,12 +87,12 @@ func (r *securityGroupResource) Configure(_ context.Context, req resource.Config
 	if req.ProviderData == nil {
 		return
 	}
-	service, ok := req.ProviderData.(*network.Service)
+	service, ok := req.ProviderData.(*resourceServices)
 	if !ok {
 		resp.Diagnostics.AddError("Invalid provider client", "Expected the configured iwinv network client.")
 		return
 	}
-	r.network = service
+	r.network = service.Network
 }
 
 // Validate every configured timeout before the first write. Otherwise a valid

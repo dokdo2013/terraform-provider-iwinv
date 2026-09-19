@@ -264,22 +264,12 @@
         "docs/guides/security_group_rules.md",
         "docs/ko/guides/security_group_rules.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "webhosting",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "terraform_type": "iwinv_webhosting",
+      "kind": "resource",
+      "status": "development",
       "operations": [
-        {
-          "method": "GET",
-          "path": "/v1/webhosting/products"
-        },
-        {
-          "method": "GET",
-          "path": "/v1/webhosting/servers"
-        },
         {
           "method": "GET",
           "path": "/v1/webhosting"
@@ -295,9 +285,41 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "SHARE/SINGLE catalog partitions, PHP 8.4 selection, two new services with explicit Y/N, default/custom domains, literal or omitted descriptions, peer preservation and acknowledged deletion with exact-ID absence. No Terraform lifecycle, credentials in state, data-plane or billing claim.",
-      "ownership": "One exact service; no existing service mutation. Generated default domains and configured custom domains need distinct Terraform ownership.",
-      "import": "not_implemented; historical server selection and passwords cannot be reconstructed; account reuse after deletion is restricted for 24 hours by vendor documentation",
+      "live_scope": "SHARE PHP 8.4: two coexisting services; default/custom domains, literal description and Y/N; fresh-account create-before-destroy; full readable-attribute import and persisted re-import/no-op without historical inputs; external deletion/recreation; four acknowledged deletes with exact-ID absence; ephemeral passwords absent from inspected saved plans/state. No data-plane, migration or billing claim.",
+      "ownership": "One exact service and its complete custom-domain map; generated default domain is observed; DNS/content excluded",
+      "import": "Exact decimal service_idx; omit unreadable historical server_id, initial write-only passwords and local password_wo_version; match readable configuration. Ordinary remote changes require replacement with a known different account name.",
+      "evidence": [
+        "internal/provider/webhosting_resource_test.go",
+        "internal/provider/webhosting_live_test.go",
+        "docs/resources/webhosting.md",
+        "docs/ko/resources/webhosting.md",
+        "design/en/webhosting-lifecycle.md",
+        "design/ko/webhosting-lifecycle.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    }
+  ],
+  "internal_adapters": [
+    {
+      "name": "webhosting_catalogs",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webhosting/products"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/webhosting/servers"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "SHARE/SINGLE product catalog partitions and PHP 8.4 server selection; catalog data sources are not registered.",
+      "ownership": "Read-only product/server metadata; prices, VAT and disk/traffic units excluded until verified.",
+      "import": "not_applicable",
       "evidence": [
         "internal/services/hosted/webhosting.go",
         "internal/services/hosted/webhosting_catalog.go",

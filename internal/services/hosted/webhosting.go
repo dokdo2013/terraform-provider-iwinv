@@ -166,6 +166,15 @@ func validHostingPassword(password string) bool {
 	return letters && digits || letters && special || digits && special
 }
 
+// ValidateWebhostingPasswords checks the supported initial-password input
+// without including either value in diagnostics.
+func ValidateWebhostingPasswords(ftp, database string) error {
+	if !validHostingPassword(ftp) || !validHostingPassword(database) || ftp == database {
+		return errors.New("webhosting passwords must differ and each contain 7–20 printable ASCII characters from at least two of letters, digits and symbols")
+	}
+	return nil
+}
+
 func webhostingBody(in WebhostingInput) (map[string]any, error) {
 	if in.ProductID == "" || ValidateServiceID(in.ServerID) != nil || utf8.RuneCountInString(in.Name) < 4 || utf8.RuneCountInString(in.Name) > 32 || !hostingAccount.MatchString(in.Account) {
 		return nil, errors.New("webhosting requires a product, canonical server ID, 4–32 character name and 6–12 letter account")
@@ -173,8 +182,8 @@ func webhostingBody(in WebhostingInput) (map[string]any, error) {
 	if in.Description != nil && (*in.Description == "" || utf8.RuneCountInString(*in.Description) > 50) {
 		return nil, errors.New("webhosting description must contain 1–50 characters when supplied; omit it for an empty description")
 	}
-	if !validHostingPassword(in.FTPPassword) || !validHostingPassword(in.DatabasePassword) || in.FTPPassword == in.DatabasePassword {
-		return nil, errors.New("webhosting passwords must differ and each contain 7–20 printable ASCII characters from at least two of letters, digits and symbols")
+	if err := ValidateWebhostingPasswords(in.FTPPassword, in.DatabasePassword); err != nil {
+		return nil, err
 	}
 	b := map[string]any{"product_id": in.ProductID, "server_idx": in.ServerID, "name": in.Name, "id": in.Account, "ftppw": in.FTPPassword, "dbpw": in.DatabasePassword, "security": "N"}
 	if in.WebFirewall {

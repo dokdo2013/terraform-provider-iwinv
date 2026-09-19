@@ -2,7 +2,7 @@
 
 [English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
 
-**Data Source 7개의 인증된 읽기와 보안 그룹 속성·독립 ingress/egress 규칙 리소스의 수명주기 acceptance를 통과했습니다. 서버와 나머지 관리 리소스 검증은 미완료입니다.**
+**Data Source 7개의 인증된 읽기와 보안 그룹 속성·독립 ingress/egress 규칙 및 SHARE PHP 8.4 호스팅(T060)의 수명주기 acceptance를 통과했습니다. 서버와 나머지 관리 리소스 검증은 미완료입니다.**
 [현재 근거](contract-progress.md)에서 실측과 모의 테스트를 구분합니다. 문서 CI는 저장소 정합성만 검사합니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
 각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 실행 상태가 있습니다. `in_progress`는 일부 근거만 확보된 상태로 합격이 아닙니다.
 
@@ -112,3 +112,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T057 | P3 | mock/live | 미연결 전용 그룹 속성의 생성/수정/import/무변경 plan/drift/재생성/삭제가 통과하고 생성 실패 ID로 정리할 수 있다 | passed |
 | T058 | P3 | mock/live | 소유한 TCP/UDP 규칙의 CRUD/import/무변경 plan/방향 drift/초기화·부모 교체/외부 삭제와 자식 우선 destroy가 통과한다 | passed |
 | T059 | P4 | mock/live | 호스팅 어댑터의 카탈로그·두 서비스 생성/조회/삭제·다른 서비스 보존·정확한 ID 정리가 통과하며 Terraform 수명주기와 과금은 별도 검증한다 | passed |
+| T060 | P4 | mock/live | 호스팅 Core 수명주기의 새 계정 교체, 생성 이력 없는 import/무변경 plan, ephemeral write-only 값의 plan/state 비저장, 생성 실패 ID 복구와 정확한 ID 정리를 검증한다 | passed |

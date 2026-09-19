@@ -6,6 +6,7 @@ import (
 
 	"github.com/dokdo2013/terraform-provider-iwinv/internal/client"
 	"github.com/dokdo2013/terraform-provider-iwinv/internal/services/compute"
+	"github.com/dokdo2013/terraform-provider-iwinv/internal/services/hosted"
 	"github.com/dokdo2013/terraform-provider-iwinv/internal/services/network"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -21,6 +22,11 @@ type clientFactory func(string, string) (compute.API, error)
 type IwinvProvider struct {
 	version   string
 	newClient clientFactory
+}
+
+type resourceServices struct {
+	Network *network.Service
+	Hosting *hosted.WebhostingService
 }
 
 type providerModel struct {
@@ -41,7 +47,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key data sources plus security-group attributes and independent ingress/egress rules. Instance attachments are not implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key data sources plus security-group attributes, independent ingress/egress rules and webhosting accounts. Instance attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -72,9 +78,14 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		return
 	}
 	resp.DataSourceData = &compute.Service{API: api}
+	services := &resourceServices{}
 	if writes, ok := api.(network.API); ok {
-		resp.ResourceData = &network.Service{API: writes}
+		services.Network = &network.Service{API: writes}
 	}
+	if hosting, ok := api.(hosted.WebhostingAPI); ok {
+		services.Hosting = &hosted.WebhostingService{API: hosting}
+	}
+	resp.ResourceData = services
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
@@ -82,5 +93,5 @@ func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataS
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource}
+	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource}
 }
