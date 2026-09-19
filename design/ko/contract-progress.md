@@ -134,3 +134,34 @@ HTTP 500과 `DEV_CHECK_RETURN`이 반환되었고 인스턴스 ID는 없었습�
 [상품 상세](https://iwinv.readme.io/reference/getv1flavorsflavorid)의 ID는 점을 포함할 수 있으며 그대로 사용합니다.
 모의 테스트는 중복·잘못된 metadata·변하는 total·도중 실패·페이지 상한·취소를 검사합니다.
 목록 조회의 정합성 개선이며, 생성 실패나 다른 서비스의 페이지 계약을 해결했다는 의미는 아닙니다.
+
+## 보안 그룹·규칙 API 실측 (2026-09-19)
+
+서버 생성 실패와 독립적으로, 연결되지 않은 테스트 보안 그룹 3개를 순차적으로 생성해 계약을 확인했습니다.
+기존 그룹·서버에는 변경하지 않았습니다. 매번 생성 응답의 정확한 문자열 ID를 비공개 정리 대장에 저장했습니다.
+이는 API 직접 실측이며 Terraform 보안 그룹 Resource 구현·acceptance·import 완료를 의미하지 않습니다.
+
+| 작업/입력 | 실측 결과 | 구현 시 의미 |
+| --- | --- | --- |
+| 그룹 생성·상세·수정 | 모두 HTTP 200, `firewall_id` 문자열 | 문서의 202/정수 생성 ID 예시를 그대로 모델링하지 않음 |
+| 그룹 이름·설명·ICMP 수정 | 지정한 값과 재조회 값 일치, `N`→`Y` 유지 | 명시적 쓰기 후 Read 검증 가능 |
+| 규칙 생성·수정 | HTTP 200, `rule_id` 정수 | Terraform 문자열 ID와 API 숫자 ID 변환을 명시적으로 설계 |
+| `IN`/`TCP`, 단일 포트, /32 | 생성·재조회 성공 | 검증된 대문자 표기 사용 |
+| 문서 예시의 `inbound`/`tcp` 조합 | HTTP 400 / `CHECK_PARAM_ENUM` | 두 값 중 어느 값만의 원인인지는 이 조합 테스트로 구분하지 않음 |
+| `OUT`/`UDP`, `10000-10002`, /24 | 생성 성공, 입력값 보존 | 포트 범위·출력 방향 검증의 부분 근거 |
+| `192.0.2.1/24` | 성공 응답에서 호스트 비트가 있는 표기 그대로 반환 | 임의로 네트워크 주소로 바꾸면 state 불일치 가능; 패킷 동작은 미검증 |
+| 규칙 포트·설명만 PUT | 생략한 방향·프로토콜·IP·이름 유지 | 관찰한 부분 수정 동작 기록 |
+| 규칙 DELETE 후 부모 규칙 목록 | HTTP 200 / 빈 배열 / count 0 | 개별 삭제의 부재 확인 |
+| 그룹 DELETE 후 상세 | HTTP 200 / 빈 배열 / count 0 | 이 endpoint에서 관찰한 삭제 판정 후보; 모든 200을 부재로 취급하지 않음 |
+| 규칙이 있는 부모 삭제 후 규칙 목록 | HTTP 400 / `CHECK_PARAM` | 이 오류만으로 규칙 부재를 판단하지 않고 부모의 정확한 부재를 먼저 확인 |
+
+모든 테스트 그룹은 삭제 응답 이후 상세의 빈 결과와 전체 그룹 목록에서 부재를 확인했습니다.
+한 규칙은 개별 삭제 후 부재를 검증했습니다. 나머지 두 규칙은 부모 삭제 후 별도 조회가 불가능하므로
+서버 내부의 물리적 cascade 삭제까지 입증하지는 않습니다. 테스트 그룹은 어떤 인스턴스에도 연결하지 않았습니다.
+중복 규칙, 두 값 각각의 소문자 허용 여부, IPv6, ICMP 패킷 동작, import, 외부 변경, 연결 cardinality는 남아 있습니다.
+C15/C16과 T031/T032의 부분 근거이며 완료로 표시하지 않습니다.
+
+출처: [그룹 생성](https://iwinv.readme.io/reference/post_v1-security-groups),
+[그룹 상세](https://iwinv.readme.io/reference/get_v1-security-groups-id),
+[규칙 생성](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
+[그룹 삭제](https://iwinv.readme.io/reference/delete_v1-security-groups-id).

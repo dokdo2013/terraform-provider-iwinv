@@ -87,8 +87,8 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T028 | P2 | live | Destroy waits for absence and reports remaining resources/billing separately | not_run |
 | T029 | P2 | mock/live | Partial failure, interruption and rerun preserve IDs and permit documented recovery | not_run |
 | T030 | P2 | mock | Parallel resources and clients pass race tests without cross-resource state corruption | not_run |
-| T031 | P3 | live | SG direction/protocol/port/CIDR/ICMP and rule ID normalization are verified | not_run |
-| T032 | P3 | live | Rule import, duplicates, external edits and parent deletion have deterministic outcomes | not_run |
+| T031 | P3 | live | SG direction/protocol/port/CIDR/ICMP and rule ID normalization are verified | in_progress |
+| T032 | P3 | live | Rule import, duplicates, external edits and parent deletion have deterministic outcomes | in_progress |
 | T033 | P3 | live | SG attachment multiplicity and additive-vs-replacement semantics are proven | not_run |
 | T034 | P3 | live | Storage creation attachment, detach/reattach, zone affinity and retention are proven | not_run |
 | T035 | P3 | live | Exactly one resource owns a storage connection; deleting server cannot silently lose managed data | not_run |

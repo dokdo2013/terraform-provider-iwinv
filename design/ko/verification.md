@@ -83,8 +83,8 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T028 | P2 | live | destroy가 실제 부재를 확인하고 잔여 리소스/과금 상태를 구분한다 | not_run |
 | T029 | P2 | mock/live | 부분 실패/중단/재실행에서 ID 보존과 문서화된 복구가 가능하다 | not_run |
 | T030 | P2 | mock | 병렬 리소스/클라이언트가 race 및 state 오염 검증을 통과한다 | not_run |
-| T031 | P3 | live | 보안 규칙 방향/프로토콜/포트/CIDR/ICMP/ID 정규화를 확인한다 | not_run |
-| T032 | P3 | live | 규칙 import/중복/외부 변경/부모 삭제 결과가 결정적이다 | not_run |
+| T031 | P3 | live | 보안 규칙 방향/프로토콜/포트/CIDR/ICMP/ID 정규화를 확인한다 | in_progress |
+| T032 | P3 | live | 규칙 import/중복/외부 변경/부모 삭제 결과가 결정적이다 | in_progress |
 | T033 | P3 | live | 보안 그룹 연결 개수와 추가/교체 의미를 검증한다 | not_run |
 | T034 | P3 | live | 스토리지 생성 연결/분리/재연결/존/보존을 검증한다 | not_run |
 | T035 | P3 | live | 연결 소유자는 하나이며 서버 삭제 시 관리 데이터 손실을 숨기지 않는다 | not_run |

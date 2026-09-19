@@ -70,7 +70,9 @@
       "status": "in_progress",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/services/compute/catalogs_test.go",
+        "internal/provider/catalog_data_source_test.go"
       ]
     },
     {
@@ -318,8 +320,11 @@
       "method": "live",
       "expected_en": "SG direction/protocol/port/CIDR/ICMP and rule ID normalization are verified",
       "expected_ko": "보안 규칙 방향/프로토콜/포트/CIDR/ICMP/ID 정규화를 확인한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T032",
@@ -327,8 +332,11 @@
       "method": "live",
       "expected_en": "Rule import, duplicates, external edits and parent deletion have deterministic outcomes",
       "expected_ko": "규칙 import/중복/외부 변경/부모 삭제 결과가 결정적이다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T033",

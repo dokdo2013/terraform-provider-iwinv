@@ -135,3 +135,34 @@ Private images and the complete detail fields remain unverified; outputs are del
 [Product detail](https://iwinv.readme.io/reference/getv1flavorsflavorid) IDs can contain dots, which are preserved.
 Synthetic tests cover duplicates, malformed metadata, changing totals, late failures, page bounds and cancellation.
 These checks improve catalog consistency; they do not resolve create failures or establish pagination contracts for other services.
+
+## Security group and rule API observations (2026-09-19)
+
+Independently of the server create failure, three unattached test security groups were created sequentially for contract checks.
+No existing groups or servers were modified. Exact string IDs from create responses were recorded in a private cleanup journal.
+These are direct API experiments, not Terraform security-group resource implementation, acceptance or import completion.
+
+| Operation/input | Observation | Implementation implication |
+| --- | --- | --- |
+| Group create/detail/update | All HTTP 200; string `firewall_id` | Do not copy documented 202/integer-create-ID examples into the model |
+| Group name/description/ICMP update | Read matches submitted values, including `N` to `Y` | Explicit write followed by Read can verify values |
+| Rule create/update | HTTP 200; integer `rule_id` | Explicitly design conversion to Terraform string identity |
+| `IN`/`TCP`, single port, /32 | Create and subsequent read succeeded | Use the verified uppercase values |
+| Documented `inbound`/`tcp` combination | HTTP 400 / `CHECK_PARAM_ENUM` | This combined test does not isolate which individual value caused rejection |
+| `OUT`/`UDP`, `10000-10002`, /24 | Create succeeded with submitted values preserved | Partial evidence for ranges and outbound direction |
+| `192.0.2.1/24` | Success response retained host bits in the submitted text | Silently masking the address may cause state inconsistency; packet behavior is unverified |
+| PUT only rule port/description | Omitted direction/protocol/IP/name retained | Record observed partial-update behavior |
+| Rule DELETE followed by parent rule list | HTTP 200 / empty array / count 0 | Individual rule absence verified |
+| Group DELETE followed by detail | HTTP 200 / empty array / count 0 | Candidate endpoint-specific absence contract; not every 200 means absence |
+| Rule list after deleting parent with rules | HTTP 400 / `CHECK_PARAM` | This error alone is not absence; first establish exact parent absence |
+
+All test groups were absent from both detail reads and the complete group list after delete acknowledgements.
+One rule was independently deleted and verified absent. The other two became unaddressable after parent deletion,
+which does not establish physical backend cascade deletion. No test group was attached to an instance.
+Duplicate rules, lowercase values individually, IPv6, ICMP packet behavior, import, external edits and attachment cardinality remain unverified.
+This is partial evidence for C15/C16 and T031/T032, not completion.
+
+Sources: [group create](https://iwinv.readme.io/reference/post_v1-security-groups),
+[group detail](https://iwinv.readme.io/reference/get_v1-security-groups-id),
+[rule create](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
+[group delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id).

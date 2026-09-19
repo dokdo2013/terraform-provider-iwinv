@@ -24,6 +24,19 @@
         "Executable zone example fmt/validate against built provider"
       ],
       "cloud_requests": false
+    },
+    {
+      "id": "E003",
+      "kind": "ci",
+      "commit": "b94dbe8af754e4a0e50c7ab2af05ce95390ae757",
+      "url": "https://github.com/dokdo2013/terraform-provider-iwinv/actions/runs/35415861475",
+      "result": "passed",
+      "scope": [
+        "Go 1.25.8 and 1.26.1 unit/race/vet/build",
+        "Terraform 1.14.0 and 1.14.2 synthetic zone/catalog protocol tests",
+        "Zone and catalog examples fmt/validate against built provider"
+      ],
+      "cloud_requests": false
     }
   ]
 }
