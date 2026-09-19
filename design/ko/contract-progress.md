@@ -525,3 +525,30 @@ PUT 작업중 거절 한 번을 처리했으며 DELETE 작업중은 이번 실�
 
 개발 Provider는 Data Source 10개와 관리 리소스 6개입니다. 캐시 상품 Data Source, 다른 상품, tenant/content API,
 FTP 접속, 과금, 전체 T038, 웹메일 T056과 Registry 릴리스는 미완료입니다.
+
+## 캐시 상품 조회 (T067) — 2026-09-19
+
+`iwinv_content_cache_products`를 등록했습니다. null·빈 상품 ID를 보존하고 API 순서와 무관하게 전체 행을 정렬합니다.
+정확한 SHARE/SINGLE 필터에서 Read 시 unknown·빈 문자열·대소문자 오류를 거절합니다. ID 누락·잘못된 타입·중복,
+부분 메타데이터·잘못된 행·필터 불일치·API 오류는 전체 Read를 실패시킵니다. 정렬로 생성 상품을 추정하지 않습니다.
+
+`TestAccCacheProducts`는 Terraform 1.14.2/Go race에서 13.37초로 통과했습니다. 전체/SHARE/SINGLE 조회, 실제 null ID와
+무변경 plan을 검증했습니다. 합성 Core는 null·빈 문자열 구분과 API 반환 순서 변경도 검증합니다. 새 서비스를 생성하지 않았습니다.
+개발 지원은 Data Source 11개·관리 리소스 6개이며 다른 상품, tenant/content API와 Registry 릴리스는 남아 있습니다.
+
+## NAS 타입 어댑터와 준비 상태 (T068) — 2026-09-19
+
+새 NAS 준비 상태 실험은 pending 이후 조회 시작 7.12초에 active를 관측했습니다. 100 GB·설명 원문·초기 RO 권한이 일치했고,
+RW/RO 맵 교체 후 삭제 접수·정확한 ID 부재를 확인했습니다. sharename이 Read에 없다는 점도 확인했습니다.
+이 시간은 지연 보장이 아니며 mount 정보에서 공유 이름을 추정하지 않습니다.
+
+이어 `TestAccNASControlPlaneWrites`가 Go race에서 25.82초로 통과했습니다. 카탈로그 최소 100 GB의 api_nas 두 서비스 공존,
+active 대기, 설명 원문/생략, 호스트 2개의 전체 권한 맵 교체, 기존 호스트의 RW→RO 변경과 다른 호스트 제거, 다른 서비스 보존,
+삭제 접수·정확한 ID 부재를 검증했습니다. 선행 실험을 포함한 새 NAS 3개를 모두 정리했습니다.
+독립적으로 불러온 /na 콘솔의 검색 조건 없는 목록도 비어 있었고 가이드 링크가 api-nas 서비스임을 확인했습니다.
+
+타입 스키마는 정확한 int64 ID, 카탈로그 빈 ID·null 버전·coming-soon의 0 범위, 불투명한 mount 문자열을 보존합니다.
+수정 응답은 ip/acl 객체 배열이며 생성·Read의 IP→권한 맵과 별도로 디코딩합니다. 합성 테스트는 부분 생성 ID 보존,
+잘못된 입력, 전체 목록, 권한·중복 응답, 오류, 쓰기 비재시도, 인증정보·생성 이력 제외를 검증합니다.
+[NAS 수명주기 설계](nas-lifecycle.md)를 참고하세요. NAS Terraform 등록·import·교체, NFS/파일, tenant API, 과금,
+전체 T038과 별도 웹메일 정리 실패 T056은 미완료입니다. 기존 인프라는 변경하지 않았습니다.

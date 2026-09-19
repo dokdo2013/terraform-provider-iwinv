@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements nine zone/image/instance-type/SSH-key/hosting-catalog data sources
+There is no Registry release. The local binary implements eleven zone/image/instance-type/SSH-key/hosting/DBMS/cache-catalog data sources
 and six [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -325,3 +325,19 @@ Use the private credentials/log workflow above. The test records owned intents a
 scans saved plans/state for ephemeral passwords, and requires acknowledged deletion plus exact-ID absence for every created identity.
 Fallback cleanup uses a fresh deadline and repeats only a precisely classified busy rejection after reconciliation, never accepted/uncertain writes.
 CI does not enable this paid gate. This does not test tenant content APIs, FTP, billing or other products.
+
+## Cache products and internal NAS adapter
+
+T067: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccCacheProducts$' -count=1`
+reads all cache catalogs and verifies no-change plans without mutations. See the [catalog guide](../../docs/data-sources/content_cache_products.md).
+T068 uses a separate paid gate with two fresh 100 GB api_nas services:
+
+```sh
+IWINV_LIVE_NAS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test -race ./internal/client -run '^TestAccNASControlPlaneWrites$' -v -count=1 -timeout 12m
+```
+
+Use the private credential/log workflow above. Every intended create/update/delete is journaled, baseline IDs cannot be mutated, and
+an independent cleanup deadline requires acknowledged deletion plus exact-ID absence. Uncertain writes are not repeated. The test
+does not mount storage, access files, authenticate to tenant APIs or verify billing. See [NAS decisions](nas-lifecycle.md).
+NAS remains an internal adapter; CI enables neither paid gate nor live credentials.

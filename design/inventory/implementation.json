@@ -449,13 +449,11 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "content_cache_catalog",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "terraform_type": "iwinv_content_cache_products",
+      "kind": "data_source",
+      "status": "development",
       "operations": [
         {
           "method": "GET",
@@ -464,16 +462,60 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "Internal full cache catalog reads preserve nullable product IDs; Terraform catalog data source remains pending. Managed service lifecycle is recorded separately under iwinv_content_cache.",
-      "ownership": "Read-only complete catalog with nullable IDs; unit-dependent fields excluded",
+      "live_scope": "Complete unfiltered, SHARE and SINGLE catalogs with a subsequent no-change plan; nullable IDs preserved. No new resources or content/FTP/billing claims.",
+      "ownership": "Read-only catalog preserving null and empty product IDs; no unit-dependent fields or automatic selection",
       "import": "not_applicable",
       "evidence": [
-        "internal/services/hosted/cache.go",
+        "internal/provider/content_cache_products_data_source.go",
+        "internal/provider/content_cache_products_data_source_test.go",
         "internal/services/hosted/cache_test.go",
-        "internal/client/cache_busy_test.go",
-        "internal/client/cache_live_test.go",
-        "design/en/cache-lifecycle.md",
-        "design/ko/cache-lifecycle.md"
+        "docs/data-sources/content_cache_products.md",
+        "docs/ko/data-sources/content_cache_products.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    }
+  ],
+  "internal_adapters": [
+    {
+      "name": "shared_storage",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/apinas/products"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/apinas"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/apinas"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/apinas/{service_idx}/allowip"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/apinas/{service_idx}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Available api_nas at its 100 GB catalog minimum: two coexisting services reach active, literal/omitted descriptions, full RO/RW permission-map replacement and retained-host permission change, peer preservation and two acknowledged deletions with exact-ID absence. One preceding readiness probe also deleted; independent API NAS console empty. No Terraform, NFS mount, file access, tenant API, resize, other product or billing claim.",
+      "ownership": "Only newly created exact IDs; one parent owns its complete permission map",
+      "import": "Proposed exact service-ID import restores readable fields but cannot recover initial sharename; no reconstruction from domain/mount_info",
+      "evidence": [
+        "internal/services/hosted/nas.go",
+        "internal/services/hosted/nas_test.go",
+        "internal/client/nas_live_test.go",
+        "design/en/nas-lifecycle.md",
+        "design/ko/nas-lifecycle.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
       ]
     }
   ]

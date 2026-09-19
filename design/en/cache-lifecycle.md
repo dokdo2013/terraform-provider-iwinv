@@ -3,7 +3,7 @@
 [한국어](../ko/cache-lifecycle.md) · [Architecture](architecture.md) · 2026-09-19
 
 The typed control-plane adapter now covers all five cache operations: products, service list, create, complete referrer-set replacement and delete.
-T065 passes for two successive runs of two fresh `cache_lite` services each. **The Terraform resource is now registered with T066 evidence below; the catalog data source is still pending.**
+T065 passes for two successive runs of two fresh `cache_lite` services each. **The Terraform resource is now registered with T066 evidence below; the catalog data source is now registered with T067 evidence.**
 
 ## Identity and observed configuration
 
@@ -80,7 +80,7 @@ The private journal contains intents, receipt IDs, attempted/acknowledged writes
 Synthetic tests cover >2^53 IDs, nullable products, malformed/partial receipts/lists, credential exclusion, unsupported inputs and narrow busy
 classification with no implicit retry. No pre-existing infrastructure was changed.
 
-Pending: read-only catalog data source, other products, wildcard/empty-clear-in-place semantics, tenant API credentials, content/FTP access, purge and billing.
+Pending: other products, wildcard/empty-clear-in-place semantics, tenant API credentials, content/FTP access, purge and billing.
 These are part of the original scope. T037/T038/T039 and overall cleanup T056 are not completed by this adapter test; webmail remains separate.
 
 ## Registered Core resource (T066)

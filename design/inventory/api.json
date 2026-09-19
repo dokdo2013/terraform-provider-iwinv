@@ -3258,8 +3258,8 @@
       "title": "컨텐츠 캐시 상품 조회",
       "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-상품-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

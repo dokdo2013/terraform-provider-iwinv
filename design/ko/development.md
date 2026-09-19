@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅 카탈로그 Data Source 9개와
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시 카탈로그 Data Source 11개와
 [캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 6개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
@@ -324,3 +324,18 @@ TF_ACC=1 IWINV_LIVE_TERRAFORM_CACHE_WRITE=1 \
 저장 plan/state의 ephemeral 비저장을 검사합니다. 생성한 모든 ID에 삭제 접수와 정확한 부재가 필요합니다.
 보조 정리는 독립된 기한을 사용하며 정확한 작업중 거절과 재조회를 거친 경우만 재시도합니다. 접수·불확실한 쓰기는 반복하지 않습니다.
 CI는 유료 gate를 켜지 않습니다. tenant content API, FTP, 과금이나 다른 상품을 검증하는 테스트는 아닙니다.
+
+## 캐시 상품과 내부 NAS 어댑터
+
+T067: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccCacheProducts$' -count=1`은
+변경 없이 캐시 전체 카탈로그 조회와 무변경 plan을 검증합니다. [상품 가이드](../../docs/ko/data-sources/content_cache_products.md)를 참고하세요.
+T068은 100 GB api_nas 두 개를 새로 생성하는 별도 유료 gate입니다.
+
+```sh
+IWINV_LIVE_NAS_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test -race ./internal/client -run '^TestAccNASControlPlaneWrites$' -v -count=1 -timeout 12m
+```
+
+위 비공개 인증·로그 절차를 사용하세요. 생성·수정·삭제 의도를 기록하고 기존 ID 쓰기를 차단하며 독립된 정리 기한으로
+삭제 접수와 정확한 ID 부재를 요구합니다. 결과가 불확실한 쓰기는 반복하지 않습니다. mount·파일 접근·tenant API 인증·과금은
+검증하지 않습니다. [NAS 설계](nas-lifecycle.md)를 참고하세요. NAS는 내부 어댑터이며 CI에 유료 gate나 실키를 설정하지 않습니다.

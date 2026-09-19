@@ -98,3 +98,10 @@ JSON 레퍼러 전체 교체는 성공하지만 빈 배열 clear는 거부됩니
 웹메일은 추가 콘솔 대조에서 API의 성공한 빈 목록과 실제 서비스 잔존이 동시에 관찰됐습니다.
 C23의 Read 공백에 부모 서비스의 작업 중 누락도 포함합니다. 이 API의 빈 목록만으로 Terraform state를 제거하면 안 됩니다.
 [콘솔 대조 근거](contract-progress.md)를 먼저 해결해야 합니다.
+
+## NAS 타입 계약 근거 (T068)
+
+[NAS 수명주기 설계](nas-lifecycle.md)에서 C19/C20/C21을 두 서비스의 active 준비 상태·정확한 ID·전체 IP→RO/RW 맵 교체,
+별도 ip/acl 배열 수정 응답·기존 호스트 권한 변경·정리 근거로 구체화했습니다. Read에는 sharename이 없으므로 향후 import에서
+도메인·mount 문자열로 생성 입력을 복원하지 않습니다. 디스크 GB는 공식 생성 계약에 따릅니다. coming-soon 상품의 빈 ID·null 버전을
+보존하며 다른 상품·NFS·Terraform은 별도 게이트로 남깁니다.

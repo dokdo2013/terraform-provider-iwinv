@@ -67,6 +67,8 @@ Do not split it into individual memberships or manage it from another state. Ext
 Order is insignificant. Wildcards, IPs, URLs, paths, ports, IDNs, trailing dots and null members are rejected before writes.
 Unsupported existing lists produce diagnostics rather than silently dropping members. Control-plane read-back does not verify HTTP filtering.
 
+Use the read-only [product catalog](../data-sources/content_cache_products.md) to review nullable IDs and explicit creation choices.
+
 ## Empty sets, replacement and import
 
 The create endpoint ignores the referrer argument, so creation first saves the parent ID and verifies the service, then applies a

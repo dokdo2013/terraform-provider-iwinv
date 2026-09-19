@@ -528,3 +528,30 @@ No pre-existing infrastructure was mutated. [Cache design](cache-lifecycle.md) a
 
 Development registration is now ten data sources and six managed resources. The cache catalog data source, other products, tenant/content APIs,
 FTP access, billing, overall T038, webmail T056 and Registry release remain incomplete.
+
+## Cache catalog (T067) — 2026-09-19
+
+Registered `iwinv_content_cache_products`, preserving null/empty product IDs and sorting complete rows independently of API order.
+Exact SHARE/SINGLE filters reject unknown-at-Read, empty and differently cased input. Missing/invalid IDs, duplicate identities,
+partial metadata, malformed rows, filter mismatches and API errors fail the full Read. No creation choice is inferred from ordering.
+
+`TestAccCacheProducts` passed in 13.37 seconds with Terraform 1.14.2 and Go race: unfiltered/SHARE/SINGLE reads, observed null ID and
+no-change plans. Synthetic Core also distinguishes null from empty strings and tests changing API order. No services were created.
+Development registration is now eleven data sources and six resources; other products, tenant/content APIs and Registry release remain open.
+
+## NAS typed adapter and readiness (T068) — 2026-09-19
+
+A scoped readiness probe observed pending then active at 7.12 seconds of polling, verified 100 GB/literal description/initial RO permissions,
+replaced the map with RW/RO and deleted the fresh service with acknowledgement and exact-ID absence. It confirmed that sharename is not readable.
+This is not a latency guarantee or permission to infer a share name from mount information.
+
+`TestAccNASControlPlaneWrites` then passed in 25.82 seconds with Go race: two coexisting api_nas services at the catalog minimum of 100 GB,
+active waits, literal/omitted descriptions, a complete two-host permission-map replacement, retained-host RW-to-RO change/removal of the other
+host, peer preservation and two acknowledged deletions with exact-ID absence. Including the probe, all three new NAS IDs were cleaned up.
+The independently loaded API NAS console at /na showed an empty list without a search filter; its guide link identifies api-nas.
+
+Typed schemas preserve exact int64 IDs, catalog empty IDs/null versions/zero coming-soon bounds and opaque mount text. The update receipt is
+an ip/acl object array, distinct from create/Read's IP-to-mode map. Synthetic tests cover partial-create ID retention, invalid inputs, read
+completeness, permissions/duplicate acknowledgements, errors, no write retry and excluded credentials/creation history.
+See [NAS lifecycle decisions](nas-lifecycle.md). NAS Terraform registration/import/replacement, NFS/files, tenant APIs, billing, overall T038
+and the separate webmail cleanup failure T056 remain incomplete. Existing infrastructure was untouched.

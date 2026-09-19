@@ -101,3 +101,10 @@ These service-specific observations do not establish import, cleanup consistency
 Further console reconciliation observed a successful empty webmail API list while the service still existed.
 C23's Read gap also includes omission of a working parent service. An empty list alone must not remove Terraform state.
 The [console reconciliation evidence](contract-progress.md) must be resolved first.
+
+## NAS typed-contract evidence (T068)
+
+The [NAS lifecycle decisions](nas-lifecycle.md) refine C19/C20/C21 with two-service active readiness, exact IDs,
+whole IP-to-RO/RW map replacement, separate ip/acl array acknowledgements, retained-host permission changes and cleanup.
+Read has no sharename; future import cannot reconstruct that creation input from domain/mount text. Disk GB follows the public
+create contract. Empty IDs/null versions in coming-soon products are preserved; other products, NFS and Terraform remain separate gates.
