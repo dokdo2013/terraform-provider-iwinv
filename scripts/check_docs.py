@@ -134,6 +134,25 @@ for evidence in mcp["evidence"]:
 cli = json.loads((ROOT / "design/inventory/cli.json").read_text())["entries"]
 require(len({c["command"] for c in cli}) == len(cli), "Duplicate CLI command")
 require(all(c["exit_code"] == 0 for c in cli), "CLI discovery failed")
+cli_commands = {c["command"] for c in cli}
+for command in cli:
+    for child in command["children"]:
+        require(f"{command['command']} {child}" in cli_commands,
+                f"Missing discovered CLI child: {command['command']} {child}")
+cli_mapping = json.loads((ROOT / "design/inventory/cli-mapping.json").read_text())["entries"]
+mapped_commands = [command for row in cli_mapping for command in row["commands"]]
+require(len(mapped_commands) == len(set(mapped_commands)), "Duplicate CLI disposition")
+require(set(mapped_commands) == cli_commands, "CLI disposition coverage differs from help inventory")
+registered_types = {(c["kind"], c["terraform_type"]) for c in ledger}
+for row in cli_mapping:
+    require(bool(row["commands"]), "Empty CLI disposition")
+    require(bool(row["classes"]) and set(row["classes"]) <= {"R", "D", "A", "E", "L", "G"},
+            "Unknown CLI disposition class")
+    require(bool(row["remaining_en"] and row["remaining_ko"]), "CLI disposition lacks bilingual limits")
+    require(row["source"].startswith("https://docs.iwinv.kr/developers/cli/"), "Invalid CLI disposition source")
+    for reference in row["implementation_refs"]:
+        require((reference["kind"], reference["terraform_type"]) in registered_types,
+                f"CLI disposition points to unregistered capability: {reference}")
 service_operations = json.loads((ROOT / "design/inventory/service-operations.json").read_text())["entries"]
 require(len({(op["family"], op["operation"]) for op in service_operations}) == len(service_operations),
         "Duplicate service operation")

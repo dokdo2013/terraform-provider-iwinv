@@ -3,7 +3,7 @@
   "source": "https://cli.iwinv.kr/install/iwinv_darwin_arm64.tar.gz",
   "version": "v0.2.2",
   "sha256": "65d4aa06262597eebc282cb7aa7db35b6f7608633b52aa47b85c735e507fd4d2",
-  "method": "Unauthenticated --help traversal; no account configuration or cloud commands",
+  "method": "Unauthenticated --help traversal; no account configuration or cloud commands. Missing built-in help entry rechecked on 2026-09-19 against the same binary SHA-256; 48 help surfaces.",
   "entries": [
     {
       "command": "iwinv",
@@ -518,6 +518,14 @@
     },
     {
       "command": "iwinv object-storage rm",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv help",
       "flags": [
         "help"
       ],

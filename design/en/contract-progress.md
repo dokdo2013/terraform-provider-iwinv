@@ -724,3 +724,10 @@ A temporary-copy regression runner requires real validation to reject missing va
 - Reviewed destructive replacement descriptions against the four hosted-resource implementations and clarified in both languages that removing a resource block also removes prevent_destroy, which cannot block console/API deletion. No provider or API behavior changed.
 - Official browser preview: all 56 page bodies displayed their headings, hid frontmatter and rendered the expected 106 tables. Preview links exposed 91 repository-only relative targets resolving under the Registry host; converted them to explicit GitHub URLs and checked the new destinations. Recorded per-page content hashes in `design/inventory/doc-preview.json`; no sign-in or publication occurred.
 - T052 remains in progress: full narrative parity, published Registry navigation/links and actual publication are still separate gates. See [documentation policy](documentation.md) for reproduction and the exact tool boundary.
+
+
+## CLI coverage correction — 2026-09-19
+
+The root help listed a built-in `help` child missing from the earlier 47-entry traversal. The same recorded v0.2.2 binary hash was rechecked in an isolated temporary HOME with help/version commands only; adding this entry makes 48 recorded help surfaces. A complete bilingual disposition map now covers every recorded entry, including positional bill detail and local/remote object-copy modes. CI rejects missing discovered children, missing/duplicate dispositions and unregistered implementation references.
+
+Official netstat documentation establishes a client-side host connectivity diagnostic, not server traffic telemetry. Its former data-source candidate classification was corrected to local tooling without dropping any remote child operations. The coverage overview was also reconciled to 18 data sources, 7 resources and the implemented `iwinv_webhosting` identifier. This closes inventory inconsistencies only; T050 and unverified API/CLI behavior remain open. See [coverage](coverage.md) and the [disposition map](../inventory/cli-mapping.json).

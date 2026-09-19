@@ -5,7 +5,7 @@
 Goal: account for every official iwinv API/CLI capability and support all controllable remote resources.
 Coverage does not mean turning every CLI command into a persistent resource. Each entry is classified as
 managed resource (R), data source (D), action (A), ephemeral resource (E), local tool (L), or discovery gap (G).
-**Seven data sources are implemented and live-verified: `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`, `iwinv_ssh_keys`, and `iwinv_ssh_key`. `iwinv_security_group` and independent ingress/egress rule resources are also live-verified within their documented scope; attachments and other managed resources remain proposals.**
+**The current development provider registers 18 data sources and 7 resources. The implementation ledger identifies their exact schemas and live-test limits; compute, attachments and service data-plane operations remain incomplete. No Registry release exists.**
 See the [development guide](development.md) and [implementation ledger](../inventory/implementation.json).
 
 ## Control-plane inventory
@@ -31,7 +31,7 @@ content type, response status and source. Reviewed totals: 36 IaaS + 4 common + 
 | Group membership | `iwinv_security_group_attachment` | R/D | Multiplicity, replacement vs additive attachment |
 | Bills/payments | `iwinv_bill(s)`, `iwinv_current_bill` | D | Sensitive billing fields, currency/VAT/time zone |
 | SSH keys | `iwinv_ssh_key(s)` lookup; future key resource | D/G | Reviewed API only lists keys |
-| Web hosting | `iwinv_web_hosting`, product/server lookups | R/D | Password state exposure, no update contract, C19–C20 |
+| Web hosting | `iwinv_webhosting`, product/server lookups | R/D | Password state exposure, no update contract, C19–C20 |
 | Content cache | `iwinv_content_cache`, product lookup, referrer set | R/D/G | C19–C22; cache purge is a separate service API |
 | Cloud DBMS | `iwinv_db_instance`, product lookup, allowlist set | R/D/G | C19–C21; destructive replacement and backup semantics |
 | API NAS | `iwinv_shared_storage`, product lookup, allowlist set | R/D/G | C19–C21; data retention and protocol-specific access |
@@ -58,12 +58,13 @@ Do not introduce a generic arbitrary-HTTP escape hatch as a substitute for docum
 
 ## CLI disposition
 
-[CLI evidence](../inventory/surfaces.json) records public command references, not installed-binary verification.
+[Public CLI references](../inventory/surfaces.json) are documentation extracts. The independently inspected [CLI v0.2.2 help inventory](../inventory/cli.json) now records 48 help surfaces, including built-in help. The [complete disposition map](../inventory/cli-mapping.json) accounts for each exactly once, separates command containers from remote children, and links only registered counterparts. Mappings do not claim every CLI flag, positional mode or response field is supported.
 
 | CLI group | Provider disposition |
 | --- | --- |
 | instances, block-storages, flavors, images, zones, ssh-keys, user-script | Map to the R/D/A/E groups above |
-| bill, netstat | Read-only billing/traffic candidates; investigate API equivalents for netstat |
+| bill | Billing list/current-charge counterparts exist; bill-ID detail remains blocked by permission denial |
+| netstat | Local client-side host-connectivity diagnostic (L), not instance traffic or usage telemetry |
 | object-storage auth/ls/ll/cp/mv/rm/presign | Auth is configuration; list is D; object lifecycle R; operations A; presign E |
 | account, login, logout | Local authentication/profile management (L); Provider uses explicit config/env/aliases, never exports secrets |
 | completion, help, theme, install/reinstall/update/uninstall | Local CLI behavior (L), not missing cloud coverage |
@@ -78,3 +79,7 @@ Each new service family requires discovery, lifecycle/ownership ADR, credentials
 Refresh inventories manually and review diffs before updating coverage claims.
 
 Cache service API bootstrap observations and the remaining C33/T079 authentication/lifecycle gates are recorded in the [cache data API preparation](cache-data-api.md). Service creation or manager login does not mark any data operation implemented or live-verified.
+
+The [official netstat page](https://docs.iwinv.kr/developers/cli/commands/netstat) reports host/ping/status for public endpoints and accepts a host argument. Its previous classification as a traffic data-source candidate was incorrect. The inventory was rechecked against the same recorded CLI binary SHA-256 in an isolated temporary HOME without account credentials. Only help/version commands ran; this does not test network health or cloud operations. CLI help has an additional `netstat netstat` help topic, not a listed runnable child, and it is not counted as a new remote capability.
+
+CI checks every discovered child has a help entry, every entry has exactly one disposition, and every claimed implementation counterpart exists in the provider ledger. Scope extensions still require contract and live evidence; this structural coverage is not full API support.

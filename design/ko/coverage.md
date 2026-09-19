@@ -5,7 +5,7 @@
 목표는 공식 iwinv API·CLI의 모든 기능을 대장으로 관리하고 제어 가능한 원격 리소스 전체를 지원하는 것입니다.
 모든 CLI 명령을 영구 리소스로 만들지는 않습니다. 관리 리소스(R), 조회(D), 일회성 작업(A),
 임시 값(E), 로컬 도구(L), 조사/계약 공백(G)으로 분류합니다.
-**현재 구현·실환경 검증된 Data Source는 `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`, `iwinv_ssh_keys`, `iwinv_ssh_key` 7개입니다. `iwinv_security_group`과 독립 ingress/egress 규칙도 문서화한 범위에서 구현·실환경 검증했으며, 연결과 나머지 관리 리소스는 제안 단계입니다.**
+**현재 개발 Provider는 Data Source 18개와 리소스 7개를 등록합니다. 정확한 스키마·실환경 검증 한계는 구현 대장을 따르며 Compute·연결·서비스 내부 데이터 작업은 미완료입니다. Registry 릴리스는 아직 없습니다.**
 실행 방법은 [개발 가이드](development.md), 추적 정보는 [구현 대장](../inventory/implementation.json)에 있습니다.
 
 ## Control-plane 기능 대장
@@ -31,7 +31,7 @@
 | 그룹 연결 | `iwinv_security_group_attachment` | R/D | 복수 연결·추가/교체 의미 |
 | 청구/결제 | `iwinv_bill(s)`, `iwinv_current_bill` | D | 개인정보·통화·부가세·시간대 |
 | SSH 키 | `iwinv_ssh_key(s)` 조회, 추후 키 리소스 | D/G | 현재 확인된 API는 조회만 제공 |
-| 웹호스팅 | `iwinv_web_hosting`, 상품/서버 조회 | R/D | 비밀번호 state 노출·수정 계약 부재·C19–C20 |
+| 웹호스팅 | `iwinv_webhosting`, 상품/서버 조회 | R/D | 비밀번호 state 노출·수정 계약 부재·C19–C20 |
 | 컨텐츠 캐시 | `iwinv_content_cache`, 상품 조회, referrer 집합 | R/D/G | C19–C22; purge는 별도 서비스 API |
 | 클라우드 DBMS | `iwinv_db_instance`, 상품 조회, 허용 IP 집합 | R/D/G | C19–C21; 파괴적 교체·백업 의미 |
 | API NAS | `iwinv_shared_storage`, 상품 조회, 허용 IP 집합 | R/D/G | C19–C21; 데이터 보존·프로토콜별 접근 |
@@ -57,12 +57,13 @@ refresh나 일반 apply에서 예상 밖으로 실행하지 않습니다. 임의
 
 ## CLI 분류
 
-[CLI 근거 대장](../inventory/surfaces.json)은 공개 명령 참조이며 설치된 바이너리 검증 결과가 아닙니다.
+[공개 CLI 참조](../inventory/surfaces.json)는 문서 추출 결과입니다. 별도로 확인한 [CLI v0.2.2 도움말 대장](../inventory/cli.json)은 기본 help를 포함한 48개 범위를 기록합니다. [전체 대응 대장](../inventory/cli-mapping.json)은 각 항목을 정확히 한 번 분류하고 상위 명령과 원격 하위 기능을 구분하며 실제 등록된 대응 기능만 연결합니다. 모든 CLI 옵션·인자 모드·응답 필드 지원을 의미하지 않습니다.
 
 | CLI 그룹 | Provider 대응 |
 | --- | --- |
 | instances, block-storages, flavors, images, zones, ssh-keys, user-script | 위 R/D/A/E 그룹에 연결 |
-| bill, netstat | 청구/트래픽 조회, netstat의 공식 API 대응 조사 |
+| bill | 청구 목록·현재 예상 금액은 대응 기능이 있고 청구 ID 상세는 권한 오류로 미지원 |
+| netstat | 실행 PC의 호스트 연결 상태 진단(L); 인스턴스 트래픽·사용량 조회가 아님 |
 | object-storage auth/ls/ll/cp/mv/rm/presign | 인증은 설정, 목록은 D, 객체 수명주기는 R, 작업은 A, presign은 E |
 | account, login, logout | 로컬 인증/프로필(L), Provider는 설정·환경변수·alias 사용; 비밀 출력 금지 |
 | completion, help, theme, install/reinstall/update/uninstall | 로컬 도구 동작(L), 클라우드 지원 누락으로 세지 않음 |
@@ -77,3 +78,7 @@ G 항목은 분모와 공백 대장에 남기고 L 제외 항목은 별도 보�
 대장은 수동 갱신 후 diff를 검토하고 지원 상태를 변경합니다.
 
 캐시 서비스 API 접근 경로와 남은 C33/T079 인증·수명주기 검증은 [캐시 데이터 API 준비](cache-data-api.md)에 기록합니다. 서비스 생성이나 관리페이지 로그인으로 데이터 작업을 구현·실환경 검증 완료로 표시하지 않습니다.
+
+[공식 netstat 문서](https://docs.iwinv.kr/developers/cli/commands/netstat)는 공개 endpoint의 host/ping/status 및 호스트 인자를 설명합니다. 기존의 트래픽 Data Source 후보 분류는 잘못됐습니다. 기록된 것과 SHA-256이 같은 CLI 바이너리를 임시 HOME에서 계정 키 없이 재확인했습니다. 도움말·버전 명령만 실행했으므로 네트워크 상태나 클라우드 작업의 실측은 아닙니다. 도움말의 `netstat netstat`은 추가 help topic이며 실행 가능한 하위 명령 목록에 없으므로 새 원격 기능으로 세지 않습니다.
+
+CI는 발견된 모든 하위 명령의 도움말 항목, 각 항목의 정확히 한 번 분류, 대응 구현의 실제 등록 여부를 검사합니다. 범위 확장은 별도 계약·실환경 근거가 필요하며 이 구조 검사로 전체 API 지원을 주장하지 않습니다.

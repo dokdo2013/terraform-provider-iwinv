@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-19",
+  "scope": "All 48 recorded CLI help surfaces, including containers. Classifications are design dispositions; implementation_refs identify limited counterparts, not complete CLI parity or Registry releases. Positional modes remain described in remaining_en/ko.",
+  "entries": [
+    {
+      "commands": [
+        "iwinv",
+        "iwinv help",
+        "iwinv completion",
+        "iwinv completion bash",
+        "iwinv completion fish",
+        "iwinv completion powershell",
+        "iwinv completion zsh",
+        "iwinv theme",
+        "iwinv reinstall",
+        "iwinv uninstall",
+        "iwinv update"
+      ],
+      "classes": [
+        "L"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Local help, shell configuration and CLI maintenance; no provider remote resource.",
+      "remaining_ko": "로컬 도움말·셸 설정·CLI 관리이며 Provider 원격 리소스가 아닙니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/"
+    },
+    {
+      "commands": [
+        "iwinv account",
+        "iwinv login",
+        "iwinv logout",
+        "iwinv object-storage auth"
+      ],
+      "classes": [
+        "L"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Local credential/profile configuration. Provider credentials remain separate by service; never expose profile secrets as data-source output.",
+      "remaining_ko": "로컬 인증정보·프로필 설정입니다. Provider는 서비스별 인증을 구분하고 프로필 비밀값을 조회 결과로 내보내지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/account"
+    },
+    {
+      "commands": [
+        "iwinv netstat"
+      ],
+      "classes": [
+        "L"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Client-side host connectivity diagnostic, not instance traffic, usage, or billing telemetry. No remote managed object is documented.",
+      "remaining_ko": "실행 PC에서 호스트 연결 상태를 확인하는 진단입니다. 인스턴스 트래픽·사용량·과금 조회가 아니며 문서상 관리할 원격 객체가 없습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/netstat"
+    },
+    {
+      "commands": [
+        "iwinv instances",
+        "iwinv block-storages",
+        "iwinv object-storage"
+      ],
+      "classes": [
+        "L"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Command dispatch/help containers only; every discovered child is mapped separately below. This does not exclude their remote children.",
+      "remaining_ko": "명령 선택·도움말 상위 항목이며 발견된 하위 명령은 모두 별도로 분류합니다. 하위 원격 기능을 제외한다는 뜻이 아닙니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/"
+    },
+    {
+      "commands": [
+        "iwinv bill"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_bills"
+        }
+      ],
+      "remaining_en": "List counterpart exists; positional bill_id detail remains blocked by observed permission denial. A list mapping is not complete command/field parity.",
+      "remaining_ko": "목록 대응 기능은 구현됐지만 bill_id 인자 상세 조회는 관찰된 권한 오류로 미지원입니다. 목록 대응을 전체 명령·필드 동등성으로 취급하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/bill"
+    },
+    {
+      "commands": [
+        "iwinv bill live"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_current_bill"
+        }
+      ],
+      "remaining_en": "Estimated current charges only; financial semantics and documented scope remain in the billing contract.",
+      "remaining_ko": "현재 예상 청구 조회이며 금액 의미와 검증 범위는 청구 계약을 따릅니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/bill"
+    },
+    {
+      "commands": [
+        "iwinv flavors"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_instance_type"
+        },
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_instance_types"
+        }
+      ],
+      "remaining_en": "Registered read counterparts exist within their documented schemas and live scopes; this does not assert every CLI flag or response field is exposed.",
+      "remaining_ko": "등록된 조회 기능의 문서화된 스키마·실환경 범위에 대응합니다. 모든 CLI 옵션·응답 필드 지원을 의미하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/flavors"
+    },
+    {
+      "commands": [
+        "iwinv images"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_image"
+        },
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_images"
+        }
+      ],
+      "remaining_en": "Registered read counterparts exist within their documented schemas and live scopes; this does not assert every CLI flag or response field is exposed.",
+      "remaining_ko": "등록된 조회 기능의 문서화된 스키마·실환경 범위에 대응합니다. 모든 CLI 옵션·응답 필드 지원을 의미하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/images"
+    },
+    {
+      "commands": [
+        "iwinv zones"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_availability_zones"
+        }
+      ],
+      "remaining_en": "Registered read counterparts exist within their documented schemas and live scopes; this does not assert every CLI flag or response field is exposed.",
+      "remaining_ko": "등록된 조회 기능의 문서화된 스키마·실환경 범위에 대응합니다. 모든 CLI 옵션·응답 필드 지원을 의미하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/zones"
+    },
+    {
+      "commands": [
+        "iwinv ssh-keys"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_ssh_key"
+        },
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_ssh_keys"
+        }
+      ],
+      "remaining_en": "Registered read counterparts exist within their documented schemas and live scopes; this does not assert every CLI flag or response field is exposed.",
+      "remaining_ko": "등록된 조회 기능의 문서화된 스키마·실환경 범위에 대응합니다. 모든 CLI 옵션·응답 필드 지원을 의미하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/ssh-keys"
+    },
+    {
+      "commands": [
+        "iwinv block-storages types"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [
+        {
+          "kind": "data_source",
+          "terraform_type": "iwinv_block_storage_types"
+        }
+      ],
+      "remaining_en": "Registered read counterparts exist within their documented schemas and live scopes; this does not assert every CLI flag or response field is exposed.",
+      "remaining_ko": "등록된 조회 기능의 문서화된 스키마·실환경 범위에 대응합니다. 모든 CLI 옵션·응답 필드 지원을 의미하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/block-storages"
+    },
+    {
+      "commands": [
+        "iwinv instances create",
+        "iwinv instances delete",
+        "iwinv instances edit"
+      ],
+      "classes": [
+        "R"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Instance lifecycle is unimplemented; restricted compute-zone eligibility prevents owned-instance contract tests.",
+      "remaining_ko": "인스턴스 수명주기는 미구현이며 Compute 존 이용 제한으로 소유 테스트 서버 계약 검증이 막혀 있습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/instances"
+    },
+    {
+      "commands": [
+        "iwinv instances resize"
+      ],
+      "classes": [
+        "R",
+        "G"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Resize ownership, allowed transitions and interruption/data effects must be measured before update versus replacement is chosen.",
+      "remaining_ko": "resize의 소유권·허용 상태 전환·중단·데이터 영향을 실측한 뒤 수정 또는 교체를 결정해야 합니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/instances"
+    },
+    {
+      "commands": [
+        "iwinv instances show"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Instance list/detail schemas and privacy-safe fields remain unimplemented; an empty account list is insufficient detail evidence.",
+      "remaining_ko": "서버 목록·상세 스키마와 비밀 필드 제외가 미구현이며 계정의 빈 목록만으로 상세 계약을 확정하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/instances"
+    },
+    {
+      "commands": [
+        "iwinv instances reboot",
+        "iwinv instances rebuild",
+        "iwinv instances start",
+        "iwinv instances shutdown"
+      ],
+      "classes": [
+        "A",
+        "G"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Explicit-action candidates; no refresh execution or ambiguous-write replay. Power-state ownership and post-rebuild state need contracts.",
+      "remaining_ko": "명시적 Action 후보이며 refresh 실행·불확실한 쓰기 재전송은 금지합니다. 전원 상태 소유권과 rebuild 후 state 계약이 필요합니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/instances"
+    },
+    {
+      "commands": [
+        "iwinv instances vnc"
+      ],
+      "classes": [
+        "E"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Console URL expiry and secret non-persistence need validation; no ordinary data-source output.",
+      "remaining_ko": "콘솔 URL 만료·비밀 비저장을 검증해야 하며 일반 Data Source 출력으로 저장하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/instances"
+    },
+    {
+      "commands": [
+        "iwinv block-storages create",
+        "iwinv block-storages delete",
+        "iwinv block-storages attach",
+        "iwinv block-storages detach"
+      ],
+      "classes": [
+        "R",
+        "G"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Volume and attachment lifecycle remain blocked on owned compute and single connection ownership.",
+      "remaining_ko": "볼륨·연결 수명주기는 소유 Compute 환경과 연결의 단일 소유권 검증이 필요합니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/block-storages"
+    },
+    {
+      "commands": [
+        "iwinv block-storages show"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Volume list/detail contract and populated live fixtures are still missing.",
+      "remaining_ko": "볼륨 목록·상세 계약과 데이터가 있는 실환경 fixture가 필요합니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/block-storages"
+    },
+    {
+      "commands": [
+        "iwinv user-script"
+      ],
+      "classes": [
+        "D",
+        "G"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Published script-list route returned 404; console-only creation is not an API management contract.",
+      "remaining_ko": "공개 스크립트 목록 경로는 404를 반환했으며 콘솔 전용 생성을 API 관리 계약으로 해석하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/user-script"
+    },
+    {
+      "commands": [
+        "iwinv object-storage ls",
+        "iwinv object-storage ll"
+      ],
+      "classes": [
+        "D"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Bucket/object listings need separate service credentials and pagination/compatibility validation.",
+      "remaining_ko": "버킷·객체 목록은 별도 서비스 키와 페이지·호환성 검증이 필요합니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/object-storage"
+    },
+    {
+      "commands": [
+        "iwinv object-storage cp",
+        "iwinv object-storage mv"
+      ],
+      "classes": [
+        "R",
+        "A",
+        "L",
+        "G"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Local and obs:// paths are documented. Separate upload/object ownership, local downloads and explicit remote copy/move; never treat all modes as one persistent resource.",
+      "remaining_ko": "로컬·obs:// 경로가 문서화돼 있습니다. 업로드·객체 소유권, 로컬 다운로드, 명시적 원격 복사·이동을 분리하며 모든 모드를 한 영구 리소스로 취급하지 않습니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/object-storage"
+    },
+    {
+      "commands": [
+        "iwinv object-storage rm"
+      ],
+      "classes": [
+        "R",
+        "A",
+        "G"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Owned-object deletion and explicit removal need verified version/delete-marker semantics and exact ownership.",
+      "remaining_ko": "소유 객체 삭제와 명시적 제거는 버전·삭제 마커 의미 및 정확한 소유권 검증이 필요합니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/object-storage"
+    },
+    {
+      "commands": [
+        "iwinv object-storage presign"
+      ],
+      "classes": [
+        "E"
+      ],
+      "implementation_refs": [],
+      "remaining_en": "Temporary access URL; CLI documentation describes 15 minutes, not a verified Provider default. Signing and expiry remain untested.",
+      "remaining_ko": "임시 접근 URL이며 CLI 문서의 15분은 검증된 Provider 기본값이 아닙니다. 서명·만료는 미검증입니다.",
+      "source": "https://docs.iwinv.kr/developers/cli/commands/object-storage"
+    }
+  ]
+}
