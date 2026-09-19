@@ -26,6 +26,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | [DBMS lifecycle decisions](design/en/dbms-lifecycle.md) | Authoritative allowlists, account history, product ambiguity, import and recovery |
 | [Billing read contracts](design/en/billing-contract.md) | Exact money, dates, pagination and sensitive state; current/list data sources and detail access gap |
 | [MCP audit](design/en/mcp-audit.md) | OAuth consent/registration cleanup gates and offline tool-inventory validation |
+| [Release preparation](design/en/release-readiness.md) | Seven-target packaging, checksums, isolated installation and remaining signing/Registry gates |
 | [API contracts and limitations](design/en/api-contract.md) | Evidence, inconsistencies, live verification gaps |
 | [Full capability coverage](design/en/coverage.md) | Resource/Data/Action/Ephemeral classification |
 | [Verification plan](design/en/verification.md) | Acceptance criteria and execution checklist |

@@ -2,7 +2,7 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**Authenticated read acceptance passed for ten data sources, and lifecycle acceptance passed for security-group attributes and independent ingress/egress rules, plus SHARE PHP 8.4 hosting (T060) and STD Redis DBMS (T063). Compute and remaining managed-resource gates have not passed.**
+**Authenticated read acceptance passed for eighteen data sources and lifecycle acceptance passed for seven security-group/rule/hosting/DBMS/cache/NAS resources. Compute and remaining managed-resource gates have not passed.**
 [Current evidence](contract-progress.md) separates live observations from mock tests.
 Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.
@@ -109,7 +109,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T050 | P5 | review | All remaining remote capabilities have tested support or explicit upstream blockers | not_run |
 | T051 | P6 | CI | All examples format and validate against the built provider without real credentials | passed |
 | T052 | P6 | CI/review | Korean/English pages cover identical behavior and stable contract/test IDs | not_run |
-| T053 | P6 | CI | Supported OS/architecture binaries, checksums, signatures and clean Registry install pass | not_run |
+| T053 | P6 | CI | Supported OS/architecture binaries, checksums, signatures and clean Registry install pass | in_progress |
 | T054 | P6 | CI/live | Previous-version state migration and dependency upgrades keep plans stable | not_run |
 | T055 | P6 | CI/review | Untrusted PR CI has no live credentials; release permissions and actions are constrained | not_run |
 | T056 | P6 | live | Acceptance run inventory proves cleanup; leaks fail the run with recoverable evidence | failed |
@@ -133,3 +133,4 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T074 | P3 | mock/live-read | Block-storage type data source preserves nullable zone lists and exact integer GB bounds, validates filters and complete responses, rejects API errors, and passes read-only live all/SSD/SATA queries with a no-change plan | passed |
 | T075 | P4 | mock/live-read | Webmail product catalog preserves empty IDs and distinct placeholder rows, sorts literal metadata, rejects malformed/duplicate/error responses, and passes a read-only live full-catalog query and no-change plan without claiming service lifecycle support | passed |
 | T076 | P1 | offline | Offline MCP inventory validation rejects incomplete/reordered/repeated pages and duplicate tools, excludes descriptions/defaults/examples/meta/cursors, and never treats tool hints or structural discovery as authorization or verified API support | passed |
+| T077 | P6 | offline/CI | Unsigned snapshot packages preserve exact archives/checksums/protocol metadata and native filesystem-mirror installation exposes the registered schemas; signing and Registry acceptance remain separate | passed |

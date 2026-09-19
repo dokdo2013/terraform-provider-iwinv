@@ -595,8 +595,11 @@
       "method": "CI",
       "expected_en": "Supported OS/architecture binaries, checksums, signatures and clean Registry install pass",
       "expected_ko": "지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/release-readiness.md",
+        "design/ko/release-readiness.md"
+      ]
     },
     {
       "id": "T054",
@@ -949,6 +952,25 @@
         "scripts/test_summarize_mcp.py",
         "design/en/mcp-audit.md",
         "design/ko/mcp-audit.md"
+      ]
+    },
+    {
+      "id": "T077",
+      "phase": "P6",
+      "method": "offline/CI",
+      "expected_en": "Unsigned snapshot packages preserve exact archives/checksums/protocol metadata and native filesystem-mirror installation exposes the registered schemas; signing and Registry acceptance remain separate",
+      "expected_ko": "서명 없는 snapshot의 정확한 ZIP·체크섬·프로토콜 메타데이터와 네이티브 filesystem mirror 설치의 등록 스키마를 검증하고 서명·Registry 합격은 구분한다",
+      "status": "passed",
+      "evidence": [
+        ".goreleaser.yml",
+        "terraform-registry-manifest.json",
+        "scripts/check_snapshot.py",
+        "scripts/test_check_snapshot.py",
+        ".github/workflows/package.yml",
+        "design/en/release-readiness.md",
+        "design/ko/release-readiness.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
       ]
     }
   ]

@@ -1,0 +1,41 @@
+name: Package rehearsal
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: package-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version: '1.25.8'
+          cache: true
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: '1.14.2'
+          terraform_wrapper: false
+      - name: Build unsigned snapshot without publishing or cloud credentials
+        uses: goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7
+        with:
+          version: v2.18.2
+          args: release --snapshot --clean --skip=sign,publish --parallelism=2
+      - name: Verify archives and install from an isolated filesystem mirror
+        run: |
+          cp terraform-registry-manifest.json dist/terraform-provider-iwinv_0.0.0-dev_manifest.json
+          python3 scripts/check_snapshot.py dist --terraform "$(command -v terraform)"
+      - name: Test package rejection cases
+        run: python3 -m unittest discover -s scripts -p 'test_check_snapshot.py' -v

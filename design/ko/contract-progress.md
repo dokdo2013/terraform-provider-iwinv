@@ -661,3 +661,10 @@ DELETE는 404였지만 GET은 같은 신규 등록과 200을 반환했고 관리
 T076은 cursor 연결·완료·중복·구조 필드·임의 값 제외·오류 값 비노출의 오프라인 합성 검증을 통과했습니다. 문서 CI에서 실행하고
 MCP 인증·도구 실행은 하지 않습니다. 이는 준비 단계이며 실환경 도구 지원 증거가 아닙니다. Provider는 Data Source 18개·리소스 7개로
 유지하며 MCP 실행 의존성이나 클라우드 기능을 추가하지 않았습니다.
+## T077: 서명 없는 패키지 검증 (2026-09-19)
+
+GoReleaser 2.18.2로 CGO를 끄고 로컬 경로를 제거한 snapshot ZIP 7개를 만들었습니다. 대상은 Darwin amd64/arm64, Linux amd64/arm64/ARMv6/s390x, Windows amd64입니다. 검증기는 정확한 파일·내부 항목, CRC, 실행 권한, 프로토콜 6 manifest를 포함한 SHA-256과 Go 대상 메타데이터를 확인했습니다. 합성 테스트 6개는 손상·누락·중복·프로토콜 차이·추가 및 경로 이탈 파일·실행 권한·사용자 키와 설정의 격리를 확인합니다.
+
+macOS ARM64, Go 1.26.1, 실제 Terraform 1.14.2 실행 파일로 네이티브 `-version`의 `0.0.0-dev`를 확인하고 새 filesystem mirror에서 ZIP을 `init`으로 설치했습니다. 실제 프로토콜 스키마 연결 결과 Data Source 18개·리소스 7개의 이름이 구현 대장과 일치했습니다. 처음 tfenv wrapper를 사용한 시도는 HOME 격리로 버전 설정을 읽지 못해 실패했으며 실제 바이너리 경로로 격리를 유지해 통과했습니다. 임시 workspace와 lock 파일은 제거됐고 클라우드 API나 Terraform plan/apply는 실행하지 않았습니다.
+
+읽기 전용 패키지 CI는 비밀키·릴리스 업로드 없이 교차 빌드와 Linux amd64 설치를 반복합니다. 이번 합격은 서명 없는 로컬 설치이며 7개 대상의 실행, GPG 검증, Registry 게시, migration 합격은 아닙니다. T053은 진행 중, T054/T055는 미완료, 정리 T056은 실패 상태입니다. [릴리스 준비](release-readiness.md)에 남은 조건을 기록했으며 Provider 지원 범위는 동일합니다.

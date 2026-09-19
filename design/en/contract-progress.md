@@ -665,3 +665,10 @@ The machine inventory uses null, rather than zero or an invented list, for unobs
 T076 passes offline synthetic capture validation: cursor chains, completion, duplicates, structural fields, omitted arbitrary values and
 redacted errors. It runs in documentation CI and does not authenticate or execute MCP tools. It is preparation, not proof of live tool
 support. The Provider remains at eighteen data sources/seven resources; this audit adds no MCP runtime dependency or cloud capability.
+## T077: unsigned package rehearsal (2026-09-19)
+
+GoReleaser 2.18.2 produced seven CGO-free, trimmed-path snapshot ZIPs: Darwin amd64/arm64, Linux amd64/arm64/ARMv6/s390x and Windows amd64. The package checker verified exact assets/members, CRCs, executable mode, SHA-256 sums including the protocol 6 manifest, and Go target metadata. Six synthetic tests cover corruption, missing/duplicate entries, protocol drift, extra/unsafe members, executable mode and isolation from user credentials/settings.
+
+On macOS ARM64 with Go 1.26.1 and the actual Terraform 1.14.2 binary, the native `-version` returned `0.0.0-dev`; a fresh filesystem-mirror `init` installed the ZIP and a real protocol schema handshake matched all eighteen data sources and seven resources in the capability ledger. The first attempt used a tfenv wrapper and failed after HOME isolation removed its version configuration; using the actual binary preserved isolation and passed. The temporary workspace/lock file were removed. No cloud API or Terraform plan/apply was invoked.
+
+The new read-only package CI repeats cross-build and Linux amd64 installation without release upload or secrets. This is unsigned local installation, not seven-target execution, GPG verification, Registry publication or migration acceptance. T053 is in progress, T054/T055 remain open, and cleanup T056 remains failed. [Release preparation](release-readiness.md) records those remaining conditions; existing Provider support is unchanged.

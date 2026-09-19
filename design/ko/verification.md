@@ -2,7 +2,7 @@
 
 [English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
 
-**Data Source 10개의 인증된 읽기와 보안 그룹 속성·독립 ingress/egress 규칙 및 SHARE PHP 8.4 호스팅(T060)·STD Redis DBMS(T063)의 수명주기 acceptance를 통과했습니다. 서버와 나머지 관리 리소스 검증은 미완료입니다.**
+**Data Source 18개의 인증된 읽기와 보안 그룹·규칙·호스팅·DBMS·캐시·NAS 리소스 7개의 수명주기 acceptance를 통과했습니다. 서버와 나머지 관리 리소스 검증은 미완료입니다.**
 [현재 근거](contract-progress.md)에서 실측과 모의 테스트를 구분합니다. 문서 CI는 저장소 정합성만 검사합니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
 각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 실행 상태가 있습니다. `in_progress`는 일부 근거만 확보된 상태로 합격이 아닙니다.
 
@@ -105,7 +105,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T050 | P5 | review | 모든 잔여 원격 기능에 검증된 지원 또는 명시적인 공급사 제약이 있다 | not_run |
 | T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | passed |
 | T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | not_run |
-| T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | not_run |
+| T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | in_progress |
 | T054 | P6 | CI/live | 이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다 | not_run |
 | T055 | P6 | CI/review | 외부 PR에 실키가 없고 릴리스 권한/Action이 제한된다 | not_run |
 | T056 | P6 | live | 실행별 ID 대장으로 정리를 증명하며 누수는 복구 근거와 함께 실패 처리한다 | failed |
@@ -129,3 +129,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T074 | P3 | mock/live-read | 블록 스토리지 타입 Data Source가 nullable 존 목록·정확한 정수 GB 범위를 보존하고 필터·전체 응답을 검증하며 API 오류를 거절하고 실환경 전체/SSD/SATA 조회·무변경 plan을 통과한다 | passed |
 | T075 | P4 | mock/live-read | 웹메일 상품 카탈로그가 빈 ID와 서로 다른 준비 중 행을 보존하고 메타데이터를 정렬하며 잘못된/중복/오류 응답을 거절하고 서비스 수명주기 지원을 주장하지 않은 채 실환경 전체 조회·무변경 plan을 통과한다 | passed |
 | T076 | P1 | offline | 오프라인 MCP 목록 검증이 불완전/순서 변경/반복 페이지와 중복 도구를 거절하고 설명/기본값/예시/meta/cursor를 제외하며 도구 힌트나 구조 조사를 권한·검증된 API 지원으로 취급하지 않는다 | passed |
+| T077 | P6 | offline/CI | 서명 없는 snapshot의 정확한 ZIP·체크섬·프로토콜 메타데이터와 네이티브 filesystem mirror 설치의 등록 스키마를 검증하고 서명·Registry 합격은 구분한다 | passed |
