@@ -124,3 +124,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T069 | P4 | mock/live | NAS Core의 전체 권한 맵 수정·drift, 공유 이름 이력 없는 import·무변경 plan·수정, 새 공유로 용량 교체, 실패 시 ID 보존과 삭제 접수·정확한 ID 정리를 검증한다 | passed |
 | T070 | P4 | mock/live-read | NAS 상품 Data Source가 빈 ID·null 버전·정수 GB 범위를 보존하고 잘못된 전체 카탈로그를 거절하며 안정 정렬·실환경 조회·무변경 plan을 통과하고 상품을 자동 선택하지 않는다 | passed |
 | T071 | P4 | mock/live-read | 청구 조회 어댑터가 정확한 정수 금액을 보존하고 결제수단·문서 URL을 제외하며 전체 페이지·필터·빈 결과 계약을 검증하고 권한·중간 페이지 오류를 부분 결과로 바꾸지 않는다 | passed |
+| T072 | P4 | mock/live-read | 청구 Data Source가 정확한 금액·plan/state 민감 표시·결제정보 제외를 보존하고 표시 없는 출력·unknown/잘못된 필터를 거절하며 읽기 전용 실환경 조회와 안정 구간 무변경 plan을 통과한다 | passed |

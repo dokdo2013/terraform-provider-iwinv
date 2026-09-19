@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements twelve zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog data sources
+There is no Registry release. The local binary implements fourteen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing data sources
 and seven [NAS](../../docs/resources/shared_storage.md), [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -369,5 +369,12 @@ The offline `TestProtocolStorageProducts` suite uses `IWINV_PROTOCOL_TEST=1` and
 
 T071: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/services/billing -run '^TestAccBillingReads$' -v -count=1`.
 Inject HMAC credentials privately and keep logs outside the repository. This test requires existing multi-page bill history;
-it does not create invoices, perform payment or alter services. Current/list typed adapters do not register Terraform data sources.
+it does not create invoices, perform payment or alter services. This adapter gate is separate from the Terraform Core acceptance below.
 Detail access and timezone remain unresolved; see [billing contracts](billing-contract.md).
+
+## Billing Terraform acceptance
+
+T072: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccBillingDataSources$' -v -count=1`.
+Use the private credential environment and `TF_ACC_TERRAFORM_PATH`. Keep financial logs/state/plans outside the repository.
+This reads current/list/empty-filter results and checks sensitivity and a stable-window no-change plan; estimates can change later.
+Synthetic `TestProtocolBilling` tests run with `IWINV_PROTOCOL_TEST=1` and inspect sensitivity, precision and excluded fields in saved artifacts.

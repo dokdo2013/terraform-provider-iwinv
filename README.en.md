@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: twelve data sources and seven security-group/rule/webhosting/DBMS/cache/NAS resources implemented and live-tested. No Registry release yet.**
+**Status: fourteen data sources and seven security-group/rule/webhosting/DBMS/cache/NAS resources implemented and live-tested. No Registry release yet.**
 See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -24,7 +24,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | [Cache lifecycle decisions](design/en/cache-lifecycle.md) | Nested password input, referrer-set replacement, busy errors and cleanup; Terraform import/replacement/write-only verification |
 | [NAS lifecycle decisions](design/en/nas-lifecycle.md) | Whole RO/RW map, import without share history, capacity replacement and cleanup |
 | [DBMS lifecycle decisions](design/en/dbms-lifecycle.md) | Authoritative allowlists, account history, product ambiguity, import and recovery |
-| [Billing read contracts](design/en/billing-contract.md) | Exact money, dates, pagination, privacy and detail access gap; internal adapter stage |
+| [Billing read contracts](design/en/billing-contract.md) | Exact money, dates, pagination and sensitive state; current/list data sources and detail access gap |
 | [API contracts and limitations](design/en/api-contract.md) | Evidence, inconsistencies, live verification gaps |
 | [Full capability coverage](design/en/coverage.md) | Resource/Data/Action/Ephemeral classification |
 | [Verification plan](design/en/verification.md) | Acceptance criteria and execution checklist |
@@ -50,6 +50,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Cache product unfiltered/SHARE/SINGLE reads, null-ID preservation and no-change plans
 - [x] [NAS resource](docs/resources/shared_storage.md) readiness, permission updates, import, capacity replacement and cleanup
 - [x] [NAS product catalog](docs/data-sources/shared_storage_products.md) with empty IDs, nullable versions, GB bounds and no-change plan
+- [x] [Current estimate](docs/data-sources/current_bill.md) and [bill list](docs/data-sources/bills.md) with exact money, sensitive plan/state and live reads
 - [ ] Remaining managed resources
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry

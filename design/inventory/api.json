@@ -2478,8 +2478,8 @@
       "title": "Live Bill",
       "source": "https://iwinv-common.readme.io/reference/get_new-endpoint",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -2521,8 +2521,8 @@
       "title": "Billing and Payment List",
       "source": "https://iwinv-common.readme.io/reference/get_new-endpoint-1",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

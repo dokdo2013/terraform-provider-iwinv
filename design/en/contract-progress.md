@@ -607,3 +607,19 @@ Two listed historical bill IDs and the documented BILL-live detail ID returned H
 reads succeeded with the same local credentials. Detail remains unavailable and no allowlist or account setting was changed.
 Currency scaling is not invented; timezone, alternate currencies, refunds/credits, unpaid variants and nested detail need further evidence.
 T042 is now in progress; T056 webmail cleanup and the full goal remain incomplete. No billing record or cloud resource was mutated.
+
+## Billing Terraform data sources (T072), 2026-09-19
+
+Registered `iwinv_current_bill` and `iwinv_bills`. The current estimate requires exactly one row and marks all fields sensitive;
+the complete bill list and price filters are sensitive. Sensitive values remain in state/plans; payment instruments and invoice/tax
+links are absent from the schema and artifacts. Unknown filters never trigger an unfiltered account read. Dates are validated before
+requests, while observed date text and exact signed int64 money are preserved without timezone/currency conversion.
+
+`TestAccBillingDataSources` passed in 23.68 seconds on Terraform 1.14.2/Go race, reading current/list/empty-filter results and checking
+sensitive state plus a no-change plan during a stable observation. Synthetic Core verifies money above 2^53, plan/state sensitivity,
+root-output rejection, saved-artifact privacy exclusions, stable multi-page ordering, empty/multiple current cardinality, errors,
+late failures and unknown/zero/negative filters. No billing or cloud mutations occurred.
+
+Development support is fourteen data sources and seven resources. Detail still returns CHECK_IP; T042 timezone/detail gaps and
+independent webmail cleanup T056 remain open. A changing live estimate may change future plans; no price-freezing guarantee is made.
+[Current estimate guide](../../docs/data-sources/current_bill.md) · [Bill list guide](../../docs/data-sources/bills.md).

@@ -863,6 +863,27 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T072",
+      "phase": "P4",
+      "method": "mock/live-read",
+      "expected_en": "Billing data sources preserve exact money, sensitive plan/state values and excluded payment fields, reject unmarked outputs and unknown/invalid filters, and pass read-only live reads with a stable-window no-change plan",
+      "expected_ko": "청구 Data Source가 정확한 금액·plan/state 민감 표시·결제정보 제외를 보존하고 표시 없는 출력·unknown/잘못된 필터를 거절하며 읽기 전용 실환경 조회와 안정 구간 무변경 plan을 통과한다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/billing_data_source.go",
+        "internal/provider/billing_data_source_test.go",
+        "internal/services/billing/billing_test.go",
+        "design/en/billing-contract.md",
+        "design/ko/billing-contract.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "docs/data-sources/current_bill.md",
+        "docs/ko/data-sources/current_bill.md",
+        "docs/data-sources/bills.md",
+        "docs/ko/data-sources/bills.md"
+      ]
     }
   ]
 }

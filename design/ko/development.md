@@ -2,7 +2,7 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시·NAS 카탈로그 Data Source 12개와
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅·DBMS·캐시·NAS 카탈로그·청구 Data Source 14개와
 [NAS](../../docs/ko/resources/shared_storage.md)·[캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 7개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
@@ -367,5 +367,12 @@ T070은 읽기 전용입니다: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./inte
 
 T071: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/services/billing -run '^TestAccBillingReads$' -v -count=1`.
 HMAC 인증정보는 비공개로 주입하고 로그를 저장소 밖에 보관하세요. 기존 여러 페이지 청구 이력이 필요한 테스트이며
-청구서 생성·결제·서비스 변경을 하지 않습니다. 현재/목록 타입 어댑터는 Terraform Data Source로 아직 등록하지 않았습니다.
+청구서 생성·결제·서비스 변경을 하지 않습니다. 이 어댑터 gate는 아래 Terraform Core acceptance와 별도입니다.
 상세 접근·시간대는 미해결입니다. [청구 계약](billing-contract.md)을 참고하세요.
+
+## 청구 Terraform acceptance
+
+T072: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestAccBillingDataSources$' -v -count=1`.
+비공개 인증 환경과 `TF_ACC_TERRAFORM_PATH`를 설정하고 재무 로그·state·plan은 저장소 밖에 보관하세요.
+현재/전체/빈 필터 결과, 민감 표시와 안정 구간 무변경 plan을 검사하며 이후 예상 금액은 달라질 수 있습니다.
+합성 `TestProtocolBilling`은 `IWINV_PROTOCOL_TEST=1`에서 저장 산출물의 민감 표시·정확한 금액·제외 필드를 검증합니다.

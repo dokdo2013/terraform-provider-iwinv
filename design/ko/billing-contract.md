@@ -2,8 +2,8 @@
 
 [English](../en/billing-contract.md) · [아키텍처](architecture.md) · 2026-09-19
 
-내부 읽기 전용 어댑터는 `GET /v1/bill/live`와 `GET /v1/bill`을 구현합니다. 청구 Terraform Data Source는 아직 등록하지 않았습니다.
-예정된 타입은 `iwinv_current_bill`, `iwinv_bills`, `iwinv_bill`입니다. 상세 조회 acceptance는 별도 차단 상태이며
+읽기 전용 어댑터는 `GET /v1/bill/live`와 `GET /v1/bill`을 구현하며 T072 이후 `iwinv_current_bill`·`iwinv_bills`로 등록했습니다.
+`iwinv_bill` 상세 조회 acceptance는 별도 차단 상태이며
 목록을 상세의 group/item 대신 사용하거나 전체 청구 작업이 구현됐다고 표시하지 않습니다.
 
 ## 공식 문서와 실측 차이 (C32)
@@ -41,11 +41,11 @@ snapshot token이 없어서 조회 중 삽입·변경으로 생기는 일부 누
 
 ## 개인정보와 Terraform 설계
 
-목록에는 결제 수단 정보·영수증·세금계산서 링크도 있습니다. 타입 모델·진단·공개 fixture·예정된 기본 Terraform 스키마에서
+목록에는 결제 수단 정보·영수증·세금계산서 링크도 있습니다. 타입 모델·진단·공개 fixture·기본 Terraform 스키마에서
 의도적으로 제외합니다. 이 링크를 따라가거나 내려받지 않습니다. 기존 기록은 읽기 전용이며 이 API 작업은 결제·환불·계정 변경·메시지 발송을 허용하지 않습니다.
 
-향후 스키마는 재무 출력을 sensitive로 표시하고 Terraform state에는 여전히 저장됨을 설명해야 합니다.
-raw JSON을 노출하는 지름길을 사용하지 않습니다. 전체 목록은 클라우드 리소스를 소유하지 않고 import가 필요 없으며 ID 순서를 안정적으로 정렬해야 합니다.
+등록한 스키마는 재무 출력을 sensitive로 표시하고 Terraform state에는 여전히 저장됨을 설명합니다.
+raw JSON을 노출하는 지름길을 사용하지 않습니다. 전체 목록은 클라우드 리소스를 소유하지 않고 import가 필요 없으며 ID 순서를 안정적으로 정렬합니다.
 현재 예상 금액은 refresh마다 정상적으로 달라질 수 있습니다. 이름과 날짜 원문을 보존하고 상세 추가 필드는 접근 복구 후 필드별 개인정보·식별자 결정을 내립니다.
 
 ## acceptance와 상세 조회 차단
@@ -54,7 +54,7 @@ T071: `TestAccBillingReads`는 Go race에서 18.07초로 통과했습니다. 현
 날짜·금액 조합·독립 단측·음수 범위 필터 결과 대조, 빈 필터 계약을 검증했습니다. 쓰기는 없었습니다.
 합성 검사는 2^53보다 큰 정확한 금액, 결제정보·URL 제외, 이름 원문, 잘못된/null 필드, overflow·소수 금액,
 건수/페이지 불일치, 중복 페이지, 순회 상한, 취소, 필터 검증과 부분 결과 없는 실패를 다룹니다.
-타입 어댑터 근거이며 Terraform Core state·sensitive 출력·Data Source 등록은 남아 있습니다.
+이 단계는 타입 어댑터 근거이며 이후 Terraform acceptance는 아래에 기록합니다.
 
 목록에서 얻은 서로 다른 ID 두 개와 문서의 `BILL-live` 상세 ID 모두 `GET /v1/bill/{bill_id}`에서 HTTP 403 `CHECK_IP`·
 중첩 code 9를 반환했습니다. 같은 로컬 인증정보의 목록·예상 금액은 성공했습니다.
@@ -67,3 +67,12 @@ T071: `TestAccBillingReads`는 Go race에서 18.07초로 통과했습니다. 현
 [청구 목록](https://iwinv-common.readme.io/reference/get_new-endpoint-1),
 [청구 상세](https://iwinv-common.readme.io/reference/get_new-endpoint-1-3),
 [공식 CLI 청구 가이드](https://docs.iwinv.kr/developers/cli/commands/bill/).
+
+## Terraform acceptance (T072)
+
+`TestAccBillingDataSources`는 Terraform 1.14.2·Go race에서 23.68초로 통과했습니다. 현재 예상 금액·전체 목록·빈 날짜 필터,
+재무 state 민감 표시와 관측한 안정 구간의 무변경 plan을 검증했으며 쓰기는 없었습니다.
+합성 Core는 2^53보다 큰 정확한 int64, plan의 민감 값(먼저 조회되어 prior state에 들어간 Data Source 포함),
+출력 변경·state 민감 표시, 표시 없는 루트 출력 거절, unknown·0·음수 필터, 현재 결과 0개/여러 개, 중간 실패와
+저장 산출물에서 결제수단·문서 링크 제외를 검증합니다. 재무 값 자체는 저장됩니다.
+[현재 예상 청구](../../docs/ko/data-sources/current_bill.md)와 [청구 목록](../../docs/ko/data-sources/bills.md)을 참고하세요.

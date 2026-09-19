@@ -537,18 +537,39 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "billing_reads",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "terraform_type": "iwinv_current_bill",
+      "kind": "data_source",
+      "status": "development",
       "operations": [
         {
           "method": "GET",
           "path": "/v1/bill/live"
-        },
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Terraform current estimate and complete list reads, verified empty date-filter result, sensitive financial state and no-change plan during a stable observation. Synthetic Core verifies exact amounts above 2^53, saved plan/state sensitivity and payment/URL exclusions, filter unknown/zero/negative behavior. Detail, timezone, alternative currencies/refunds and billing-stop guarantees remain unverified.",
+      "ownership": "Read-only financial summaries; no payment or cloud resource ownership. Sensitive values persist in state; instruments and invoice/tax URLs excluded.",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/provider/billing_data_source.go",
+        "internal/provider/billing_data_source_test.go",
+        "internal/services/billing/billing_test.go",
+        "design/en/billing-contract.md",
+        "design/ko/billing-contract.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "docs/data-sources/current_bill.md",
+        "docs/ko/data-sources/current_bill.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_bills",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
         {
           "method": "GET",
           "path": "/v1/bill"
@@ -556,18 +577,21 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "Read-only current estimate and complete multi-page list; date/price filter boundaries, string pagination with page-local counts and endpoint-specific empty result behavior. Historical bill detail and BILL-live detail returned 403 CHECK_IP. No Terraform registration, nested detail, payment mutation, currency conversion or timezone guarantee.",
-      "ownership": "Read-only financial summaries; payment instruments and receipt/tax URLs excluded",
+      "live_scope": "Terraform current estimate and complete list reads, verified empty date-filter result, sensitive financial state and no-change plan during a stable observation. Synthetic Core verifies exact amounts above 2^53, saved plan/state sensitivity and payment/URL exclusions, filter unknown/zero/negative behavior. Detail, timezone, alternative currencies/refunds and billing-stop guarantees remain unverified.",
+      "ownership": "Read-only financial summaries; no payment or cloud resource ownership. Sensitive values persist in state; instruments and invoice/tax URLs excluded.",
       "import": "not_applicable",
       "evidence": [
-        "internal/services/billing/billing.go",
+        "internal/provider/billing_data_source.go",
+        "internal/provider/billing_data_source_test.go",
         "internal/services/billing/billing_test.go",
-        "internal/services/billing/billing_live_test.go",
         "design/en/billing-contract.md",
         "design/ko/billing-contract.md",
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "docs/data-sources/bills.md",
+        "docs/ko/data-sources/bills.md"
       ]
     }
-  ]
+  ],
+  "internal_adapters": []
 }

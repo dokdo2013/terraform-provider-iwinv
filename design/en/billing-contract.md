@@ -2,8 +2,8 @@
 
 [한국어](../ko/billing-contract.md) · [Architecture](architecture.md) · 2026-09-19
 
-The internal read-only adapter covers `GET /v1/bill/live` and `GET /v1/bill`. No billing Terraform data source is registered yet.
-The intended types remain `iwinv_current_bill`, `iwinv_bills` and `iwinv_bill`. Detail acceptance is blocked separately; do not substitute
+The read-only adapter covers `GET /v1/bill/live` and `GET /v1/bill`, registered as `iwinv_current_bill` and `iwinv_bills` after T072.
+`iwinv_bill` detail acceptance is blocked separately; do not substitute
 list records for the detail endpoint's groups/items or claim that all billing operations are implemented.
 
 ## Public documentation and live distinctions (C32)
@@ -43,11 +43,11 @@ errors and errors from `/live` or detail never become empty results. No request 
 ## Privacy and Terraform design
 
 The list also returns payment-instrument information, invoice links and tax-document links. These are deliberately absent from
-typed models, diagnostics, public fixtures and the proposed default Terraform schema. Do not follow or fetch those links.
+typed models, diagnostics, public fixtures and the default Terraform schema. Do not follow or fetch those links.
 Existing records are read-only; these APIs do not authorize payment, refund, account mutation or messages.
 
-The future schema should mark financial outputs sensitive and explain that sensitive state remains stored by Terraform.
-Do not expose raw JSON as a shortcut. One complete list owns no cloud resource, needs no import and should have stable ID ordering;
+The registered schemas mark financial outputs sensitive and explain that sensitive state remains stored by Terraform.
+Do not expose raw JSON as a shortcut. One complete list owns no cloud resource, needs no import and has stable ID ordering;
 the current estimate can legitimately change on every refresh. Preserve literal labels and date strings. Additional detail fields
 need explicit field-by-field privacy and identity decisions after the endpoint becomes available.
 
@@ -57,7 +57,7 @@ T071: `TestAccBillingReads` passed in 18.07 seconds with Go race. It read the cu
 compared exact, independent one-sided and negative-bound filters with the complete baseline, and verified the empty-filter contract. The run made no writes.
 Synthetic tests cover exact amounts above 2^53, excluded payment/URL fields, literal names, malformed/null fields, overflow/fractional
 amounts, count/page mismatches, duplicate pages, traversal bounds, cancellation, filter validation and failure without partial results.
-This is typed-adapter evidence only; Terraform Core state, sensitive-output behavior and data source registration remain pending.
+This stage was typed-adapter evidence; subsequent Terraform acceptance is recorded below.
 
 Two different IDs obtained from the list and the documented `BILL-live` detail ID each returned HTTP 403 `CHECK_IP` (nested code 9)
 from `GET /v1/bill/{bill_id}`, while the list and current estimate succeeded with the same local credentials. The reason for this
@@ -70,3 +70,12 @@ Sources: [current estimate](https://iwinv-common.readme.io/reference/get_new-end
 [bill list](https://iwinv-common.readme.io/reference/get_new-endpoint-1),
 [bill detail](https://iwinv-common.readme.io/reference/get_new-endpoint-1-3),
 [official CLI billing guide](https://docs.iwinv.kr/developers/cli/commands/bill/).
+
+## Terraform acceptance (T072)
+
+`TestAccBillingDataSources` passed in 23.68 seconds on Terraform 1.14.2 with Go race: current estimate, complete bill list,
+empty date-filter result, sensitive financial state and a no-change plan during this stable observation. No writes occurred.
+Synthetic Core checks verify precise int64 values above 2^53, sensitive plan values (including pre-read data sources in prior state),
+sensitive output changes/state, rejection of unmarked root outputs, unknown/zero/negative filters, empty/multiple current rows,
+late failures and saved-artifact exclusion of payment instruments/document links. Financial values themselves remain stored.
+See [current estimate](../../docs/data-sources/current_bill.md) and [bill list](../../docs/data-sources/bills.md).
