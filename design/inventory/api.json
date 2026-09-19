@@ -3579,8 +3579,8 @@
       "title": "클라우드 DBMS 상품 조회",
       "source": "https://iwinv-dbms.readme.io/reference/클라우드-dbms-상품-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

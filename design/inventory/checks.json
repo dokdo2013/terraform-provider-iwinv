@@ -719,6 +719,20 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T064",
+      "phase": "P4",
+      "method": "mock/live-read",
+      "expected_en": "DBMS catalog data source preserves empty/repeated IDs, validates full responses and filters, and passes all documented filter reads with no-change plans without claiming version selection",
+      "expected_ko": "DBMS 상품 Data Source가 빈/중복 ID를 보존하고 전체 응답·필터를 검증하며 모든 공식 필터의 실환경 읽기와 무변경 plan을 통과하되 버전 선택을 약속하지 않는다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/db_instance_products_data_source_test.go",
+        "internal/services/hosted/dbms_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

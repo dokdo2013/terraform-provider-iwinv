@@ -45,7 +45,7 @@ Creation rejects an empty ID. Catalog IDs also repeat across versions; preserve 
 The API exposes no version selector in POST. `engine_version` is observed, not configurable, and a catalog row does not prove provisioning eligibility.
 `spec.type` is a tier, not an engine name. Prices/VAT, vCPU, memory and disk units remain outside the typed public model.
 The internal catalog accepts documented engine/type filters; only the unfiltered and STD/redis combination were live-checked here.
-DBMS catalog data sources remain unregistered.
+The read-only [`iwinv_db_instance_products`](../../docs/data-sources/db_instance_products.md) data source is now registered. T064 separately verifies all six documented engine filters, both tier filters, the combined STD/redis query and no-change plans. It preserves full rows rather than flattening them into unique IDs.
 
 The tested product was selected using the documented `type=STD&db=redis` query. Product names use abbreviated labels; the response does not separately echo an engine identifier. “STD Redis” in this evidence describes that filtered selection, not an independent engine or database-connectivity verification.
 
@@ -70,3 +70,5 @@ Sources: [create](https://iwinv-dbms.readme.io/reference/클라우드-dbms-생�
 [allowlist](https://iwinv-dbms.readme.io/reference/접근-허용-ip-추가),
 [delete](https://iwinv-dbms.readme.io/reference/클라우드-dbms-삭제),
 [products](https://iwinv-dbms.readme.io/reference/클라우드-dbms-상품-조회).
+
+A subsequent independent console check found an empty DBMS service list with no search filter after the six owned fixture deletions. This supports service cleanup, not billing termination.

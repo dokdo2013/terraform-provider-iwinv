@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: nine data sources and five security-group/rule/webhosting/DBMS resources implemented and live-tested. No Registry release yet.**
+**Status: ten data sources and five security-group/rule/webhosting/DBMS resources implemented and live-tested. No Registry release yet.**
 See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -41,6 +41,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Ingress/egress rules: import, drift, replacement and dependency-ordered deletion
 - [x] Hosting product/server catalog reads and no-change plans
 - [x] Hosting fresh-account replacement/import/write-only secret exclusion/destroy (SHARE PHP 8.4)
+- [x] DBMS product reads across all documented filters, preserving empty and version-shared IDs
 - [x] DBMS allowlist replacement/import/drift/fresh-account replacement/cleanup (STD Redis)
 - [ ] Remaining managed resources
 - [ ] Resource acceptance tests and signed releases

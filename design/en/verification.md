@@ -2,7 +2,7 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**Authenticated read acceptance passed for nine data sources, and lifecycle acceptance passed for security-group attributes and independent ingress/egress rules, plus SHARE PHP 8.4 hosting (T060) and STD Redis DBMS (T063). Compute and remaining managed-resource gates have not passed.**
+**Authenticated read acceptance passed for ten data sources, and lifecycle acceptance passed for security-group attributes and independent ingress/egress rules, plus SHARE PHP 8.4 hosting (T060) and STD Redis DBMS (T063). Compute and remaining managed-resource gates have not passed.**
 [Current evidence](contract-progress.md) separates live observations from mock tests.
 Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.
@@ -120,3 +120,4 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T061 | P4 | mock/live-read | Hosting catalog data sources verify SHARE/SINGLE filters, exact server IDs, sorted complete output, invalid/empty/error cases and live read/no-change plans | passed |
 | T062 | P4 | mock/live | DBMS adapter preserves catalog ambiguity and exact IDs, verifies two-service create/read/allowlist replacement, peer preservation and acknowledged exact-ID cleanup | passed |
 | T063 | P4 | mock/live | STD Redis Core lifecycle passes authoritative allowlist update/drift, import/no-op without account history, fresh-account replacement, failure identity retention and exact-ID cleanup | passed |
+| T064 | P4 | mock/live-read | DBMS catalog data source preserves empty/repeated IDs, validates full responses and filters, and passes all documented filter reads with no-change plans without claiming version selection | passed |

@@ -293,3 +293,9 @@ These create two and four new STD Redis service identities respectively, and may
 credential/log controls above. Every write intent and returned creation identity is journaled; existing IDs are excluded from mutation.
 Each deletion requires an acknowledgement and exact-ID absence. Fallback cleanup never blindly repeats an uncertain deletion.
 No SQL/Redis client query, data write, DNS change or billing termination verification is performed. CI never enables paid tests.
+
+## DBMS product reads
+
+`iwinv_db_instance_products` ([English](../../docs/data-sources/db_instance_products.md), [한국어](../../docs/ko/data-sources/db_instance_products.md))
+uses `IWINV_LIVE_READ=1 TF_ACC=1 go test -race ./internal/provider -run '^TestAccDBProducts$' -count=1` for read-only acceptance.
+T064 validates all documented filters, empty/version-shared IDs and a no-change plan. No new service is created.

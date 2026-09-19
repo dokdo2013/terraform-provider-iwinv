@@ -482,3 +482,15 @@ planned only, not applied. The account name is creation history absent from Read
 T062/T063 pass within the documented STD Redis control-plane scope. T037/T038/T039 remain partial across other products/services;
 T056 remains failed for the earlier webmail. Data connectivity, backup/migration, engine variants, account reuse timing and billing
 termination remain unverified. DBMS catalog lookup is internal, not a registered data source. See [design decisions](dbms-lifecycle.md).
+
+## DBMS product data source (T064) — 2026-09-19
+
+Registered `iwinv_db_instance_products` with optional exact `product_type` and `engine` API filters and a sorted list of full product rows.
+Empty creation IDs and IDs repeated across versions are retained (C30); missing/null IDs, malformed/duplicate tuples, partial metadata,
+unknown/invalid filters and API errors are rejected. No automatic product selection or creation-time version selector is implied.
+
+`TestAccDBProducts` passed in 49.77 seconds under Terraform 1.14.2/Go race: unfiltered reads, all six engine filters, both tier filters,
+the STD/redis combination and subsequent no-change plans. This is filter acceptance and metadata validation, not independent engine identity
+or provisioning verification. Synthetic Core checks cover empty/repeated-ID preservation, sorting, errors and input rejection.
+No cloud resources were created or modified. The DBMS console list independently appeared empty without a search filter after T062/T063 cleanup.
+The development provider now has ten data sources and five managed resources. T038 overall, webmail T056 and Registry release remain incomplete.

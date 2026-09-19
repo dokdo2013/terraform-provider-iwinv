@@ -386,13 +386,9 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
-    }
-  ],
-  "internal_adapters": [
+    },
     {
-      "name": "dbms_catalogs",
-      "terraform_registered": false,
-      "status": "contract_adapter",
+      "status": "development",
       "operations": [
         {
           "method": "GET",
@@ -401,16 +397,20 @@
       ],
       "live_verified": true,
       "live_observed_on": "2026-09-19",
-      "live_scope": "Unfiltered 113-row catalog including four available empty-ID rows and STD/redis filter; only a nonempty globally unambiguous creation ID was used in lifecycle tests. Other filters not live-verified.",
+      "live_scope": "Unfiltered catalog, all six documented engine filters, both STD/HM tier filters and STD/redis combination with a subsequent no-change plan; rows preserve empty IDs and version duplicates. No provisioning, independent engine identity, connectivity or billing assertion.",
       "ownership": "Read-only catalog preserving version rows and empty creation IDs; excludes unverified unit fields",
       "import": "not_applicable",
       "evidence": [
-        "internal/services/hosted/dbms.go",
+        "internal/provider/db_instance_products_data_source_test.go",
         "internal/services/hosted/dbms_test.go",
-        "internal/client/dbms_live_test.go",
-        "design/en/dbms-lifecycle.md",
-        "design/ko/dbms-lifecycle.md"
-      ]
+        "docs/data-sources/db_instance_products.md",
+        "docs/ko/data-sources/db_instance_products.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ],
+      "terraform_type": "iwinv_db_instance_products",
+      "kind": "data_source"
     }
-  ]
+  ],
+  "internal_adapters": []
 }

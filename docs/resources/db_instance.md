@@ -60,7 +60,7 @@ Changing only timeouts does not write to the service. Names/descriptions are lit
 The catalog has duplicate product IDs across versions and even available rows with an empty creation ID (C30). The create API accepts
 only `product_id`, not a version selector. Do not select an empty ID, deduplicate away version rows or assume a catalog version will be
 provisioned. Inspect the observed version after creation. CPU/price/storage unit fields are excluded until verified.
-DBMS catalog data sources are not registered yet.
+Use the read-only [product catalog](../data-sources/db_instance_products.md) to review complete rows and ambiguity.
 
 ## Replacement and import
 

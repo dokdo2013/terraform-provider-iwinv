@@ -2,7 +2,7 @@
 
 [English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
 
-**Data Source 9개의 인증된 읽기와 보안 그룹 속성·독립 ingress/egress 규칙 및 SHARE PHP 8.4 호스팅(T060)·STD Redis DBMS(T063)의 수명주기 acceptance를 통과했습니다. 서버와 나머지 관리 리소스 검증은 미완료입니다.**
+**Data Source 10개의 인증된 읽기와 보안 그룹 속성·독립 ingress/egress 규칙 및 SHARE PHP 8.4 호스팅(T060)·STD Redis DBMS(T063)의 수명주기 acceptance를 통과했습니다. 서버와 나머지 관리 리소스 검증은 미완료입니다.**
 [현재 근거](contract-progress.md)에서 실측과 모의 테스트를 구분합니다. 문서 CI는 저장소 정합성만 검사합니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
 각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 실행 상태가 있습니다. `in_progress`는 일부 근거만 확보된 상태로 합격이 아닙니다.
 
@@ -116,3 +116,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T061 | P4 | mock/live-read | 호스팅 카탈로그 Data Source의 SHARE/SINGLE 필터, 정확한 서버 ID, 정렬된 전체 결과, 잘못된 입력/빈 목록/오류와 실환경 읽기/무변경 plan을 검증한다 | passed |
 | T062 | P4 | mock/live | DBMS 어댑터가 상품 모호성과 정확한 ID를 보존하고 두 서비스 생성/조회/허용 목록 교체, 다른 서비스 보존과 삭제 응답/정확한 ID 정리를 검증한다 | passed |
 | T063 | P4 | mock/live | STD Redis Core 수명주기의 허용 목록 수정/drift, 계정 이력 없는 import/무변경 plan, 새 계정 교체, 실패 시 ID 보존과 정확한 ID 정리를 검증한다 | passed |
+| T064 | P4 | mock/live-read | DBMS 상품 Data Source가 빈/중복 ID를 보존하고 전체 응답·필터를 검증하며 모든 공식 필터의 실환경 읽기와 무변경 plan을 통과하되 버전 선택을 약속하지 않는다 | passed |

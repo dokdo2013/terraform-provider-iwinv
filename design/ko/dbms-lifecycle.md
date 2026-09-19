@@ -46,7 +46,7 @@ PUT은 JSON으로 한 번 전송합니다. 응답이 정확한 요청 집합인�
 POST는 버전 선택값을 지원하지 않습니다. `engine_version`은 설정이 아닌 관측값이며 카탈로그 노출이 생성 자격을 보장하지 않습니다.
 `spec.type`은 등급이지 엔진 이름이 아닙니다. 가격/VAT, vCPU, 메모리, 디스크 단위는 공개 타입 모델에서 제외합니다.
 내부 카탈로그는 문서화된 엔진/등급 필터를 받으며 이번 실환경 검증은 전체 조회와 STD/redis 조합입니다.
-DBMS 카탈로그 Data Source는 아직 미등록입니다.
+조회 전용 [`iwinv_db_instance_products`](../../docs/ko/data-sources/db_instance_products.md)를 등록했습니다. T064는 공식 엔진 필터 6개, 등급 필터 2개, STD/redis 조합과 무변경 plan을 별도로 검증합니다. ID 집합으로 단순화하지 않고 전체 행을 보존합니다.
 
 테스트 상품은 공식 `type=STD&db=redis` 쿼리로 선택했습니다. 상품명은 축약된 표기이며 응답에 엔진 식별자가 별도로 반환되지 않습니다. 이 근거의 “STD Redis”는 해당 필터로 선택한 범위이며, 엔진 종류나 실제 DB 접속을 독립 검증했다는 의미가 아닙니다.
 
@@ -71,3 +71,5 @@ T063은 두 리소스를 함께 유지하며 총 4개 서비스 ID의 허용 목
 [허용 IP](https://iwinv-dbms.readme.io/reference/접근-허용-ip-추가),
 [삭제](https://iwinv-dbms.readme.io/reference/클라우드-dbms-삭제),
 [상품](https://iwinv-dbms.readme.io/reference/클라우드-dbms-상품-조회).
+
+6개 테스트 리소스를 삭제한 뒤 콘솔도 독립 확인했습니다. 검색 필터 없는 DBMS 서비스 목록이 비어 있었으며 과금 종료와는 구분합니다.

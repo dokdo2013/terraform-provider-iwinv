@@ -292,3 +292,9 @@ TF_ACC=1 IWINV_LIVE_TERRAFORM_DBMS_WRITE=1 \
 각 쓰기 의도와 생성 ID를 대장에 기록하고 기존 ID는 변경 대상에서 제외합니다. 모든 삭제는 응답과 정확한 ID 부재를 확인하며,
 실패 시 정리도 불확실한 삭제를 무조건 반복하지 않습니다. SQL/Redis 접속 쿼리, 데이터 쓰기, DNS 변경이나 과금 종료 확인은 하지 않습니다.
 CI에서는 유료 테스트를 활성화하지 않습니다.
+
+## DBMS 상품 조회
+
+`iwinv_db_instance_products`는 [한국어 가이드](../../docs/ko/data-sources/db_instance_products.md)에 따라 조회합니다.
+조회 전용 acceptance는 `IWINV_LIVE_READ=1 TF_ACC=1 go test -race ./internal/provider -run '^TestAccDBProducts$' -count=1`로 실행합니다.
+T064는 모든 공식 필터와 빈/버전 간 중복 ID, 무변경 plan을 검증합니다. 새 서비스는 만들지 않습니다.
