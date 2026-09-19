@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_bills (Data Source)
 
-[한국어](../ko/data-sources/bills.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/data-sources/bills.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_bills-data-source)
 
 Reads complete bill summaries without modifying billing records. No Registry release yet. This data source calls the list endpoint;
 it does not replace the unavailable detail endpoint's nested groups/items.

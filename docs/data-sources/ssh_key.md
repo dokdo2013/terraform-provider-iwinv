@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_ssh_key
 
-[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/ssh_key.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/ssh_key.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_ssh_key-data-source)
 
 Find one existing SSH key by its exact ID after validating the complete key list.
 

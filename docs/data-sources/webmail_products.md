@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webmail_products
 
-[한국어](../ko/data-sources/webmail_products.md)
+[한국어](../ko/data-sources/webmail_products.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webmail_products-data-source)
 
 Reads catalog metadata only. Development provider; no Registry release yet.
 

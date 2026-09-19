@@ -1,6 +1,6 @@
 # iwinv_security_group_ingress_rule 리소스
 
-[English](../../resources/security_group_ingress_rule.md) · [설치](../../../design/ko/development.md)
+[English](../../resources/security_group_ingress_rule.md) · [설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_security_group_ingress_rule-resource)
 
 ingress 규칙 하나를 관리하는 개발용 리소스입니다. 해당 규칙의 속성만 소유하고 부모 그룹이나 다른 규칙은 소유하지 않습니다.
 아직 Registry 릴리스는 없습니다. 미연결 전용 그룹에서 control-plane 수명주기를 검증했으며 실제 패킷 필터링은 미검증입니다.
@@ -8,6 +8,10 @@ ingress 규칙 하나를 관리하는 개발용 리소스입니다. 해당 규�
 ## 예제
 
 ```hcl
+resource "iwinv_security_group" "example" {
+  name = "tf-example-group"
+}
+
 resource "iwinv_security_group_ingress_rule" "example" {
   security_group_id = iwinv_security_group.example.id
   name              = "example-ingress"

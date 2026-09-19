@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_image
 
-[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/image.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/image.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_image-data-source)
 
 Read the supported metadata for one exact image ID. No image is created, imported or owned.
 

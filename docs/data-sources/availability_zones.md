@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_availability_zones
 
-[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/availability_zones.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/availability_zones.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_availability_zones-data-source)
 
 Read the API-visible zone catalog without managing zones or creating servers.
 

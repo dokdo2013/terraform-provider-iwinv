@@ -1,6 +1,6 @@
 # iwinv_security_group 리소스
 
-[English](../../resources/security_group.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../resources/security_group.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_security_group-resource)
 
 보안 그룹의 속성을 관리하는 개발용 리소스입니다. 아직 Registry 릴리스는 없습니다.
 정확한 `firewall_id` 하나의 `name`, `description`, `allow_icmp`를 소유합니다.

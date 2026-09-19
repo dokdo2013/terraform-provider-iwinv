@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_ssh_keys
 
-[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/ssh_keys.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/ssh_keys.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_ssh_keys-data-source)
 
 List existing SSH key references without exposing key material or modifying keys.
 

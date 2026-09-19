@@ -597,7 +597,12 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md",
         "scripts/check_intro_docs.py",
-        ".github/workflows/test.yml"
+        ".github/workflows/test.yml",
+        "scripts/test_doc_failures.py",
+        "docs/guides/schema_reference.md",
+        "docs/ko/guides/schema_reference.md",
+        "design/en/documentation.md",
+        "design/ko/documentation.md"
       ]
     },
     {
@@ -1013,6 +1018,25 @@
         "design/en/cache-data-api.md",
         "design/ko/cache-data-api.md",
         "design/inventory/service-operations.json",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    },
+    {
+      "id": "T080",
+      "phase": "P6",
+      "method": "offline/CI",
+      "expected_en": "All provider-page HCL examples format and validate against the built provider, bilingual executable snippets match, complete nested runtime schema references match, and injected documentation regressions are rejected",
+      "expected_ko": "모든 Provider 페이지의 HCL 예제를 빌드 바이너리로 format·validate하고 한영 실행 코드와 전체 중첩 스키마 참조를 대조하며 주입한 문서 오류를 거부한다",
+      "status": "passed",
+      "evidence": [
+        "scripts/check_intro_docs.py",
+        "scripts/test_doc_failures.py",
+        "docs/guides/schema_reference.md",
+        "docs/ko/guides/schema_reference.md",
+        ".github/workflows/test.yml",
+        "design/en/documentation.md",
+        "design/ko/documentation.md",
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]

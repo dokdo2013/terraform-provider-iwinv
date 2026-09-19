@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_images
 
-[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/images.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/images.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_images-data-source)
 
 Read all API-visible image IDs, then deliberately select the image you intend to use.
 

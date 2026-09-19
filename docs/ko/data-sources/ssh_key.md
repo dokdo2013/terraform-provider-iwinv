@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_ssh_key
 
-[English](../../data-sources/ssh_key.md)
+[English](../../data-sources/ssh_key.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_ssh_key-data-source)
 
 전체 SSH 키 목록을 검증한 뒤 정확한 ID로 기존 키 하나를 찾습니다.
 

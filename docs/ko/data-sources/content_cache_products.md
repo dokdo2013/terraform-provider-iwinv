@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_content_cache_products (Data Source)
 
-[English](../../data-sources/content_cache_products.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../data-sources/content_cache_products.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_content_cache_products-data-source)
 
 서비스를 생성하지 않고 콘텐츠 캐시 상품을 조회합니다. 개발 Provider이며 Registry 릴리스는 아직 없습니다.
 

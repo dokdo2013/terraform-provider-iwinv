@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_instance_types
 
-[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/instance_types.md)
+[한국어](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/docs/ko/data-sources/instance_types.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_instance_types-data-source)
 
 Read the exact compute product IDs exposed by the flavors API.
 

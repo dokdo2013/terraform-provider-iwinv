@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_db_instance_products (Data Source)
 
-[English](../../data-sources/db_instance_products.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../data-sources/db_instance_products.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_db_instance_products-data-source)
 
 DB를 만들지 않고 DBMS 상품 카탈로그를 조회합니다. 개발용 Provider이며 아직 Registry 릴리스는 없습니다.
 

@@ -70,5 +70,7 @@ jobs:
           for example in examples/data-sources/* examples/resources/*; do
             TF_CLI_CONFIG_FILE="$RUNNER_TEMP/iwinv.tfrc" terraform -chdir="$example" validate
           done
-      - name: Validate bilingual introduction and catalog documentation with the binary
+      - name: Validate all bilingual provider examples and complete schema references
         run: python3 scripts/check_intro_docs.py --provider-dir bin --terraform "$(command -v terraform)"
+      - name: Reject documentation regressions with the actual provider binary
+        run: python3 scripts/test_doc_failures.py --provider-dir bin --terraform "$(command -v terraform)"

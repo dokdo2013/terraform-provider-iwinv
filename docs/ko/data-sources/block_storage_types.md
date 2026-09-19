@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_block_storage_types
 
-[English](../../data-sources/block_storage_types.md)
+[English](../../data-sources/block_storage_types.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_block_storage_types-data-source)
 
 스토리지를 생성하지 않고 디스크 타입 카탈로그를 읽습니다. 개발용 Provider이며 Registry 릴리스는 아직 없습니다.
 

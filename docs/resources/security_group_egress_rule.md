@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group_egress_rule (Resource)
 
-[한국어](../ko/resources/security_group_egress_rule.md) · [Installation](../../design/en/development.md)
+[한국어](../ko/resources/security_group_egress_rule.md) · [Installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group_egress_rule-resource)
 
 Development resource for one egress rule. It owns the rule's attributes, not its parent group or other rules.
 There is no Registry release yet. Live control-plane lifecycle tests passed on dedicated, unattached groups; actual packet filtering remains unverified.
@@ -15,6 +15,10 @@ There is no Registry release yet. Live control-plane lifecycle tests passed on d
 ## Example
 
 ```hcl
+resource "iwinv_security_group" "example" {
+  name = "tf-example-group"
+}
+
 resource "iwinv_security_group_egress_rule" "example" {
   security_group_id = iwinv_security_group.example.id
   name              = "example-egress"

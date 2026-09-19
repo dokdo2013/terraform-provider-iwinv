@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_shared_storage_products (Data Source)
 
-[한국어](../ko/data-sources/shared_storage_products.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/data-sources/shared_storage_products.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_shared_storage_products-data-source)
 
 Reads all API NAS products without creating storage. Development provider; no Registry release yet.
 No filter arguments are documented for this endpoint, so this data source has no configurable attributes.

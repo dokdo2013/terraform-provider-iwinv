@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_db_instance (Resource)
 
-[한국어](../ko/resources/db_instance.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/resources/db_instance.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_db_instance-resource)
 
 Development control-plane resource; no Registry release yet. The verified service family is an available STD Redis product.
 It manages service creation/deletion and the complete allowed-IP set. It does not manage database content, users/passwords,
@@ -19,6 +19,10 @@ Use the [complete example](../../examples/resources/iwinv_db_instance/main.tf) w
 and your intended nonempty IPv4 host set. The example enables `prevent_destroy` because service deletion is irreversible.
 
 ```hcl
+variable "product_id" { type = string }
+variable "account_name" { type = string }
+variable "allowed_ips" { type = set(string) }
+
 resource "iwinv_db_instance" "example" {
   product_id   = var.product_id
   account_name = var.account_name

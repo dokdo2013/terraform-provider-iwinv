@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_ssh_keys
 
-[English](../../data-sources/ssh_keys.md)
+[English](../../data-sources/ssh_keys.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_ssh_keys-data-source)
 
 키 내용을 노출하거나 키를 변경하지 않고 기존 SSH 키의 참조 목록을 조회합니다.
 

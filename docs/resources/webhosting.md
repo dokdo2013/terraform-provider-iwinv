@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting (Resource)
 
-[한국어](../ko/resources/webhosting.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/resources/webhosting.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting-resource)
 
 Development support for the public hosting control plane. No Registry release exists yet.
 The live-tested scope is shared hosting with PHP 8.4, default/custom domains and explicit web-firewall Y/N.
@@ -22,6 +22,10 @@ a fresh 6–12 letter account name, and two distinct ephemeral password variable
 The account name is not the decimal service ID.
 
 ```hcl
+variable "product_id" { type = string }
+variable "server_id" { type = string }
+variable "account_name" { type = string }
+
 variable "ftp_password" {
   type      = string
   sensitive = true
@@ -33,10 +37,10 @@ variable "database_password" {
   ephemeral = true
 }
 resource "iwinv_webhosting" "example" {
-  product_id          = var.product_id
-  server_id           = var.server_id
-  account_name        = var.account_name
-  name                = "tf-example-hosting"
+  product_id           = var.product_id
+  server_id            = var.server_id
+  account_name         = var.account_name
+  name                 = "tf-example-hosting"
   ftp_password_wo      = var.ftp_password
   database_password_wo = var.database_password
   password_wo_version  = 1

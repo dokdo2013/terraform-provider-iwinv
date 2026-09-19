@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_availability_zones
 
-[English](../../data-sources/availability_zones.md)
+[English](../../data-sources/availability_zones.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_availability_zones-data-source)
 
 API에 보이는 존 목록을 조회합니다. 존을 관리하거나 서버를 생성하지 않습니다.
 

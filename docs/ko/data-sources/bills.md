@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_bills (Data Source)
 
-[English](../../data-sources/bills.md) · [개발 버전 설치](../../../design/ko/development.md)
+[English](../../data-sources/bills.md) · [개발 버전 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_bills-data-source)
 
 청구 기록을 변경하지 않고 전체 요약을 조회합니다. Registry 릴리스는 아직 없습니다.
 목록 API를 사용하며 접근할 수 없는 상세 API의 중첩 group/item을 대신하지 않습니다.

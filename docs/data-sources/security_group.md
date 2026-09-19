@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group
 
-[한국어](../ko/data-sources/security_group.md)
+[한국어](../ko/data-sources/security_group.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group-data-source)
 
 Development provider; no Registry release yet. Reads one exact existing group ID without name matching or automatic selection.
 

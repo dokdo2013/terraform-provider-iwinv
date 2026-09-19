@@ -72,3 +72,5 @@ Compute instances, attachments, webmail service/mailbox management, service-spec
 - **Contract/metadata error:** preserve a private diagnostic and report a sanitized summary. A malformed response or later-page error is intentionally not accepted as a partial list.
 
 Official service documentation: [iwinv developer guide](https://docs.iwinv.kr/developers/cli/commands/account). Community bugs: [GitHub issues](https://github.com/dokdo2013/terraform-provider-iwinv/issues). Exclude keys, state, saved plans, raw account responses and financial data from reports.
+
+See the [schema reference](guides/schema_reference.md) for all attributes, nested structures, input flags and secret flags.

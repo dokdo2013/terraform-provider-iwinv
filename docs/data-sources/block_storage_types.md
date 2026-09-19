@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_block_storage_types
 
-[한국어](../ko/data-sources/block_storage_types.md)
+[한국어](../ko/data-sources/block_storage_types.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_block_storage_types-data-source)
 
 Reads the disk-type catalog without provisioning storage. Development provider; no Registry release yet.
 

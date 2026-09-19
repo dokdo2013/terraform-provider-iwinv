@@ -23,11 +23,19 @@ troubleshooting and official API links. Translate behavior, not just titles.
 
 ## Source and generation layout
 
-Once schemas exist, generate standard English Registry docs under `docs/` using `terraform-plugin-docs`.
-Keep Korean equivalents in a separate localized tree (proposed `guides/ko/reference/`), linked from Registry docs;
-do not assume the Registry supports a locale router. Build a bilingual documentation site later without duplicating schemas.
-Executable examples have one shared source; bilingual prose points to the same tested example files.
-Until a provider exists, examples remain fenced design snippets explicitly marked non-runnable.
+Current capability pages are maintained in `docs/` and `docs/ko/`, with direct links between languages; do not assume the Registry supports a locale router. The [complete schema reference](../../docs/guides/schema_reference.md) is generated in both languages from the actual provider binary. It covers provider configuration, resources, data sources, nested attributes, timeout blocks and input/sensitivity/write-only flags. Curated pages retain behavioral and lifecycle explanations that schema JSON cannot express. This is not a claim that `terraform-plugin-docs` or Registry rendering has been verified.
+
+All 52 provider/capability HCL snippets currently pass format and validation with a common provider configuration added where needed. Korean and English executable snippets are identical. Each page links to the same complete example directory. Design proposals elsewhere remain explicitly non-runnable. The historical `scripts/check_intro_docs.py` name now covers all provider pages, compares runtime registration with the capability ledger, and checks both generated schema references. It uses an isolated CLI configuration without account credentials, init, plan or apply.
+
+To regenerate after a schema change, build the provider and run the following, then review the diff and repeat without the write flag:
+
+```sh
+go build -o bin/terraform-provider-iwinv .
+python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform --write-schema-reference
+python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform
+```
+
+Use an actual Terraform executable, not a home-dependent version-manager wrapper. CI checks without regenerating on Terraform 1.14.0 and 1.14.2. T080 covers this structural/example verification. T052 still requires review of all narrative semantics and Registry rendering; generated tables do not prove default, validator, plan-modifier or live API behavior. A bilingual documentation site and Registry publication remain release work.
 
 Diagnostics have stable searchable codes and English technical details, with Korean/English troubleshooting pages.
 Avoid locale-dependent identifiers or unstable translated error matching. A future CLI language option needs an ADR.

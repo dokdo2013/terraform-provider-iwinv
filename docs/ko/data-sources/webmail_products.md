@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webmail_products
 
-[English](../../data-sources/webmail_products.md)
+[English](../../data-sources/webmail_products.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_webmail_products-data-source)
 
 카탈로그 메타데이터만 읽습니다. 개발용 Provider이며 Registry 릴리스는 아직 없습니다.
 

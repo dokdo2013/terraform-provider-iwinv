@@ -34,6 +34,7 @@ english_provider_paths = {p.relative_to(provider_docs) for section in ("resource
 korean_provider_paths = {p.relative_to(provider_ko) for section in ("resources", "data-sources", "guides")
                          for p in (provider_ko / section).glob("*.md")}
 for directory, paths in ((provider_docs, english_provider_paths), (provider_ko, korean_provider_paths)):
+    require((directory / "guides/schema_reference.md").is_file(), f"Missing complete schema reference: {directory.relative_to(ROOT)}")
     require((directory / "index.md").is_file(), f"Missing provider overview: {directory.relative_to(ROOT)}")
     if (directory / "index.md").is_file():
         paths.add(pathlib.Path("index.md"))

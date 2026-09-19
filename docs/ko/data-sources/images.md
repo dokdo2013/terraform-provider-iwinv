@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_images
 
-[English](../../data-sources/images.md)
+[English](../../data-sources/images.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_images-data-source)
 
 API에 보이는 이미지 ID 전체를 조회합니다. 결과를 확인한 뒤 의도한 이미지를 직접 선택하세요.
 

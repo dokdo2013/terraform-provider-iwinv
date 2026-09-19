@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_db_instance_products (Data Source)
 
-[한국어](../ko/data-sources/db_instance_products.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/data-sources/db_instance_products.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_db_instance_products-data-source)
 
 Reads the DBMS product catalog without creating a database. Development provider only; no Registry release exists yet.
 

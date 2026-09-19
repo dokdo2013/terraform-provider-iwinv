@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_db_instance (Resource)
 
-[English](../../resources/db_instance.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../resources/db_instance.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_db_instance-resource)
 
 개발 단계의 제어 API 리소스이며 Registry 릴리스는 없습니다. 검증된 서비스 범위는 생성 가능한 STD Redis 상품입니다.
 서비스 생성/삭제와 전체 허용 IP 목록을 관리합니다. DB 데이터·사용자/비밀번호·백업·복제·DNS·SQL/Redis 쿼리·엔진 업그레이드·
@@ -19,6 +19,10 @@ description: |-
 서비스 삭제는 복구할 수 없으므로 예제에서 `prevent_destroy`를 사용합니다.
 
 ```hcl
+variable "product_id" { type = string }
+variable "account_name" { type = string }
+variable "allowed_ips" { type = set(string) }
+
 resource "iwinv_db_instance" "example" {
   product_id   = var.product_id
   account_name = var.account_name

@@ -22,11 +22,19 @@
 
 ## 원본과 생성 문서 구조
 
-스키마 구현 이후 `terraform-plugin-docs`로 표준 영어 Registry 문서를 `docs/`에 생성합니다.
-한국어 참조는 별도 경로(제안: `guides/ko/reference/`)에 두고 Registry 문서에서 연결합니다.
-Registry가 언어별 라우팅을 제공한다고 가정하지 않습니다. 추후 양언어 문서 사이트를 만들되 스키마를 중복 관리하지 않습니다.
-실행 가능한 예제는 공통 원본 하나를 두고 양언어 설명에서 같은 파일을 연결합니다.
-Provider가 없는 현재 단계에서는 코드 블록을 실행 불가 설계 예시로 명시합니다.
+현재 기능별 페이지는 `docs/`와 `docs/ko/`에서 관리하고 언어 간 직접 링크를 제공합니다. Registry의 언어별 라우팅을 가정하지 않습니다. [전체 스키마 참조](../../docs/ko/guides/schema_reference.md)는 실제 Provider 바이너리에서 한·영으로 생성하며 Provider 설정, 리소스, Data Source, 중첩 속성, timeout 블록과 입력·민감·쓰기 전용 표시를 다룹니다. 스키마 JSON에 담기지 않는 동작·수명주기는 개별 가이드에서 설명합니다. `terraform-plugin-docs`나 Registry 렌더링을 검증했다는 의미는 아닙니다.
+
+소개·기능 페이지의 HCL 예제 52개는 필요한 공통 Provider 설정을 더한 뒤 format과 validate를 통과합니다. 한·영 실행 코드 블록은 같고 같은 전체 예제 디렉터리를 연결합니다. 다른 설계 문서의 제안은 실행 불가 표시를 유지합니다. 기존 이름인 `scripts/check_intro_docs.py`를 그대로 사용하되 현재는 모든 Provider 페이지, 실제 등록 스키마와 기능 대장의 일치, 양언어 스키마 참조를 검사합니다. 계정 자격증명·init·plan·apply 없이 격리된 CLI 설정으로 실행합니다.
+
+스키마 변경 후에는 Provider를 빌드하고 아래 명령으로 재생성한 뒤 diff를 검토하고 쓰기 옵션 없이 다시 검사합니다.
+
+```sh
+go build -o bin/terraform-provider-iwinv .
+python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform --write-schema-reference
+python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform
+```
+
+사용자 홈 설정에 의존하는 버전 관리 wrapper가 아니라 실제 Terraform 실행 파일을 지정합니다. CI는 Terraform 1.14.0과 1.14.2에서 재생성 없이 검사합니다. T080은 이 구조·예제 검증 범위입니다. 전체 설명의 의미와 Registry 렌더링은 T052의 남은 작업이며, 생성된 표만으로 기본값·검증기·plan modifier·실제 API 동작을 증명하지 않습니다. 양언어 사이트와 Registry 게시는 출시 작업으로 남습니다.
 
 진단에는 검색 가능한 고정 코드와 영어 기술 정보를 사용하고 한국어/영어 해결 문서를 연결합니다.
 언어에 따라 식별자가 바뀌거나 번역된 오류 문자열을 파싱하지 않습니다. CLI 언어 옵션은 추후 ADR 대상입니다.

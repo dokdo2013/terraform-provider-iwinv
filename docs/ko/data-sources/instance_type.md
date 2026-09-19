@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_instance_type
 
-[English](../../data-sources/instance_type.md)
+[English](../../data-sources/instance_type.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_instance_type-data-source)
 
 정확한 서버 상품 ID(API flavor_id) 하나의 표시 이름을 조회합니다.
 

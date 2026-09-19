@@ -72,3 +72,5 @@ Data Source는 조회만 하며 원격 객체를 소유하거나 import하지 �
 - **계약·메타데이터 오류:** 비공개 근거를 보관하고 마스킹한 요약으로 제보하세요. 잘못된 응답이나 중간 페이지 실패를 부분 목록으로 처리하지 않습니다.
 
 [iwinv 개발자 문서](https://docs.iwinv.kr/developers/cli/commands/account) · [커뮤니티 이슈](https://github.com/dokdo2013/terraform-provider-iwinv/issues). 키·state·저장 plan·계정 원응답·재무 정보를 제보에 포함하지 마세요.
+
+전체 속성·중첩 구조·입력 및 비밀값 표시는 [스키마 참조](guides/schema_reference.md)에서 확인할 수 있습니다.

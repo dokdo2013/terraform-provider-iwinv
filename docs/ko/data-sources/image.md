@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_image
 
-[English](../../data-sources/image.md)
+[English](../../data-sources/image.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_image-data-source)
 
 정확한 이미지 ID 하나의 지원 메타데이터를 읽습니다. 이미지를 생성·import·소유하지 않습니다.
 

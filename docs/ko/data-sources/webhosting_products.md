@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting_products (Data Source)
 
-[English](../../data-sources/webhosting_products.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../data-sources/webhosting_products.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_webhosting_products-data-source)
 
 서비스를 만들거나 인수하지 않고 상품을 조회합니다. 현재 개발 Provider 전용이며 Registry 릴리스는 없습니다.
 목록 포함이나 상품 상태가 생성 성공을 보장하지 않습니다. 상품과 서버 선택지를 직접 검토하세요.

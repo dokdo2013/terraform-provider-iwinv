@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting_servers (Data Source)
 
-[English](../../data-sources/webhosting_servers.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../data-sources/webhosting_servers.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_webhosting_servers-data-source)
 
 명시적으로 선택한 상품의 서버 선택지를 조회합니다. 서비스를 생성하지 않으며 현재 개발 Provider 전용입니다.
 

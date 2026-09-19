@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_shared_storage (Resource)
 
-[English](../../resources/shared_storage.md) · [개발 버전 설치](../../../design/ko/development.md)
+[English](../../resources/shared_storage.md) · [개발 버전 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_shared_storage-resource)
 
 API NAS의 control-plane을 관리하는 개발 리소스이며 Registry 릴리스는 아직 없습니다.
 스토리지 마운트·파일 접근·마운트 안내 실행·tenant 인증정보·데이터 이전은 수행하지 않습니다.
@@ -18,11 +18,14 @@ API NAS의 control-plane을 관리하는 개발 리소스이며 Registry 릴리�
 IP는 문서용 주소이므로 실제 허용할 클라이언트 IPv4로 바꿔야 합니다.
 
 ```hcl
+variable "product_id" { type = string }
+variable "share_name" { type = string }
+
 resource "iwinv_shared_storage" "example" {
   product_id  = var.product_id
   share_name  = var.share_name
   name        = "tf-example-storage"
-  description = "애플리케이션 공유 파일"
+  description = "Shared application files"
   size_gb     = 100
   allowed_ips = {
     "192.0.2.10" = "RW"

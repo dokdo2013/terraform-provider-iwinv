@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_webhosting_servers (Data Source)
 
-[한국어](../ko/data-sources/webhosting_servers.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/data-sources/webhosting_servers.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_webhosting_servers-data-source)
 
 Reads server choices for one explicitly selected hosting product; does not provision a service. Development provider only.
 

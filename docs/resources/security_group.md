@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group (Resource)
 
-[한국어](../ko/resources/security_group.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/resources/security_group.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_security_group-resource)
 
 Development support for security-group attributes. No Registry release exists yet.
 This resource owns `name`, `description` and `allow_icmp` for one exact `firewall_id`.

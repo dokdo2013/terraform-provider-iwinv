@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_security_group
 
-[English](../../data-sources/security_group.md)
+[English](../../data-sources/security_group.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_security_group-data-source)
 
 개발용 Provider이며 Registry 릴리스는 아직 없습니다. 정확한 기존 그룹 ID 한 개를 조회합니다. 이름 검색이나 첫 번째 결과 자동 선택은 하지 않습니다.
 

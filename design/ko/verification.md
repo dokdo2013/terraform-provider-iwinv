@@ -132,3 +132,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T077 | P6 | offline/CI | 서명 없는 snapshot의 정확한 ZIP·체크섬·프로토콜 메타데이터와 네이티브 filesystem mirror 설치의 등록 스키마를 검증하고 서명·Registry 합격은 구분한다 | passed |
 | T078 | P6 | offline/CI | 일회용 RSA 키의 snapshot 바이너리 분리 서명·정확한 서명자·전체 패키지 체크섬을 검증하고 7가지 변조·신뢰 실패를 거부하며 게시나 Registry 합격 없이 테스트 키를 제거한다 | passed |
 | T079 | P5 | live | 소유한 캐시 fixture로 상품·관리페이지 연결, 별도 API 키·토큰 인증, 이미지·폴더 읽기·쓰기와 정리를 검증하고 control-plane 키나 미지원 상품을 혼동하지 않는다 | in_progress |
+| T080 | P6 | offline/CI | 모든 Provider 페이지의 HCL 예제를 빌드 바이너리로 format·validate하고 한영 실행 코드와 전체 중첩 스키마 참조를 대조하며 주입한 문서 오류를 거부한다 | passed |

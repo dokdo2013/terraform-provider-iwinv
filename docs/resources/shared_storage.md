@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_shared_storage (Resource)
 
-[한국어](../ko/resources/shared_storage.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/resources/shared_storage.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_shared_storage-resource)
 
 Development control-plane resource for API NAS. No Registry release yet. This resource manages service configuration;
 it does not mount storage, access files, execute mount information, manage tenant credentials or migrate data.
@@ -18,6 +18,9 @@ Review the available product and use a fresh share name. The [complete example](
 uses documentation-only IPs; replace them with reviewed client IPv4 addresses.
 
 ```hcl
+variable "product_id" { type = string }
+variable "share_name" { type = string }
+
 resource "iwinv_shared_storage" "example" {
   product_id  = var.product_id
   share_name  = var.share_name

@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_shared_storage_products (Data Source)
 
-[English](../../data-sources/shared_storage_products.md) · [개발 버전 설치](../../../design/ko/development.md)
+[English](../../data-sources/shared_storage_products.md) · [개발 버전 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_shared_storage_products-data-source)
 
 스토리지를 생성하지 않고 API NAS 전체 상품을 조회합니다. 개발 Provider이며 Registry 릴리스는 아직 없습니다.
 이 엔드포인트에 문서화된 필터가 없으므로 사용자가 설정할 속성도 없습니다.

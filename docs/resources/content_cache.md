@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_content_cache (Resource)
 
-[한국어](../ko/resources/content_cache.md) · [Development installation](../../design/en/development.md)
+[한국어](../ko/resources/content_cache.md) · [Development installation](../../design/en/development.md) · [Complete schema reference](../guides/schema_reference.md#iwinv_content_cache-resource)
 
 Development control-plane resource, verified with `cache_lite`; no Registry release yet.
 This manages a service and its complete referrer list. FTP content, tenant API credentials, purge,
@@ -20,6 +20,9 @@ The [complete example](../../examples/resources/iwinv_content_cache/main.tf) req
 a fresh account and an ephemeral password. Supply secrets through your private environment rather than HCL literals or checked-in files.
 
 ```hcl
+variable "product_id" { type = string }
+variable "account_name" { type = string }
+
 variable "ftp_password" {
   type      = string
   sensitive = true
@@ -31,7 +34,7 @@ resource "iwinv_content_cache" "example" {
   account_name        = var.account_name
   name                = "tf-example-cache"
   allowed_referrers   = ["media.example.com", "www.example.com"]
-  ftp_password_wo      = var.ftp_password
+  ftp_password_wo     = var.ftp_password
   password_wo_version = 1
 
   lifecycle { prevent_destroy = true }

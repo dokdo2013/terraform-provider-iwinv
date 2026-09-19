@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_current_bill (Data Source)
 
-[English](../../data-sources/current_bill.md) · [개발 버전 설치](../../../design/ko/development.md)
+[English](../../data-sources/current_bill.md) · [개발 버전 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_current_bill-data-source)
 
 이번 달 현재까지의 예상 금액을 조회하는 개발 Data Source입니다. 결제하거나 청구서를 만들지 않습니다.
 예상 금액은 refresh마다 바뀔 수 있으며 확정 청구나 삭제한 인프라의 과금 종료 증거가 아닙니다.

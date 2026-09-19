@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_content_cache (리소스)
 
-[English](../../resources/content_cache.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../resources/content_cache.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_content_cache-resource)
 
 `cache_lite`로 검증한 개발용 control-plane 리소스이며 Registry 릴리스는 아직 없습니다.
 서비스와 전체 리퍼러 목록을 관리합니다. FTP 콘텐츠, 테넌트 API 인증정보, purge, DNS 레코드,
@@ -19,6 +19,9 @@ HTTPS 설정과 과금은 이 리소스의 검증 범위에 포함하지 않습�
 비밀번호는 HCL 리터럴이나 Git 파일 대신 비공개 실행 환경으로 전달하세요.
 
 ```hcl
+variable "product_id" { type = string }
+variable "account_name" { type = string }
+
 variable "ftp_password" {
   type      = string
   sensitive = true
@@ -30,7 +33,7 @@ resource "iwinv_content_cache" "example" {
   account_name        = var.account_name
   name                = "tf-example-cache"
   allowed_referrers   = ["media.example.com", "www.example.com"]
-  ftp_password_wo      = var.ftp_password
+  ftp_password_wo     = var.ftp_password
   password_wo_version = 1
 
   lifecycle { prevent_destroy = true }

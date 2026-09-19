@@ -1,6 +1,6 @@
 # iwinv_webhosting 리소스
 
-[English](../../resources/webhosting.md) · [개발용 설치](../../../design/ko/development.md)
+[English](../../resources/webhosting.md) · [개발용 설치](../../../design/ko/development.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_webhosting-resource)
 
 공개 호스팅 제어 API를 사용하는 개발용 리소스입니다. Registry 릴리스는 아직 없습니다.
 실환경 검증 범위는 공유형 호스팅의 PHP 8.4, 기본/사용자 도메인과 웹방화벽 Y/N입니다.
@@ -15,6 +15,10 @@
 계정명은 정수 서비스 ID와 다릅니다.
 
 ```hcl
+variable "product_id" { type = string }
+variable "server_id" { type = string }
+variable "account_name" { type = string }
+
 variable "ftp_password" {
   type      = string
   sensitive = true

@@ -7,7 +7,7 @@ description: |-
 
 # iwinv_instance_types
 
-[English](../../data-sources/instance_types.md)
+[English](../../data-sources/instance_types.md) · [전체 스키마 참조](../guides/schema_reference.md#iwinv_instance_types-data-source)
 
 flavors API가 제공하는 정확한 서버 상품 ID를 조회합니다.
 
