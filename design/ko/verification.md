@@ -77,7 +77,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T022 | P2 | live | 외부 변경을 감지하고 확정된 삭제에만 state를 제거한다 | not_run |
 | T023 | P2 | mock/live | 인증/제한/서버 오류와 잘못된 응답/빈 페이지를 삭제로 오인하지 않는다 | not_run |
 | T024 | P2 | mock/live | 생성 직후 404를 제한된 반영 지연 범위에서 처리한다 | not_run |
-| T025 | P2 | mock/live | 결과 불명확 생성 요청을 자동 재전송하거나 이름으로 자동 채택하지 않는다 | not_run |
+| T025 | P2 | mock/live | 결과 불명확 생성 요청을 자동 재전송하거나 이름으로 자동 채택하지 않는다 | in_progress |
 | T026 | P2 | mock/live | backoff/jitter/Retry-After와 합산 요청 부하가 제한된다 | not_run |
 | T027 | P2 | live | resize/교체 plan과 실제 중단/IP/디스크 영향이 일치한다 | not_run |
 | T028 | P2 | live | destroy가 실제 부재를 확인하고 잔여 리소스/과금 상태를 구분한다 | not_run |

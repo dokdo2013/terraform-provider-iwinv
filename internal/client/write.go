@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"regexp"
 	"sort"
 )
@@ -50,7 +51,17 @@ func (c *Client) PostForm(ctx context.Context, path string, fields map[string]st
 func (c *Client) PutForm(ctx context.Context, path string, fields map[string]string) (Envelope, error) {
 	return c.writeForm(ctx, http.MethodPut, path, fields)
 }
+
+// PutFormWithQuery allows a service to select a safe response projection on a
+// multipart update. Query values are URL-encoded, never included in the HMAC
+// path, and cannot be supplied by embedding a query in path.
+func (c *Client) PutFormWithQuery(ctx context.Context, path string, query url.Values, fields map[string]string) (Envelope, error) {
+	return c.writeFormQuery(ctx, http.MethodPut, path, query, fields)
+}
 func (c *Client) writeForm(ctx context.Context, method, path string, fields map[string]string) (Envelope, error) {
+	return c.writeFormQuery(ctx, method, path, nil, fields)
+}
+func (c *Client) writeFormQuery(ctx context.Context, method, path string, query url.Values, fields map[string]string) (Envelope, error) {
 	if !validPath(path) {
 		return Envelope{}, &Error{Kind: "invalid_path"}
 	}
@@ -86,7 +97,7 @@ func (c *Client) writeForm(ctx context.Context, method, path string, fields map[
 	if body.Len() > maxRequestBytes {
 		return Envelope{}, &Error{Kind: "request_too_large"}
 	}
-	return c.request(ctx, method, path, nil, writer.FormDataContentType(), bytes.NewReader(body.Bytes()))
+	return c.request(ctx, method, path, query, writer.FormDataContentType(), bytes.NewReader(body.Bytes()))
 }
 
 // Delete performs one signed DELETE with no body and no automatic retries.

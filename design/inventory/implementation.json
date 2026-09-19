@@ -737,6 +737,36 @@
         "design/en/instance-read-contract.md",
         "design/ko/instance-read-contract.md"
       ]
+    },
+    {
+      "name": "compute_instance_writes",
+      "terraform_registered": false,
+      "status": "contract_candidate",
+      "ownership": "one_instance_per_create; retained_volumes_not_owned_or_deleted",
+      "import": "not_applicable_until_registered; create_receipts_are_not_Core_state_evidence",
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/instances"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/instances/{instance_id}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/instances/{instance_id}"
+        }
+      ],
+      "live_verified": false,
+      "live_scope": "No new live writes. Synthetic request, acknowledgement, recovery-ID and no-replay contracts only; API zone creation remains blocked.",
+      "evidence": [
+        "internal/services/compute/instance_writes.go",
+        "internal/services/compute/instance_writes_test.go",
+        "internal/client/write_test.go",
+        "design/en/instance-write-contract.md",
+        "design/ko/instance-write-contract.md"
+      ]
     }
   ]
 }

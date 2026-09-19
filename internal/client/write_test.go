@@ -10,11 +10,43 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
 )
+
+func TestMultipartUpdateQueryExcludesSignatureAndPreservesBody(t *testing.T) {
+	calls := 0
+	s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		calls++
+		if r.Method != http.MethodPut || r.URL.Path != "/v1/zones" || r.URL.Query().Get("fields") != "3599" || r.URL.Query().Get("synthetic") != "a +&%" {
+			t.Error("query or path changed")
+		}
+		if r.Header.Get("X-iwinv-Signature") != "dc173edadd25dbdd85193174137e90f73a82970b519cb74c09efe51b76715fb2" {
+			t.Error("query entered the signature")
+		}
+		if err := r.ParseMultipartForm(maxRequestBytes); err != nil {
+			t.Error(err)
+			return
+		}
+		defer r.MultipartForm.RemoveAll()
+		if r.MultipartForm.Value["name"][0] != "%ED%95%9C%EA%B8%80+%2B%25" || len(r.MultipartForm.Value) != 1 {
+			t.Error("service-encoded multipart value was encoded again")
+		}
+		fmt.Fprint(w, success)
+	}))
+	defer s.Close()
+	c := testClient(t, s)
+	q := url.Values{"fields": {"3599"}, "synthetic": {"a +&%"}}
+	if _, err := c.PutFormWithQuery(context.Background(), "/v1/zones", q, map[string]string{"name": "%ED%95%9C%EA%B8%80+%2B%25"}); err != nil || calls != 1 {
+		t.Fatal("multipart query update failed")
+	}
+	if _, err := c.PutFormWithQuery(context.Background(), "/v1/zones?fields=128", q, nil); err == nil || calls != 1 {
+		t.Fatal("embedded query bypassed canonical path validation")
+	}
+}
 
 func TestWriteSigningAndEncoding(t *testing.T) {
 	for _, format := range []string{"json", "multipart", "delete"} {

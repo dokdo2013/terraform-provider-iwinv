@@ -65,7 +65,10 @@
         "internal/services/network/rules_test.go",
         "internal/client/rules_live_test.go",
         "internal/provider/security_group_rule_resource_test.go",
-        "internal/provider/security_group_rule_live_test.go"
+        "internal/provider/security_group_rule_live_test.go",
+        "internal/services/compute/instance_writes_test.go",
+        "design/en/instance-write-contract.md",
+        "design/ko/instance-write-contract.md"
       ]
     },
     {
@@ -227,7 +230,10 @@
       "status": "failed",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/services/compute/instance_writes_test.go",
+        "design/en/instance-write-contract.md",
+        "design/ko/instance-write-contract.md"
       ]
     },
     {
@@ -317,8 +323,12 @@
       "method": "mock/live",
       "expected_en": "Uncertain create outcome is not blindly retried or adopted by name",
       "expected_ko": "결과 불명확 생성 요청을 자동 재전송하거나 이름으로 자동 채택하지 않는다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "internal/services/compute/instance_writes_test.go",
+        "design/en/instance-write-contract.md",
+        "design/ko/instance-write-contract.md"
+      ]
     },
     {
       "id": "T026",
@@ -354,7 +364,11 @@
       "expected_en": "Partial failure, interruption and rerun preserve IDs and permit documented recovery",
       "expected_ko": "부분 실패/중단/재실행에서 ID 보존과 문서화된 복구가 가능하다",
       "status": "not_run",
-      "evidence": []
+      "evidence": [
+        "internal/services/compute/instance_writes_test.go",
+        "design/en/instance-write-contract.md",
+        "design/ko/instance-write-contract.md"
+      ]
     },
     {
       "id": "T030",

@@ -81,7 +81,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T022 | P2 | live | External updates are detected; only confirmed external deletion removes state | not_run |
 | T023 | P2 | mock/live | 401/403/429/5xx, malformed responses and empty pages never imply deletion | not_run |
 | T024 | P2 | mock/live | Creation-time 404 is handled within a bounded consistency window | not_run |
-| T025 | P2 | mock/live | Uncertain create outcome is not blindly retried or adopted by name | not_run |
+| T025 | P2 | mock/live | Uncertain create outcome is not blindly retried or adopted by name | in_progress |
 | T026 | P2 | mock/live | Backoff, jitter, Retry-After and aggregate rate pressure stay bounded | not_run |
 | T027 | P2 | live | Resize and replacement plans match downtime, address and disk effects | not_run |
 | T028 | P2 | live | Destroy waits for absence and reports remaining resources/billing separately | not_run |

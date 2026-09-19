@@ -736,3 +736,8 @@ Official netstat documentation establishes a client-side host connectivity diagn
 ## P2 instance read preparation — 2026-09-19
 
 Added an unregistered, read-only Compute adapter for fixed-mask list and exact-ID detail. Synthetic tests enforce bounded complete pagination, shape/identity checks, null/empty preservation, safe diagnostics and exclusion of unsolicited password/VNC fields. A gated live read passed with zero API-visible rows; populated/detail/absence behavior remains unverified. T008 advances to in progress only. API support flags and the 18-data-source/7-resource registration remain unchanged. See [contract and remaining gates](instance-read-contract.md).
+
+
+## P2 instance write preparation — 2026-09-19
+
+Added a separate unregistered write adapter for one-instance multipart creation, projected metadata updates and exact-ID delete acknowledgements. Create receipts retain known identity even when later acknowledgement checks fail; unexpected multiple valid IDs are retained for reconciliation without choosing a first result. Deletion returns retained-volume information but does not delete volumes, infer absence or clear state. Synthetic tests and a TLS multipart-query/signature test passed. No new live write was attempted. T025 is in progress; the failed live-create T015 and Core-state T029 gates are not marked passed. See [write contract](instance-write-contract.md).
