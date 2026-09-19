@@ -511,3 +511,20 @@ All four new cache IDs received delete acknowledgements and exact-ID absence; th
 list. Existing infrastructure was untouched. Core resource/import/drift/replacement/secret-state recovery, catalog data source, tenant APIs,
 other product variants, data-plane access and billing remain pending. See [cache decisions](cache-lifecycle.md). T038 and webmail T056 stay open;
 public development registration remains ten data sources and five resources.
+
+## Cache Terraform lifecycle (T066) — 2026-09-19
+
+Registered `iwinv_content_cache` with complete referrer-set ownership, write-only initial FTP password, a local password-version replacement
+trigger, exact-ID import and conservative fresh-account replacement when clearing a nonempty set. Names/descriptions/products/account changes
+also replace. Only precisely classified busy PUT/DELETE rejections can retry after the complete parent remains unchanged; no uncertain replay.
+
+`TestAccContentCache` passed in 116.04 seconds on Terraform 1.14.2 with Go race: coexistence, empty/nonempty initialization, stable-ID updates,
+external drift restoration, full readable import, persisted no-password/version import and no-op, create-before-destroy clear with fresh account,
+version/description replacement and external deletion/recreation. Saved compressed plans/state exclude the generated ephemeral password.
+One busy PUT was reconciled; busy DELETE uses separate T065 live evidence and synthetic Core tests, not a claim from this run.
+Synthetic tests also cover failed setup cleanup, delayed/malformed creation, unknown replacement plans, taint/explicit replacement and error-state retention.
+All five new identities have delete acknowledgements and exact-ID absence. A refreshed console independently showed an empty unfiltered cache list.
+No pre-existing infrastructure was mutated. [Cache design](cache-lifecycle.md) and the bilingual resource guide document the destructive cases.
+
+Development registration is now ten data sources and six managed resources. The cache catalog data source, other products, tenant/content APIs,
+FTP access, billing, overall T038, webmail T056 and Registry release remain incomplete.

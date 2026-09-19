@@ -3066,8 +3066,8 @@
       "title": "컨텐츠 캐시 생성",
       "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-생성",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "POST",
@@ -3151,8 +3151,8 @@
       "title": "컨텐츠 캐시 삭제",
       "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-삭제",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "DELETE",
@@ -3208,8 +3208,8 @@
       "title": "컨텐츠 캐시 서비스 조회",
       "source": "https://iwinv-cache.readme.io/reference/컨텐츠-캐시-조회",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -3315,8 +3315,8 @@
       "title": "레퍼러 추가",
       "source": "https://iwinv-cache.readme.io/reference/레퍼러-추가",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "PUT",

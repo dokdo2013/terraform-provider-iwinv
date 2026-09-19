@@ -3,7 +3,7 @@
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
 Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키·호스팅 카탈로그 Data Source 9개와
-[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 5개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
+[캐시](../../docs/ko/resources/content_cache.md)·[DBMS](../../docs/ko/resources/db_instance.md)·[웹호스팅](../../docs/ko/resources/webhosting.md)·[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 6개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
 
@@ -305,4 +305,22 @@ T064는 모든 공식 필터와 빈/버전 간 중복 ID, 무변경 plan을 검�
 `IWINV_LIVE_CACHE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory go test -race ./internal/client -run '^TestAccCacheControlPlaneWrites$' -v -count=1 -timeout 12m`
 T065는 매 쓰기 시도를 기록하고 정확히 구분한 작업중 거절에 한해 정확한 ID의 변경 없는 Read 후 재시도합니다.
 일반 오류·통신 결과 불확실·접수된 쓰기는 반복하지 않습니다. 모든 소유 ID의 삭제 응답과 정확한 부재를 확인해야 합니다.
-Terraform 캐시 리소스 등록이나 tenant 컨텐츠 API 검증을 의미하지 않습니다.
+이 어댑터 테스트는 아래 Terraform 리소스 acceptance와 별개이며 tenant 컨텐츠 API를 검증하지 않습니다.
+
+## 캐시 Terraform acceptance
+
+[리소스 가이드](../../docs/ko/resources/content_cache.md)와 [수명주기 설계](cache-lifecycle.md)를 참고하세요.
+`IWINV_PROTOCOL_TEST=1 go test -race ./internal/provider -run TestProtocolContentCache`는 클라우드 쓰기 없는 합성 Core 테스트입니다.
+T066 실환경 테스트는 교체를 포함해 새 `cache_lite` ID 5개를 만들고 비용이 발생합니다.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_CACHE_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccContentCache$' -v -count=1 -timeout 15m
+```
+
+위 비공개 인증·로그 절차를 사용하세요. 비밀번호 없이 소유한 쓰기 의도와 ID를 기록하고 기존 ID 쓰기를 차단하며,
+저장 plan/state의 ephemeral 비저장을 검사합니다. 생성한 모든 ID에 삭제 접수와 정확한 부재가 필요합니다.
+보조 정리는 독립된 기한을 사용하며 정확한 작업중 거절과 재조회를 거친 경우만 재시도합니다. 접수·불확실한 쓰기는 반복하지 않습니다.
+CI는 유료 gate를 켜지 않습니다. tenant content API, FTP, 과금이나 다른 상품을 검증하는 테스트는 아닙니다.

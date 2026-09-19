@@ -31,6 +31,7 @@ type providerServices struct {
 	Hosting         *hosted.WebhostingService
 	DBMS            *hosted.DBMSService
 	DBMSCatalogs    *hosted.DBMSCatalogService
+	Cache           *hosted.CacheService
 }
 
 type providerModel struct {
@@ -92,6 +93,9 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 	if dbms, ok := api.(hosted.DBMSAPI); ok {
 		services.DBMS = &hosted.DBMSService{API: dbms}
 	}
+	if cache, ok := api.(hosted.CacheAPI); ok {
+		services.Cache = &hosted.CacheService{API: cache}
+	}
 	resp.ResourceData = services
 }
 
@@ -100,5 +104,5 @@ func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataS
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource, NewDBInstanceResource}
+	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource, NewWebhostingResource, NewDBInstanceResource, NewContentCacheResource}
 }

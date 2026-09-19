@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: ten data sources and five security-group/rule/webhosting/DBMS resources implemented and live-tested. No Registry release yet.**
+**Status: ten data sources and six security-group/rule/webhosting/DBMS/cache resources implemented and live-tested. No Registry release yet.**
 See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -21,7 +21,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | --- | --- |
 | [User experience and architecture](design/en/architecture.md) | AWS mapping, schemas, state, authentication, errors |
 | [Hosting lifecycle design](design/en/webhosting-lifecycle.md) | Account reuse restriction, password/import/replacement policies; SHARE PHP 8.4 live-tested |
-| [Cache lifecycle decisions](design/en/cache-lifecycle.md) | Nested password input, referrer-set replacement, busy errors and cleanup; internal adapter stage |
+| [Cache lifecycle decisions](design/en/cache-lifecycle.md) | Nested password input, referrer-set replacement, busy errors and cleanup; Terraform import/replacement/write-only verification |
 | [DBMS lifecycle decisions](design/en/dbms-lifecycle.md) | Authoritative allowlists, account history, product ambiguity, import and recovery |
 | [API contracts and limitations](design/en/api-contract.md) | Evidence, inconsistencies, live verification gaps |
 | [Full capability coverage](design/en/coverage.md) | Resource/Data/Action/Ephemeral classification |
@@ -44,6 +44,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Hosting fresh-account replacement/import/write-only secret exclusion/destroy (SHARE PHP 8.4)
 - [x] DBMS product reads across all documented filters, preserving empty and version-shared IDs
 - [x] DBMS allowlist replacement/import/drift/fresh-account replacement/cleanup (STD Redis)
+- [x] Cache referrer updates, fresh-account clear/replacement, import, secret exclusion and cleanup (`cache_lite`)
 - [ ] Remaining managed resources
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry

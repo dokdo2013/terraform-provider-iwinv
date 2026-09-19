@@ -3,7 +3,7 @@
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
 There is no Registry release. The local binary implements nine zone/image/instance-type/SSH-key/hosting-catalog data sources
-and five [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
+and six [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
 
@@ -306,4 +306,22 @@ The adapter test is a paid, explicit opt-in and creates two fresh `cache_lite` s
 `IWINV_LIVE_CACHE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory go test -race ./internal/client -run '^TestAccCacheControlPlaneWrites$' -v -count=1 -timeout 12m`
 T065 records every attempted write and only retries precisely classified busy rejections after an unchanged exact-ID Read. Generic errors,
 transport uncertainty and accepted writes are never automatically repeated. Deletion acknowledgement and exact-ID absence are required for
-all owned IDs. This is not a registered Terraform cache resource or tenant content API test.
+all owned IDs. This adapter test is separate from the Terraform resource acceptance below and does not exercise tenant content APIs.
+
+## Cache Terraform acceptance
+
+See the [resource guide](../../docs/resources/content_cache.md) and [lifecycle decisions](cache-lifecycle.md).
+`IWINV_PROTOCOL_TEST=1 go test -race ./internal/provider -run TestProtocolContentCache` runs synthetic Core tests without cloud writes.
+T066 live acceptance creates five new `cache_lite` identities, including replacements, and incurs costs:
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_CACHE_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  TF_ACC_TERRAFORM_PATH=/absolute/path/to/terraform \
+  go test -race ./internal/provider -run '^TestAccContentCache$' -v -count=1 -timeout 15m
+```
+
+Use the private credentials/log workflow above. The test records owned intents and IDs without passwords, excludes baseline IDs from writes,
+scans saved plans/state for ephemeral passwords, and requires acknowledged deletion plus exact-ID absence for every created identity.
+Fallback cleanup uses a fresh deadline and repeats only a precisely classified busy rejection after reconciliation, never accepted/uncertain writes.
+CI does not enable this paid gate. This does not test tenant content APIs, FTP, billing or other products.

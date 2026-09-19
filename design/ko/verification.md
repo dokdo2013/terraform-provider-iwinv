@@ -118,3 +118,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T063 | P4 | mock/live | STD Redis Core 수명주기의 허용 목록 수정/drift, 계정 이력 없는 import/무변경 plan, 새 계정 교체, 실패 시 ID 보존과 정확한 ID 정리를 검증한다 | passed |
 | T064 | P4 | mock/live-read | DBMS 상품 Data Source가 빈/중복 ID를 보존하고 전체 응답·필터를 검증하며 모든 공식 필터의 실환경 읽기와 무변경 plan을 통과하되 버전 선택을 약속하지 않는다 | passed |
 | T065 | P4 | mock/live | 캐시 어댑터가 정확한 ID와 null 상품을 보존하고 중첩 비밀번호 생성·전체 리퍼러 교체를 검증하며 정확한 작업중 거절만 재조회하고 다른 서비스 보존·삭제 접수·정리를 증명한다 | passed |
+| T066 | P4 | mock/live | 캐시 Core의 전체 집합 수정·drift, 빈 집합·새 계정 교체, 비밀번호 없는 import·무변경 plan, ephemeral 비저장, 정확한 작업중 복구와 불확실한 쓰기 재전송 없는 ID 정리를 검증한다 | passed |

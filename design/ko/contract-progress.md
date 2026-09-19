@@ -508,3 +508,20 @@ T062/T063 정리 후 콘솔에서도 검색 필터 없는 DBMS 목록이 비어 
 새 캐시 ID 총 4개 모두 삭제 응답과 정확한 ID 부재를 확인했으며 첫 실행 후 콘솔도 검색 필터 없이 비어 있었습니다. 기존 인프라는
 변경하지 않았습니다. Core 리소스/import/drift/교체/비밀 state·복구, 상품 Data Source, tenant API, 다른 상품, 실제 컨텐츠 접속과
 과금은 남아 있습니다. [캐시 설계](cache-lifecycle.md)를 참고하세요. T038과 웹메일 T056은 미완료이며 공개 등록은 Data Source 10개·리소스 5개입니다.
+
+## 캐시 Terraform 수명주기 (T066) — 2026-09-19
+
+`iwinv_content_cache`를 등록했습니다. 전체 리퍼러 집합 소유, write-only 초기 FTP 비밀번호, 로컬 비밀번호 버전 교체 신호,
+정확한 ID import, 비어 있지 않은 집합 초기화 시 새 계정 교체를 제공합니다. 이름·설명·상품·계정 변경도 교체입니다.
+정확히 분류한 PUT/DELETE 작업중 거절만 부모 전체 보존을 재조회한 뒤 재시도하며 불확실한 쓰기는 반복하지 않습니다.
+
+`TestAccContentCache`는 Terraform 1.14.2/Go race에서 116.04초로 통과했습니다. 공존, 빈/비어 있지 않은 초기 목록,
+ID 보존 수정, 외부 drift 복원, 전체 조회 필드 import, 비밀번호·버전 없는 재import·무변경 plan, 새 계정의 빈 집합
+create-before-destroy, 버전·설명 교체와 외부 삭제·재생성을 검증했습니다. 저장된 압축 plan/state에 ephemeral 비밀번호가 없습니다.
+PUT 작업중 거절 한 번을 처리했으며 DELETE 작업중은 이번 실행에서 발생하지 않아 별도 T065 실환경과 합성 Core 근거를 사용합니다.
+합성 테스트는 설정 실패 정리, 지연·잘못된 생성 응답, unknown 교체 plan, taint·명시적 교체, 오류 시 state 보존도 검증합니다.
+새 ID 5개 모두 삭제 접수와 정확한 부재를 확인했고 새로고침한 콘솔의 검색 필터 없는 캐시 목록도 비어 있었습니다.
+기존 인프라는 변경하지 않았습니다. [캐시 설계](cache-lifecycle.md)와 한영 리소스 가이드에 파괴적 변경을 설명합니다.
+
+개발 Provider는 Data Source 10개와 관리 리소스 6개입니다. 캐시 상품 Data Source, 다른 상품, tenant/content API,
+FTP 접속, 과금, 전체 T038, 웹메일 T056과 Registry 릴리스는 미완료입니다.

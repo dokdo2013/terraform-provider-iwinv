@@ -3,8 +3,7 @@
 [한국어](../ko/cache-lifecycle.md) · [Architecture](architecture.md) · 2026-09-19
 
 The typed control-plane adapter now covers all five cache operations: products, service list, create, complete referrer-set replacement and delete.
-T065 passes for two successive runs of two fresh `cache_lite` services each. **The Terraform resource and data source are not registered yet.** Core lifecycle, write-only
-password handling, import, replacement and interrupted-operation recovery remain mandatory before public resource support.
+T065 passes for two successive runs of two fresh `cache_lite` services each. **The Terraform resource is now registered with T066 evidence below; the catalog data source is still pending.**
 
 ## Identity and observed configuration
 
@@ -30,17 +29,17 @@ The adapter sends only this verified nesting and never serializes the initial pa
 Supported initial passwords are 7–20 non-space printable ASCII characters using at least two of letters, digits and symbols.
 The account input is 6–12 ASCII alphanumeric characters. Literal Unicode names/descriptions and omitted-description behavior were rechecked.
 
-The proposed `iwinv_content_cache` resource must read an ephemeral `ftp_password_wo` from configuration, never state, and include a positive
+The registered `iwinv_content_cache` resource reads an ephemeral `ftp_password_wo` from configuration, never state, and includes a positive
 local version trigger for intentional new initial passwords. A trigger replaces the service; no password-rotation API has been verified.
 Name, product, description and account changes also require replacement because there is no corresponding update endpoint.
 The vendor explicitly documents irreversible deletion and a **24-hour account-name reuse restriction**. Ordinary replacement therefore
 requires a known different account and fresh initial credentials. Taint/`-replace`, imported state, creation failure and external deletion
-need explicit Core tests; a plan must not promise successful immediate recreation with the same account name.
+have synthetic Core tests, with live import/replacement/external-deletion coverage; a plan does not promise successful immediate recreation with the same account name.
 
 ## Complete referrer-set ownership and initialization
 
 C22: create-time `allow_referer` is ignored. The adapter deliberately does not send it and does not claim that creation applied it.
-The planned parent resource must retain the new ID, verify the service, then set any desired nonempty referrer set with a separate PUT.
+The parent resource retains the new ID, verifies the service, then sets any desired nonempty referrer set with a separate PUT.
 A failure between these steps must retain the parent identity rather than orphaning the billable service.
 
 The PUT accepts a JSON `allow_referer` array and replaces the entire list. One parent resource should own the complete set; independent
@@ -68,8 +67,7 @@ A second run removed the initial test's 45-second scheduling delay and attempted
 The first parent deletion received the exact busy rejection once; Read confirmed the entire owned parent model was unchanged. A bounded
 retry then received a valid delete acknowledgement and verified absence. The peer was preserved and subsequently deleted once.
 Only a known busy rejection permits another attempt after reconciliation. Transport failures, other errors and accepted writes are never
-replayed. No fixed delay is promoted into a readiness guarantee. This is adapter-level evidence; Core failure-state and recovery behavior
-must still be verified before resource registration.
+replayed. No fixed delay is promoted into a readiness guarantee. This is adapter-level evidence; T066 below adds Core failure-state and recovery tests.
 
 ## Evidence and remaining gates
 
@@ -82,9 +80,26 @@ The private journal contains intents, receipt IDs, attempted/acknowledged writes
 Synthetic tests cover >2^53 IDs, nullable products, malformed/partial receipts/lists, credential exclusion, unsupported inputs and narrow busy
 classification with no implicit retry. No pre-existing infrastructure was changed.
 
-Pending: Core resource/import/no-change/drift/replacement, saved-plan/state secret exclusion, Core rapid deletion and failed-setup cleanup,
-read-only catalog data source, other products, wildcard/empty-clear semantics, tenant API credentials, content/FTP access, purge and billing.
+Pending: read-only catalog data source, other products, wildcard/empty-clear-in-place semantics, tenant API credentials, content/FTP access, purge and billing.
 These are part of the original scope. T037/T038/T039 and overall cleanup T056 are not completed by this adapter test; webmail remains separate.
+
+## Registered Core resource (T066)
+
+`TestAccContentCache` passed in 116.04 seconds with Terraform 1.14.2 and Go race. Five fresh identities covered two-service coexistence,
+initial empty and nonempty referrers, stable-ID full-set updates, external drift restoration, readable-field import and persisted re-import
+without password/version, no-change plans, empty-set create-before-destroy with a fresh account, password-version/description replacement,
+and external deletion followed by fresh-account recreation. One PUT busy rejection was reconciled; no DELETE busy rejection occurred in
+this run, so that branch uses the separate T065 live contract plus synthetic Core coverage. All five deletes were acknowledged and each
+exact ID was absent; the independently refreshed console showed no service rows and no search filter. Existing infrastructure was unchanged.
+
+Saved compressed plans and state artifacts were scanned for the generated ephemeral password. Full import comparison excludes only the
+unrecoverable local password version. Synthetic Core tests additionally cover failed setup with ID cleanup, malformed receipts, delayed
+creation, taint/explicit-replace plans, unknown whole-set replacement, ordering, missing/unsupported input, timeout/error state preservation,
+and busy retries stopping on changed/missing parents or failed reads. Accepted/uncertain writes are not replayed.
+
+The resource defaults the referrer set to empty. Clearing a nonempty set requires replacement; every ordinary replacement requires a known
+different account and initial password. Timeouts default to 5m for writes and 1m for reads. The [resource guide](../../docs/resources/content_cache.md)
+explains import, secret handling and recovery. This does not finish overall T038 or the separate unresolved webmail cleanup T056.
 
 Sources: [create](https://iwinv-cache.readme.io/reference/컨텐츠-캐시-생성),
 [referrers](https://iwinv-cache.readme.io/reference/레퍼러-추가),
