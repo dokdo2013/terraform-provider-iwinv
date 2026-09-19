@@ -1759,8 +1759,8 @@
       "title": "Security Group Detail",
       "source": "https://iwinv.readme.io/reference/get_v1-security-groups-id",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
@@ -1809,8 +1809,8 @@
       "title": "Create Security Group",
       "source": "https://iwinv.readme.io/reference/post_v1-security-groups",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "POST",
@@ -1872,8 +1872,8 @@
       "title": "Edit Security Group",
       "source": "https://iwinv.readme.io/reference/put_v1-security-groups-id",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "PUT",
@@ -1943,8 +1943,8 @@
       "title": "Delete Security Group",
       "source": "https://iwinv.readme.io/reference/delete_v1-security-groups-id",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "DELETE",

@@ -67,6 +67,6 @@ jobs:
             direct {}
           }
           EOF
-          for example in examples/data-sources/*; do
+          for example in examples/data-sources/* examples/resources/*; do
             TF_CLI_CONFIG_FILE="$RUNNER_TEMP/iwinv.tfrc" terraform -chdir="$example" validate
           done

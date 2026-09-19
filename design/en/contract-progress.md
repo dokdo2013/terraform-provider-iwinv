@@ -308,3 +308,33 @@ These are additional T005/T006/T009/T010 and C15 findings, not Terraform state/i
 Sources: [group list](https://iwinv.readme.io/reference/get_v1-security-groups),
 [group detail](https://iwinv.readme.io/reference/get_v1-security-groups-id),
 [group create](https://iwinv.readme.io/reference/post_v1-security-groups).
+
+## First managed resource: security-group attributes (2026-09-19, T057)
+
+`iwinv_security_group` is now registered as a development resource. Its supported fields are name, nonempty description and ICMP,
+with exact-ID import and operation timeouts. The [bilingual resource guide](../../docs/resources/security_group.md) specifies scope and recovery.
+This advances the independent network surface while instance creation remains blocked; it does not close P1/P2/P3 or the six implementation issues.
+
+Before choosing the description default, two diagnostic creates with omitted/empty content returned HTTP 403 / `CHECK_IP`,
+with a nested temporary-failure message and no ID. Follow-up inventories did not show either requested name.
+The process egress matched the allowed IP, and a nonempty-description positive control succeeded and was deleted with exact-ID absence confirmed.
+This is a bounded observation, not a new general interpretation of `CHECK_IP`: the official error catalog describes an IP restriction.
+The provider therefore sends a verified nonempty description (`Managed by Terraform` when omitted in HCL) and rejects explicit empty descriptions.
+The earlier omitted-description observation remains without a retained error classification; it is not retroactively assigned this result.
+
+Two live Terraform runs passed with Go 1.26.1 / Terraform 1.14.2. Four returned create IDs were privately recorded and all four exact-ID absences verified.
+The second run additionally relinquished Terraform ownership without destroying the object, imported into the same persisted state and verified an empty plan.
+Both runs covered create/read/update with stable ID, full import attribute comparison, Korean/literal-entity descriptions,
+no-change plans, external drift detection/repair, external deletion/recreation and final destroy. No existing group was mutated.
+The positive control above was separate from these four Terraform creations and was also deleted.
+The private journals and raw state/logs are intentionally excluded from this repository; public fixtures use synthetic IDs only.
+
+Synthetic Terraform CLI tests also passed for defaults, timeout-only updates with zero API writes, invalid empty configuration,
+and a malformed create receipt that retained its ID through a failed apply and subsequent destroy without a second POST.
+Direct framework tests cover create visibility delay/timeout, prior-state preservation on update/delete failures,
+HTTP authentication/not-found/rate-limit/server errors, and endpoint-specific absence.
+Evidence: `internal/provider/security_group_resource_test.go`, `internal/provider/security_group_live_test.go`, and the network adapter tests.
+
+The ledger marks only POST/GET-detail/PUT/DELETE for this resource; internal/test-only group listing is not exposed as a Terraform capability.
+Live evidence does not include rules, attachments, packet behavior, API length boundaries, full real pagination or billing closure.
+The compute zone restriction and prior webmail console/cancellation uncertainty remain unresolved. These group cleanups do not certify all earlier service cleanup.

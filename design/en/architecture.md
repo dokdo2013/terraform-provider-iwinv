@@ -148,17 +148,16 @@ Do not finalize public schemas until [contract gaps](api-contract.md) and [verif
 Record schema changes as ADRs, preserve state with migrations, and release immutable semantic versions.
 Official source references and AWS examples are indexed in [sources](../sources.md).
 
-## Security-group service boundary (internal implementation)
+## Security-group resource boundary (development)
 
-The typed network adapter is contract preparation, not a registered Terraform resource.
-It maps API `title` to name, `content` to description and `icmp` Y/N to a boolean.
-Description responses are HTML-decoded once; names are not decoded or normalized.
-Null, empty and omitted descriptions remain distinct. Empty update requests are rejected;
-an omitted update leaves the existing description under the tested contract. Create omission remains unresolved.
+The typed network adapter now backs `iwinv_security_group`, owning only name, nonempty description and ICMP attributes.
+See the [resource guide](../../docs/resources/security_group.md) for the executable schema and exact-ID import.
+Description responses are HTML-decoded once; names are left verbatim. Empty creation/clearing is unsupported,
+and the default description is `Managed by Terraform`. An unchanged description is omitted from updates.
 
-The eventual group resource will own group attributes only, with an exact `FIREWALL-…` import ID and authoritative detail Read.
-Inline rules and instance attachments are excluded from the group model and need their own lifecycle/ownership tests.
-A known create ID must be persisted even when validation of the remaining receipt fails.
-A successful delete acknowledgement requires subsequent detail absence verification.
-API errors never delete state, and import/schema/timeouts/partial-state recovery remain unimplemented Terraform gates.
-See the [live and synthetic evidence](contract-progress.md) before implementing those gates.
+Create persists a known ID before reporting remaining receipt/read-back errors. Update/delete failures preserve prior state.
+Delete requires detail absence after acknowledgement. API errors never remove state or trigger automatic write retries.
+Operation timeouts bound successful incomplete-read polling. Rules and instance attachments remain separate, unimplemented ownership scopes.
+Synthetic and live Terraform tests cover import, no-op plans, drift and external deletion; synthetic failed-create tests verify Core retains an ID for cleanup.
+This scoped resource does not pass the compute gates or resolve all network lifecycle contracts.
+See [evidence](contract-progress.md) for the verified boundaries and remaining gaps.

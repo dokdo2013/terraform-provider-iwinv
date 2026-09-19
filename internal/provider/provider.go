@@ -6,6 +6,7 @@ import (
 
 	"github.com/dokdo2013/terraform-provider-iwinv/internal/client"
 	"github.com/dokdo2013/terraform-provider-iwinv/internal/services/compute"
+	"github.com/dokdo2013/terraform-provider-iwinv/internal/services/network"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -40,7 +41,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: read-only zone, image, instance-type, and SSH-key data sources are implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key data sources plus security-group attributes. Rules and attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -55,7 +56,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		return
 	}
 	if config.AccessKey.IsUnknown() || config.SecretKey.IsUnknown() {
-		resp.Diagnostics.AddError("Unknown iwinv credentials", "Credentials must be known before reading iwinv data. Unknown configuration never falls back to another account's environment credentials.")
+		resp.Diagnostics.AddError("Unknown iwinv credentials", "Credentials must be known before accessing iwinv. Unknown configuration never falls back to another account's environment credentials.")
 		return
 	}
 	access, secret := config.AccessKey.ValueString(), config.SecretKey.ValueString()
@@ -71,10 +72,15 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 		return
 	}
 	resp.DataSourceData = &compute.Service{API: api}
+	if writes, ok := api.(network.API); ok {
+		resp.ResourceData = &network.Service{API: writes}
+	}
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource}
 }
 
-func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource { return nil }
+func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {
+	return []func() resource.Resource{NewSecurityGroupResource}
+}

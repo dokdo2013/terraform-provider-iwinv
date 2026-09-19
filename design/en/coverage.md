@@ -5,7 +5,7 @@
 Goal: account for every official iwinv API/CLI capability and support all controllable remote resources.
 Coverage does not mean turning every CLI command into a persistent resource. Each entry is classified as
 managed resource (R), data source (D), action (A), ephemeral resource (E), local tool (L), or discovery gap (G).
-**Seven data sources are implemented and live-verified: `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`, `iwinv_ssh_keys`, and `iwinv_ssh_key`. Managed resources remain proposals.**
+**Seven data sources are implemented and live-verified: `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`, `iwinv_ssh_keys`, and `iwinv_ssh_key`. `iwinv_security_group` also supports live-verified group attributes; rules, attachments and other managed resources remain proposals.**
 See the [development guide](development.md) and [implementation ledger](../inventory/implementation.json).
 
 ## Control-plane inventory

@@ -141,17 +141,16 @@ context 기한 안에서 polling하며 pending·active·off·work·error와 생�
 변경은 ADR로 기록하고 state migration과 변경 불가능한 semantic version 릴리스로 관리합니다.
 근거는 [출처 대장](../sources.md)에 있습니다.
 
-## 보안 그룹 서비스 경계: 내부 구현
+## 보안 그룹 리소스 경계 (개발용)
 
-타입이 있는 network 어댑터는 계약 준비이며 Terraform 리소스로 등록하지 않았습니다.
-API `title`은 이름, `content`는 설명, `icmp` Y/N은 boolean으로 매핑합니다.
-설명 응답만 HTML 디코딩을 한 번 수행하며 이름은 디코딩하거나 정규화하지 않습니다.
-설명의 null·빈 값·생략을 구분합니다. 빈 값 수정은 거부하고, 검증한 수정 계약에서 생략은 기존 설명을 유지합니다.
-생성 시 설명 생략은 미해결입니다.
+타입이 있는 네트워크 어댑터를 `iwinv_security_group`에 연결했습니다. 이름, 비어 있지 않은 설명과 ICMP 속성만 소유합니다.
+실행 가능한 스키마와 정확한 ID import는 [리소스 가이드](../../docs/ko/resources/security_group.md)에 있습니다.
+설명 응답은 HTML 디코딩을 한 번만 수행하고 이름은 그대로 유지합니다. 빈 설명 생성/초기화는 미지원이며,
+설명 기본값은 `Managed by Terraform`입니다. 설명을 바꾸지 않는 수정에서는 해당 필드를 생략합니다.
 
-향후 그룹 리소스는 그룹 속성만 소유하고 정확한 `FIREWALL-…` import ID와 상세 Read를 사용할 계획입니다.
-inline 규칙과 서버 연결은 그룹 모델에서 제외하며 별도 수명주기·소유권 검증이 필요합니다.
-생성 응답의 다른 부분 검증이 실패해도 확보한 생성 ID는 state에 보존해야 합니다.
-삭제 성공 응답 이후에도 상세 Read의 부재를 확인해야 합니다.
-API 오류로 state를 제거하지 않으며 import·스키마·timeouts·부분 state 복구는 아직 Terraform 단계에서 구현하지 않았습니다.
-해당 단계 구현 전 [실측/합성 근거](contract-progress.md)를 확인합니다.
+생성은 나머지 응답/Read 검증 실패를 보고하기 전에 확보한 ID를 state에 기록합니다. 수정/삭제 실패는 이전 state를 보존합니다.
+삭제는 성공 응답 후 상세 Read에서 부재를 확인합니다. API 오류로 state를 제거하거나 쓰기를 자동 재시도하지 않습니다.
+작업별 timeout으로 성공했지만 반영이 덜 된 조회의 대기를 제한합니다. 규칙과 서버 연결은 별도의 미구현 소유권 범위입니다.
+합성 및 실환경 Terraform 테스트로 import, 무변경 plan, drift와 외부 삭제를 검증했고, 합성 생성 실패 테스트로 Core의 ID 보존 및 정리를 확인했습니다.
+이 리소스의 제한된 검증은 서버 단계 통과나 모든 네트워크 수명주기 계약 해결을 의미하지 않습니다.
+검증 범위와 남은 공백은 [근거](contract-progress.md)를 참고하세요.

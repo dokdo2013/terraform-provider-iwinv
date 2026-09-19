@@ -38,7 +38,7 @@ type Group struct {
 // GroupInput always supplies name and ICMP explicitly. A nil description omits
 // content; it does not clear the remote value. Update omission is live-verified;
 // create omission remains unresolved. Empty updates are rejected because
-// the observed API acknowledges them while retaining the previous description.
+// the observed API does not reliably clear or preserve the previous description.
 type GroupInput struct {
 	Name        string
 	Description *string
@@ -55,6 +55,12 @@ type CreatedGroup struct {
 
 var groupID = regexp.MustCompile(`^FIREWALL-[A-Za-z0-9_-]+$`)
 
+// ValidateGroupID validates an import/reference without making a request.
+func ValidateGroupID(id string) error {
+	_, err := groupPath(id)
+	return err
+}
+
 func groupPath(id string) (string, error) {
 	if !groupID.MatchString(id) {
 		return "", errors.New("security group ID must be one supported FIREWALL path segment")
@@ -67,7 +73,7 @@ func groupBody(in GroupInput, updating bool) (map[string]string, error) {
 		return nil, errors.New("security group name must not be empty")
 	}
 	if updating && in.Description != nil && *in.Description == "" {
-		return nil, errors.New("security group description cannot be cleared with an empty update; the API ignores it")
+		return nil, errors.New("security group description cannot be cleared with an empty update; the API does not reliably clear or preserve it")
 	}
 	b := map[string]string{"title": in.Name, "icmp": "N"}
 	if in.AllowICMP {

@@ -5,7 +5,7 @@
 목표는 공식 iwinv API·CLI의 모든 기능을 대장으로 관리하고 제어 가능한 원격 리소스 전체를 지원하는 것입니다.
 모든 CLI 명령을 영구 리소스로 만들지는 않습니다. 관리 리소스(R), 조회(D), 일회성 작업(A),
 임시 값(E), 로컬 도구(L), 조사/계약 공백(G)으로 분류합니다.
-**현재 구현·실환경 검증된 Data Source는 `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`, `iwinv_ssh_keys`, `iwinv_ssh_key` 7개입니다. 관리 리소스는 아직 제안 단계입니다.**
+**현재 구현·실환경 검증된 Data Source는 `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type`, `iwinv_ssh_keys`, `iwinv_ssh_key` 7개입니다. `iwinv_security_group`의 그룹 속성도 구현·실환경 검증했으며, 규칙·연결과 나머지 관리 리소스는 제안 단계입니다.**
 실행 방법은 [개발 가이드](development.md), 추적 정보는 [구현 대장](../inventory/implementation.json)에 있습니다.
 
 ## Control-plane 기능 대장

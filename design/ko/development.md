@@ -2,8 +2,8 @@
 
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
-Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키 Data Source를 구현합니다.
-관리 리소스와 수명주기 작업은 등록하지 않았습니다. 설계 문서의 인스턴스 예제는 아직 적용하면 안 됩니다.
+Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키 Data Source 7개와
+[보안 그룹 속성 리소스](../../docs/ko/resources/security_group.md)를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
 
@@ -84,7 +84,7 @@ plugin-testing의 재연결 방식 alias만으로 계정 격리를 증명하지 
 - 통제된 multipart 인스턴스 생성 실험이 HTTP 500 / `DEV_CHECK_RETURN`으로 끝났고 ID가 반환되지 않았습니다.
   자동 재시도하지 않았으며 직후와 지연 후의 API 목록은 비어 있었습니다. 수명주기 성공이나 과금 검증 근거는 아닙니다.
 - Object Storage/NAS/Cache/메시징의 서비스별 키와 MCP OAuth 인증 후 도구 조사는 남아 있습니다.
-- 서명 릴리스, 게시, state migration, 관리 리소스 acceptance는 후속 단계입니다.
+- 서명 릴리스, 게시, state migration, 나머지 관리 리소스 acceptance는 후속 단계입니다.
 
 실제 바이너리 alias 검증을 다시 실행하려면 빌드 후 다음 명령을 사용합니다.
 
@@ -179,3 +179,29 @@ TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccSSHKeys$' -
 이 실환경 테스트에는 기존 키가 최소 하나 필요합니다. 두 Data Source를 조회하고 후속 무변경 plan을 확인합니다.
 첫 정렬 ID는 테스트 입력일 뿐 추천 선택 정책이 아닙니다. 클라우드 객체를 만들거나 수정하지 않습니다.
 출처: [공식 SSH 키 목록](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).
+
+## 보안 그룹 속성
+
+첫 관리 리소스는 [iwinv_security_group](../../docs/ko/resources/security_group.md)입니다.
+위 개발용 override를 설정한 후 [리소스 예제](../../examples/resources/iwinv_security_group/main.tf)를 validate하고 plan을 검토한 뒤 적용하세요.
+Data Source 예제와 달리 apply가 클라우드 객체를 생성합니다. 사용 후 destroy와 부재 확인까지 진행하세요.
+기존 공유 그룹을 테스트 fixture로 쓰지 마세요. 규칙, 연결, 빈 설명 생성/초기화, 연결된 그룹 삭제는 미지원 또는 미검증입니다.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test ./internal/provider -run '^TestAccSecurityGroup$' -v -timeout 12m
+```
+
+별도의 실환경 실행 gate이며 같은 환경변수 인증정보가 필요합니다. 공개 CI에서는 켜지 마세요.
+테스트 wrapper는 쓰기 전에 기존 그룹 ID 목록을 조회하고 이번 실행의 생성 응답으로 확보한 새 ID에만 변경을 허용합니다.
+비공개 mode-0600 대장에 요청 의도, 생성 응답, 확보한 ID, 삭제 시도와 부재 확인을 원자적으로 기록합니다.
+테스트 출력/state와 대장에는 계정 식별자가 포함될 수 있으므로 모두 Git 밖에 보관하세요. 원본 로그를 공개 근거로 공유하지 마세요.
+실패 후에도 실행하는 정리 절차는 소유한 각 ID를 다시 읽으며, 이전 DELETE를 무작정 반복하지 않습니다.
+생성 ID가 불명확하거나 삭제가 확인되지 않았다면 대장을 바탕으로 확인해야 합니다. 테스트 출력이 없다는 사실은 정리 증거가 아닙니다.
+
+지원 속성, ID 유지 수정, 전체 속성을 비교하는 import, 원격 삭제 없이 Terraform state의 소유권만 제거,
+영속 state로 재import한 뒤 무변경 plan, 외부 변경/복원, 외부 삭제/재생성과 최종 destroy를 검증합니다. 이번 실행 소유 그룹만 사용합니다.
+합성 테스트는 기본값, timeout만 변경, 잘못되거나 unknown인 입력, 반영 지연,
+API 오류, 대기 기한 초과와 생성 실패 후 Terraform Core가 ID를 보존하여 정리하는 동작을 별도로 검증합니다.
+import state 검증은 이전 Terraform 소유권을 명시적으로 제거하고 다시 가져옵니다. 기존 관리 주소에 그대로 import하는 것은 유효하지 않습니다.

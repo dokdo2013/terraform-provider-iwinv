@@ -152,6 +152,42 @@
         "design/en/development.md",
         "design/ko/development.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_security_group",
+      "kind": "resource",
+      "status": "development",
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/security-groups"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/security-groups/{id}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/security-groups/{id}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "Dedicated unattached groups without rules: name/nonempty description/ICMP, stable-ID updates, exact-ID import and no-op plan, external drift repair, external deletion/recreation and verified destroy; no packet or billing assertion",
+      "ownership": "group name, nonempty description and ICMP only; rules and attachments excluded",
+      "import": "exact firewall_id; local timeouts not imported; empty/null descriptions require supported nonempty configuration for no-op plans",
+      "evidence": [
+        "internal/provider/security_group_resource_test.go",
+        "internal/provider/security_group_live_test.go",
+        "docs/resources/security_group.md",
+        "docs/ko/resources/security_group.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

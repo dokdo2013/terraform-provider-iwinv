@@ -2,8 +2,8 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements zone, image, instance-type and SSH-key data sources.
-No managed resources or lifecycle operations are registered. Never apply the proposed instance examples yet.
+There is no Registry release. The local binary implements seven zone/image/instance-type/SSH-key data sources
+and the [security-group attribute resource](../../docs/resources/security_group.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
 
@@ -84,7 +84,7 @@ separate factory mechanism is used for synthetic client isolation tests. The nat
 - A controlled multipart instance creation experiment returned HTTP 500 / `DEV_CHECK_RETURN`, without an instance ID.
   No automatic retry was made. Immediate and delayed API inventory checks were empty; this is not evidence of successful lifecycle or billing verification.
 - Service-specific credentials for Object Storage/NAS/Cache/messaging and authenticated MCP OAuth discovery remain outstanding.
-- Full signing, publishing, state migration and managed-resource acceptance are later gates.
+- Full signing, publishing, state migration and acceptance of the remaining managed resources are later gates.
 
 After building, repeat the native binary alias check with:
 
@@ -179,3 +179,30 @@ TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccSSHKeys$' -
 This live test requires at least one pre-existing key. It reads both data sources and verifies a subsequent empty plan.
 Its first sorted ID is only a test input, not a recommended key-selection policy. No cloud objects are created or modified.
 Source: [official SSH key list](https://iwinv-common.readme.io/reference/get_new-endpoint-1-1).
+
+## Security-group attributes
+
+The first managed resource is [iwinv_security_group](../../docs/resources/security_group.md).
+Follow the development override above, then validate/review/apply the [resource example](../../examples/resources/iwinv_security_group/main.tf).
+Unlike the data-source examples, apply creates a cloud object. Run destroy when finished and verify absence.
+Do not use existing shared groups as test fixtures. Rules, attachments, empty-description creation/clearing and attached-group deletion remain unsupported or unverified.
+
+```sh
+TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 \
+  IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test ./internal/provider -run '^TestAccSecurityGroup$' -v -timeout 12m
+```
+
+This separate live gate requires the same environment credentials. Do not enable it in public CI.
+The wrapper inventories existing group IDs before writes and only permits mutations of new IDs returned by this execution.
+A private mode-0600 journal atomically records request intent, create receipts, known IDs, delete attempts and verified absence.
+Test stdout/state and journals can contain account identifiers; keep all of them outside Git. Never share raw logs as public evidence.
+Fallback cleanup reads each owned ID even after a test failure and does not blindly replay an earlier DELETE.
+An unidentified create or unverified deletion requires reconciliation using the journal; an empty test output is not cleanup proof.
+
+The test covers supported attributes, stable-ID update, import with full attribute verification,
+explicit state removal without remote destroy, re-import into persisted state followed by an empty plan,
+external drift/repair, external deletion/recreation, and final destroy. Only the run-owned groups are involved.
+Synthetic tests separately cover defaults, timeout-only changes, invalid/unknown inputs, delayed visibility,
+API errors, waiter expiry and failed-create ID preservation through Terraform Core cleanup.
+The imported-state test explicitly removes prior Terraform ownership before re-importing; importing over an existing address is invalid.

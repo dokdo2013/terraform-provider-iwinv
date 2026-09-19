@@ -307,3 +307,33 @@ T005/T006/T009/T010과 C15의 추가 근거이며 Terraform state/import·연결
 출처: [그룹 목록](https://iwinv.readme.io/reference/get_v1-security-groups),
 [그룹 상세](https://iwinv.readme.io/reference/get_v1-security-groups-id),
 [그룹 생성](https://iwinv.readme.io/reference/post_v1-security-groups).
+
+## 첫 관리 리소스: 보안 그룹 속성 (2026-09-19, T057)
+
+`iwinv_security_group`을 개발용 리소스로 등록했습니다. 이름, 비어 있지 않은 설명, ICMP를 지원하며,
+정확한 ID import와 작업별 timeout을 제공합니다. 범위와 복구 절차는 [한·영 리소스 가이드](../../docs/ko/resources/security_group.md)에 있습니다.
+서버 생성이 차단된 동안 독립적인 네트워크 기능을 진전시킨 것이며, P1/P2/P3나 구현 이슈 6개를 완료 처리하지 않습니다.
+
+설명 기본값을 결정하기 전 content를 생략/빈 값으로 지정한 진단 생성 2회는 HTTP 403 / `CHECK_IP`,
+중첩된 일시 장애 메시지와 함께 ID 없이 끝났습니다. 후속 목록에서 두 요청 이름은 발견되지 않았습니다.
+프로세스의 출발 IP는 허용 IP와 일치했고, 비어 있지 않은 설명의 대조군은 생성 성공 후 삭제 및 정확한 ID 부재를 확인했습니다.
+이는 한정된 관측이며 `CHECK_IP`의 일반 의미를 다시 정의하지 않습니다. 공식 오류 대장은 IP 제한으로 설명합니다.
+따라서 Provider는 검증된 비어 있지 않은 설명을 전송하고(HCL 생략 시 `Managed by Terraform`), 명시적인 빈 설명을 거부합니다.
+이전 설명 생략 관측에는 오류 분류가 보존되지 않았으므로 이번 결과를 소급 적용하지 않습니다.
+
+Go 1.26.1 / Terraform 1.14.2로 실환경 Terraform 실행 2회가 통과했습니다. 반환된 생성 ID 4개를 비공개 기록했고 모두 정확한 ID의 부재를 확인했습니다.
+두 번째 실행은 원격 객체 삭제 없이 Terraform 소유권을 해제하고 같은 영속 state로 재import한 뒤 무변경 plan까지 추가 확인했습니다.
+두 실행 모두 ID를 유지한 생성/조회/수정, 전체 속성 import 비교, 한글/리터럴 엔티티 설명,
+무변경 plan, 외부 변경 감지/복원, 외부 삭제/재생성과 최종 destroy를 검증했습니다. 기존 그룹은 변경하지 않았습니다.
+위 설명 대조군은 Terraform 생성 4개와 별개이며 역시 삭제했습니다.
+비공개 대장과 원본 state/로그는 저장소에 포함하지 않으며 공개 fixture는 합성 ID만 사용합니다.
+
+합성 Terraform CLI 테스트도 기본값, API 쓰기가 없는 timeout만 변경, 빈 설명 거부,
+잘못된 생성 응답으로 apply가 실패해도 ID를 유지하여 두 번째 POST 없이 destroy하는 경우를 통과했습니다.
+직접 Framework 테스트는 생성 반영 지연/기한 초과, 수정/삭제 실패 시 이전 state 보존,
+HTTP 인증/부재/요청 제한/서버 오류와 엔드포인트별 확정 부재를 검증합니다.
+근거는 `internal/provider/security_group_resource_test.go`, `internal/provider/security_group_live_test.go`와 네트워크 어댑터 테스트입니다.
+
+구현 대장에는 이 리소스의 POST/상세 GET/PUT/DELETE만 등록했습니다. 내부/테스트에서 쓰는 그룹 목록은 Terraform 기능으로 표시하지 않습니다.
+규칙, 연결, 패킷 동작, API 길이 경계, 실제 전체 페이지 경계와 과금 종료는 실환경 검증 범위에 포함되지 않습니다.
+서버 존 제한과 이전 웹메일 콘솔/해지 불확실성은 계속 미해결입니다. 이번 그룹 정리가 이전의 모든 서비스 정리를 증명하지는 않습니다.
