@@ -983,6 +983,24 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T078",
+      "phase": "P6",
+      "method": "offline/CI",
+      "expected_en": "Disposable RSA snapshot signing verifies a binary detached signature, the exact signer and all package checksums, rejects seven tampering or trust failures, and removes test keys without publishing or claiming Registry acceptance",
+      "expected_ko": "일회용 RSA 키의 snapshot 바이너리 분리 서명·정확한 서명자·전체 패키지 체크섬을 검증하고 7가지 변조·신뢰 실패를 거부하며 게시나 Registry 합격 없이 테스트 키를 제거한다",
+      "status": "passed",
+      "evidence": [
+        ".goreleaser.yml",
+        "scripts/check_signing.py",
+        "scripts/check_snapshot.py",
+        ".github/workflows/package.yml",
+        "design/en/release-readiness.md",
+        "design/ko/release-readiness.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

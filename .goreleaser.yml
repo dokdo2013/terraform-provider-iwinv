@@ -32,8 +32,13 @@ checksum:
 
 signs:
   - artifacts: checksum
+    cmd: gpg
     args:
+      - --no-options
       - --batch
+      - --no-tty
+      - --digest-algo
+      - SHA256
       - --local-user
       - '{{ .Env.GPG_FINGERPRINT }}'
       - --output

@@ -2,7 +2,7 @@
 
 [English](../en/release-readiness.md) · [목차](../../README.md)
 
-Registry 릴리스는 아직 없습니다. T077은 서명 없는 패키지 준비만 검증합니다. 서명·게시·새 환경의 Registry 설치가 검증되기 전까지 T053은 미완료입니다. 개발 Provider는 Data Source 18개·리소스 7개를 제공하며 실환경 검증의 한정된 범위는 기능 대장을 따릅니다.
+Registry 릴리스는 아직 없습니다. T077은 서명 없는 패키지 준비, T078은 일회용 키의 서명을 검증합니다. 운영 키 서명·게시·새 환경의 Registry 설치가 검증되기 전까지 T053은 미완료입니다. 개발 Provider는 Data Source 18개·리소스 7개를 제공하며 실환경 검증의 한정된 범위는 기능 대장을 따릅니다.
 
 ## 서명 없는 반복 검증
 
@@ -22,17 +22,33 @@ Snapshot 버전은 태그와 관계없이 `0.0.0-dev`입니다. GoReleaser는 ma
 
 현재 호스트에서는 `-version`을 확인하고 격리된 filesystem mirror의 ZIP으로 실제 `terraform init`을 수행한 뒤 Provider 스키마의 등록 이름을 구현 대장과 비교합니다. dev override, 직접 다운로드 경로, 사용자 캐시, 클라우드 키를 사용하지 않습니다. 서명 없는 mirror 설치는 **서명이나 Registry 검증이 아닙니다**. 임시 설정과 lock 파일은 자동으로 지웁니다. plan/apply나 클라우드 요청은 하지 않습니다.
 
-패키지 workflow는 저장소 읽기 권한만 사용하고 action·도구 버전을 고정합니다. 서명 비밀키나 릴리스 업로드가 없으며 snapshot 명령에서 서명·게시를 명시적으로 생략합니다. 기존 프로토콜 CI는 Terraform 1.14.0/1.14.2를 독립적으로 검증합니다.
+## 일회용 키 서명 검증
+
+GnuPG 2.x(`gpg`, `gpgconf`)를 설치한 뒤 실행합니다.
+
+```sh
+python3 scripts/check_signing.py --goreleaser /absolute/path/to/goreleaser --terraform /absolute/path/to/terraform
+```
+
+같은 GoReleaser 설정에 `--snapshot --clean --skip=publish`를 전달하여 `dist/`를 다시 빌드합니다. 0700 임시 홈에 유효기간 하루인 RSA-3072 서명키를 만듭니다. 암호 없는 테스트 전용 키이므로 운영 서명키로 사용하면 안 됩니다. 설정된 서명 명령은 SHA-256 기반 바이너리 분리 서명을 만들고, `--no-options`로 사용자 GPG 기본 설정이 armor 등 형식을 바꾸지 못하게 합니다.
+
+별도 키 저장소에는 공개키만 가져옵니다. GPG 성공 결과와 생성한 키의 정확한 fingerprint를 확인한 뒤 서명된 체크섬으로 ZIP 7개와 manifest를 검증합니다. 체크섬 변경, 서명 바이트 변경, ZIP 변경, 서명 누락, armor 형식, 예상과 다른 fingerprint, 알 수 없는 공개키의 7가지 실패를 거부합니다. 원본 결과를 검증한 뒤 네이티브 filesystem mirror 설치를 수행합니다. Terraform의 mirror 설치 자체가 이 GPG 서명을 인증하는 것은 아니며 Registry의 키 신뢰는 미검증입니다.
+
+실행기는 상속된 클라우드·게시 자격증명과 사용자 Git/GPG 설정을 제외하고 공개 Go 캐시만 재사용합니다. 정상 종료와 예외 처리에서 자기 임시 키 저장소의 agent만 종료하고 임시 키 저장소와 `dist/`의 일회용 서명을 제거합니다. 키나 산출물을 업로드하지 않습니다. 강제 프로세스 종료 시에는 로컬 임시 파일을 별도로 정리해야 할 수 있습니다.
+
+패키지 workflow는 저장소 읽기 권한, 고정된 action·도구 버전으로 이 검증을 실행하며 저장된 서명 비밀키나 릴리스 업로드를 사용하지 않습니다. 기존 프로토콜 CI는 Terraform 1.14.0/1.14.2를 독립적으로 검증합니다. 로컬 서명은 Darwin arm64의 GnuPG 2.5.22로 확인했으며 CI는 runner의 GnuPG 버전을 로그에 기록합니다.
 
 ## 남은 출시 조건
 
 - 미해결 기능 계약과 정리 실패 T056을 해결하거나 정확한 출시 범위에 반영합니다. 작업에서 만든 웹메일 서비스와 동의하지 않은 MCP 클라이언트 등록도 포함하며, 근거 없이 삭제됐다고 표시하지 않습니다.
 - Provider 소개와 등록된 기능별 문서는 한·영으로 마련했습니다. 전체 동작·스키마 검토(T052)와 Registry 렌더링을 마쳐야 하며 파일 존재만으로 합격 처리하지 않습니다.
-- 프로젝트 전용 서명키의 보관·복구 방식을 마련하고 `dokdo2013` Registry namespace에 공개키를 등록합니다. 생성 전 현재 허용 알고리즘을 확인합니다. 이번 검증은 키를 생성하거나 업로드하지 않았습니다.
-- 출시 조건과 자격증명 보관이 준비되면 권한을 제한한 서명·게시 workflow를 추가합니다. GoReleaser에는 `GPG_FINGERPRINT`를 이용한 체크섬 서명과 draft release를 구성했지만 이 경로는 **실행·검증하지 않았습니다**.
+- 프로젝트 전용 서명키의 보관·복구 방식을 마련하고 `dokdo2013` Registry namespace에 공개키를 등록합니다. 생성 전 현재 허용 알고리즘을 확인합니다. 운영 키는 생성·업로드하지 않았고 테스트 키는 삭제합니다.
+- 출시 조건과 자격증명 보관이 준비되면 권한을 제한한 서명·게시 workflow를 추가합니다. `GPG_FINGERPRINT`를 이용한 체크섬 서명은 일회용 키로 실행했습니다. 운영 키 로딩과 draft release 업로드는 **실행·검증하지 않았습니다**.
 - 변경할 수 없는 semantic version을 정하고 manifest·ZIP·체크섬·바이너리 형식의 분리 GPG 서명을 검증한 뒤 게시 및 새 환경의 Registry 설치를 확인합니다. 이미 게시한 버전을 덮어쓰지 않습니다. 프로토콜 6만으로 CLI 최소 버전이 표현되지 않으므로 최소 Terraform 버전도 별도로 확인합니다.
 - 이전 릴리스가 생기면 지원 업그레이드 경로를 검증합니다(T054). 현재 출시된 이전 state 버전이 없으므로 migration 합격을 주장하지 않습니다. workflow 권한·외부 PR 검토(T055)도 완료해야 합니다.
 
 T077 근거: `.goreleaser.yml`, `terraform-registry-manifest.json`, `scripts/check_snapshot.py`, `scripts/test_check_snapshot.py`, `.github/workflows/package.yml` 및 [실행 기록](contract-progress.md).
+
+T078 근거: `scripts/check_signing.py`, `.goreleaser.yml`, `.github/workflows/package.yml` 및 같은 실행 기록입니다. [GoReleaser 서명](https://goreleaser.com/customization/sign/sign/)과 [GnuPG 테스트 키 생성](https://www.gnupg.org/documentation/manuals/gnupg/Unattended-GPG-key-generation.html)을 참고하세요.
 
 출처: [HashiCorp 게시 요건](https://developer.hashicorp.com/terraform/registry/providers/publishing), [권장 대상](https://developer.hashicorp.com/terraform/registry/providers/os-arch), [공식 scaffold 설정](https://github.com/hashicorp/terraform-provider-scaffolding-framework/blob/main/.goreleaser.yml), [GoReleaser snapshot](https://goreleaser.com/customization/publish/snapshots/).

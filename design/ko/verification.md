@@ -130,3 +130,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T075 | P4 | mock/live-read | 웹메일 상품 카탈로그가 빈 ID와 서로 다른 준비 중 행을 보존하고 메타데이터를 정렬하며 잘못된/중복/오류 응답을 거절하고 서비스 수명주기 지원을 주장하지 않은 채 실환경 전체 조회·무변경 plan을 통과한다 | passed |
 | T076 | P1 | offline | 오프라인 MCP 목록 검증이 불완전/순서 변경/반복 페이지와 중복 도구를 거절하고 설명/기본값/예시/meta/cursor를 제외하며 도구 힌트나 구조 조사를 권한·검증된 API 지원으로 취급하지 않는다 | passed |
 | T077 | P6 | offline/CI | 서명 없는 snapshot의 정확한 ZIP·체크섬·프로토콜 메타데이터와 네이티브 filesystem mirror 설치의 등록 스키마를 검증하고 서명·Registry 합격은 구분한다 | passed |
+| T078 | P6 | offline/CI | 일회용 RSA 키의 snapshot 바이너리 분리 서명·정확한 서명자·전체 패키지 체크섬을 검증하고 7가지 변조·신뢰 실패를 거부하며 게시나 Registry 합격 없이 테스트 키를 제거한다 | passed |

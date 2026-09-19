@@ -28,14 +28,14 @@ jobs:
         with:
           terraform_version: '1.14.2'
           terraform_wrapper: false
-      - name: Build unsigned snapshot without publishing or cloud credentials
+      - name: Install pinned GoReleaser
         uses: goreleaser/goreleaser-action@f06c13b6b1a9625abc9e6e439d9c05a8f2190e94 # v7
         with:
           version: v2.18.2
-          args: release --snapshot --clean --skip=sign,publish --parallelism=2
-      - name: Verify archives and install from an isolated filesystem mirror
+          install-only: true
+      - name: Rehearse signing and isolated installation with a disposable test key
         run: |
-          cp terraform-registry-manifest.json dist/terraform-provider-iwinv_0.0.0-dev_manifest.json
-          python3 scripts/check_snapshot.py dist --terraform "$(command -v terraform)"
+          gpg --version
+          python3 scripts/check_signing.py --goreleaser "$(command -v goreleaser)" --terraform "$(command -v terraform)"
       - name: Test package rejection cases
         run: python3 -m unittest discover -s scripts -p 'test_check_snapshot.py' -v
