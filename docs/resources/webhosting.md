@@ -51,7 +51,7 @@ resource "iwinv_webhosting" "example" {
 
 Supply secret variables through your secret manager or process environment; do not put values in Git, ordinary outputs or command history.
 Both write-only arguments are required to create or replace an account, but are optional for import and ongoing reads.
-Passwords must differ and each contain 7–20 printable ASCII characters from at least two of letters, digits and symbols.
+Passwords must differ and each contain 7–20 non-space printable ASCII characters from at least two of letters, digits and symbols.
 This is the provider's supported input subset, not exhaustive live verification of every vendor password boundary.
 
 ## Changes and data loss
@@ -70,7 +70,7 @@ Removing the resource block also removes this guard; console/API deletion remain
 through attribute comparison. A same-name recreation may fail after deletion; inspect the plan and use a fresh account name.
 There is no 24-hour retry loop or invented in-place update.
 
-Changing only a write-only password does not produce a plan. `password_wo_version` is an optional positive local trigger: changing it
+Changing only a write-only password does not produce a plan. `password_wo_version` is an optional positive integer local trigger: changing it
 requires full replacement with a fresh account name, not in-place password rotation. Neither password nor a password hash is persisted
 by the provider. Use ephemeral variables so the configuration itself does not embed a secret literal in stored artifacts.
 
@@ -86,7 +86,7 @@ by the provider. Use ephemeral variables so the configuration itself does not em
 | `web_firewall_enabled` | optional + computed bool | Default true; explicit API Y/N. No packet-effect claim. |
 | `custom_domains` | optional + computed map(string) | Default empty. Complete custom domain→folder map, excluding `account_name.iwinv.net`; changes replace. |
 | `ftp_password_wo`, `database_password_wo` | optional write-only sensitive string | Initial passwords; required for creation, never restored by import. |
-| `password_wo_version` | optional number | Positive local replacement trigger; no remote counterpart. |
+| `password_wo_version` | optional int64 | Positive integer local replacement trigger; no remote counterpart. |
 | `id` | computed string | Exact decimal service_idx, preserved without float64 conversion. |
 | `status`, `ip_address` | computed string | Observed control-plane status and IP. |
 | `default_domain` | computed string | Expected account-name subdomain, verified present in the response. |

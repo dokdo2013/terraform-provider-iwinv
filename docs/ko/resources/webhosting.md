@@ -51,7 +51,7 @@ resource "iwinv_webhosting" "example" {
 
 비밀정보 관리자나 프로세스 환경변수로 비밀번호를 전달하고 Git·일반 output·셸 기록에 실제 값을 넣지 마세요.
 두 write-only 입력은 생성·교체에 필요하지만 import와 기존 서비스 조회에는 필요하지 않습니다.
-비밀번호는 서로 달라야 하며 printable ASCII 7–20자, 영문/숫자/특수문자 중 최소 2종류를 사용합니다.
+비밀번호는 서로 달라야 하며 공백 없는 출력 가능 ASCII 7–20자, 영문/숫자/특수문자 중 최소 2종류를 사용합니다.
 이는 Provider의 지원 입력 범위이며 공급사 비밀번호 경계를 모두 실측했다는 뜻은 아닙니다.
 
 ## 설정 변경과 데이터 삭제
@@ -70,7 +70,7 @@ resource "iwinv_webhosting" "example" {
 삭제 후 같은 계정명 재생성이 실패할 수 있으므로 계획을 확인하고 새 계정명을 사용하세요.
 24시간 재시도 루프나 실제로 존재하지 않는 제자리 수정은 제공하지 않습니다.
 
-Write-only 비밀번호 값만 바꿔서는 plan 차이가 생기지 않습니다. `password_wo_version`은 선택적인 양수 로컬 트리거입니다.
+Write-only 비밀번호 값만 바꿔서는 plan 차이가 생기지 않습니다. `password_wo_version`은 선택적인 양의 정수 로컬 트리거입니다.
 이를 바꾸면 새 계정명으로 전체 교체하며 비밀번호만 제자리에서 바꾸는 기능이 아닙니다.
 Provider는 비밀번호나 그 해시를 저장하지 않습니다. 설정 파일 자체에 비밀 리터럴이 남지 않도록 ephemeral 변수를 사용하세요.
 
@@ -86,7 +86,7 @@ Provider는 비밀번호나 그 해시를 저장하지 않습니다. 설정 파�
 | `web_firewall_enabled` | 선택 + 계산 bool | 기본 true. API Y/N 명시. 실제 차단 효과의 검증은 아님. |
 | `custom_domains` | 선택 + 계산 map(string) | 기본 빈 map. `account_name.iwinv.net`을 제외한 사용자 도메인→폴더 전체 집합. 변경 시 교체. |
 | `ftp_password_wo`, `database_password_wo` | 선택 write-only sensitive string | 초기 비밀번호. 생성 필수, import로 복원하지 않음. |
-| `password_wo_version` | 선택 number | 양수 로컬 교체 트리거. 원격 대응 값 없음. |
+| `password_wo_version` | 선택 int64 | 양의 정수 로컬 교체 트리거. 원격 대응 값 없음. |
 | `id` | 계산 string | float64 변환 없이 보존한 정수 service_idx. |
 | `status`, `ip_address` | 계산 string | 관찰한 제어면 상태와 IP. |
 | `default_domain` | 계산 string | 응답에 실제 존재하는지 확인한 계정명 기반 기본 도메인. |

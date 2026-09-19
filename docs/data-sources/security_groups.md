@@ -28,7 +28,7 @@ Read attributes (each `groups` row):
 
 Rules, attached instances and arbitrary response fields are excluded. Reads neither own nor mutate remote objects and do not support import. Use the [security group resource](../resources/security_group.md) to manage attributes.
 
-The list validates counts, page numbers/sizes, fields and unique IDs across all pages before returning. Authentication/HTTP errors and later-page failures never become empty or partial results. Sorting stabilizes response ordering but cannot guarantee an atomic snapshot during concurrent inventory changes. Unknown ID references are deferred by Terraform until apply.
+The list validates counts, page numbers/sizes, fields and unique IDs across all pages before returning. Authentication/HTTP errors and later-page failures never become empty or partial results. Sorting stabilizes response ordering but cannot guarantee an atomic snapshot during concurrent inventory changes. There is no input ID; use [security_group](security_group.md) for an exact-ID detail lookup.
 
 T073: synthetic Core tests cover 51-row pagination, reordered responses, duplicate names, null/empty descriptions, exact IDs, invalid/missing IDs, permission/late-page errors and unknown references. Live acceptance uses one run-owned fixture to compare list/detail, round-trip descriptions, refresh after an external rename and verify no-change plans, then deletes that fixture. More than 50 live groups, attachments and firewall traffic enforcement remain separate checks.
 

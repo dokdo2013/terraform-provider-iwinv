@@ -632,7 +632,9 @@
         "design/ko/documentation.md",
         "docs/guides/security_group_rules.md",
         "docs/ko/guides/security_group_rules.md",
-        "design/inventory/doc-preview.json"
+        "design/inventory/doc-preview.json",
+        "design/en/guide-review.md",
+        "design/ko/guide-review.md"
       ]
     },
     {

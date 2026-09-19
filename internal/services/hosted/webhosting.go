@@ -170,7 +170,7 @@ func validHostingPassword(password string) bool {
 // without including either value in diagnostics.
 func ValidateWebhostingPasswords(ftp, database string) error {
 	if !validHostingPassword(ftp) || !validHostingPassword(database) || ftp == database {
-		return errors.New("webhosting passwords must differ and each contain 7–20 printable ASCII characters from at least two of letters, digits and symbols")
+		return errors.New("webhosting passwords must differ and each contain 7–20 non-space printable ASCII characters from at least two of letters, digits and symbols")
 	}
 	return nil
 }

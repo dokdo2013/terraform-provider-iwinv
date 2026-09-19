@@ -93,19 +93,23 @@
     },
     {
       "path": "docs/data-sources/security_group.md",
-      "sha256": "e8c254dec86274f573b7ed868bfdc92ac0723a68b40ab9aa1782e0b1ad0c7051",
+      "sha256": "4a08763c458c638eb3d7599c4ce0611ac8bb5127fc6a9394f6d1988d52493e2c",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 1,
-      "source_tables": 1
+      "source_tables": 1,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/data-sources/security_groups.md",
-      "sha256": "3aafe907c408425df10b2dba644bab768899bd49accc2609b002b542fc9d4624",
+      "sha256": "0a1e6603270f098dfa0c6eba9fffdcaa1b5ff0481dc4e0728caebf135265739e",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 1,
-      "source_tables": 1
+      "source_tables": 1,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/data-sources/shared_storage_products.md",
@@ -205,11 +209,13 @@
     },
     {
       "path": "docs/resources/webhosting.md",
-      "sha256": "c6cd4bf00ffa56e1cd2138bc50d32a43e4679153a89732afd69bd30deac4b4a1",
+      "sha256": "11fe419e8b7ffc38a248a296722c6203a9a3794d0f5b6b07869e581a2961ae13",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 1,
-      "source_tables": 1
+      "source_tables": 1,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/guides/schema_reference.md",
@@ -317,19 +323,23 @@
     },
     {
       "path": "docs/ko/data-sources/security_group.md",
-      "sha256": "01140c14cfff5c9471edcd06091dca70bd89c8907f70048e80f13caff5e4cb64",
+      "sha256": "35f80fe02479ff330a9db95b32b49c5d8103b64f12f491e21c33585ed77679b9",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 1,
-      "source_tables": 1
+      "source_tables": 1,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/ko/data-sources/security_groups.md",
-      "sha256": "f5b52c37c84748e9c4cd66654404f42fdb96a46f6a07892beb78aa988dafd42a",
+      "sha256": "86d6b00a2cefe222bb1bb1d8c40f495b7975506507672ac0fcc3d330352c83b6",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 1,
-      "source_tables": 1
+      "source_tables": 1,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/ko/data-sources/shared_storage_products.md",
@@ -429,11 +439,13 @@
     },
     {
       "path": "docs/ko/resources/webhosting.md",
-      "sha256": "d8f46f7432c36e874bbe0f07e08b8a18b270d233427c13cd902d07a54b9a3263",
+      "sha256": "417efcc2d040e9db071867dd7fa0ee37b9b2e1012de5446970d50a1cb3b50e72",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 1,
-      "source_tables": 1
+      "source_tables": 1,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/ko/guides/schema_reference.md",
