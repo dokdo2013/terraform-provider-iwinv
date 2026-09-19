@@ -112,7 +112,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T053 | P6 | CI | Supported OS/architecture binaries, checksums, signatures and clean Registry install pass | not_run |
 | T054 | P6 | CI/live | Previous-version state migration and dependency upgrades keep plans stable | not_run |
 | T055 | P6 | CI/review | Untrusted PR CI has no live credentials; release permissions and actions are constrained | not_run |
-| T056 | P6 | live | Acceptance run inventory proves cleanup; leaks fail the run with recoverable evidence | not_run |
+| T056 | P6 | live | Acceptance run inventory proves cleanup; leaks fail the run with recoverable evidence | failed |
 | T057 | P3 | mock/live | Dedicated unattached group attributes pass create/update/import/no-op plan/drift/recreation/destroy; failed create retains an ID for cleanup | passed |
 | T058 | P3 | mock/live | Owned TCP/UDP rules pass CRUD/import/no-op plan/direction drift/clear and parent replacements/external deletion and child-before-parent destroy | passed |
 | T059 | P4 | mock/live | Hosting adapter catalogs, two-service create/read/delete, peer preservation and exact-ID cleanup pass; Terraform lifecycle and billing remain separate | passed |

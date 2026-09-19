@@ -406,3 +406,17 @@ These hosting cleanup results do not resolve the earlier webmail console cancell
 
 Sources: [hosting deletion](https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제),
 [hosting creation](https://iwinv-hosting.readme.io/reference/웹-호스팅-생성).
+
+## Webmail API absence contradicts console presence (2026-09-19)
+
+In the authenticated console, the earlier test service's exact ID, name and domain matched its private creation record.
+The list still showed **working, zero accounts**, while the detail page showed **active**, with its deletion control disabled.
+At the same time, `GET /v1/webmail` returned HTTP 200/SUCCESS with an empty array.
+A successful empty API list therefore cannot establish deletion/cancellation for this service.
+The provider must not call console endpoints or bypass disabled UI controls.
+
+T056 is marked `failed` because this work-created service remains uncleaned. This does not invalidate other tests' documented deletion
+evidence, but the overall cleanup gate is not satisfied. C23/T040's reliable Read contract also remains unresolved.
+A private vendor-support draft requests cancellation of this test service only, billing termination confirmation and an explanation of the API omission.
+No external message has been sent; separate user authorization was requested.
+Actual IDs, account/domain names, login information and raw console output are excluded from the public repository.

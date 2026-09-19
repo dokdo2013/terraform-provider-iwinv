@@ -95,3 +95,7 @@ Cache and webmail mutations can return 404 / `NOT_FOUND` for a busy operation, s
 Webmail can be temporarily missing from the list after a successful create, and its Read omits the name and mailbox accounts.
 Mailbox create echoes a password; it must not enter diagnostics or incidental state.
 These service-specific observations do not establish import, cleanup consistency or complete lifecycle contracts.
+
+Further console reconciliation observed a successful empty webmail API list while the service still existed.
+C23's Read gap also includes omission of a working parent service. An empty list alone must not remove Terraform state.
+The [console reconciliation evidence](contract-progress.md) must be resolved first.

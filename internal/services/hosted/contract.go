@@ -117,6 +117,8 @@ func ValidateServiceID(id string) error {
 // A nil record only means this successful list did not contain the requested ID.
 // Account scope, completeness and eventual consistency still belong to each
 // service lifecycle; callers must not generalize this into arbitrary absence.
+// In particular, webmail has been observed absent from a successful API list
+// while still present in the console. A nil result cannot remove webmail state.
 func Find(e client.Envelope, id string) (*Record, error) {
 	if err := ValidateServiceID(id); err != nil {
 		return nil, err
