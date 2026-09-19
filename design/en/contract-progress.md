@@ -109,7 +109,7 @@ These are partial T014 results, not proof of full coverage.
 
 Read-only control-plane checks reached all five additional service catalogs. Their service lists were empty in the tested account.
 Product lists returned arrays without standard `count`/pagination fields; Cache included a null `product_id`.
-The hosting server catalog and user-script list returned 404. An empty successful list and a 404 cannot be normalized indiscriminately.
+An initial hosting server catalog request without `product_id` and the user-script list returned 404. The hosting catalog later succeeded with its required product query (see below); the script endpoint remains unresolved. An empty successful list and a 404 cannot be normalized indiscriminately.
 Block-storage list returned HTTP 200 although older documentation advertises 202.
 
 For T005/T015, one explicitly scoped multipart server create used a small Linux flavor, a compatible zone/image and one existing SSH key reference.
@@ -203,3 +203,55 @@ The addresses below are documentation-only synthetic addresses, not access addre
 This is partial evidence for C19–C21 and T037/T039. The test did not await completed provisioning, mount storage or write data.
 Tenant service authentication/file operations and Terraform lifecycle/import remain unverified. No NAS resource is implemented yet.
 [Official NAS create documentation](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).
+
+## Hosting, Cache and DBMS contract experiments (2026-09-19)
+
+These scoped API experiments continue C19–C22 and T005/T037/T039. They do not register Terraform resources or satisfy T038 lifecycle/import acceptance.
+Every successfully created hosting, Cache and DBMS parent was recorded privately by exact create ID, then deleted and verified absent from its service list.
+No existing resources, production databases or message recipients were changed.
+
+| Service | Live observation | Design implication / unresolved limit |
+| --- | --- | --- |
+| Hosting server catalog | `GET /v1/webhosting/servers?product_id=…` succeeds; rows have integer `idx` and PHP/database metadata | The earlier unfiltered 404 was not evidence of an unavailable endpoint |
+| Hosting create/read | JSON create succeeds; object `result` with integer `service_idx`; list transitions `pending` → `active`; Korean and `& + %` description preserved | Read omits `server_idx`/PHP selection history; import cannot reconstruct these inputs from this response |
+| Cache password | Documented `ftppw` returns 422 requiring `pw`/`pw.FTP`; scalar `pw` also fails; JSON `pw: {"FTP": "…"}` succeeds | Use the verified nested input; never publish the real generated password |
+| Cache create/read | Create omits `product_id`, Read includes it; `pending` → `active`; create-time `allow_referer` is ignored | Persist the create ID before full validation; apply owned referrers separately after creation |
+| Cache referrer PUT | JSON array replaces the whole list; one and two entries read back exactly | One owner per whole list; the endpoint name “add” does not establish append semantics |
+| Cache query encoding | Plain query array returns 422; bracketed query array without a body returns 400 / `REQUIRED_POST_PARAM_MISSING` | Do not use query-only updates for this observed contract |
+| Cache empty array | JSON empty referrers return 422 and keep the old list | Clearing is unresolved for a managed resource; do not save an empty successful state |
+| Cache consecutive writes | An immediate second PUT returns 404 / `NOT_FOUND` with a busy-operation message; the parent still exists | Never turn this error into absence or blindly retry the write |
+| Cache spaced writes | With an extra delayed Read between writes, both replacements succeed; observed status remains `active` | `active` alone does not prove the write lock is released; no reliable lock/readiness contract yet |
+| DBMS catalog | Multiple rows reuse a `product_id` across engine versions; Redis-filtered selection used a unique ID | Do not silently deduplicate or promise version selection; CPU units remain unverified |
+| DBMS create/read | JSON Redis create succeeds; `waiting` → `active`; create `domain` is a string, Read `domain` is an object | Keep create receipts separate from read models; this does not prove database connectivity |
+| DBMS allowip | JSON array wholly replaces the list; empty array returns 422 and retains the old IP | Authoritative-set ownership, with an explicit unsupported-clear decision before release |
+
+Sources: [hosting server catalog](https://iwinv-hosting.readme.io/reference/상품-상세-조회),
+[Cache create](https://iwinv-cache.readme.io/reference/컨텐츠-캐시-생성),
+[Cache referrers](https://iwinv-cache.readme.io/reference/레퍼러-추가),
+[DBMS products](https://iwinv-dbms.readme.io/reference/클라우드-dbms-상품-조회).
+These links describe vendor intent; the table distinguishes measured differences.
+
+## Webmail visibility and credential observations (2026-09-19)
+
+A temporary `.invalid` domain was used; no DNS records were changed and no mail was sent.
+Create returned HTTP 200, an integer `service_idx`, and `pending`. The first immediate service list was empty.
+A separate bounded experiment preserved the returned ID and waited: the service appeared in a later list as `active`.
+An empty immediate list therefore cannot justify dropping create identity or retrying creation.
+
+The parent Read omits `name` even though create returns it. Account creation returns HTTP 200 and **echoes the submitted password**;
+the returned `service_idx` is a string. Neither the account ID nor an account collection appeared in the subsequent parent list.
+Account deletion was acknowledged, but the documented API offers no independent account Read to verify absence.
+The following parent DELETE returned 404 / `NOT_FOUND` with a busy-operation message; delayed parent lists were empty.
+A later explicit cleanup DELETE also returned 404 and subsequent lists remained empty. Console cancellation and billing termination are unverified.
+This is a cleanup/visibility ambiguity, not evidence that the parent was never created or that child deletion safely cascades.
+T040 remains in progress: authoritative account Read/import is unresolved. T041 remains in progress: redaction is tested, but Terraform write-only/state behavior is not implemented.
+
+The internal `hosted` decoder preserves integer identity without float rounding, extracts create identity before validating other fields,
+allows absent webmail names, rejects malformed/duplicate list records and changed pagination metadata, and excludes arbitrary credential fields.
+Its `Find` result describes only the observed list; service-specific consistency and deletion rules are still required.
+Six private create/list response pairs from hosting, Cache, DBMS and webmail were also decoded and matched by exact ID without emitting payloads.
+Only synthetic fixtures are committed. This helper is not a claim of an implemented hosted-service resource.
+
+Sources: [webmail create](https://iwinv-webmail.readme.io/reference/웹-메일-생성),
+[account create](https://iwinv-webmail.readme.io/reference/웹-메일-계정-생성),
+[service list](https://iwinv-webmail.readme.io/reference/웹-메일-서비스-조회).

@@ -96,8 +96,8 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T037 | P4 | live-read | Each additional service has typed response/ID/error and full list contracts | in_progress |
 | T038 | P4 | live | Each service supports lifecycle/import/no-change plan/drift tests before release | not_run |
 | T039 | P4 | live | Allowlists/referrers prove replace-vs-add, empty-set clear and external-change behavior | in_progress |
-| T040 | P4 | live-read | Mailbox accounts are authoritatively readable before managing their lifecycle | not_run |
-| T041 | P4 | mock/live | Password inputs never accidentally leak to logs; state/write-only behavior is explicit | not_run |
+| T040 | P4 | live-read | Mailbox accounts are authoritatively readable before managing their lifecycle | in_progress |
+| T041 | P4 | mock/live | Password inputs never accidentally leak to logs; state/write-only behavior is explicit | in_progress |
 | T042 | P4 | live-read | Billing units, currency, VAT, timezone and sensitive fields are documented accurately | not_run |
 | T043 | P5 | mock/live | Object storage signing, addressing, pagination and supported subfeatures pass compatibility tests | not_run |
 | T044 | P5 | live | Objects handle hash/ETag/multipart/version/delete semantics without forcing unsupported settings | not_run |

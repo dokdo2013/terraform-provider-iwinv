@@ -1,11 +1,11 @@
 # 전체 기능 범위
 
-[English](../en/coverage.md) · [목차](../../README.md) · 리비전: 1
+[English](../en/coverage.md) · [목차](../../README.md) · 리비전: 2
 
 목표는 공식 iwinv API·CLI의 모든 기능을 대장으로 관리하고 제어 가능한 원격 리소스 전체를 지원하는 것입니다.
 모든 CLI 명령을 영구 리소스로 만들지는 않습니다. 관리 리소스(R), 조회(D), 일회성 작업(A),
 임시 값(E), 로컬 도구(L), 조사/계약 공백(G)으로 분류합니다.
-**현재 구현·실환경 검증된 기능은 `iwinv_availability_zones` 하나입니다. 나머지는 제안입니다.**
+**현재 구현·실환경 검증된 Data Source는 `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, `iwinv_instance_type` 5개입니다. 관리 리소스는 아직 제안 단계입니다.**
 실행 방법은 [개발 가이드](development.md), 추적 정보는 [구현 대장](../inventory/implementation.json)에 있습니다.
 
 ## Control-plane 기능 대장

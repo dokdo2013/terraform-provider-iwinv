@@ -389,7 +389,8 @@
       "status": "in_progress",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/services/hosted/contract_test.go"
       ]
     },
     {
@@ -419,8 +420,12 @@
       "method": "live-read",
       "expected_en": "Mailbox accounts are authoritatively readable before managing their lifecycle",
       "expected_ko": "메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "internal/services/hosted/contract_test.go"
+      ]
     },
     {
       "id": "T041",
@@ -428,8 +433,12 @@
       "method": "mock/live",
       "expected_en": "Password inputs never accidentally leak to logs; state/write-only behavior is explicit",
       "expected_ko": "비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "internal/services/hosted/contract_test.go"
+      ]
     },
     {
       "id": "T042",

@@ -1,11 +1,11 @@
 # Full capability coverage
 
-[한국어](../ko/coverage.md) · [Index](../../README.en.md) · Revision: 1
+[한국어](../ko/coverage.md) · [Index](../../README.en.md) · Revision: 2
 
 Goal: account for every official iwinv API/CLI capability and support all controllable remote resources.
 Coverage does not mean turning every CLI command into a persistent resource. Each entry is classified as
 managed resource (R), data source (D), action (A), ephemeral resource (E), local tool (L), or discovery gap (G).
-**Only `iwinv_availability_zones` is currently implemented and live-verified. Other capabilities remain proposals.**
+**Five data sources are implemented and live-verified: `iwinv_availability_zones`, `iwinv_images`, `iwinv_image`, `iwinv_instance_types`, and `iwinv_instance_type`. Managed resources remain proposals.**
 See the [development guide](development.md) and [implementation ledger](../inventory/implementation.json).
 
 ## Control-plane inventory

@@ -85,3 +85,12 @@ The multipart header versus JSON requestBody discrepancy also remains.
 A subsequent live test accepted JSON objects and whole-map replacement; an empty object returned HTTP 422.
 Use the [live evidence](contract-progress.md) without generalizing to other services.
 Source: [NAS create](https://iwinv-api-nas.readme.io/reference/%EA%B3%B5%EC%9C%A0-%EC%8A%A4%ED%86%A0%EB%A6%AC%EC%A7%80-%EC%83%9D%EC%84%B1).
+
+## Additional hosted-service observations
+
+The [scoped experiments](contract-progress.md) refine C19–C23: Cache needs nested `pw.FTP`, ignores create-time referrers,
+and accepts JSON referrer replacement but rejects empty clearing. DBMS allowlist replacement also rejects an empty array.
+Cache and webmail mutations can return 404 / `NOT_FOUND` for a busy operation, so that pair is not a universal absence signal.
+Webmail can be temporarily missing from the list after a successful create, and its Read omits the name and mailbox accounts.
+Mailbox create echoes a password; it must not enter diagnostics or incidental state.
+These service-specific observations do not establish import, cleanup consistency or complete lifecycle contracts.

@@ -92,8 +92,8 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T037 | P4 | live-read | 추가 서비스마다 응답 타입/ID/오류/전체 목록 계약을 확보한다 | in_progress |
 | T038 | P4 | live | 서비스별 수명주기/import/무변경 plan/drift를 출시 전에 검증한다 | not_run |
 | T039 | P4 | live | 허용 IP/referrer의 추가/교체/빈 집합/외부 변경 동작을 검증한다 | in_progress |
-| T040 | P4 | live-read | 메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다 | not_run |
-| T041 | P4 | mock/live | 비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다 | not_run |
+| T040 | P4 | live-read | 메일 계정을 관리하기 전에 신뢰 가능한 조회를 확보한다 | in_progress |
+| T041 | P4 | mock/live | 비밀번호 로그 노출을 막고 state/write-only 동작을 명시한다 | in_progress |
 | T042 | P4 | live-read | 청구 단위/통화/부가세/시간대/민감 필드를 정확히 문서화한다 | not_run |
 | T043 | P5 | mock/live | 오브젝트 서명/주소 형식/페이지/지원 기능 호환성을 검증한다 | not_run |
 | T044 | P5 | live | 객체 hash/ETag/multipart/version/삭제 의미를 검증하고 미지원 설정을 강제하지 않는다 | not_run |
