@@ -2,7 +2,7 @@
 
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
-There is no Registry release. The local binary implements fourteen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing data sources
+There is no Registry release. The local binary implements sixteen zone/image/instance-type/SSH-key/hosting/DBMS/cache/NAS-catalog/billing/security-group data sources
 and seven [NAS](../../docs/resources/shared_storage.md), [cache](../../docs/resources/content_cache.md), [DBMS](../../docs/resources/db_instance.md), [webhosting](../../docs/resources/webhosting.md), [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
@@ -378,3 +378,9 @@ T072: `TF_ACC=1 IWINV_LIVE_READ=1 go test -race ./internal/provider -run '^TestA
 Use the private credential environment and `TF_ACC_TERRAFORM_PATH`. Keep financial logs/state/plans outside the repository.
 This reads current/list/empty-filter results and checks sensitivity and a stable-window no-change plan; estimates can change later.
 Synthetic `TestProtocolBilling` tests run with `IWINV_PROTOCOL_TEST=1` and inspect sensitivity, precision and excluded fields in saved artifacts.
+
+## Security group data sources
+
+`iwinv_security_groups` lists all API-visible group IDs and attributes in lexical ID order. `iwinv_security_group` requires one exact ID and fails on absence or ambiguity. Both expose name, nullable once-decoded description and ICMP, without rules or attachment ownership. [List guide](../../docs/data-sources/security_groups.md) · [Exact-ID guide](../../docs/data-sources/security_group.md).
+
+T073: `TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/directory go test -race ./internal/provider -run '^TestAccSecurityGroupDataSources$' -v -count=1`. The test creates and renames one dedicated fixture via the guarded adapter, reads with Terraform, then deletes it and verifies detail/list absence. Explicit fixture-write authorization and a 0700 journal directory are required. The data sources themselves have no write behavior.

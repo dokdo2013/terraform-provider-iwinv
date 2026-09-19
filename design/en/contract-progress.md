@@ -623,3 +623,11 @@ late failures and unknown/zero/negative filters. No billing or cloud mutations o
 Development support is fourteen data sources and seven resources. Detail still returns CHECK_IP; T042 timezone/detail gaps and
 independent webmail cleanup T056 remain open. A changing live estimate may change future plans; no price-freezing guarantee is made.
 [Current estimate guide](../../docs/data-sources/current_bill.md) · [Bill list guide](../../docs/data-sources/bills.md).
+
+## T073: security group data sources (2026-09-19)
+
+Registered `iwinv_security_groups` and exact-ID `iwinv_security_group` on the existing verified network adapter. Core tests exercise 51-row pagination, changing response order, duplicate names, once-only description decoding, null/empty description distinction, missing/multiple/mismatched IDs, permission and late-page failures, invalid IDs before API access and unknown references deferred until apply. Inline rules and attachment fields remain excluded; there is no remote ownership or import. Concurrent external inventory changes are not an atomic snapshot.
+
+Live Terraform 1.14.2 + Go race acceptance passed in **26.94s** using one newly created unattached group. Complete list and detail agreed; Korean/HTML-special description round-tripped, an external fixture rename appeared on refresh and subsequent plans had no changes. The read-only provider adapter rejected all writes. The fixture adapter made the sole create/update/delete; a private 0600 journal recorded the returned ID and acknowledged deletion followed by detail and full-list absence. All pre-run group IDs remained visible. Actual identifiers, raw responses, state and credentials are not published. More than 50 live groups, null live descriptions, attachments and traffic effects were not newly tested.
+
+Development support is now sixteen data sources and seven resources. This fixture is cleaned up; the separate webmail cleanup failure T056, compute restriction, billing detail access, remaining capabilities and Registry release still prevent overall completion.

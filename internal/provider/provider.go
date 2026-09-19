@@ -108,7 +108,7 @@ func (p *IwinvProvider) Configure(ctx context.Context, req provider.ConfigureReq
 }
 
 func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource, NewDBInstanceProductsDataSource, NewContentCacheProductsDataSource, NewSharedStorageProductsDataSource, NewCurrentBillDataSource, NewBillsDataSource}
+	return []func() datasource.DataSource{NewSecurityGroupsDataSource, NewSecurityGroupDataSource, NewAvailabilityZonesDataSource, NewImagesDataSource, NewImageDataSource, NewInstanceTypesDataSource, NewInstanceTypeDataSource, NewSSHKeysDataSource, NewSSHKeyDataSource, NewWebhostingProductsDataSource, NewWebhostingServersDataSource, NewDBInstanceProductsDataSource, NewContentCacheProductsDataSource, NewSharedStorageProductsDataSource, NewCurrentBillDataSource, NewBillsDataSource}
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {

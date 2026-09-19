@@ -884,6 +884,22 @@
         "docs/data-sources/bills.md",
         "docs/ko/data-sources/bills.md"
       ]
+    },
+    {
+      "id": "T073",
+      "phase": "P3",
+      "method": "mock/live",
+      "expected_en": "Security group data sources preserve exact IDs, nullable descriptions and complete sorted pagination, reject ambiguous/error results, and pass owned-fixture list/detail/refresh/no-change-plan acceptance with verified cleanup",
+      "expected_ko": "보안 그룹 Data Source가 정확한 ID·null 설명·정렬된 전체 페이지를 보존하고 모호한 결과·오류를 거절하며 소유 테스트 그룹의 목록·상세·refresh·무변경 plan과 삭제 확인을 통과한다",
+      "status": "passed",
+      "evidence": [
+        "internal/provider/security_group_data_source.go",
+        "internal/provider/security_group_data_source_test.go",
+        "internal/provider/security_group_data_source_live_test.go",
+        "internal/services/network/groups_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

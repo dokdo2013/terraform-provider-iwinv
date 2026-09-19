@@ -591,6 +591,58 @@
         "docs/data-sources/bills.md",
         "docs/ko/data-sources/bills.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_security_groups",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "T073: one run-owned group list/detail, description round-trip, external rename refresh and no-change plans; acknowledged fixture deletion and detail/list absence. Multi-page Core coverage is synthetic; attachments and traffic enforcement are excluded.",
+      "ownership": "read_only",
+      "evidence": [
+        "internal/provider/security_group_data_source.go",
+        "internal/provider/security_group_data_source_test.go",
+        "internal/provider/security_group_data_source_live_test.go",
+        "internal/services/network/groups_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "docs/data-sources/security_groups.md",
+        "docs/ko/data-sources/security_groups.md"
+      ],
+      "import": "not_applicable"
+    },
+    {
+      "terraform_type": "iwinv_security_group",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "T073: one run-owned group list/detail, description round-trip, external rename refresh and no-change plans; acknowledged fixture deletion and detail/list absence. Multi-page Core coverage is synthetic; attachments and traffic enforcement are excluded.",
+      "ownership": "read_only",
+      "evidence": [
+        "internal/provider/security_group_data_source.go",
+        "internal/provider/security_group_data_source_test.go",
+        "internal/provider/security_group_data_source_live_test.go",
+        "internal/services/network/groups_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md",
+        "docs/data-sources/security_group.md",
+        "docs/ko/data-sources/security_group.md"
+      ],
+      "import": "not_applicable"
     }
   ],
   "internal_adapters": []

@@ -1715,8 +1715,8 @@
       "title": "Security Group List",
       "source": "https://iwinv.readme.io/reference/get_v1-security-groups",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",
