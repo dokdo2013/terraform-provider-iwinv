@@ -36,7 +36,7 @@ A separate keyring imports only the public key. Verification requires a successf
 
 The runner excludes inherited cloud/publishing credentials and user Git/GPG configuration, reusing only public Go caches. On ordinary completion or exceptions it stops agents scoped to its own keyrings, removes the temporary keyrings and removes the disposable signature from `dist/`. It uploads no keys or artifacts. Abrupt process termination can still require local temporary-file cleanup.
 
-The package workflow runs this rehearsal with read-only repository permissions, pinned actions/tool versions and no stored signing secrets or release upload. Existing protocol CI continues to test Terraform 1.14.0/1.14.2 independently. Local signing was verified with GnuPG 2.5.22 on Darwin arm64; CI supplies its runner's GnuPG version in the log.
+The package workflow runs this rehearsal with read-only repository permissions, pinned actions/tool versions and no stored signing secrets or release upload. Existing protocol CI continues to test Terraform 1.14.0/1.14.2/1.16.3 independently. Local signing was verified with GnuPG 2.5.22 on Darwin arm64; CI supplies its runner's GnuPG version in the log.
 
 ## Workflow permissions and review (T055)
 
@@ -58,6 +58,16 @@ zizmor --offline --no-progress --persona pedantic --min-severity low .github/wor
 Use zizmor 1.30.1 installed from the hash-locked requirements; the workflow shows the exact isolated installation command. Tool success does not prove runtime secret isolation, dependency safety or release authorization. T055 remains in progress until an actual external-fork run and the eventual production signing/publication workflow are reviewed. Before adding production keys, review protected environments, immutable release/tag selection, minimal job-level publication permissions, separation from PR artifacts/caches, key cleanup and failed-release recovery. Do not grant those permissions to the current PR jobs.
 
 Sources: [GitHub repository Actions settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository), [GitHub permissions API](https://docs.github.com/en/rest/actions/permissions), [zizmor operating modes and limits](https://docs.zizmor.sh/usage/), [actionlint](https://github.com/rhysd/actionlint).
+
+## Terraform CLI compatibility
+
+The minimum remains Terraform 1.14.0. The synthetic protocol/documentation CI matrix additionally covers 1.14.2 and **1.16.3**, the stable release checked on 2026-09-19. The [official 1.16.3 release](https://github.com/hashicorp/terraform/releases/tag/v1.16.3) includes import-provider-resolution and lifecycle fixes, making it relevant to this provider's import and replacement behavior. A minimum version constraint is not a claim that every newer CLI has been tested.
+
+The matrix executes the existing synthetic `TestProtocol` lifecycle/import/drift/failure tests, validates all examples against the actual built provider, compares both complete schema references, runs official documentation validation and rejects the six injected documentation failures. These jobs have no live credentials. Local 1.16.3 validation uses the official Darwin ARM64 archive after matching its SHA-256 against the vendor's HTTPS checksum file; the temporary binary does not replace the user's configured Terraform.
+
+Local 1.16.3 protocol tests passed with the race detector (84.978 seconds), as did all 52 HCL snippets, both runtime schema references, official format checks and all six documentation rejection cases. The verified Darwin ARM64 archive SHA-256 was `c2c45425ea4568da9803e127e589186cb3798a5944d9aff5a5bc15dd18267560`. This is an HTTPS checksum comparison, not a claim of an independently verified vendor GPG signature.
+
+This tests supported behavior on separate CLI versions. It does not establish an upgrade of an existing state from a previous published provider, every intermediate CLI release, native execution on all seven package targets or a live API lifecycle. T054 remains `not_run`: no previous provider release exists for its migration gate.
 
 ## Remaining release gates
 

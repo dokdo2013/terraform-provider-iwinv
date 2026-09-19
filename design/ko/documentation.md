@@ -34,7 +34,7 @@ python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/pat
 python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform
 ```
 
-사용자 홈 설정에 의존하는 버전 관리 wrapper가 아니라 실제 Terraform 실행 파일을 지정합니다. CI는 Terraform 1.14.0과 1.14.2에서 재생성 없이 검사합니다. T080은 이 구조·예제 검증 범위입니다. [기능 가이드 동작 검토](guide-review.md)에 등록 기능 25개와 Provider 소개·공통 가이드의 한·영 검토 범위와 수정 사항을 기록했습니다. 게시된 Registry 메뉴·이동·버전별 링크는 T052의 남은 작업이며, 생성된 표만으로 기본값·검증기·plan modifier·실제 API 동작을 증명하지 않습니다. 양언어 사이트와 Registry 게시는 출시 작업으로 남습니다.
+사용자 홈 설정에 의존하는 버전 관리 wrapper가 아니라 실제 Terraform 실행 파일을 지정합니다. CI는 Terraform 1.14.0, 1.14.2, 1.16.3에서 재생성 없이 검사합니다. T080은 이 구조·예제 검증 범위입니다. [기능 가이드 동작 검토](guide-review.md)에 등록 기능 25개와 Provider 소개·공통 가이드의 한·영 검토 범위와 수정 사항을 기록했습니다. 게시된 Registry 메뉴·이동·버전별 링크는 T052의 남은 작업이며, 생성된 표만으로 기본값·검증기·plan modifier·실제 API 동작을 증명하지 않습니다. 양언어 사이트와 Registry 게시는 출시 작업으로 남습니다.
 
 ### 공식 Registry 형식 검사
 

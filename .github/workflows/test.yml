@@ -36,7 +36,7 @@ jobs:
   terraform-protocol:
     strategy:
       matrix:
-        terraform: ['1.14.0', '1.14.2']
+        terraform: ['1.14.0', '1.14.2', '1.16.3']
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:

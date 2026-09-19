@@ -36,7 +36,7 @@ python3 scripts/check_signing.py --goreleaser /absolute/path/to/goreleaser --ter
 
 실행기는 상속된 클라우드·게시 자격증명과 사용자 Git/GPG 설정을 제외하고 공개 Go 캐시만 재사용합니다. 정상 종료와 예외 처리에서 자기 임시 키 저장소의 agent만 종료하고 임시 키 저장소와 `dist/`의 일회용 서명을 제거합니다. 키나 산출물을 업로드하지 않습니다. 강제 프로세스 종료 시에는 로컬 임시 파일을 별도로 정리해야 할 수 있습니다.
 
-패키지 workflow는 저장소 읽기 권한, 고정된 action·도구 버전으로 이 검증을 실행하며 저장된 서명 비밀키나 릴리스 업로드를 사용하지 않습니다. 기존 프로토콜 CI는 Terraform 1.14.0/1.14.2를 독립적으로 검증합니다. 로컬 서명은 Darwin arm64의 GnuPG 2.5.22로 확인했으며 CI는 runner의 GnuPG 버전을 로그에 기록합니다.
+패키지 workflow는 저장소 읽기 권한, 고정된 action·도구 버전으로 이 검증을 실행하며 저장된 서명 비밀키나 릴리스 업로드를 사용하지 않습니다. 기존 프로토콜 CI는 Terraform 1.14.0/1.14.2/1.16.3을 독립적으로 검증합니다. 로컬 서명은 Darwin arm64의 GnuPG 2.5.22로 확인했으며 CI는 runner의 GnuPG 버전을 로그에 기록합니다.
 
 ## Workflow 권한과 검토 (T055)
 
@@ -58,6 +58,16 @@ zizmor --offline --no-progress --persona pedantic --min-severity low .github/wor
 zizmor는 해시를 고정한 요구사항 파일로 설치한 1.30.1을 사용합니다. 정확한 격리 설치 명령은 workflow에 있습니다. 정적 검사 성공이 런타임 secret 격리, 의존성 안전성, 릴리스 권한을 증명하지는 않습니다. 실제 외부 fork 실행과 향후 운영 서명·게시 workflow 검토가 남아 있어 T055는 진행 중입니다. 운영 키를 추가하기 전에 보호 environment, 변경 불가능한 버전·태그 선택, 게시 job의 최소 권한, PR 산출물·캐시와의 분리, 키 정리, 릴리스 실패 복구를 검토해야 합니다. 현재 PR job에 해당 권한을 부여하지 않습니다.
 
 출처: [GitHub 저장소 Actions 설정](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository), [GitHub 권한 API](https://docs.github.com/en/rest/actions/permissions), [zizmor 실행 모드와 한계](https://docs.zizmor.sh/usage/), [actionlint](https://github.com/rhysd/actionlint).
+
+## Terraform CLI 호환성
+
+최소 버전은 Terraform 1.14.0을 유지합니다. 합성 프로토콜·문서 CI 행렬은 1.14.2와 **1.16.3**도 검증하며, 1.16.3은 2026-09-19 확인한 안정 릴리스입니다. [공식 1.16.3 릴리스](https://github.com/hashicorp/terraform/releases/tag/v1.16.3)에는 import 시 Provider 선택과 수명주기 관련 수정이 있어 이 Provider의 import·교체 동작에 관련됩니다. 최소 버전 제약만으로 이후의 모든 CLI를 검증했다고 보지 않습니다.
+
+각 버전에서 기존 합성 `TestProtocol` 수명주기·import·drift·실패 테스트, 실제 빌드 Provider로 전체 예제 검증, 양언어 전체 스키마 비교, 공식 문서 형식 검사와 문서 오류 주입 6개 거절을 실행합니다. 이 작업에는 실키가 없습니다. 로컬 1.16.3 검증은 공식 Darwin ARM64 압축 파일의 SHA-256을 공급사 HTTPS 체크섬 파일과 비교한 뒤 임시 바이너리로 수행하며 사용자 기본 Terraform을 교체하지 않습니다.
+
+로컬 1.16.3 프로토콜 테스트는 race detector를 켜고 통과했으며(84.978초), HCL 코드 52개·양언어 실행 스키마·공식 문서 형식·문서 오류 거절 6개도 통과했습니다. 검증한 Darwin ARM64 압축 파일 SHA-256은 `c2c45425ea4568da9803e127e589186cb3798a5944d9aff5a5bc15dd18267560`입니다. HTTPS 체크섬 비교이며 공급사의 GPG 서명을 별도로 검증했다는 뜻은 아닙니다.
+
+이는 개별 CLI 버전의 지원 동작 검증입니다. 이전에 게시한 Provider의 기존 state 업그레이드, 모든 중간 CLI 버전, 패키지 대상 7개의 네이티브 실행이나 실환경 API 수명주기를 입증하지 않습니다. 이전 Provider 릴리스가 없어 migration 항목 T054는 `not_run`을 유지합니다.
 
 ## 남은 출시 조건
 
