@@ -77,6 +77,18 @@ for capability in ledger:
         key = (operation["method"], operation["path"])
         require(key in operations, f"Implemented operation absent from discovery: {key}")
         implemented[key] = capability
+# Internal adapters are evidence, not registered Terraform capabilities. Keep
+# their operations out of the public implementation/live flags above.
+adapters = json.loads((ROOT / "design/inventory/implementation.json").read_text()).get("internal_adapters", [])
+require(len({a["name"] for a in adapters}) == len(adapters), "Duplicate internal adapter")
+for adapter in adapters:
+    require(adapter["terraform_registered"] is False, "Internal adapter claimed Terraform registration")
+    require(adapter["ownership"] and adapter["import"], "Missing internal adapter lifecycle decision")
+    require(bool(adapter["evidence"]), "Missing internal adapter evidence")
+    for evidence in adapter["evidence"]:
+        require((ROOT / evidence).is_file(), f"Missing adapter evidence: {evidence}")
+    for operation in adapter["operations"]:
+        require((operation["method"], operation["path"]) in operations, "Adapter operation absent from discovery")
 for entry in inventory["entries"]:
     matches = [implemented.get((op["method"], op["path"])) for op in entry["operations"]]
     expected = bool(matches) and all(matches)

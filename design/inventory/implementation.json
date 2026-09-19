@@ -265,5 +265,49 @@
         "docs/ko/guides/security_group_rules.md"
       ]
     }
+  ],
+  "internal_adapters": [
+    {
+      "name": "webhosting",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/webhosting/products"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/webhosting/servers"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/webhosting"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/webhosting"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/webhosting/{service_idx}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "SHARE/SINGLE catalog partitions, PHP 8.4 selection, two new services with explicit Y/N, default/custom domains, literal or omitted descriptions, peer preservation and acknowledged deletion with exact-ID absence. No Terraform lifecycle, credentials in state, data-plane or billing claim.",
+      "ownership": "One exact service; no existing service mutation. Generated default domains and configured custom domains need distinct Terraform ownership.",
+      "import": "not_implemented; historical server selection and passwords cannot be reconstructed; account reuse after deletion is restricted for 24 hours by vendor documentation",
+      "evidence": [
+        "internal/services/hosted/webhosting.go",
+        "internal/services/hosted/webhosting_catalog.go",
+        "internal/services/hosted/webhosting_test.go",
+        "internal/client/webhosting_live_test.go",
+        "design/ko/webhosting-lifecycle.md",
+        "design/en/webhosting-lifecycle.md",
+        "design/ko/contract-progress.md",
+        "design/en/contract-progress.md"
+      ]
+    }
   ]
 }

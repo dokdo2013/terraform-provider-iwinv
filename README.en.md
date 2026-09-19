@@ -20,6 +20,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | Document | Contents |
 | --- | --- |
 | [User experience and architecture](design/en/architecture.md) | AWS mapping, schemas, state, authentication, errors |
+| [Hosting lifecycle design](design/en/webhosting-lifecycle.md) | Account reuse restriction, password/import/replacement gates; resource not registered |
 | [API contracts and limitations](design/en/api-contract.md) | Evidence, inconsistencies, live verification gaps |
 | [Full capability coverage](design/en/coverage.md) | Resource/Data/Action/Ephemeral classification |
 | [Verification plan](design/en/verification.md) | Acceptance criteria and execution checklist |

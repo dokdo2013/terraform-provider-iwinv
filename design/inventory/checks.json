@@ -646,6 +646,20 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T059",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "Hosting adapter catalogs, two-service create/read/delete, peer preservation and exact-ID cleanup pass; Terraform lifecycle and billing remain separate",
+      "expected_ko": "호스팅 어댑터의 카탈로그·두 서비스 생성/조회/삭제·다른 서비스 보존·정확한 ID 정리가 통과하며 Terraform 수명주기와 과금은 별도 검증한다",
+      "status": "passed",
+      "evidence": [
+        "internal/services/hosted/webhosting_test.go",
+        "internal/client/webhosting_live_test.go",
+        "design/ko/contract-progress.md",
+        "design/en/contract-progress.md"
+      ]
     }
   ]
 }

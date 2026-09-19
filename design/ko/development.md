@@ -223,3 +223,20 @@ IWINV_LIVE_RULE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/direct
 어댑터 테스트는 부모 1개/규칙 2개, Terraform 테스트 2개는 교체를 포함해 합계 부모 3개/규칙 ID 8개를 생성합니다.
 각 테스트는 비공개 응답/ID 대장을 보존하며 부모를 삭제하기 전에 규칙 부재를 확인합니다. 기존 그룹이나 서버 연결을 사용하지 않습니다.
 control-plane 테스트 성공이 트래픽 필터링 검증이나 차단된 서버 존 해결을 의미하지 않습니다.
+
+## 호스팅 내부 어댑터 계약 테스트
+
+호스팅은 [수명주기 설계](webhosting-lifecycle.md)와 내부 어댑터 단계이며 Terraform에서 사용할 수 없습니다.
+아래 opt-in 테스트는 신규 호스팅 두 개를 생성하고 삭제합니다. 실제 비용이 발생할 수 있으며
+승인된 계정·개인 키 환경변수·저장소 밖 mode-0700 journal 디렉터리가 필요합니다.
+
+```sh
+IWINV_LIVE_WEBHOSTING_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test -race ./internal/client -run '^TestAccWebhostingControlPlaneWrites$' -v -count=1 -timeout 10m
+```
+
+SHARE 상품 중 사용자 도메인을 지원하는 상품과 PHP 8.4 선택지가 없으면 생성 전에 실패합니다.
+테스트는 서로 다른 임시 계정명과 `.invalid` 도메인을 사용하며 데이터 업로드/DNS 변경을 하지 않습니다.
+생성 전 intent, 생성 응답·ID, 삭제 시도·접수·목록 부재를 private journal에 기록합니다.
+실패하면 해당 기록을 확인하고 미확정 생성 요청을 재전송하지 마세요. 동일 계정명 재사용에는 문서상 24시간 제한이 있습니다.
+이 테스트는 Terraform import/state, 데이터 접속 또는 과금 종료를 검증하지 않습니다. CI에서는 실행하지 않습니다.

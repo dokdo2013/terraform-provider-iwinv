@@ -111,3 +111,4 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T056 | P6 | live | 실행별 ID 대장으로 정리를 증명하며 누수는 복구 근거와 함께 실패 처리한다 | not_run |
 | T057 | P3 | mock/live | 미연결 전용 그룹 속성의 생성/수정/import/무변경 plan/drift/재생성/삭제가 통과하고 생성 실패 ID로 정리할 수 있다 | passed |
 | T058 | P3 | mock/live | 소유한 TCP/UDP 규칙의 CRUD/import/무변경 plan/방향 drift/초기화·부모 교체/외부 삭제와 자식 우선 destroy가 통과한다 | passed |
+| T059 | P4 | mock/live | 호스팅 어댑터의 카탈로그·두 서비스 생성/조회/삭제·다른 서비스 보존·정확한 ID 정리가 통과하며 Terraform 수명주기와 과금은 별도 검증한다 | passed |

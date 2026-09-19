@@ -378,3 +378,31 @@ Go 1.26.1, Terraform 1.14.2와 race detector를 사용한 실환경 Terraform ac
 패킷 동작, 연결, 전체 경계 변형과 물리적인 연쇄 삭제를 모두 검증하지 않았으므로 T031/T032는 부분 검증 상태를 유지합니다.
 공식 계약: [목록](https://iwinv.readme.io/reference/get_v1-security-groups-id-rules), [생성](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
 [수정](https://iwinv.readme.io/reference/put_v1-security-groups-id-rules-rule-id), [삭제](https://iwinv.readme.io/reference/delete_v1-security-groups-id-rules-rule-id).
+
+## 타입이 있는 호스팅 어댑터와 교체 제약 (2026-09-19)
+
+상품/서버 카탈로그, 서비스 전체 목록의 정확한 ID 선택, JSON 생성과 삭제 접수 어댑터를 추가했습니다.
+Terraform 리소스나 Data Source는 등록하지 않았습니다. C19/C29, T037/T041의 부분 근거이며
+T059는 아래의 어댑터 범위로만 통과했습니다. T038과 비밀번호 plan/state 검증은 아직 미완료입니다.
+
+- 전체 상품 목록과 SHARE/SINGLE 필터의 분할, 필수 product_id를 보낸 PHP 8.4 서버 선택을 확인했습니다.
+- 첫 실험에서 기본 도메인 서비스는 생성·active·삭제·부재 확인에 성공했지만 두 번째 요청이 실패했습니다.
+  입력을 분리한 실험에서 명시적 빈 description이 HTTP 422/errors.description으로 거부되는 것을 확인했습니다.
+  설명 생략은 빈 문자열 Read로 이어집니다. 어댑터는 빈 설명 전송을 사전에 거부하고 생략과 구분합니다.
+- 방화벽 N과 사용자 `.invalid` 도메인은 별도 실험에서 생성·active·삭제 확인에 성공했습니다.
+  재실행한 Go race 계약 테스트는 두 서비스를 함께 생성하고 각각 Y/N, 기본/사용자 도메인,
+  생략/한글·리터럴 `&amp; + %` 설명을 확인했습니다. 이름과 설명을 HTML 디코딩하지 않습니다.
+- 사용자 도메인을 1개 요청한 서비스 응답은 기본 도메인까지 총 2개 매핑을 포함했습니다.
+  입력 map을 Read map으로 그대로 대체하면 불일치가 생길 수 있어 [수명주기 설계](webhosting-lifecycle.md)에서 소유권을 분리합니다.
+- 두 생성 ID가 전체 목록에 함께 나타났으며 하나의 삭제 후 다른 서비스는 active로 유지됐습니다.
+  이번 단계에서 만든 총 5개 호스팅 모두 정확한 생성 ID를 비공개 기록하고 HTTP 200 삭제 접수와 후속 부재를 확인했습니다.
+  처음 실패한 시도의 두 계정명도 후속 목록에 없었으며, 이름 기반 채택이나 생성 자동 재전송은 하지 않았습니다.
+- 합성 테스트는 2^53 초과/int64 ID, 부분·중복·잘못된 목록, HTTP/메타데이터 변경, nullable 설명,
+  미확인 생성 응답 후 ID 보존, 안전한 진단과 입력 인코딩을 검증합니다. 가격·부가세와 저장소 단위는 모델에서 제외했습니다.
+
+C29의 24시간 재사용 금지는 공식 삭제 문서에서 확인한 제약이며 24시간 경과 재생성 실측은 아닙니다.
+호스팅의 Terraform import·교체·외부 drift·비밀번호 비저장, 실제 HTTP/FTP/DB 접속, 과금 종료는 아직 검증하지 않았습니다.
+이번 호스팅 정리 결과는 앞선 웹메일 콘솔 해지/과금 종료 미확정 상태를 해결하지 않습니다.
+
+출처: [호스팅 삭제](https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제),
+[호스팅 생성](https://iwinv-hosting.readme.io/reference/웹-호스팅-생성).

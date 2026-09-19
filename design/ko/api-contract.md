@@ -40,6 +40,7 @@
 | C26 | 알림톡 템플릿 수정은 검수 상태에 따라 제한 | 상태별 수정/교체·검수 대기와 전체 상태 전이 검증 |
 | C27 | MCP OAuth와 mcp:tools 확인, 인증 후 도구 목록은 미확인 | 추후 tools/list와 기능 대장 비교, Provider 실행 의존성으로 쓰지 않음 |
 | C28 | 필드 페이지는 OpenStack이라 쓰지만 인증은 자체 HMAC | 고객용 Keystone/표준 endpoint 제공 여부 확인 전 상호운용 주장 금지 |
+| C29 | 웹 호스팅 삭제는 복구 불가, 동일 계정명은 삭제 후 24시간 재사용 불가로 문서화 | 단순 교체가 삭제 후 생성 실패를 유발할 수 있음. 새 계정명·데이터 이전·import 정책을 [호스팅 설계](webhosting-lifecycle.md)와 Core 테스트로 확정 |
 
 출처: [요청](https://iwinv-common.readme.io/reference/api-request),
 [응답](https://iwinv-common.readme.io/reference/api-response),

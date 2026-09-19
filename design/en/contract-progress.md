@@ -379,3 +379,30 @@ Evidence: `internal/services/network/rules_test.go`, `internal/client/rules_live
 T031/T032 remain partial because packet behavior, attachments, full boundary variants and physical cascade behavior are not all verified.
 Official contracts: [list](https://iwinv.readme.io/reference/get_v1-security-groups-id-rules), [create](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
 [update](https://iwinv.readme.io/reference/put_v1-security-groups-id-rules-rule-id), [delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id-rules-rule-id).
+
+## Typed hosting adapter and replacement constraints (2026-09-19)
+
+Added product/server catalogs, exact-ID selection from a complete service list, JSON creation and deletion acknowledgement.
+No Terraform resource or data source is registered. This partially supports C19/C29 and T037/T041;
+T059 passes only for the adapter scope below. T038 and password plan/state verification remain incomplete.
+
+- Verified the unfiltered product catalog against its SHARE/SINGLE partitions and selected PHP 8.4 through the required product_id server query.
+- The first experiment created the default-domain service, observed active status and verified acknowledged deletion and absence, but its second create failed.
+  Isolated input probes identified explicit empty description as HTTP 422/errors.description. Omission reads back as an empty string.
+  The adapter rejects explicit empty descriptions before I/O and preserves the distinction from omission.
+- Firewall N and a custom `.invalid` domain each passed separate create/active/delete probes. The corrected Go race contract test created two services together
+  and verified Y/N, default/custom domains and omitted/literal Korean `&amp; + %` descriptions. Names and descriptions are not HTML-decoded.
+- A service requested with one custom domain returned two domain mappings including its default. Configured and observed maps cannot simply replace one another;
+  the [lifecycle design](webhosting-lifecycle.md) separates their ownership.
+- Both created IDs appeared in the shared list, and deleting one preserved the other in active status.
+  All five hosting services created in this stage had privately recorded exact IDs, HTTP 200 deletion acknowledgements and subsequent verified absence.
+  Neither account from the initial failed run appeared in a later list; no name-based adoption or automatic create replay occurred.
+- Synthetic tests cover IDs above 2^53/int64 handling, malformed/duplicate/partial lists, HTTP/metadata changes, nullable descriptions,
+  recovery identity after unverified create responses, safe diagnostics and request encoding. Prices, VAT and storage units remain outside the model.
+
+C29's 24-hour reuse restriction comes from the vendor's deletion documentation; recreation after that interval has not been live-tested.
+Terraform import/replacement/external drift/password non-persistence, HTTP/FTP/database connectivity and billing termination remain unverified.
+These hosting cleanup results do not resolve the earlier webmail console cancellation/billing uncertainty.
+
+Sources: [hosting deletion](https://iwinv-hosting.readme.io/reference/웹-호스팅-삭제),
+[hosting creation](https://iwinv-hosting.readme.io/reference/웹-호스팅-생성).

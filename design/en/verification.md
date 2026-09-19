@@ -115,3 +115,4 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T056 | P6 | live | Acceptance run inventory proves cleanup; leaks fail the run with recoverable evidence | not_run |
 | T057 | P3 | mock/live | Dedicated unattached group attributes pass create/update/import/no-op plan/drift/recreation/destroy; failed create retains an ID for cleanup | passed |
 | T058 | P3 | mock/live | Owned TCP/UDP rules pass CRUD/import/no-op plan/direction drift/clear and parent replacements/external deletion and child-before-parent destroy | passed |
+| T059 | P4 | mock/live | Hosting adapter catalogs, two-service create/read/delete, peer preservation and exact-ID cleanup pass; Terraform lifecycle and billing remain separate | passed |

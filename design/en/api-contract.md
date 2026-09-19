@@ -40,6 +40,7 @@ It is not a validated unified OpenAPI specification or proof that all services a
 | C26 | Alimtalk template changes are restricted by review status | Design state-dependent updates/replacement and review timeouts; validate all template states |
 | C27 | MCP supports OAuth and mcp:tools; authenticated tool list not inspected | Use future tools/list comparison for gap discovery, not a Provider runtime dependency |
 | C28 | Fields page says OpenStack, but documented auth is proprietary HMAC | Verify whether standard Keystone/service endpoints are customer-accessible before claiming OpenStack interoperability |
+| C29 | Hosting deletion is documented as irreversible, with a 24-hour restriction on reusing the account name | Naive replacement may delete successfully then fail to create. Establish new-account, migration and import policy through the [hosting design](webhosting-lifecycle.md) and Core tests |
 
 Sources: [API request](https://iwinv-common.readme.io/reference/api-request),
 [response](https://iwinv-common.readme.io/reference/api-response),

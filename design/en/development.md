@@ -224,3 +224,20 @@ Use `TF_ACC=1 IWINV_LIVE_TERRAFORM_RULE_WRITE=1` with `TestAccSecurityRules` and
 The adapter test creates one parent/two rules; the two Terraform tests together create three parents/eight rule identities including replacements.
 Each test persists private receipts/IDs and verifies rule absence before removing parents. Neither uses pre-existing groups or server attachments.
 Successful control-plane tests do not validate traffic filtering or resolve the blocked compute zone.
+
+## Internal hosting adapter contract test
+
+Hosting remains at the [lifecycle design](webhosting-lifecycle.md) and internal adapter stage; it is unavailable in Terraform.
+This opt-in test creates and deletes two new hosting services. It can incur costs and requires an authorized account,
+private credential environment variables and a mode-0700 journal directory outside the repository.
+
+```sh
+IWINV_LIVE_WEBHOSTING_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test -race ./internal/client -run '^TestAccWebhostingControlPlaneWrites$' -v -count=1 -timeout 10m
+```
+
+The test fails before creation if no SHARE product supporting custom domains or PHP 8.4 server choice is available.
+It uses distinct temporary account names and `.invalid` domains, without uploading data or changing DNS.
+A private journal records intent before creation, receipts/IDs, deletion attempts, acknowledgements and list absence.
+Inspect it after failure; do not replay uncertain creates. Account name reuse has a documented 24-hour restriction.
+This test does not establish Terraform import/state behavior, data connectivity or billing termination. CI does not enable it.

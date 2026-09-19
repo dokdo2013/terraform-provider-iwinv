@@ -103,14 +103,23 @@ func Records(e client.Envelope) ([]Record, error) {
 	return result, nil
 }
 
+// ValidateServiceID accepts exact positive int64 identities, without floats,
+// leading zeros or path/query characters. Import uses the same contract.
+func ValidateServiceID(id string) error {
+	n, err := strconv.ParseInt(id, 10, 64)
+	if err != nil || n <= 0 || strconv.FormatInt(n, 10) != id {
+		return errors.New("hosted service ID must be a canonical positive decimal integer")
+	}
+	return nil
+}
+
 // Find selects by exact ID from a validated list, never by name or list position.
 // A nil record only means this successful list did not contain the requested ID.
 // Account scope, completeness and eventual consistency still belong to each
 // service lifecycle; callers must not generalize this into arbitrary absence.
 func Find(e client.Envelope, id string) (*Record, error) {
-	n, err := strconv.ParseInt(id, 10, 64)
-	if err != nil || n <= 0 || strconv.FormatInt(n, 10) != id {
-		return nil, errors.New("hosted service ID must be a canonical positive decimal integer")
+	if err := ValidateServiceID(id); err != nil {
+		return nil, err
 	}
 	rows, err := Records(e)
 	if err != nil {
