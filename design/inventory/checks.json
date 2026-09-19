@@ -87,7 +87,10 @@
         "internal/services/network/rules_test.go",
         "internal/client/rules_live_test.go",
         "internal/provider/security_group_rule_resource_test.go",
-        "internal/provider/security_group_rule_live_test.go"
+        "internal/provider/security_group_rule_live_test.go",
+        "internal/services/compute/instances_test.go",
+        "design/en/instance-read-contract.md",
+        "design/ko/instance-read-contract.md"
       ]
     },
     {
@@ -108,8 +111,12 @@
       "method": "mock/live-read",
       "expected_en": "Detail fields mask returns required fields without passwords or console tokens",
       "expected_ko": "상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "internal/services/compute/instances_test.go",
+        "design/en/instance-read-contract.md",
+        "design/ko/instance-read-contract.md"
+      ]
     },
     {
       "id": "T009",
@@ -128,7 +135,10 @@
         "internal/services/network/rules_test.go",
         "internal/client/rules_live_test.go",
         "internal/provider/security_group_rule_resource_test.go",
-        "internal/provider/security_group_rule_live_test.go"
+        "internal/provider/security_group_rule_live_test.go",
+        "internal/services/compute/instances_test.go",
+        "design/en/instance-read-contract.md",
+        "design/ko/instance-read-contract.md"
       ]
     },
     {
@@ -149,7 +159,10 @@
         "internal/services/network/rules_test.go",
         "internal/client/rules_live_test.go",
         "internal/provider/security_group_rule_resource_test.go",
-        "internal/provider/security_group_rule_live_test.go"
+        "internal/provider/security_group_rule_live_test.go",
+        "internal/services/compute/instances_test.go",
+        "design/en/instance-read-contract.md",
+        "design/ko/instance-read-contract.md"
       ]
     },
     {

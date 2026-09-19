@@ -731,3 +731,8 @@ A temporary-copy regression runner requires real validation to reject missing va
 The root help listed a built-in `help` child missing from the earlier 47-entry traversal. The same recorded v0.2.2 binary hash was rechecked in an isolated temporary HOME with help/version commands only; adding this entry makes 48 recorded help surfaces. A complete bilingual disposition map now covers every recorded entry, including positional bill detail and local/remote object-copy modes. CI rejects missing discovered children, missing/duplicate dispositions and unregistered implementation references.
 
 Official netstat documentation establishes a client-side host connectivity diagnostic, not server traffic telemetry. Its former data-source candidate classification was corrected to local tooling without dropping any remote child operations. The coverage overview was also reconciled to 18 data sources, 7 resources and the implemented `iwinv_webhosting` identifier. This closes inventory inconsistencies only; T050 and unverified API/CLI behavior remain open. See [coverage](coverage.md) and the [disposition map](../inventory/cli-mapping.json).
+
+
+## P2 instance read preparation — 2026-09-19
+
+Added an unregistered, read-only Compute adapter for fixed-mask list and exact-ID detail. Synthetic tests enforce bounded complete pagination, shape/identity checks, null/empty preservation, safe diagnostics and exclusion of unsolicited password/VNC fields. A gated live read passed with zero API-visible rows; populated/detail/absence behavior remains unverified. T008 advances to in progress only. API support flags and the 18-data-source/7-resource registration remain unchanged. See [contract and remaining gates](instance-read-contract.md).

@@ -711,5 +711,32 @@
       ]
     }
   ],
-  "internal_adapters": []
+  "internal_adapters": [
+    {
+      "name": "compute_instance_reads",
+      "terraform_registered": false,
+      "status": "contract_candidate",
+      "ownership": "read_only_api_visible_projection",
+      "import": "not_applicable_until_registered; exact-ID read must not infer deletion",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/instances"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/instances/{instance_id}"
+        }
+      ],
+      "live_verified": false,
+      "live_scope": "2026-09-19: fixed-mask empty instance list passed. Populated list/detail, missing-ID semantics and lifecycle remain unverified.",
+      "evidence": [
+        "internal/services/compute/instances.go",
+        "internal/services/compute/instances_test.go",
+        "internal/services/compute/instances_live_test.go",
+        "design/en/instance-read-contract.md",
+        "design/ko/instance-read-contract.md"
+      ]
+    }
+  ]
 }
