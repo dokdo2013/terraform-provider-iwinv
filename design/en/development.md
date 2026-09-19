@@ -299,3 +299,11 @@ No SQL/Redis client query, data write, DNS change or billing termination verific
 `iwinv_db_instance_products` ([English](../../docs/data-sources/db_instance_products.md), [한국어](../../docs/ko/data-sources/db_instance_products.md))
 uses `IWINV_LIVE_READ=1 TF_ACC=1 go test -race ./internal/provider -run '^TestAccDBProducts$' -count=1` for read-only acceptance.
 T064 validates all documented filters, empty/version-shared IDs and a no-change plan. No new service is created.
+
+## Internal cache adapter acceptance
+
+The adapter test is a paid, explicit opt-in and creates two fresh `cache_lite` services. Use the private credential/log/journal workflow above.
+`IWINV_LIVE_CACHE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory go test -race ./internal/client -run '^TestAccCacheControlPlaneWrites$' -v -count=1 -timeout 12m`
+T065 records every attempted write and only retries precisely classified busy rejections after an unchanged exact-ID Read. Generic errors,
+transport uncertainty and accepted writes are never automatically repeated. Deletion acknowledgement and exact-ID absence are required for
+all owned IDs. This is not a registered Terraform cache resource or tenant content API test.

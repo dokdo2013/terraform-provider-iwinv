@@ -203,6 +203,7 @@ func (c *Client) request(ctx context.Context, method, path string, query url.Val
 	var wire struct {
 		Code      string          `json:"code"`
 		ErrorCode string          `json:"error_code"`
+		Message   json.RawMessage `json:"message"`
 		Result    json.RawMessage `json:"result"`
 		Count     json.RawMessage `json:"count"`
 		Page      json.RawMessage `json:"page"`
@@ -216,6 +217,22 @@ func (c *Client) request(ctx context.Context, method, path string, query url.Val
 		knownCode = wire.ErrorCode
 	}
 	if resp.StatusCode < 200 || resp.StatusCode > 202 {
+		// Cache endpoints overload NOT_FOUND for a rejected busy
+		// operation while the parent still exists. Classify only this exact
+		// observed response; no raw text escapes and this layer never retries.
+		busyKind := ""
+		if method == http.MethodPut && cacheReferrerPath(path) {
+			busyKind = "cache_referrers_busy"
+		} else if method == http.MethodDelete && cacheDeletePath(path) {
+			busyKind = "cache_delete_busy"
+		}
+		if resp.StatusCode == http.StatusNotFound && knownCode == "NOT_FOUND" && busyKind != "" {
+			const busy = "서비스가 다른 작업을 진행중입니다."
+			var message, result string
+			if json.Unmarshal(wire.Message, &message) == nil && message == busy && json.Unmarshal(wire.Result, &result) == nil && result == busy {
+				return empty, &Error{Kind: busyKind, Status: resp.StatusCode, Code: knownCode}
+			}
+		}
 		return empty, &Error{Kind: "http_status", Status: resp.StatusCode, Code: knownCode}
 	}
 	if decodeErr != nil {
@@ -228,6 +245,24 @@ func (c *Client) request(ctx context.Context, method, path string, query url.Val
 		return empty, &Error{Kind: "missing_result", Status: resp.StatusCode}
 	}
 	return Envelope{Status: resp.StatusCode, Result: wire.Result, Count: wire.Count, Page: wire.Page, PageNo: wire.PageNo, PageSize: wire.PageSize, Total: wire.Total}, nil
+}
+
+func cacheReferrerPath(path string) bool {
+	parts := strings.Split(path, "/")
+	if len(parts) != 5 || parts[0] != "" || parts[1] != "v1" || parts[2] != "cache" || parts[4] != "allow_referer" {
+		return false
+	}
+	id, err := strconv.ParseInt(parts[3], 10, 64)
+	return err == nil && id > 0 && strconv.FormatInt(id, 10) == parts[3]
+}
+
+func cacheDeletePath(path string) bool {
+	parts := strings.Split(path, "/")
+	if len(parts) != 4 || parts[0] != "" || parts[1] != "v1" || parts[2] != "cache" {
+		return false
+	}
+	id, err := strconv.ParseInt(parts[3], 10, 64)
+	return err == nil && id > 0 && strconv.FormatInt(id, 10) == parts[3]
 }
 
 func validPath(path string) bool {

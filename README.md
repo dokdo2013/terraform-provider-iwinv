@@ -21,6 +21,7 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 | --- | --- |
 | [사용자 경험 및 아키텍처](design/ko/architecture.md) | AWS 스타일 매핑, 스키마, 상태·인증·오류 설계 |
 | [호스팅 수명주기 설계](design/ko/webhosting-lifecycle.md) | 24시간 계정명 재사용 제한, 비밀번호·import·교체 정책; SHARE PHP 8.4 실환경 검증 |
+| [캐시 수명주기 설계](design/ko/cache-lifecycle.md) | 중첩 비밀번호·리퍼러 전체 교체·작업중 오류·정리 계약; 내부 어댑터 단계 |
 | [DBMS 수명주기 설계](design/ko/dbms-lifecycle.md) | 전체 허용 IP 집합, 생성 계정 이력·상품 모호성·import·복구 |
 | [API 계약 및 제약](design/ko/api-contract.md) | 확인된 사실, 문서 불일치, 실제 검증이 필요한 사항 |
 | [전체 기능 범위](design/ko/coverage.md) | API·CLI·서비스별 Resource/Data/Action/Ephemeral 분류 |

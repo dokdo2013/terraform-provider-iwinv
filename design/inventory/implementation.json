@@ -412,5 +412,46 @@
       "kind": "data_source"
     }
   ],
-  "internal_adapters": []
+  "internal_adapters": [
+    {
+      "name": "content_cache",
+      "terraform_registered": false,
+      "status": "contract_adapter",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/cache/products"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/cache"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/cache"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/cache/{service_idx}/allow_referer"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/cache/{service_idx}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "cache_lite internal control-plane adapter: full catalogs with nullable IDs, two-service coexistence, nested initial password input, literal/omitted description, whole referrer-set replacement; exact busy PUT and DELETE rejections preserved owned state before bounded retries; four acknowledged deletions with exact-ID absence across two runs, including a run without fixed pre-delete delay. Terraform, tenant API and data-plane contracts remain pending.",
+      "ownership": "Only exact newly created service identities; entire referrer set per parent; never individual referrer membership",
+      "import": "Not applicable to internal adapter; proposed resource import must restore readable account and omit initial credentials/version history",
+      "evidence": [
+        "internal/services/hosted/cache.go",
+        "internal/services/hosted/cache_test.go",
+        "internal/client/cache_busy_test.go",
+        "internal/client/cache_live_test.go",
+        "design/en/cache-lifecycle.md",
+        "design/ko/cache-lifecycle.md"
+      ]
+    }
+  ]
 }

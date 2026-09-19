@@ -298,3 +298,11 @@ CI에서는 유료 테스트를 활성화하지 않습니다.
 `iwinv_db_instance_products`는 [한국어 가이드](../../docs/ko/data-sources/db_instance_products.md)에 따라 조회합니다.
 조회 전용 acceptance는 `IWINV_LIVE_READ=1 TF_ACC=1 go test -race ./internal/provider -run '^TestAccDBProducts$' -count=1`로 실행합니다.
 T064는 모든 공식 필터와 빈/버전 간 중복 ID, 무변경 plan을 검증합니다. 새 서비스는 만들지 않습니다.
+
+## 내부 캐시 어댑터 acceptance
+
+유료 opt-in 테스트이며 새 `cache_lite` 서비스 2개를 만듭니다. 앞서 설명한 비공개 인증·로그·대장 방식을 사용하세요.
+`IWINV_LIVE_CACHE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory go test -race ./internal/client -run '^TestAccCacheControlPlaneWrites$' -v -count=1 -timeout 12m`
+T065는 매 쓰기 시도를 기록하고 정확히 구분한 작업중 거절에 한해 정확한 ID의 변경 없는 Read 후 재시도합니다.
+일반 오류·통신 결과 불확실·접수된 쓰기는 반복하지 않습니다. 모든 소유 ID의 삭제 응답과 정확한 부재를 확인해야 합니다.
+Terraform 캐시 리소스 등록이나 tenant 컨텐츠 API 검증을 의미하지 않습니다.

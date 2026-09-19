@@ -494,3 +494,20 @@ the STD/redis combination and subsequent no-change plans. This is filter accepta
 or provisioning verification. Synthetic Core checks cover empty/repeated-ID preservation, sorting, errors and input rejection.
 No cloud resources were created or modified. The DBMS console list independently appeared empty without a search filter after T062/T063 cleanup.
 The development provider now has ten data sources and five managed resources. T038 overall, webmail T056 and Registry release remain incomplete.
+
+## Cache adapter and busy rejection (T065) — 2026-09-19
+
+Added typed adapters for all five cache control-plane operations, nullable product IDs and exact service IDs. C31 records the catalog SHARE
+versus service SINGLE label discrepancy; neither is rewritten or used to promise isolation. Create sends verified JSON pw.FTP and excludes
+ignored create-time referrers. Passwords do not serialize into typed input journals or readable models. This does not yet establish Terraform
+write-only plan/state exclusion.
+
+The first two-service live run passed in 89.81 seconds, including one busy PUT rejection with unchanged Read followed by accepted replacement.
+A second two-service run removed the 45-second pre-delete fixture delay and passed in 45.49 seconds. Both PUT and DELETE received one exact
+busy rejection each; the target remained unchanged and a bounded reconciled retry succeeded. The common client classifies only the exact
+method/path/status/code/message/result combination and never exposes response text or automatically retries.
+
+All four new cache IDs received delete acknowledgements and exact-ID absence; the first run also had an independently empty unfiltered console
+list. Existing infrastructure was untouched. Core resource/import/drift/replacement/secret-state recovery, catalog data source, tenant APIs,
+other product variants, data-plane access and billing remain pending. See [cache decisions](cache-lifecycle.md). T038 and webmail T056 stay open;
+public development registration remains ten data sources and five resources.

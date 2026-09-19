@@ -733,6 +733,23 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T065",
+      "phase": "P4",
+      "method": "mock/live",
+      "expected_en": "Cache adapter preserves exact IDs and nullable products, validates nested password creation and whole referrer replacement, reconciles only exact busy rejections and proves peer-preserving acknowledged cleanup",
+      "expected_ko": "캐시 어댑터가 정확한 ID와 null 상품을 보존하고 중첩 비밀번호 생성·전체 리퍼러 교체를 검증하며 정확한 작업중 거절만 재조회하고 다른 서비스 보존·삭제 접수·정리를 증명한다",
+      "status": "passed",
+      "evidence": [
+        "internal/services/hosted/cache_test.go",
+        "internal/client/cache_busy_test.go",
+        "internal/client/cache_live_test.go",
+        "design/en/cache-lifecycle.md",
+        "design/ko/cache-lifecycle.md",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }
