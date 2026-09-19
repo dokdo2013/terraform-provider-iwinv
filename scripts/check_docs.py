@@ -23,7 +23,7 @@ for file in ko.glob("*.md"):
     other = en / file.name
     if other.exists():
         for prefix, width in [("C", 2), ("T", 3)]:
-            regex = rf"\b{prefix}\d{{{width}}}\b"
+            regex = rf"(?<![A-Za-z0-9]){prefix}\d{{{width}}}(?![A-Za-z0-9])"
             require(set(re.findall(regex, file.read_text())) == set(re.findall(regex, other.read_text())),
                     f"Contract/check IDs differ: {file.name}")
 
@@ -58,10 +58,12 @@ for entry in surfaces:
 checks = json.loads((ROOT / "design/inventory/checks.json").read_text())["checks"]
 require(len({c["id"] for c in checks}) == len(checks), "Duplicate test IDs")
 for check in checks:
-    require(check["status"] in {"not_run", "passed", "failed", "blocked"}, f"Invalid status: {check['id']}")
+    require(check["status"] in {"not_run", "in_progress", "passed", "failed", "blocked"}, f"Invalid status: {check['id']}")
     require(bool(check["expected_en"] and check["expected_ko"]), f"Missing translation: {check['id']}")
     if check["status"] == "passed":
         require(bool(check["evidence"]), f"Passing check lacks evidence: {check['id']}")
+    for evidence in check["evidence"]:
+        require((ROOT / evidence).is_file(), f"Missing evidence: {check['id']} -> {evidence}")
     for language in ("en", "ko"):
         row = (f"| {check['id']} | {check['phase']} | {check['method']} | "
                f"{check['expected_' + language]} | {check['status']} |")
@@ -73,4 +75,4 @@ if errors:
     sys.exit(1)
 print(f"Documentation checks passed: {len(list(ko.glob('*.md')))} language pairs, "
       f"{len(operations)} API operations, {len(surfaces)} surfaces, {len(checks)} planned checks.")
-print("No authenticated API or provider acceptance tests were performed.")
+print("This documentation check does not execute API or provider acceptance tests.")

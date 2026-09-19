@@ -2,9 +2,9 @@
 
 [English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
 
-**인증된 API 검증과 Provider acceptance test는 아직 실행하지 않았습니다.** 문서 CI는 저장소 정합성만 검사하며
-클라우드 동작 검증으로 표현하지 않습니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
-각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 `not_run` 상태가 있습니다.
+**인증된 읽기 전용 API 검증을 시작했습니다. Provider acceptance test는 아직 실행하지 않았습니다.**
+[현재 근거](contract-progress.md)에서 실측과 모의 테스트를 구분합니다. 문서 CI는 저장소 정합성만 검사합니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
+각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 실행 상태가 있습니다. `in_progress`는 일부 근거만 확보된 상태로 합격이 아닙니다.
 
 ## 증거 및 실행 규칙
 
@@ -53,19 +53,19 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 
 | ID | 단계 | 방법 | 합격 조건 | 상태 |
 | --- | --- | --- | --- | --- |
-| T001 | P1 | mock/live-read | Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다 | not_run |
-| T002 | P1 | mock/live-read | 시계 오차를 구분하고 재시도마다 새 Timestamp로 서명한다 | not_run |
-| T003 | P1 | live-read | 허용/차단 출발 IP의 인증 결과를 확인한다 | not_run |
-| T004 | P1 | mock/live-read | HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다 | not_run |
+| T001 | P1 | mock/live-read | Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다 | in_progress |
+| T002 | P1 | mock/live-read | 시계 오차를 구분하고 재시도마다 새 Timestamp로 서명한다 | in_progress |
+| T003 | P1 | live-read | 허용/차단 출발 IP의 인증 결과를 확인한다 | in_progress |
+| T004 | P1 | mock/live-read | HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다 | in_progress |
 | T005 | P1 | mock/live-read | 작업별 JSON/form/multipart 인코딩을 확인한다 | not_run |
-| T006 | P1 | mock/live-read | 모든 ID를 중복 없이 조회하고 올바른 조건에서 페이지를 종료한다 | not_run |
+| T006 | P1 | mock/live-read | 모든 ID를 중복 없이 조회하고 올바른 조건에서 페이지를 종료한다 | in_progress |
 | T007 | P1 | live-read | 계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다 | not_run |
 | T008 | P1 | mock/live-read | 상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다 | not_run |
-| T009 | P1 | mock/live-read | 누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다 | not_run |
+| T009 | P1 | mock/live-read | 누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다 | in_progress |
 | T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | not_run |
-| T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | not_run |
-| T012 | P1 | mock | 인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다 | not_run |
-| T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | not_run |
+| T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | in_progress |
+| T012 | P1 | mock | 인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다 | passed |
+| T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | in_progress |
 | T014 | P1 | review | 나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다 | not_run |
 | T015 | P2 | live | 생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다 | not_run |
 | T016 | P2 | mock/live | 모든 상태와 기한/취소를 완료 대기가 처리한다 | not_run |

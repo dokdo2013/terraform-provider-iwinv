@@ -4,7 +4,7 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: design and API verification preparation. No runnable provider or Registry release exists yet.**
+**Status: Go contract client implemented; authenticated read-only verification in progress. No runnable provider or Registry release exists yet.**
 All `iwinv_*` resource names and configurations in these documents are proposals, not installable features.
 This project is not an official SMILESERV/iwinv product or support channel.
 
@@ -33,13 +33,16 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] 66 HTTP operations identified across 75 public control-plane documentation pages
 - [x] Command and URL references collected from 21 CLI and messaging pages
 - [ ] Verify authenticated API responses and behavior
-- [ ] Implement Go API client and provider
+- [x] Read-only Go client and synthetic contract tests
+- [ ] Terraform provider and resource implementation
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry
 
 These counts describe research scope, not implementation coverage. Service APIs, S3 compatibility,
 CLI subcommand options, and authenticated MCP tools still require discovery.
 Every item in the [API inventory](design/inventory/api.json) is marked unimplemented and not live-verified.
+
+Evidence and commands: [P1 contract progress](design/en/contract-progress.md).
 
 ## Contributing and validation
 

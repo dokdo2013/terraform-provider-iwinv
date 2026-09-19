@@ -2,10 +2,12 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**No authenticated API verification or provider acceptance test has run.** Documentation CI only checks
-repository consistency. It must never be presented as proof of cloud behavior.
+**Authenticated read-only API verification has started. Provider acceptance has not run yet.**
+[Current evidence](contract-progress.md) separates live observations from mock tests.
+Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.
-Each entry has a stable ID, method, expected outcome in both languages, phase and `not_run` status.
+Each entry has a stable ID, method, expected outcome in both languages, phase and execution status.
+`in_progress` means partial evidence, not a pass.
 
 ## Evidence and execution rules
 
@@ -55,19 +57,19 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 
 | ID | Phase | Method | Expected outcome | Status |
 | --- | --- | --- | --- | --- |
-| T001 | P1 | mock/live-read | HMAC vectors match timestamp+path; query/trailing slash handling is exact | not_run |
-| T002 | P1 | mock/live-read | Clock window errors are diagnosed; every retry signs a fresh timestamp | not_run |
-| T003 | P1 | live-read | Allowed and denied egress IPs produce documented authentication outcomes | not_run |
-| T004 | P1 | mock/live-read | HTTP and business errors are both checked without masking unknown codes | not_run |
+| T001 | P1 | mock/live-read | HMAC vectors match timestamp+path; query/trailing slash handling is exact | in_progress |
+| T002 | P1 | mock/live-read | Clock window errors are diagnosed; every retry signs a fresh timestamp | in_progress |
+| T003 | P1 | live-read | Allowed and denied egress IPs produce documented authentication outcomes | in_progress |
+| T004 | P1 | mock/live-read | HTTP and business errors are both checked without masking unknown codes | in_progress |
 | T005 | P1 | mock/live-read | JSON, form and multipart encoding are proven per operation | not_run |
-| T006 | P1 | mock/live-read | Pagination returns every ID once and terminates on documented conditions | not_run |
+| T006 | P1 | mock/live-read | Pagination returns every ID once and terminates on documented conditions | in_progress |
 | T007 | P1 | live-read | Account inventory and supported-zone visibility agree with console evidence | not_run |
 | T008 | P1 | mock/live-read | Detail fields mask returns required fields without passwords or console tokens | not_run |
-| T009 | P1 | mock/live-read | Null, missing, empty and nested array/object shapes decode correctly | not_run |
+| T009 | P1 | mock/live-read | Null, missing, empty and nested array/object shapes decode correctly | in_progress |
 | T010 | P1 | mock/live-read | Single lookups reject zero or multiple matches; filters cannot select arbitrary first item | not_run |
-| T011 | P1 | mock/live-read | Provider aliases isolate auth, endpoints and cached data | not_run |
-| T012 | P1 | mock | Credentials never follow cross-host redirects or enter diagnostics | not_run |
-| T013 | P1 | review | Version ADR defines tested Go/Terraform/Framework combinations and feature gates | not_run |
+| T011 | P1 | mock/live-read | Provider aliases isolate auth, endpoints and cached data | in_progress |
+| T012 | P1 | mock | Credentials never follow cross-host redirects or enter diagnostics | passed |
+| T013 | P1 | review | Version ADR defines tested Go/Terraform/Framework combinations and feature gates | in_progress |
 | T014 | P1 | review | Remaining service APIs, CLI flags and authenticated MCP tools are enumerated with gaps | not_run |
 | T015 | P2 | live | Create returns exactly one stable ID and state preserves it during subsequent failures | not_run |
 | T016 | P2 | mock/live | Waiters handle building/pending/work/active/off/error with deadline and cancellation | not_run |
