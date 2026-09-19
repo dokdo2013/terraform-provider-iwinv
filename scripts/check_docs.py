@@ -27,6 +27,20 @@ for file in ko.glob("*.md"):
             require(set(re.findall(regex, file.read_text())) == set(re.findall(regex, other.read_text())),
                     f"Contract/check IDs differ: {file.name}")
 
+provider_docs = ROOT / "docs"
+provider_ko = provider_docs / "ko"
+english_provider_paths = {p.relative_to(provider_docs) for section in ("resources", "guides")
+                          for p in (provider_docs / section).glob("*.md")}
+korean_provider_paths = {p.relative_to(provider_ko) for section in ("resources", "guides")
+                         for p in (provider_ko / section).glob("*.md")}
+require(english_provider_paths == korean_provider_paths, "Provider resource/guide translations differ")
+for relative in english_provider_paths & korean_provider_paths:
+    en_text = (provider_docs / relative).read_text()
+    ko_text = (provider_ko / relative).read_text()
+    require(set(re.findall(r"(?<![A-Za-z0-9])(?:C\d{2}|T\d{3})(?![A-Za-z0-9])", en_text)) ==
+            set(re.findall(r"(?<![A-Za-z0-9])(?:C\d{2}|T\d{3})(?![A-Za-z0-9])", ko_text)),
+            f"Provider document contract/check IDs differ: {relative}")
+
 for file in ROOT.rglob("*.md"):
     if ".git" in file.parts:
         continue
@@ -99,6 +113,7 @@ for check in checks:
 if errors:
     print("\n".join(errors), file=sys.stderr)
     sys.exit(1)
-print(f"Documentation checks passed: {len(list(ko.glob('*.md')))} language pairs, "
+print(f"Documentation checks passed: {len(list(ko.glob('*.md')))} design language pairs, "
+      f"{len(english_provider_paths)} provider language pairs, "
       f"{len(operations)} API operations, {len(surfaces)} surfaces, {len(checks)} planned checks.")
 print("This documentation check does not execute API or provider acceptance tests.")

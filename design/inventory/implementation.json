@@ -188,6 +188,82 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "terraform_type": "iwinv_security_group_ingress_rule",
+      "kind": "resource",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}/rules"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/security-groups/{id}/rules"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/security-groups/{id}/rules/{rule_id}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/security-groups/{id}/rules/{rule_id}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "TCP/UDP IPv4 rules on dedicated unattached groups: both directions pass create/read/update, full import comparison, persisted re-import/no-op plan, direction drift repair, description-clear replacement, external deletion/recreation and child-before-parent destroy; parent-change replacement tested on ingress; no packet filtering or physical cascade assertion",
+      "ownership": "one exact rule under one group; parent and peer rules excluded",
+      "import": "firewall_id/rule_id, canonical positive decimal int64 child ID; attributes restored, local timeouts excluded",
+      "evidence": [
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go",
+        "docs/resources/security_group_ingress_rule.md",
+        "docs/ko/resources/security_group_ingress_rule.md",
+        "docs/guides/security_group_rules.md",
+        "docs/ko/guides/security_group_rules.md"
+      ]
+    },
+    {
+      "terraform_type": "iwinv_security_group_egress_rule",
+      "kind": "resource",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/security-groups/{id}/rules"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/security-groups/{id}/rules"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/security-groups/{id}/rules/{rule_id}"
+        },
+        {
+          "method": "DELETE",
+          "path": "/v1/security-groups/{id}/rules/{rule_id}"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "live_scope": "TCP/UDP IPv4 rules on dedicated unattached groups: both directions pass create/read/update, full import comparison, persisted re-import/no-op plan, direction drift repair, description-clear replacement, external deletion/recreation and child-before-parent destroy; parent-change replacement tested on ingress; no packet filtering or physical cascade assertion",
+      "ownership": "one exact rule under one group; parent and peer rules excluded",
+      "import": "firewall_id/rule_id, canonical positive decimal int64 child ID; attributes restored, local timeouts excluded",
+      "evidence": [
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go",
+        "docs/resources/security_group_egress_rule.md",
+        "docs/ko/resources/security_group_egress_rule.md",
+        "docs/guides/security_group_rules.md",
+        "docs/ko/guides/security_group_rules.md"
+      ]
     }
   ]
 }

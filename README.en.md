@@ -4,8 +4,8 @@ English · [한국어](README.md)
 
 An independent community provider project for Terraform users familiar with the AWS provider.
 
-**Status: seven data sources and one security-group attribute resource implemented and live-tested. No Registry release yet.**
-See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances, rules and attachments, are not yet available.
+**Status: seven data sources and three security-group/rule resources implemented and live-tested. No Registry release yet.**
+See the [development guide](design/en/development.md) and [security-group guide](docs/resources/security_group.md) for runnable scope. Other proposed resources, including instances and attachments, are not yet available.
 This project is not an official SMILESERV/iwinv product or support channel.
 
 ## Goals
@@ -36,6 +36,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 - [x] Go read/write client and synthetic contract tests
 - [x] Provider skeleton and authenticated read-only zone/image/instance-type/SSH-key acceptance
 - [x] Security-group attributes: create/update/import/drift/destroy verification
+- [x] Ingress/egress rules: import, drift, replacement and dependency-ordered deletion
 - [ ] Remaining managed resources
 - [ ] Resource acceptance tests and signed releases
 - [ ] Publish to Terraform Registry

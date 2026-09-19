@@ -102,6 +102,18 @@ func validateGroupTimeouts(value timeouts.Value, diags *diag.Diagnostics) {
 	}
 }
 
+func knownOperationTimeouts(value timeouts.Value, diags *diag.Diagnostics) bool {
+	unknown := value.IsUnknown()
+	for _, v := range value.Attributes() {
+		unknown = unknown || v.IsUnknown()
+	}
+	if unknown {
+		diags.AddError("Unknown operation timeouts", "Timeout values must be known before a write so the returned identity can be stored in valid Terraform state.")
+		return false
+	}
+	return true
+}
+
 func (r *securityGroupResource) ValidateConfig(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
 	var config securityGroupModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
@@ -143,7 +155,7 @@ func groupOperationContext(ctx context.Context, value timeouts.Value, operation 
 
 func knownGroupPlan(data securityGroupModel, diags *diag.Diagnostics) bool {
 	validateGroupTimeouts(data.Timeouts, diags)
-	if diags.HasError() {
+	if diags.HasError() || !knownOperationTimeouts(data.Timeouts, diags) {
 		return false
 	}
 	if data.Name.IsNull() || data.Name.IsUnknown() || data.Description.IsNull() || data.Description.IsUnknown() || data.AllowICMP.IsNull() || data.AllowICMP.IsUnknown() {

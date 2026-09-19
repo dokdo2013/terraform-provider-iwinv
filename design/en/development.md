@@ -3,7 +3,7 @@
 [한국어](../ko/development.md) · [Progress](contract-progress.md)
 
 There is no Registry release. The local binary implements seven zone/image/instance-type/SSH-key data sources
-and the [security-group attribute resource](../../docs/resources/security_group.md). Proposed instance examples are not yet runnable.
+and three [security-group](../../docs/resources/security_group.md) / [rule resources](../../docs/guides/security_group_rules.md). Proposed instance examples are not yet runnable.
 
 ## Build and verify
 
@@ -185,7 +185,7 @@ Source: [official SSH key list](https://iwinv-common.readme.io/reference/get_new
 The first managed resource is [iwinv_security_group](../../docs/resources/security_group.md).
 Follow the development override above, then validate/review/apply the [resource example](../../examples/resources/iwinv_security_group/main.tf).
 Unlike the data-source examples, apply creates a cloud object. Run destroy when finished and verify absence.
-Do not use existing shared groups as test fixtures. Rules, attachments, empty-description creation/clearing and attached-group deletion remain unsupported or unverified.
+Do not use existing shared groups as test fixtures. The group resource does not manage inline rules. Attachments, empty group-description creation/clearing and attached-group deletion remain unsupported or unverified.
 
 ```sh
 TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 \
@@ -206,3 +206,21 @@ external drift/repair, external deletion/recreation, and final destroy. Only the
 Synthetic tests separately cover defaults, timeout-only changes, invalid/unknown inputs, delayed visibility,
 API errors, waiter expiry and failed-create ID preservation through Terraform Core cleanup.
 The imported-state test explicitly removes prior Terraform ownership before re-importing; importing over an existing address is invalid.
+
+## Independent security rules
+
+See the [ingress guide](../../docs/resources/security_group_ingress_rule.md), [egress guide](../../docs/resources/security_group_egress_rule.md),
+and shared [lifecycle/recovery guide](../../docs/guides/security_group_rules.md). Their complete examples use parent references.
+Schema validation, no-op plans, drift, replacements and dependency-ordered destroy run in synthetic CI without cloud credentials.
+
+The lower-level rule adapter has a separate opt-in contract test:
+
+```sh
+IWINV_LIVE_RULE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test ./internal/client -run '^TestAccRuleControlPlaneWrites$' -v -timeout 8m
+```
+
+Use `TF_ACC=1 IWINV_LIVE_TERRAFORM_RULE_WRITE=1` with `TestAccSecurityRules` and `TestAccSecurityEgressRule` for full Terraform lifecycle tests; the shared guide gives the command.
+The adapter test creates one parent/two rules; the two Terraform tests together create three parents/eight rule identities including replacements.
+Each test persists private receipts/IDs and verifies rule absence before removing parents. Neither uses pre-existing groups or server attachments.
+Successful control-plane tests do not validate traffic filtering or resolve the blocked compute zone.

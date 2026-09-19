@@ -337,3 +337,44 @@ HTTP 인증/부재/요청 제한/서버 오류와 엔드포인트별 확정 부�
 구현 대장에는 이 리소스의 POST/상세 GET/PUT/DELETE만 등록했습니다. 내부/테스트에서 쓰는 그룹 목록은 Terraform 기능으로 표시하지 않습니다.
 규칙, 연결, 패킷 동작, API 길이 경계, 실제 전체 페이지 경계와 과금 종료는 실환경 검증 범위에 포함되지 않습니다.
 서버 존 제한과 이전 웹메일 콘솔/해지 불확실성은 계속 미해결입니다. 이번 그룹 정리가 이전의 모든 서비스 정리를 증명하지는 않습니다.
+
+## 독립 ingress/egress 규칙 (2026-09-19, C16, T058)
+
+`iwinv_security_group_ingress_rule`과 `iwinv_security_group_egress_rule`을 개발용 리소스로 등록했습니다.
+소유권, 정확한 복합 import ID, 교체와 복구는 [공통 가이드](../../docs/ko/guides/security_group_rules.md)에 정의했습니다.
+P2 서버와 P3 전체 완료 조건은 계속 열어 둡니다. 규칙 지원이 서버 연결·스토리지·패킷 필터링 검증을 의미하지 않습니다.
+
+추가 API 직접 실험으로 다음의 한정된 계약을 확인했습니다.
+
+- 규칙의 `title`/`content`는 한글과 리터럴 HTML 엔티티를 포함해 원문으로 반환합니다. 그룹 설명의 HTML 디코딩을 재사용하면 안 됩니다.
+- 빈 설명과 생략한 설명으로 생성하면 null을 반환합니다. 빈 값/null 수정과 설명 생략 수정은 기존 설명을 유지합니다.
+- 방향, 프로토콜, 포트 범위, CIDR, 이름과 비어 있지 않은 설명은 정수 규칙 ID를 유지하며 제자리 수정됐습니다.
+- 완전히 같은 규칙의 중복 생성은 HTTP 400 / `CHECK_PARAM`입니다. 소문자 `tcp`와 `inbound`를 각각 별도로 시험해 `CHECK_PARAM_ENUM`을 확인했습니다.
+- IPv6는 `IPV6_NOT_SUPPORTED`, `ICMP`는 `CHECK_PARAM_ENUM`입니다. 포트 `0`과 `0-65535`는 `CHECK_PARAM`, `65535`는 성공했습니다.
+- bare IP 수정은 `CHECK_PARAM`으로 실패했고 나머지 입력이 같은 CIDR 수정은 성공했습니다. IPv4 CIDR 입력만 지원합니다.
+- 규칙 53개 fixture의 기본 목록과 `page_no=1/2,page_size=1` 조회 모두 기록된 ID 전체를 반환했습니다. 페이지 메타데이터는 없고 쿼리 페이지 인수는 무시됐습니다.
+- 초기 직접 실험에서 harness의 null 설명 가정 오류와 bare IP 수정 거부를 발견했습니다. 중단된 두 실행 모두 기록한 자식과 부모를 정리했으며 완전한 실험 성공으로 표시하지 않습니다.
+
+타입 어댑터는 정확한 ID를 찾기 전에 전체 행을 검증하고, 페이지/count 계약 변경을 거부하며, float64 없이 int64 ID를 보존합니다.
+생성 응답의 나머지 필드 검증이 실패해도 확보한 ID는 유지합니다. 규칙 Read는 부모 상세를 먼저 읽습니다.
+부모의 성공/빈 결과로 부모 부재를 판단하며 규칙의 `CHECK_PARAM`이나 404만으로 state를 지우지 않습니다.
+쓰기는 자동 재전송하지 않으며, 빈 설명 수정 요청은 I/O 전에 거부합니다.
+
+Go 어댑터 실환경 테스트에서 생성/조회/전체 수정/설명 생략 수정/다른 규칙을 보존한 개별 삭제와 정리를 통과했습니다.
+Go 1.26.1, Terraform 1.14.2와 race detector를 사용한 실환경 Terraform acceptance에서 두 방향 리소스,
+두 방향의 전체 import 비교·영속 재import 후 무변경 plan·방향 drift 복원·설명 초기화 교체와 ingress의 부모 변경 교체,
+외부 규칙 삭제/재생성, 자식 먼저·부모 나중 destroy를 통과했습니다. 소유권 wrapper는 각 자식 부재 확인 전 부모 삭제를 거부합니다.
+직접 실험/Go/Terraform 실행 전체에서 부모 7개와 개별 ID를 기록한 규칙 66개를 모두 삭제했으며, 부모가 있을 때 자식 부재를 확인했습니다.
+비공개 응답, ID, state와 로그는 Git에 포함하지 않습니다. 이번 정리는 이전 웹메일 해지/과금 질문을 해결하지 않습니다.
+
+합성 Terraform 테스트는 POST 추가 없이 생성 실패 ID 정리, update 요청이 없는 timeout만 변경,
+부모 생성 전 잘못된 입력 거부, 부모 부재 처리, 수정/삭제 실패 state 보존,
+기존 설명이 비어 있지 않고 새 설명이 unknown일 때 보수적인 교체 계획까지 추가로 통과했습니다.
+알려진 비어 있지 않은 값은 제자리 수정하며 unknown 때문에 apply에서 승인하지 않은 교체를 새로 추가하지 않습니다.
+그룹과 규칙 모두 쓰기 시점에 unknown인 timeout을 미리 거부하여 잘못된 state가 반환된 생성 ID를 무효화하지 않게 했습니다.
+
+근거: `internal/services/network/rules_test.go`, `internal/client/rules_live_test.go`,
+`internal/provider/security_group_rule_resource_test.go`, `internal/provider/security_group_rule_live_test.go`.
+패킷 동작, 연결, 전체 경계 변형과 물리적인 연쇄 삭제를 모두 검증하지 않았으므로 T031/T032는 부분 검증 상태를 유지합니다.
+공식 계약: [목록](https://iwinv.readme.io/reference/get_v1-security-groups-id-rules), [생성](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
+[수정](https://iwinv.readme.io/reference/put_v1-security-groups-id-rules-rule-id), [삭제](https://iwinv.readme.io/reference/delete_v1-security-groups-id-rules-rule-id).

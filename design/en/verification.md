@@ -2,7 +2,7 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**Authenticated read acceptance passed for seven data sources, and lifecycle acceptance passed for security-group attributes. Compute and remaining managed-resource gates have not passed.**
+**Authenticated read acceptance passed for seven data sources, and lifecycle acceptance passed for security-group attributes and independent ingress/egress rules. Compute and remaining managed-resource gates have not passed.**
 [Current evidence](contract-progress.md) separates live observations from mock tests.
 Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.
@@ -114,3 +114,4 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T055 | P6 | CI/review | Untrusted PR CI has no live credentials; release permissions and actions are constrained | not_run |
 | T056 | P6 | live | Acceptance run inventory proves cleanup; leaks fail the run with recoverable evidence | not_run |
 | T057 | P3 | mock/live | Dedicated unattached group attributes pass create/update/import/no-op plan/drift/recreation/destroy; failed create retains an ID for cleanup | passed |
+| T058 | P3 | mock/live | Owned TCP/UDP rules pass CRUD/import/no-op plan/direction drift/clear and parent replacements/external deletion and child-before-parent destroy | passed |

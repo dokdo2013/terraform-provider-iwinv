@@ -11,8 +11,8 @@ description: |-
 
 Development support for security-group attributes. No Registry release exists yet.
 This resource owns `name`, `description` and `allow_icmp` for one exact `firewall_id`.
-It does not manage inline rules or instance attachments; their Terraform resources are not implemented.
-Live lifecycle evidence covers dedicated, unattached groups without rules. Packet filtering behavior, attached-group deletion and rule cascades remain unverified.
+It does not manage inline rules or instance attachments. Use the independent [rule resources](../guides/security_group_rules.md); attachment resources are not yet implemented.
+Live lifecycle evidence covers dedicated, unattached groups. Independent managed rules are deleted before their parents in integration tests. Packet filtering, attached-group deletion and physical rule cascades remain unverified.
 Use a dedicated group within this scope. Review dependencies before destroy; do not assume excluded child objects survive deletion of their parent.
 
 ## Example
@@ -88,6 +88,6 @@ API absence is not independent billing confirmation.
 Synthetic Terraform CLI tests cover lifecycle, import, drift, timeout-only edits and failed-create cleanup with retained ID.
 The opt-in live test covers create/read/update, exact-ID import with full attribute comparison, no-change plans, external drift repair, external deletion/recreation and final cleanup.
 See [evidence](../../design/en/contract-progress.md) and [test execution](../../design/en/development.md).
-Empty creation/clearing, full account pagination, rules, attachments and compute availability remain separate unresolved contracts.
+Empty group-description creation/clearing, full account pagination, rule packet behavior, attachments and compute availability remain separate unresolved contracts.
 
 Sources: official [create](https://iwinv.readme.io/reference/post_v1-security-groups), [detail](https://iwinv.readme.io/reference/get_v1-security-groups-id), [update](https://iwinv.readme.io/reference/put_v1-security-groups-id), [delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id), and [Terraform create state rules](https://developer.hashicorp.com/terraform/plugin/framework/resources/create).

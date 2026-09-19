@@ -41,7 +41,7 @@ func (p *IwinvProvider) Metadata(_ context.Context, _ provider.MetadataRequest, 
 
 func (p *IwinvProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key data sources plus security-group attributes. Rules and attachments are not implemented.",
+		MarkdownDescription: "Independent community iwinv provider. Development build: zone, image, instance-type and SSH-key data sources plus security-group attributes and independent ingress/egress rules. Instance attachments are not implemented.",
 		Attributes: map[string]schema.Attribute{
 			"access_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane access key. Defaults to IWINV_ACCESS_KEY when omitted."},
 			"secret_key": schema.StringAttribute{Optional: true, Sensitive: true, MarkdownDescription: "Control-plane secret key. Defaults to IWINV_SECRET_KEY when omitted."},
@@ -82,5 +82,5 @@ func (p *IwinvProvider) DataSources(_ context.Context) []func() datasource.DataS
 }
 
 func (p *IwinvProvider) Resources(_ context.Context) []func() resource.Resource {
-	return []func() resource.Resource{NewSecurityGroupResource}
+	return []func() resource.Resource{NewSecurityGroupResource, NewSecurityGroupIngressRuleResource, NewSecurityGroupEgressRuleResource}
 }

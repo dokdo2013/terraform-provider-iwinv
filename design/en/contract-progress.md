@@ -338,3 +338,44 @@ Evidence: `internal/provider/security_group_resource_test.go`, `internal/provide
 The ledger marks only POST/GET-detail/PUT/DELETE for this resource; internal/test-only group listing is not exposed as a Terraform capability.
 Live evidence does not include rules, attachments, packet behavior, API length boundaries, full real pagination or billing closure.
 The compute zone restriction and prior webmail console/cancellation uncertainty remain unresolved. These group cleanups do not certify all earlier service cleanup.
+
+## Independent ingress/egress rules (2026-09-19, C16, T058)
+
+Registered `iwinv_security_group_ingress_rule` and `iwinv_security_group_egress_rule` as development resources.
+The [shared guide](../../docs/guides/security_group_rules.md) defines ownership, exact compound import IDs, replacements and recovery.
+P2 compute and the complete P3 gate remain open; supporting rules does not establish instance attachments, storage or packet filtering.
+
+Additional raw API experiments established these scoped contracts:
+
+- Rule `title` and `content` return verbatim, including Korean and literal HTML entities. Do not reuse group-description HTML decoding.
+- Empty and omitted description creates return null. Empty/null description updates retain existing text; omitted updates also retain it.
+- Direction, protocol, port range, CIDR, title and nonempty content changed in place while retaining the integer rule ID.
+- Exact duplicate creation returned HTTP 400 / `CHECK_PARAM`. Independently tested lowercase `tcp` and `inbound` returned `CHECK_PARAM_ENUM`.
+- IPv6 returned `IPV6_NOT_SUPPORTED`; `ICMP` returned `CHECK_PARAM_ENUM`. Port `0` and range `0-65535` returned `CHECK_PARAM`; `65535` succeeded.
+- A bare-IP update failed with `CHECK_PARAM`; the otherwise equivalent CIDR update succeeded. Only IPv4 CIDR input is supported.
+- A 53-rule fixture returned every recorded ID in a plain list and both `page_no=1/2,page_size=1` requests. No pagination metadata was present; query pagination was ignored.
+- Raw probes initially exposed a null-description assumption in the harness and a rejected bare-IP update. Both interrupted runs cleaned their recorded children and parent; they are not represented as successful full experiments.
+
+The typed adapter validates all rows before exact-ID lookup, rejects changed pagination/count contracts, preserves int64 IDs without float64,
+and keeps a known create identity even when later receipt fields fail validation. Rule Read checks parent detail first:
+parent success/empty establishes parent absence, whereas a rules `CHECK_PARAM` or 404 alone cannot remove state.
+Writes are never automatically replayed; empty update clears are rejected before I/O.
+
+The Go adapter live test passed for create/read/full update/omitted-description update/individual delete with peer preservation and cleanup.
+Terraform live acceptance with Go 1.26.1, Terraform 1.14.2 and the race detector passed both direction resources,
+full import comparison, persisted re-import/no-op plans, direction drift repair and description-clear replacement for both directions, plus ingress parent-change replacement,
+external rule deletion/recreation and child-before-parent destroy. The ownership wrapper refuses parent deletion before each known child's absence is verified.
+All seven parents and 66 individually recorded rules across these raw/Go/Terraform runs were deleted; rule absence was checked while parents still existed.
+Private receipts, IDs, state and logs are excluded from Git. These cleanups do not resolve the earlier webmail cancellation/billing question.
+
+Synthetic Terraform tests additionally passed failed-create ID cleanup without another POST, timeout-only changes with no update request,
+invalid input rejection before parent creation, parent-absence handling, failed update/delete state preservation,
+and conservative replacement for an unknown new description when the prior description is nonempty.
+Known nonempty updates remain in place; unknown values can no longer introduce an unapproved replacement only during apply.
+Both group and rule creates reject runtime-unknown timeout values before writing, so unknown state cannot invalidate a returned identity.
+
+Evidence: `internal/services/network/rules_test.go`, `internal/client/rules_live_test.go`,
+`internal/provider/security_group_rule_resource_test.go` and `internal/provider/security_group_rule_live_test.go`.
+T031/T032 remain partial because packet behavior, attachments, full boundary variants and physical cascade behavior are not all verified.
+Official contracts: [list](https://iwinv.readme.io/reference/get_v1-security-groups-id-rules), [create](https://iwinv.readme.io/reference/post_v1-security-groups-id-rules),
+[update](https://iwinv.readme.io/reference/put_v1-security-groups-id-rules-rule-id), [delete](https://iwinv.readme.io/reference/delete_v1-security-groups-id-rules-rule-id).

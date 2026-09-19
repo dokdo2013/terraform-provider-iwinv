@@ -441,3 +441,22 @@ resource "iwinv_security_group" "test" {
 		t.Fatal("invalid future read timeout was persisted by create")
 	}
 }
+
+func TestSecurityGroupUnknownTimeoutBeforeWrite(t *testing.T) {
+	a := newGroupAPI()
+	r := &securityGroupResource{network: &network.Service{API: a}}
+	ctx := context.Background()
+	state := groupTestState(t, r, "FIREWALL-synthetic-1")
+	var m securityGroupModel
+	state.Get(ctx, &m)
+	m.Timeouts.Object = types.ObjectUnknown(m.Timeouts.AttributeTypes(ctx))
+	plan := tfsdk.Plan{Schema: state.Schema}
+	if d := plan.Set(ctx, &m); d.HasError() {
+		t.Fatal(d)
+	}
+	response := frameworkresource.CreateResponse{State: tfsdk.State{Schema: state.Schema}}
+	r.Create(ctx, frameworkresource.CreateRequest{Plan: plan}, &response)
+	if !response.Diagnostics.HasError() || a.creates != 0 {
+		t.Fatal("unknown timeouts reached a write and could invalidate returned state")
+	}
+}

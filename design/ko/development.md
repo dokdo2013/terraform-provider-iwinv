@@ -3,7 +3,7 @@
 [English](../en/development.md) · [진행 현황](contract-progress.md)
 
 Registry 릴리스는 아직 없습니다. 로컬 바이너리는 존·이미지·상품·SSH 키 Data Source 7개와
-[보안 그룹 속성 리소스](../../docs/ko/resources/security_group.md)를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
+[보안 그룹](../../docs/ko/resources/security_group.md)·[규칙](../../docs/ko/guides/security_group_rules.md) 리소스 3개를 구현합니다. 설계 문서의 인스턴스 예제는 아직 적용할 수 없습니다.
 
 ## 빌드와 검증
 
@@ -185,7 +185,7 @@ TF_ACC=1 IWINV_LIVE_READ=1 go test ./internal/provider -run '^TestAccSSHKeys$' -
 첫 관리 리소스는 [iwinv_security_group](../../docs/ko/resources/security_group.md)입니다.
 위 개발용 override를 설정한 후 [리소스 예제](../../examples/resources/iwinv_security_group/main.tf)를 validate하고 plan을 검토한 뒤 적용하세요.
 Data Source 예제와 달리 apply가 클라우드 객체를 생성합니다. 사용 후 destroy와 부재 확인까지 진행하세요.
-기존 공유 그룹을 테스트 fixture로 쓰지 마세요. 규칙, 연결, 빈 설명 생성/초기화, 연결된 그룹 삭제는 미지원 또는 미검증입니다.
+기존 공유 그룹을 테스트 fixture로 쓰지 마세요. 그룹 리소스는 인라인 규칙을 관리하지 않습니다. 연결, 빈 그룹 설명 생성/초기화, 연결된 그룹 삭제는 미지원 또는 미검증입니다.
 
 ```sh
 TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 \
@@ -205,3 +205,21 @@ TF_ACC=1 IWINV_LIVE_TERRAFORM_WRITE=1 \
 합성 테스트는 기본값, timeout만 변경, 잘못되거나 unknown인 입력, 반영 지연,
 API 오류, 대기 기한 초과와 생성 실패 후 Terraform Core가 ID를 보존하여 정리하는 동작을 별도로 검증합니다.
 import state 검증은 이전 Terraform 소유권을 명시적으로 제거하고 다시 가져옵니다. 기존 관리 주소에 그대로 import하는 것은 유효하지 않습니다.
+
+## 독립 보안 규칙
+
+[Ingress 가이드](../../docs/ko/resources/security_group_ingress_rule.md), [Egress 가이드](../../docs/ko/resources/security_group_egress_rule.md),
+공통 [수명주기/복구 가이드](../../docs/ko/guides/security_group_rules.md)를 참고하세요. 전체 예제는 부모 참조로 의존성을 표현합니다.
+스키마 검증, 무변경 plan, drift, 교체와 의존성 순서 destroy는 클라우드 인증정보 없이 합성 CI에서 실행합니다.
+
+하위 규칙 어댑터는 별도의 opt-in 계약 테스트가 있습니다.
+
+```sh
+IWINV_LIVE_RULE_WRITE=1 IWINV_TEST_JOURNAL_DIR=/absolute/private/mode0700/directory \
+  go test ./internal/client -run '^TestAccRuleControlPlaneWrites$' -v -timeout 8m
+```
+
+전체 Terraform 수명주기는 `TF_ACC=1 IWINV_LIVE_TERRAFORM_RULE_WRITE=1`로 `TestAccSecurityRules`와 `TestAccSecurityEgressRule`을 실행합니다. 전체 명령은 공통 가이드에 있습니다.
+어댑터 테스트는 부모 1개/규칙 2개, Terraform 테스트 2개는 교체를 포함해 합계 부모 3개/규칙 ID 8개를 생성합니다.
+각 테스트는 비공개 응답/ID 대장을 보존하며 부모를 삭제하기 전에 규칙 부재를 확인합니다. 기존 그룹이나 서버 연결을 사용하지 않습니다.
+control-plane 테스트 성공이 트래픽 필터링 검증이나 차단된 서버 존 해결을 의미하지 않습니다.

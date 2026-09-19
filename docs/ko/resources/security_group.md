@@ -4,8 +4,8 @@
 
 보안 그룹의 속성을 관리하는 개발용 리소스입니다. 아직 Registry 릴리스는 없습니다.
 정확한 `firewall_id` 하나의 `name`, `description`, `allow_icmp`를 소유합니다.
-인라인 규칙과 서버 연결은 관리하지 않으며, 이들의 Terraform 리소스는 아직 구현하지 않았습니다.
-실환경 수명주기 검증 범위는 규칙이 없고 서버에 연결하지 않은 전용 그룹입니다. 패킷 필터링 동작, 연결된 그룹 삭제와 규칙 연쇄 삭제는 미검증입니다.
+인라인 규칙과 서버 연결은 관리하지 않습니다. 규칙은 [독립 리소스](../guides/security_group_rules.md)를 사용하며 연결 리소스는 아직 구현하지 않았습니다.
+실환경 수명주기 검증은 서버에 연결하지 않은 전용 그룹에서 수행했습니다. 통합 테스트에서는 독립 관리 규칙을 부모보다 먼저 삭제합니다. 패킷 필터링, 연결된 그룹 삭제와 물리적인 규칙 연쇄 삭제는 미검증입니다.
 이 범위에 맞는 전용 그룹을 사용하세요. destroy 전에 의존성을 확인하고, 부모 삭제 시 관리 대상 밖의 자식 객체가 보존된다고 가정하지 마세요.
 
 ## 예제
@@ -81,6 +81,6 @@ API 부재는 독립적인 과금 종료 확인과 같지 않습니다.
 합성 Terraform CLI 테스트는 수명주기, import, drift, timeout만 변경하는 경우와 생성 실패 후 ID를 보존한 정리를 검증합니다.
 별도 opt-in 실환경 테스트는 생성/조회/수정, 전체 속성을 비교한 정확한 ID import, 무변경 plan, 외부 변경 복원, 외부 삭제/재생성과 최종 정리를 검증합니다.
 [검증 근거](../../../design/ko/contract-progress.md)와 [실행 방법](../../../design/ko/development.md)을 참고하세요.
-빈 설명 생성/초기화, 실제 계정의 전체 페이지 경계, 규칙, 연결과 서버 사용 가능 여부는 별도의 미해결 계약입니다.
+빈 그룹 설명 생성/초기화, 실제 계정의 전체 페이지 경계, 규칙의 패킷 동작, 연결과 서버 사용 가능 여부는 별도의 미해결 계약입니다.
 
 출처: 공식 [생성](https://iwinv.readme.io/reference/post_v1-security-groups), [상세](https://iwinv.readme.io/reference/get_v1-security-groups-id), [수정](https://iwinv.readme.io/reference/put_v1-security-groups-id), [삭제](https://iwinv.readme.io/reference/delete_v1-security-groups-id), [Terraform 생성 state 규칙](https://developer.hashicorp.com/terraform/plugin/framework/resources/create).

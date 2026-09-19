@@ -150,7 +150,24 @@ context 기한 안에서 polling하며 pending·active·off·work·error와 생�
 
 생성은 나머지 응답/Read 검증 실패를 보고하기 전에 확보한 ID를 state에 기록합니다. 수정/삭제 실패는 이전 state를 보존합니다.
 삭제는 성공 응답 후 상세 Read에서 부재를 확인합니다. API 오류로 state를 제거하거나 쓰기를 자동 재시도하지 않습니다.
-작업별 timeout으로 성공했지만 반영이 덜 된 조회의 대기를 제한합니다. 규칙과 서버 연결은 별도의 미구현 소유권 범위입니다.
+작업별 timeout으로 성공했지만 반영이 덜 된 조회의 대기를 제한합니다. 규칙은 아래의 독립 리소스로 관리하며 서버 연결은 미구현입니다.
 합성 및 실환경 Terraform 테스트로 import, 무변경 plan, drift와 외부 삭제를 검증했고, 합성 생성 실패 테스트로 Core의 ID 보존 및 정리를 확인했습니다.
 이 리소스의 제한된 검증은 서버 단계 통과나 모든 네트워크 수명주기 계약 해결을 의미하지 않습니다.
 검증 범위와 남은 공백은 [근거](contract-progress.md)를 참고하세요.
+
+## 독립 규칙 리소스와 state 결정
+
+`iwinv_security_group_ingress_rule`과 `iwinv_security_group_egress_rule`로 독립 규칙 설계를 구현했습니다.
+`security_group_id`, `ip_protocol`, `from_port`, `to_port`, `cidr_ipv4`, 이름과 설명을 사용하며 인라인 소유권을 도입하지 않습니다.
+원하는 방향이 고정된 공통 구현을 사용하되 계산 속성 `direction`에 실제 방향 drift를 기록하고 plan에서 명시적으로 복원합니다.
+API가 수정 가능한 방향을 리소스 타입 이름 뒤에 숨기지 않도록 했습니다.
+
+복합 식별자/import 형식은 `firewall_id/rule_id`이며 숫자 ID는 int64를 거쳐 정확한 십진수 문자열로 유지합니다.
+규칙 title/content는 HTML escape하는 그룹 설명과 달리 원문을 유지합니다. 빈 설명 생성/null Read는 Terraform 빈 설명으로 표현합니다.
+빈 값/null 수정이 기존 설명을 지우지 못하므로 설명 초기화는 교체합니다. 부모 변경도 교체합니다.
+비어 있지 않은 기존 설명의 새 값이 plan에서 unknown이면 보수적으로 교체를 계획하며 apply에서 갑자기 교체를 추가하지 않습니다.
+완전히 같은 규칙은 중복 생성이 거부되므로 create-before-destroy 성공을 가정하지 않습니다. 알려진 비어 있지 않은 설명은 제자리 수정합니다.
+
+규칙 Read는 부모 상세를 먼저 검증한 뒤 페이지 없는 전체 규칙 목록을 읽습니다. 부모 부재는 엔드포인트별 성공 결과로만 판정하며
+규칙 API 오류만으로 부재로 보지 않습니다. 개별 삭제는 다른 규칙을 보존하고 관리 부모 삭제 전에 완료합니다.
+API 부재와 물리적인 연쇄 삭제/과금 종료는 구분합니다. [공통 규칙 가이드](../../docs/ko/guides/security_group_rules.md)와 T058 [근거](contract-progress.md)를 참고하세요.

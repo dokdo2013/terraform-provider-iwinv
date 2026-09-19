@@ -157,7 +157,24 @@ and the default description is `Managed by Terraform`. An unchanged description 
 
 Create persists a known ID before reporting remaining receipt/read-back errors. Update/delete failures preserve prior state.
 Delete requires detail absence after acknowledgement. API errors never remove state or trigger automatic write retries.
-Operation timeouts bound successful incomplete-read polling. Rules and instance attachments remain separate, unimplemented ownership scopes.
+Operation timeouts bound successful incomplete-read polling. Rules have separate resources described below; instance attachments remain unimplemented.
 Synthetic and live Terraform tests cover import, no-op plans, drift and external deletion; synthetic failed-create tests verify Core retains an ID for cleanup.
 This scoped resource does not pass the compute gates or resolve all network lifecycle contracts.
 See [evidence](contract-progress.md) for the verified boundaries and remaining gaps.
+
+## Independent rule resources and state decisions
+
+`iwinv_security_group_ingress_rule` and `iwinv_security_group_egress_rule` implement the separate-rule design.
+Use `security_group_id`, `ip_protocol`, `from_port`, `to_port`, `cidr_ipv4`, name and description. No inline ownership is introduced.
+Both share one implementation with a fixed desired direction; the computed `direction` attribute records actual remote drift,
+then plan explicitly restores the desired value. This avoids hiding a mutable API direction behind a resource type name.
+
+The composite identity/import format is `firewall_id/rule_id`; numeric IDs remain exact decimal strings through int64.
+Rule title/content stay verbatim, unlike HTML-escaped group descriptions. Empty creation/null Read maps to an empty Terraform description.
+Empty/null updates do not clear an existing value, so clearing a description requires replacement. Changing the parent also requires replacement.
+When a nonempty description becomes unknown at plan time, replacement is planned conservatively; it is never added unexpectedly during apply.
+The API rejects exact duplicate rules, so create-before-destroy cannot be assumed to work. Known nonempty description updates remain in place.
+
+A rule Read validates parent detail before the whole unpaginated rule list. Parent absence is an endpoint-specific success result;
+a rules API error alone never means absence. Individual deletion preserves peer rules and completes before managed parent destruction.
+API absence and physical cascade/billing closure remain distinct. See the [shared rule guide](../../docs/guides/security_group_rules.md) and T058 [evidence](contract-progress.md).

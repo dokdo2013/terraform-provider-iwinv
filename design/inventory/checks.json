@@ -61,7 +61,11 @@
         "design/ko/contract-progress.md",
         "internal/client/write_test.go",
         "internal/client/write_live_test.go",
-        "internal/services/network/groups_test.go"
+        "internal/services/network/groups_test.go",
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go"
       ]
     },
     {
@@ -79,7 +83,11 @@
         "internal/services/compute/ssh_keys_test.go",
         "internal/provider/ssh_key_data_source_test.go",
         "internal/services/network/groups_test.go",
-        "internal/client/write_live_test.go"
+        "internal/client/write_live_test.go",
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go"
       ]
     },
     {
@@ -113,7 +121,11 @@
         "internal/services/compute/ssh_keys_test.go",
         "internal/provider/ssh_key_data_source_test.go",
         "internal/services/network/groups_test.go",
-        "internal/client/write_live_test.go"
+        "internal/client/write_live_test.go",
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go"
       ]
     },
     {
@@ -130,7 +142,11 @@
         "internal/services/compute/ssh_keys_test.go",
         "internal/provider/ssh_key_data_source_test.go",
         "internal/services/network/groups_test.go",
-        "internal/client/write_live_test.go"
+        "internal/client/write_live_test.go",
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go"
       ]
     },
     {
@@ -342,7 +358,11 @@
       "status": "in_progress",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go"
       ]
     },
     {
@@ -354,7 +374,11 @@
       "status": "in_progress",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go"
       ]
     },
     {
@@ -603,6 +627,22 @@
       "evidence": [
         "internal/provider/security_group_resource_test.go",
         "internal/provider/security_group_live_test.go",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
+    },
+    {
+      "id": "T058",
+      "phase": "P3",
+      "method": "mock/live",
+      "expected_en": "Owned TCP/UDP rules pass CRUD/import/no-op plan/direction drift/clear and parent replacements/external deletion and child-before-parent destroy",
+      "expected_ko": "소유한 TCP/UDP 규칙의 CRUD/import/무변경 plan/방향 drift/초기화·부모 교체/외부 삭제와 자식 우선 destroy가 통과한다",
+      "status": "passed",
+      "evidence": [
+        "internal/services/network/rules_test.go",
+        "internal/client/rules_live_test.go",
+        "internal/provider/security_group_rule_resource_test.go",
+        "internal/provider/security_group_rule_live_test.go",
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
