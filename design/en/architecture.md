@@ -11,7 +11,7 @@ Local CLI preferences are not cloud resources. Missing API contracts remain trac
 
 Use Go and Terraform Plugin Framework, starting from the official scaffolding template.
 Do not shell out to CLI, call MCP, scrape a console, or use `local-exec` to implement provider operations.
-The version matrix must be selected and tested during P1; there is no claimed minimum Terraform version yet.
+The development baseline is Terraform >=1.14.0 in [ADR-0001](contract-progress.md); its matrix is tested during P1.
 Actions and ephemeral features receive explicit compatibility requirements rather than silently raising the baseline.
 
 ## AWS-style public interface

@@ -52,6 +52,32 @@ require(len(operations) > 0, "Empty API inventory")
 families = {e["family"] for e in inventory["entries"]}
 require(families == {"iaas", "common", "hosting", "cache", "dbms", "nas", "webmail"}, "Missing API family")
 
+ledger = json.loads((ROOT / "design/inventory/implementation.json").read_text())["capabilities"]
+implemented = {}
+for capability in ledger:
+    require(capability["ownership"] and capability["import"], "Missing lifecycle decision")
+    require(capability["evidence"], "Missing implementation evidence")
+    for evidence in capability["evidence"]:
+        require((ROOT / evidence).is_file(), f"Missing implementation evidence: {evidence}")
+    for operation in capability["operations"]:
+        key = (operation["method"], operation["path"])
+        require(key in operations, f"Implemented operation absent from discovery: {key}")
+        implemented[key] = capability
+for entry in inventory["entries"]:
+    matches = [implemented.get((op["method"], op["path"])) for op in entry["operations"]]
+    expected = bool(matches) and all(matches)
+    require(entry["implemented"] == expected, f"Implementation flag drift: {entry['source']}")
+    require(entry["live_verified"] == (expected and all(c["live_verified"] for c in matches)),
+            f"Live verification flag drift: {entry['source']}")
+
+cli = json.loads((ROOT / "design/inventory/cli.json").read_text())["entries"]
+require(len({c["command"] for c in cli}) == len(cli), "Duplicate CLI command")
+require(all(c["exit_code"] == 0 for c in cli), "CLI discovery failed")
+service_operations = json.loads((ROOT / "design/inventory/service-operations.json").read_text())["entries"]
+require(len({(op["family"], op["operation"]) for op in service_operations}) == len(service_operations),
+        "Duplicate service operation")
+require(all(op["source"].startswith("https://") for op in service_operations), "Invalid service operation source")
+
 surfaces = json.loads((ROOT / "design/inventory/surfaces.json").read_text())["entries"]
 for entry in surfaces:
     require("fetch_error" not in entry, f"Unresolved surface fetch: {entry['source']}")

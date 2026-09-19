@@ -4,8 +4,8 @@
 
 AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커뮤니티 Provider 프로젝트입니다.
 
-**현재 상태: API 계약 검증용 Go 클라이언트 구현 및 인증된 읽기 검증 진행 중. 실행 가능한 Provider와 Registry 릴리스는 아직 없습니다.**
-문서 속 `iwinv_*` 리소스와 설정은 제안이며 현재 설치하거나 적용할 수 없습니다.
+**현재 상태: 개발용 Provider와 `iwinv_availability_zones` 조회 기능을 구현하고 실환경 검증했습니다. Registry 릴리스는 아직 없습니다.**
+관리 리소스는 미구현이며, 설계 문서의 리소스 예제는 아직 적용할 수 없습니다. [개발용 실행 안내](design/ko/development.md)를 참고하세요.
 스마일서브/iwinv의 공식 제품 또는 공식 지원 프로젝트가 아닙니다.
 
 ## 목표
@@ -34,12 +34,13 @@ AWS Provider에 익숙한 Terraform 사용자를 위한 독립적인 iwinv 커�
 - [x] CLI 및 메시징 문서 21페이지의 명령·URL 참조 정리
 - [ ] 실제 계정의 API 응답 및 동작 검증
 - [x] 읽기 전용 Go 클라이언트 및 합성 계약 테스트
-- [ ] Terraform Provider와 리소스 구현
+- [x] Provider 골격과 존 Data Source의 실환경 읽기 acceptance
+- [ ] 관리 리소스 구현
 - [ ] 리소스별 acceptance test 및 서명 릴리스
 - [ ] Terraform Registry 게시
 
 위 숫자는 문서 조사 범위이며 구현 지원률이 아닙니다. 서비스별 API, S3 호환 기능,
-CLI 하위 옵션과 인증 후 MCP 도구는 계속 조사합니다. [기능 대장](design/inventory/api.json)은 모든 항목을 미구현·실환경 미검증으로 표시합니다.
+CLI v0.2.2 하위 명령·옵션도 조사했으며 인증 후 MCP 도구는 미확인입니다. [구현 대장](design/inventory/implementation.json)에 검증된 기능만 별도로 기록합니다.
 
 진행 근거와 실행 방법: [P1 API 계약 검증 현황](design/ko/contract-progress.md).
 

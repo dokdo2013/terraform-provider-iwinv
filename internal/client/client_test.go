@@ -208,3 +208,28 @@ func TestCredentialsRejected(t *testing.T) {
 		}
 	}
 }
+
+func TestKnownErrorCodesAndUnknownText(t *testing.T) {
+	for _, tt := range []struct{ code, message, expected string }{
+		{"0x8", "INVALID_SIGNATURE", "INVALID_SIGNATURE"},
+		{"0xc", "DEV_CHECK_RETURN", "DEV_CHECK_RETURN"},
+		{"0x99", "synthetic-secret", ""},
+		{"0x99", "INVALID_SIGNATURE", ""},
+	} {
+		t.Run(tt.message+tt.code, func(t *testing.T) {
+			s := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				w.WriteHeader(401)
+				fmt.Fprintf(w, `{"code":%q,"error_code":%q,"message":"synthetic-secret","result":"error"}`, tt.code, tt.message)
+			}))
+			defer s.Close()
+			_, err := testClient(t, s).Get(context.Background(), "/v1/zones", nil)
+			var apiErr *Error
+			if !errors.As(err, &apiErr) || apiErr.Code != tt.expected || strings.Contains(err.Error(), "synthetic-secret") {
+				t.Fatalf("unexpected diagnostic %v", err)
+			}
+		})
+	}
+	if !validPath("/v1/flavors/synthetic_2.4") {
+		t.Fatal("documented dot-containing flavor IDs rejected")
+	}
+}

@@ -55,8 +55,11 @@
       "method": "mock/live-read",
       "expected_en": "JSON, form and multipart encoding are proven per operation",
       "expected_ko": "작업별 JSON/form/multipart 인코딩을 확인한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T006",
@@ -115,10 +118,12 @@
       "method": "mock/live-read",
       "expected_en": "Provider aliases isolate auth, endpoints and cached data",
       "expected_ko": "alias 간 인증/endpoint/캐시가 섞이지 않는다",
-      "status": "in_progress",
+      "status": "passed",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "scripts/test_alias_isolation.py",
+        "internal/provider/provider_test.go"
       ]
     },
     {
@@ -152,8 +157,11 @@
       "method": "review",
       "expected_en": "Remaining service APIs, CLI flags and authenticated MCP tools are enumerated with gaps",
       "expected_ko": "나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T015",
@@ -161,8 +169,11 @@
       "method": "live",
       "expected_en": "Create returns exactly one stable ID and state preserves it during subsequent failures",
       "expected_ko": "생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다",
-      "status": "not_run",
-      "evidence": []
+      "status": "failed",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T016",
@@ -485,8 +496,12 @@
       "method": "CI",
       "expected_en": "All examples format and validate against the built provider without real credentials",
       "expected_ko": "모든 예제가 실제 빌드 Provider로 format/validate를 통과한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "examples/data-sources/iwinv_availability_zones/main.tf",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
     },
     {
       "id": "T052",

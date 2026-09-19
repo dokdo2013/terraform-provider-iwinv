@@ -3,7 +3,7 @@
 [한국어](../ko/contract-progress.md) · [Verification](verification.md)
 
 Observed 2026-09-19 UTC. This is an implementation checkpoint for [issue #1](https://github.com/dokdo2013/terraform-provider-iwinv/issues/1),
-not provider availability or completion of P1. The client currently supports a single GET attempt.
+not a stable release or completion of P1. See the [development guide](development.md) for the working zone data source. The client currently supports a single GET attempt.
 
 ## Implemented and tested
 
@@ -36,7 +36,7 @@ actual resource IDs or state files are included in this repository.
 | Stale timestamp | A signed zones request 600 seconds in the past returns HTTP 401 | Exact boundary and dedicated error classification |
 
 These observations provide partial evidence for T001, T002, T003, T004, T006 and T009.
-Client isolation is only mock evidence for T011. Redirect/error redaction tests satisfy the
+T011 includes mock isolation and a native binary test separating a valid-key read from a synthetic-invalid alias. Redirect/error redaction tests satisfy the
 current mock-only T012 scope. None of this proves resource lifecycle acceptance.
 
 ## Run locally
@@ -64,13 +64,13 @@ and verify cleanup. An empty account list never authorizes deleting arbitrary ob
 
 ## Compatibility decision (ADR-0001, provisional)
 
-Use Go 1.25.8 as the module minimum, with CI on 1.25.8 and 1.26.1. The initial client has no external dependencies.
-Local contract tests currently run on Go 1.26.1, macOS arm64. Terraform 1.14.2 is installed;
-no provider CLI acceptance has run yet.
+Use Go 1.25.8 as the module minimum, with CI on 1.25.8 and 1.26.1. The client itself uses the standard library; provider dependencies are pinned in go.mod.
+Local contract tests run on Go 1.26.1, macOS arm64. Terraform 1.14.2 passed synthetic protocol tests
+and authenticated zone data-source acceptance with a subsequent no-change plan.
 
-For P2, select Framework 1.19.0 and plugin-testing 1.16.0, matching the inspected
+Framework 1.19.0 and plugin-testing 1.16.0 are pinned and compiled, matching the inspected
 [official scaffolding dependency baseline](https://github.com/hashicorp/terraform-provider-scaffolding-framework/blob/main/go.mod).
-These dependencies will be pinned and compiled when the provider is introduced, not claimed tested now.
+These dependencies have passed the local protocol and zone acceptance tests.
 Adopt Terraform >=1.14 for the initial provider compatibility target and test the minimum separately before release.
 [Ephemeral resources](https://developer.hashicorp.com/terraform/plugin/framework/ephemeral-resources)
 require Terraform >=1.10 and [write-only arguments](https://developer.hashicorp.com/terraform/plugin/framework/resources/write-only-arguments)
@@ -83,3 +83,35 @@ Sources: [iwinv signing](https://iwinv-common.readme.io/reference/api-request),
 [zones](https://iwinv.readme.io/reference/getv1zones),
 [flavors](https://iwinv.readme.io/reference/getv1flavors),
 [images](https://iwinv.readme.io/reference/getv1images).
+
+## Additional discovery and first mutation experiment
+
+The official [CLI v0.2.2 command/flag inventory](../inventory/cli.json) contains 47 root/subcommand help surfaces,
+including the root command and completion commands. It was inspected without logging the CLI into an account.
+The installer targets `/usr/bin`; the audit instead used a temporary binary without installing it system-wide.
+
+[Additional service operations](../inventory/service-operations.json) record separate NAS, Cache, Swift and S3 surfaces.
+Object Storage documents both protocols and separate keys, with the public endpoint `kr.object.iwinv.kr`:
+[authentication](https://help.iwinv.kr/manual/712), [compatibility](https://help.iwinv.kr/manual/738).
+The compatibility tables are images and still need transcription/verification. A CLI `obs://` URL is not proof of full S3 compatibility.
+S3 policy syntax may legitimately contain AWS-style ARN strings; this does not imply iwinv control-plane IAM/ARN support.
+Swift and S3 must not manage the same bucket/object through competing Terraform resources.
+
+The [NAS manual](https://help.iwinv.kr/manual/763) has a consequential inconsistency: rename/tag updates are PUT in
+its summary but DELETE in detailed tables. Those methods remain unresolved; the provider must not infer DELETE for rename.
+[Cache](https://help.iwinv.kr/manual/938) also has tenant-scoped token authentication, distinct from control-plane HMAC.
+The generic SDK landing page does not identify a downloadable SDK package.
+Authenticated MCP discovery still needs OAuth; a control-plane key is not substituted for a bearer token.
+These are partial T014 results, not proof of full coverage.
+
+Read-only control-plane checks reached all five additional service catalogs. Their service lists were empty in the tested account.
+Product lists returned arrays without standard `count`/pagination fields; Cache included a null `product_id`.
+The hosting server catalog and user-script list returned 404. An empty successful list and a 404 cannot be normalized indiscriminately.
+Block-storage list returned HTTP 200 although older documentation advertises 202.
+
+For T005/T015, one explicitly scoped multipart server create used a small Linux flavor, a compatible zone/image and one existing SSH key reference.
+It returned HTTP 500, `DEV_CHECK_RETURN`, and no instance ID. The result was an error object, not the documented success array.
+The [official error catalog](https://api-kr.iwinv.kr/error) identifies this as a server-return problem, not an authentication error.
+No automatic retry or name-based adoption occurred. Immediate and delayed instance lists were empty.
+The cause, backend outcome and billing state are unverified, so compute CRUD remains gated.
+T015 is failed for this API contract experiment; no Terraform instance resource acceptance was claimed.

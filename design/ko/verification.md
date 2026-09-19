@@ -2,7 +2,7 @@
 
 [English](../en/verification.md) · [목차](../../README.md) · 리비전: 1
 
-**인증된 읽기 전용 API 검증을 시작했습니다. Provider acceptance test는 아직 실행하지 않았습니다.**
+**존 Data Source의 인증된 읽기 acceptance를 통과했습니다. 관리 리소스 acceptance는 아직 통과하지 않았습니다.**
 [현재 근거](contract-progress.md)에서 실측과 모의 테스트를 구분합니다. 문서 CI는 저장소 정합성만 검사합니다. 한·영 [체크리스트](../inventory/checks.json)가 공통 작업 대장입니다.
 각 항목에는 고유 ID, 검증 방법, 양언어 합격 조건, 단계와 실행 상태가 있습니다. `in_progress`는 일부 근거만 확보된 상태로 합격이 아닙니다.
 
@@ -57,17 +57,17 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T002 | P1 | mock/live-read | 시계 오차를 구분하고 재시도마다 새 Timestamp로 서명한다 | in_progress |
 | T003 | P1 | live-read | 허용/차단 출발 IP의 인증 결과를 확인한다 | in_progress |
 | T004 | P1 | mock/live-read | HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다 | in_progress |
-| T005 | P1 | mock/live-read | 작업별 JSON/form/multipart 인코딩을 확인한다 | not_run |
+| T005 | P1 | mock/live-read | 작업별 JSON/form/multipart 인코딩을 확인한다 | in_progress |
 | T006 | P1 | mock/live-read | 모든 ID를 중복 없이 조회하고 올바른 조건에서 페이지를 종료한다 | in_progress |
 | T007 | P1 | live-read | 계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다 | not_run |
 | T008 | P1 | mock/live-read | 상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다 | not_run |
 | T009 | P1 | mock/live-read | 누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다 | in_progress |
 | T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | not_run |
-| T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | in_progress |
+| T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | passed |
 | T012 | P1 | mock | 인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다 | passed |
 | T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | in_progress |
-| T014 | P1 | review | 나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다 | not_run |
-| T015 | P2 | live | 생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다 | not_run |
+| T014 | P1 | review | 나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다 | in_progress |
+| T015 | P2 | live | 생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다 | failed |
 | T016 | P2 | mock/live | 모든 상태와 기한/취소를 완료 대기가 처리한다 | not_run |
 | T017 | P2 | live | apply 후 반복 refresh/plan에서 불필요한 변경이 없다 | not_run |
 | T018 | P2 | live | 이름/설명 변경/초기화가 교체나 무한 차이 없이 반영된다 | not_run |
@@ -103,7 +103,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T048 | P5 | live | 메시징 템플릿 검수 상태와 허용 수정/삭제를 검증한다 | not_run |
 | T049 | P5 | mock/live | 발송/취소/시간대/바이트/중복 방지를 한정된 테스트에서 검증한다 | not_run |
 | T050 | P5 | review | 모든 잔여 원격 기능에 검증된 지원 또는 명시적인 공급사 제약이 있다 | not_run |
-| T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | not_run |
+| T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | in_progress |
 | T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | not_run |
 | T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | not_run |
 | T054 | P6 | CI/live | 이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다 | not_run |

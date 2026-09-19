@@ -3,7 +3,7 @@
 [English](../en/contract-progress.md) · [검증 계획](verification.md)
 
 관측일: 2026-09-19 UTC. [이슈 #1](https://github.com/dokdo2013/terraform-provider-iwinv/issues/1)의 중간 구현 기록이며,
-Provider 제공 또는 P1 완료를 의미하지 않습니다. 현재 클라이언트는 단일 GET 요청을 지원합니다.
+정식 릴리스 또는 P1 완료를 의미하지 않습니다. 개발용 Provider의 존 Data Source는 [실행 가이드](development.md)를 참고하세요. 현재 클라이언트는 단일 GET 요청을 지원합니다.
 
 ## 구현하고 검증한 내용
 
@@ -36,7 +36,7 @@ IP 제한이 있는 임시 키로 읽기 전용 요청을 실행했습니다. �
 | 오래된 Timestamp | 현재보다 600초 이전으로 서명한 존 요청은 HTTP 401 | 정확한 허용 경계와 전용 오류 분류 |
 
 T001, T002, T003, T004, T006, T009의 일부 근거를 확보했습니다.
-T011의 클라이언트 격리는 모의 테스트 근거입니다. redirect/오류 비밀정보 차단 테스트는
+T011은 모의 클라이언트 격리와 실제 바이너리의 정상 키/합성 오류 키 alias 분리로 검증했습니다. redirect/오류 비밀정보 차단 테스트는
 현재 모의 테스트 전용 항목인 T012의 범위를 충족합니다. 리소스 수명주기 acceptance의 근거는 아닙니다.
 
 ## 로컬 실행
@@ -64,13 +64,12 @@ go run ./cmd/contract-probe
 
 ## 호환성 결정 (ADR-0001, 잠정)
 
-모듈 최소 Go 버전은 1.25.8, CI는 1.25.8과 1.26.1로 구성합니다. 초기 클라이언트는 외부 의존성이 없습니다.
-로컬 계약 테스트는 Go 1.26.1, macOS arm64에서 실행했습니다. Terraform 1.14.2가 설치되어 있으나
-Provider CLI acceptance는 아직 실행하지 않았습니다.
+모듈 최소 Go 버전은 1.25.8, CI는 1.25.8과 1.26.1로 구성합니다. 클라이언트 자체는 표준 라이브러리를 사용하며 Provider 의존성은 go.mod에 고정합니다.
+로컬 계약 테스트는 Go 1.26.1, macOS arm64에서 실행했습니다. Terraform 1.14.2에서
+합성 프로토콜 테스트와 존 Data Source의 실환경 읽기 acceptance/무변경 plan을 통과했습니다.
 
-P2는 확인한 [공식 scaffolding 의존성 기준](https://github.com/hashicorp/terraform-provider-scaffolding-framework/blob/main/go.mod)에
-맞춰 Framework 1.19.0과 plugin-testing 1.16.0을 선택합니다. Provider 도입 시 버전을 고정하고
-컴파일할 예정이며 현재 검증된 의존성으로 표현하지 않습니다.
+확인한 [공식 scaffolding 의존성 기준](https://github.com/hashicorp/terraform-provider-scaffolding-framework/blob/main/go.mod)에
+맞춰 Framework 1.19.0과 plugin-testing 1.16.0을 고정해 컴파일·테스트했습니다.
 초기 Provider의 호환 목표는 Terraform >=1.14로 정하고 출시 전 최소 버전을 별도 검증합니다.
 [Ephemeral Resource](https://developer.hashicorp.com/terraform/plugin/framework/ephemeral-resources)는 >=1.10,
 [write-only 인자](https://developer.hashicorp.com/terraform/plugin/framework/resources/write-only-arguments)는 >=1.11이 필요하지만
@@ -83,3 +82,35 @@ T013은 Provider/프로토콜 버전 조합 검증 전까지 진행 중입니다
 [존](https://iwinv.readme.io/reference/getv1zones),
 [상품](https://iwinv.readme.io/reference/getv1flavors),
 [이미지](https://iwinv.readme.io/reference/getv1images).
+
+## 추가 기능 조사와 첫 변경 실험
+
+공식 [CLI v0.2.2 명령·옵션 대장](../inventory/cli.json)은 루트와 completion을 포함해 47개 도움말 범위를 기록합니다.
+CLI에 계정을 로그인하지 않고 조사했습니다. 설치 스크립트는 `/usr/bin`을 대상으로 하므로
+시스템 설치 대신 임시 바이너리로 도움말만 확인했습니다.
+
+[추가 서비스 작업 대장](../inventory/service-operations.json)에 NAS·Cache·Swift·S3 기능을 기록했습니다.
+Object Storage는 두 프로토콜과 별도 키를 문서화하며 공개 endpoint는 `kr.object.iwinv.kr`입니다.
+[인증](https://help.iwinv.kr/manual/712), [호환 범위](https://help.iwinv.kr/manual/738)를 참고하세요.
+호환 범위 표는 이미지이므로 항목 추출·검증이 더 필요합니다. CLI의 `obs://`만으로 S3 전체 호환을 판단하지 않습니다.
+S3 정책 문법에는 AWS 형식 ARN이 실제로 쓰일 수 있지만 iwinv control-plane IAM/ARN 지원을 뜻하지 않습니다.
+Swift와 S3 리소스가 같은 버킷/객체를 동시에 소유하게 만들지 않습니다.
+
+[NAS 매뉴얼](https://help.iwinv.kr/manual/763)의 이름/태그 변경은 요약에서 PUT, 상세 표에서 DELETE로 나옵니다.
+중요한 불일치이므로 메서드를 미확정으로 남기고 이름 변경을 위해 DELETE를 추측해 호출하지 않습니다.
+[Cache](https://help.iwinv.kr/manual/938)도 tenant별 토큰 인증을 사용하며 control-plane HMAC과 별개입니다.
+일반 SDK 소개 페이지에서는 다운로드 가능한 SDK 패키지를 확인하지 못했습니다.
+인증 후 MCP 조사는 OAuth가 필요하며 control-plane 키를 bearer token으로 대체하지 않습니다.
+이는 T014의 부분 결과이며 전체 기능 조사 완료를 의미하지 않습니다.
+
+읽기 전용 검사로 나머지 5개 서비스의 상품 목록에 접근했습니다. 테스트 계정의 서비스 목록은 비어 있었습니다.
+상품 배열에는 표준 `count`/페이지 정보가 없었고 Cache에는 null인 `product_id`도 있었습니다.
+호스팅 서버 목록과 User Script 목록은 404였습니다. 성공한 빈 목록과 404를 무조건 같은 값으로 처리하면 안 됩니다.
+블록 스토리지 목록은 과거 문서의 202와 달리 HTTP 200을 반환했습니다.
+
+T005/T015 검증을 위해 작은 Linux 상품, 호환 존/이미지, 기존 SSH 키 참조 하나로 범위가 정해진 multipart 생성 요청을 한 번 보냈습니다.
+HTTP 500과 `DEV_CHECK_RETURN`이 반환되었고 인스턴스 ID는 없었습니다. result는 성공 문서의 배열 대신 오류 객체였습니다.
+[공식 오류 표](https://api-kr.iwinv.kr/error)는 이를 인증 오류가 아닌 서버 반환값 문제로 분류합니다.
+자동 재시도나 이름 기반 채택은 하지 않았습니다. 직후와 지연 후 인스턴스 목록은 비어 있었습니다.
+원인·백엔드 처리 결과·과금 상태는 미검증이므로 compute CRUD 공개는 보류합니다.
+이 API 계약 실험의 T015는 실패이며 Terraform 인스턴스 리소스 acceptance를 수행했다고 하지 않습니다.

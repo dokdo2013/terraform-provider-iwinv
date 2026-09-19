@@ -2,7 +2,7 @@
 
 [한국어](../ko/verification.md) · [Index](../../README.en.md) · Revision: 1
 
-**Authenticated read-only API verification has started. Provider acceptance has not run yet.**
+**Authenticated read-only zone data-source acceptance has passed. Managed-resource acceptance has not passed.**
 [Current evidence](contract-progress.md) separates live observations from mock tests.
 Documentation CI only checks repository consistency.
 The bilingual [checklist](../inventory/checks.json) is the shared executable-work planning ledger.
@@ -61,17 +61,17 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T002 | P1 | mock/live-read | Clock window errors are diagnosed; every retry signs a fresh timestamp | in_progress |
 | T003 | P1 | live-read | Allowed and denied egress IPs produce documented authentication outcomes | in_progress |
 | T004 | P1 | mock/live-read | HTTP and business errors are both checked without masking unknown codes | in_progress |
-| T005 | P1 | mock/live-read | JSON, form and multipart encoding are proven per operation | not_run |
+| T005 | P1 | mock/live-read | JSON, form and multipart encoding are proven per operation | in_progress |
 | T006 | P1 | mock/live-read | Pagination returns every ID once and terminates on documented conditions | in_progress |
 | T007 | P1 | live-read | Account inventory and supported-zone visibility agree with console evidence | not_run |
 | T008 | P1 | mock/live-read | Detail fields mask returns required fields without passwords or console tokens | not_run |
 | T009 | P1 | mock/live-read | Null, missing, empty and nested array/object shapes decode correctly | in_progress |
 | T010 | P1 | mock/live-read | Single lookups reject zero or multiple matches; filters cannot select arbitrary first item | not_run |
-| T011 | P1 | mock/live-read | Provider aliases isolate auth, endpoints and cached data | in_progress |
+| T011 | P1 | mock/live-read | Provider aliases isolate auth, endpoints and cached data | passed |
 | T012 | P1 | mock | Credentials never follow cross-host redirects or enter diagnostics | passed |
 | T013 | P1 | review | Version ADR defines tested Go/Terraform/Framework combinations and feature gates | in_progress |
-| T014 | P1 | review | Remaining service APIs, CLI flags and authenticated MCP tools are enumerated with gaps | not_run |
-| T015 | P2 | live | Create returns exactly one stable ID and state preserves it during subsequent failures | not_run |
+| T014 | P1 | review | Remaining service APIs, CLI flags and authenticated MCP tools are enumerated with gaps | in_progress |
+| T015 | P2 | live | Create returns exactly one stable ID and state preserves it during subsequent failures | failed |
 | T016 | P2 | mock/live | Waiters handle building/pending/work/active/off/error with deadline and cancellation | not_run |
 | T017 | P2 | live | Repeated refresh and plan after apply produce no changes | not_run |
 | T018 | P2 | live | Name/description update and clear round-trip without replacement or perpetual diff | not_run |
@@ -107,7 +107,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T048 | P5 | live | Messaging template review states and allowed updates/delete behavior are verified | not_run |
 | T049 | P5 | mock/live | Send/cancel/timezone/byte limits and duplicate-delivery prevention are verified in scoped tests | not_run |
 | T050 | P5 | review | All remaining remote capabilities have tested support or explicit upstream blockers | not_run |
-| T051 | P6 | CI | All examples format and validate against the built provider without real credentials | not_run |
+| T051 | P6 | CI | All examples format and validate against the built provider without real credentials | in_progress |
 | T052 | P6 | CI/review | Korean/English pages cover identical behavior and stable contract/test IDs | not_run |
 | T053 | P6 | CI | Supported OS/architecture binaries, checksums, signatures and clean Registry install pass | not_run |
 | T054 | P6 | CI/live | Previous-version state migration and dependency upgrades keep plans stable | not_run |

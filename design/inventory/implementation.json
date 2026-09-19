@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "capabilities": [
+    {
+      "terraform_type": "iwinv_availability_zones",
+      "kind": "data_source",
+      "status": "development",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/v1/zones"
+        }
+      ],
+      "live_verified": true,
+      "live_observed_on": "2026-09-19",
+      "ownership": "read_only",
+      "import": "not_applicable",
+      "evidence": [
+        "internal/provider/provider_test.go",
+        "design/en/development.md",
+        "design/ko/development.md"
+      ]
+    }
+  ]
+}

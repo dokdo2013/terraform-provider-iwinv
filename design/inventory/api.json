@@ -26,8 +26,8 @@
       "title": "Zone List",
       "source": "https://iwinv.readme.io/reference/getv1zones",
       "evidence": "documentation",
-      "implemented": false,
-      "live_verified": false,
+      "implemented": true,
+      "live_verified": true,
       "operations": [
         {
           "method": "GET",

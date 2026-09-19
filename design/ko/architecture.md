@@ -11,7 +11,7 @@
 
 Go와 Terraform Plugin Framework, 공식 scaffolding을 사용합니다. CLI 실행·MCP 호출·콘솔 스크래핑·
 `local-exec`로 Provider를 구현하지 않습니다. 지원 버전 조합은 P1에서 선정·검증합니다.
-아직 최소 Terraform 버전을 확정하지 않았으며 Action·Ephemeral은 별도 호환성 조건을 명시합니다.
+현재 개발 기준은 [ADR-0001](contract-progress.md)의 Terraform >=1.14.0입니다. Action·Ephemeral은 추가 기능별 검증을 거쳐야 합니다.
 
 ## AWS 스타일 인터페이스
 

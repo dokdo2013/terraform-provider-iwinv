@@ -1,0 +1,528 @@
+{
+  "observed_at": "2026-09-19",
+  "source": "https://cli.iwinv.kr/install/iwinv_darwin_arm64.tar.gz",
+  "version": "v0.2.2",
+  "sha256": "65d4aa06262597eebc282cb7aa7db35b6f7608633b52aa47b85c735e507fd4d2",
+  "method": "Unauthenticated --help traversal; no account configuration or cloud commands",
+  "entries": [
+    {
+      "command": "iwinv",
+      "flags": [
+        "fix",
+        "help",
+        "version"
+      ],
+      "children": [
+        "account",
+        "bill",
+        "block-storages",
+        "completion",
+        "flavors",
+        "help",
+        "images",
+        "instances",
+        "login",
+        "logout",
+        "netstat",
+        "object-storage",
+        "reinstall",
+        "ssh-keys",
+        "theme",
+        "uninstall",
+        "update",
+        "user-script",
+        "zones"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv account",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv bill",
+      "flags": [
+        "end-date",
+        "help",
+        "max-price",
+        "min-price",
+        "profile",
+        "start-date"
+      ],
+      "children": [
+        "live"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [
+        "attach",
+        "create",
+        "delete",
+        "detach",
+        "show",
+        "types"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv completion",
+      "flags": [
+        "help"
+      ],
+      "children": [
+        "bash",
+        "fish",
+        "powershell",
+        "zsh"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv flavors",
+      "flags": [
+        "help",
+        "image-id",
+        "image-type",
+        "max-disk",
+        "max-gpu",
+        "max-mem",
+        "max-vcpu",
+        "min-disk",
+        "min-gpu",
+        "min-mem",
+        "min-vcpu",
+        "page-size",
+        "profile",
+        "type",
+        "zone-id"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv images",
+      "flags": [
+        "help",
+        "name",
+        "os",
+        "page-size",
+        "profile",
+        "type",
+        "visibility",
+        "zone-id"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances",
+      "flags": [
+        "help"
+      ],
+      "children": [
+        "create",
+        "delete",
+        "edit",
+        "reboot",
+        "rebuild",
+        "resize",
+        "show",
+        "shutdown",
+        "start",
+        "vnc"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv login",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv logout",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv netstat",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage",
+      "flags": [
+        "help"
+      ],
+      "children": [
+        "auth",
+        "cp",
+        "ll",
+        "ls",
+        "mv",
+        "presign",
+        "rm"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv reinstall",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv ssh-keys",
+      "flags": [
+        "help",
+        "name",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv theme",
+      "flags": [],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv uninstall",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv update",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv user-script",
+      "flags": [
+        "help",
+        "name",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv zones",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv bill live",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages attach",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages create",
+      "flags": [
+        "description",
+        "help",
+        "instance-id",
+        "name",
+        "profile",
+        "size",
+        "type"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages delete",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages detach",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages show",
+      "flags": [
+        "help",
+        "name",
+        "profile",
+        "type",
+        "zone-id"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv block-storages types",
+      "flags": [
+        "help",
+        "profile",
+        "type"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv completion bash",
+      "flags": [
+        "help",
+        "no-descriptions",
+        "prefix"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv completion fish",
+      "flags": [
+        "help",
+        "no-descriptions"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv completion powershell",
+      "flags": [
+        "help",
+        "no-descriptions"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv completion zsh",
+      "flags": [
+        "help",
+        "no-descriptions",
+        "prefix"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances create",
+      "flags": [
+        "count",
+        "description",
+        "flavor-id",
+        "help",
+        "image-id",
+        "name",
+        "profile",
+        "ssh-key",
+        "user-script-id",
+        "zone-id"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances delete",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances edit",
+      "flags": [
+        "description",
+        "help",
+        "name",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances reboot",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances rebuild",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances resize",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances show",
+      "flags": [
+        "core-type",
+        "help",
+        "image-id",
+        "ip",
+        "max-disk",
+        "max-gpu",
+        "max-mem",
+        "max-vcpu",
+        "min-disk",
+        "min-gpu",
+        "min-mem",
+        "min-vcpu",
+        "name",
+        "page-size",
+        "profile",
+        "type",
+        "zone-id"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances shutdown",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances start",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv instances vnc",
+      "flags": [
+        "help",
+        "profile"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage auth",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage cp",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage ll",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage ls",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage mv",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage presign",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    },
+    {
+      "command": "iwinv object-storage rm",
+      "flags": [
+        "help"
+      ],
+      "children": [],
+      "exit_code": 0
+    }
+  ]
+}

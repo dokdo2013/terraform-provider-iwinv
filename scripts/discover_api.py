@@ -83,6 +83,14 @@ def main():
                      re.findall(r"^- \[([^\]]+)\]\(([^)]+)\)", page, re.M))
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         rows = list(pool.map(inspect, items))
+    # Keep implementation evidence separate from regenerable public-doc facts.
+    ledger = json.loads((ROOT / "design/inventory/implementation.json").read_text())
+    capabilities = {(op["method"], op["path"]): capability
+                    for capability in ledger["capabilities"] for op in capability["operations"]}
+    for row in rows:
+        matches = [capabilities.get((op["method"], op["path"])) for op in row["operations"]]
+        row["implemented"] = bool(matches) and all(matches)
+        row["live_verified"] = row["implemented"] and all(c["live_verified"] for c in matches)
     result = {"schema_version": 1, "observed_on": datetime.date.today().isoformat(),
               "scope": "Seven official control-plane documentation indexes; not all iwinv services.",
               "indexes": indexes, "entries": rows}

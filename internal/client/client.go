@@ -28,10 +28,30 @@ const maxResponseBytes = 2 << 20
 type Error struct {
 	Kind   string
 	Status int
+	Code   string
 }
 
 func (e *Error) Error() string {
+	if e.Code != "" {
+		if _, ok := documentedErrors[e.Code]; ok {
+			return fmt.Sprintf("iwinv API %s: %s (HTTP %d)", e.Kind, e.Code, e.Status)
+		}
+	}
 	return fmt.Sprintf("iwinv API %s (HTTP %d)", e.Kind, e.Status)
+}
+
+// Source: https://api-kr.iwinv.kr/error. Only fixed, reviewed identifiers may
+// enter diagnostics. Unknown remote code/message strings are never reflected.
+var documentedErrors = map[string]string{
+	"NOT_FOUND": "0x1", "CIDR_NOT_VALID": "0x2", "CIDR_NOT_REGISTERED": "0x3",
+	"IPV6_NOT_SUPPORTED": "0x4", "CHECK_REQUEST_IP": "0x5", "CHECK_CREDENTIAL": "0x6",
+	"CHECK_SIGNATURE": "0x7", "INVALID_SIGNATURE": "0x8", "CHECK_IP": "0x9",
+	"REQUIRED_GET_PARAM_MISSING": "0xa", "REQUIRED_POST_PARAM_MISSING": "0xb",
+	"DEV_CHECK_RETURN": "0xc", "UNAVAILABLE_FLAVOR": "0xd", "CHECK_PARAM": "0xe",
+	"CHECK_PARAM_ENUM": "0xf", "UNAVAILABLE_COMBINATION": "0x10", "CHECK_LENGTH": "0x11",
+	"UNAVAILABLE_SSH_KEY": "0x12", "DELETED_OR_WORKING_INSTANCE": "0x13",
+	"EMPTY_SET": "0x14", "IN_USE": "0x15", "ID_INVALID": "0x16",
+	"LIMIT_EXCEEDED": "0x17", "CHECK_CONSOLE": "0x18",
 }
 
 // Envelope preserves missing/null/value distinctions for service decoders.
@@ -143,9 +163,6 @@ func (c *Client) Get(ctx context.Context, path string, query url.Values) (Envelo
 		return empty, &Error{Kind: "transport"}
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode < 200 || resp.StatusCode > 202 {
-		return empty, &Error{Kind: "http_status", Status: resp.StatusCode}
-	}
 	body, err := io.ReadAll(io.LimitReader(resp.Body, maxResponseBytes+1))
 	if err != nil {
 		if ctx.Err() != nil {
@@ -166,11 +183,19 @@ func (c *Client) Get(ctx context.Context, path string, query url.Values) (Envelo
 		PageSize  json.RawMessage `json:"page_size"`
 		Total     json.RawMessage `json:"total"`
 	}
-	if err := json.Unmarshal(body, &wire); err != nil {
+	decodeErr := json.Unmarshal(body, &wire)
+	knownCode := ""
+	if expected, ok := documentedErrors[wire.ErrorCode]; decodeErr == nil && ok && expected == wire.Code {
+		knownCode = wire.ErrorCode
+	}
+	if resp.StatusCode < 200 || resp.StatusCode > 202 {
+		return empty, &Error{Kind: "http_status", Status: resp.StatusCode, Code: knownCode}
+	}
+	if decodeErr != nil {
 		return empty, &Error{Kind: "invalid_json", Status: resp.StatusCode}
 	}
 	if wire.Code != "0x00" || wire.ErrorCode != "SUCCESS" {
-		return empty, &Error{Kind: "business_error", Status: resp.StatusCode}
+		return empty, &Error{Kind: "business_error", Status: resp.StatusCode, Code: knownCode}
 	}
 	if len(wire.Result) == 0 {
 		return empty, &Error{Kind: "missing_result", Status: resp.StatusCode}
@@ -188,7 +213,7 @@ func validPath(path string) bool {
 		}
 	}
 	for _, c := range path {
-		if !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || strings.ContainsRune("/-_", c)) {
+		if !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || strings.ContainsRune("/.-_", c)) {
 			return false
 		}
 	}
