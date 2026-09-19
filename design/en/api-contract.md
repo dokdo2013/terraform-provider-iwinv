@@ -44,6 +44,7 @@ It is not a validated unified OpenAPI specification or proof that all services a
 | C30 | DBMS catalog reuses product IDs across versions and has available rows with empty creation IDs; create has no version selector | Preserve rows without inventing IDs/version controls, reject empty-ID creates, expose version as observed, and follow [DBMS lifecycle decisions](dbms-lifecycle.md) |
 | C31 | Cache Lite catalog reports SHARE but creation/service spec.type reports SINGLE; coming-soon product IDs can be null | Preserve observed labels/null IDs without inventing selectors or asserting isolation; see [cache design](cache-lifecycle.md) |
 | C32 | Billing docs describe total count/integer page fields; live lists have page-local count/string page fields and endpoint-specific empty results; detail returns CHECK_IP while reads succeed | Preserve exact money and date text, exclude payment/receipt fields, validate pagination and filters, and keep detail/timezone gaps explicit in [billing contracts](billing-contract.md) |
+| C33 | One created cache_lite service links to the documented image manager; account login works but a separate data API key is absent | [Cache data API](cache-data-api.md): verify key/token authentication, identity, encoding and image/folder lifecycle before registration; T079 remains in progress |
 
 Sources: [API request](https://iwinv-common.readme.io/reference/api-request),
 [response](https://iwinv-common.readme.io/reference/api-response),

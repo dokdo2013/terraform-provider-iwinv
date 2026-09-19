@@ -1001,6 +1001,21 @@
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"
       ]
+    },
+    {
+      "id": "T079",
+      "phase": "P5",
+      "method": "live",
+      "expected_en": "An owned cache fixture verifies product-to-manager mapping, separate API-key/token authentication, image/folder read-write and cleanup without mixing control-plane credentials or claiming unsupported products",
+      "expected_ko": "소유한 캐시 fixture로 상품·관리페이지 연결, 별도 API 키·토큰 인증, 이미지·폴더 읽기·쓰기와 정리를 검증하고 control-plane 키나 미지원 상품을 혼동하지 않는다",
+      "status": "in_progress",
+      "evidence": [
+        "design/en/cache-data-api.md",
+        "design/ko/cache-data-api.md",
+        "design/inventory/service-operations.json",
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     }
   ]
 }

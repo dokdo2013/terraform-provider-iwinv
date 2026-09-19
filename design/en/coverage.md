@@ -76,3 +76,5 @@ Numerator for support is released-and-tested capabilities, never number of docum
 Record explicit G blockers in the denominator; report local-tool exclusions separately.
 Each new service family requires discovery, lifecycle/ownership ADR, credentials, error taxonomy, tests and both languages.
 Refresh inventories manually and review diffs before updating coverage claims.
+
+Cache service API bootstrap observations and the remaining C33/T079 authentication/lifecycle gates are recorded in the [cache data API preparation](cache-data-api.md). Service creation or manager login does not mark any data operation implemented or live-verified.

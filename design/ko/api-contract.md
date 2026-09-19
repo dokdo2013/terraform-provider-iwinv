@@ -44,6 +44,7 @@
 | C30 | DBMS 카탈로그는 버전 간 상품 ID를 재사용하고 available인데 생성 ID가 빈 행도 있으며 생성에는 버전 선택값이 없음 | ID/버전 선택값을 만들지 않고 행을 보존하며 빈 ID 생성은 거부하고 버전을 관측값으로 처리. [DBMS 수명주기 결정](dbms-lifecycle.md) 참고 |
 | C31 | Cache Lite 카탈로그는 SHARE인데 생성/서비스 spec.type은 SINGLE이며 coming-soon 상품 ID는 null일 수 있음 | 관측 표기와 null ID를 보존하고 격리 수준이나 생성 선택값을 추측하지 않음. [캐시 설계](cache-lifecycle.md) 참고 |
 | C32 | 청구 문서의 전체 count·정수 페이지와 달리 실측은 페이지별 count·문자열 페이지이며 빈 결과도 경로별로 다르고 상세는 CHECK_IP로 거절 | 정확한 금액·날짜 원문 보존, 결제수단·문서 링크 제외, 페이지·필터 검증과 상세·시간대 공백을 [청구 계약](billing-contract.md)에 명시 |
+| C33 | 신규 cache_lite가 문서의 이미지 매니저로 연결되고 계정 로그인은 성공했지만 별도 데이터 API 키는 없음 | [캐시 데이터 API](cache-data-api.md): 등록 전에 키·토큰 인증, 식별자, 인코딩, 이미지·폴더 수명주기를 검증하며 T079는 진행 중 |
 
 출처: [요청](https://iwinv-common.readme.io/reference/api-request),
 [응답](https://iwinv-common.readme.io/reference/api-response),

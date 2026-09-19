@@ -23,6 +23,7 @@ This project is not an official SMILESERV/iwinv product or support channel.
 | [User experience and architecture](design/en/architecture.md) | AWS mapping, schemas, state, authentication, errors |
 | [Hosting lifecycle design](design/en/webhosting-lifecycle.md) | Account reuse restriction, password/import/replacement policies; SHARE PHP 8.4 live-tested |
 | [Cache lifecycle decisions](design/en/cache-lifecycle.md) | Nested password input, referrer-set replacement, busy errors and cleanup; Terraform import/replacement/write-only verification |
+| [Cache data API preparation](design/en/cache-data-api.md) | Product-to-manager mapping, separate key authentication and image/folder verification plan |
 | [NAS lifecycle decisions](design/en/nas-lifecycle.md) | Whole RO/RW map, import without share history, capacity replacement and cleanup |
 | [DBMS lifecycle decisions](design/en/dbms-lifecycle.md) | Authoritative allowlists, account history, product ambiguity, import and recovery |
 | [Billing read contracts](design/en/billing-contract.md) | Exact money, dates, pagination and sensitive state; current/list data sources and detail access gap |
