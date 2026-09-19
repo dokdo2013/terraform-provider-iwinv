@@ -22,7 +22,7 @@ The API can update direction, so an observed direction change is reflected in st
 An empty/omitted description on create is returned as API null and represented as an empty Terraform string.
 Empty and null description updates preserve existing text, so clearing an existing description requires destroy and recreate.
 Changing `security_group_id` also requires replacement. An unknown new description with a nonempty prior value conservatively plans replacement.
-These replacements can create a filtering gap. Review them before applying and use `prevent_destroy` where a gap is unacceptable.
+These replacements can create a filtering gap. Review them before applying and use `prevent_destroy` where a gap is unacceptable. This guard exists only while its resource block remains in configuration; removing that block or deleting through the console/API is not prevented. See its [documented scope](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy).
 Do not assume `create_before_destroy` will work: the API rejects exact duplicate rules, and the provider does not adopt an existing rule after that error.
 Creating another rule is never an automatic retry of a failed request.
 

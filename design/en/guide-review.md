@@ -2,7 +2,7 @@
 
 [한국어](../ko/guide-review.md) · [Documentation policy](documentation.md)
 
-On 2026-09-19, the English and Korean feature guides for the 18 registered data sources and seven resources were reviewed against the implementation at `fb654c3406e697b0b7d0a0289ff3e3cbbbcec9a8`. The review covered the topics below: supported inputs, identity, collection ownership, update/replacement, import, empty results and failure recovery. This is a manual, scoped review, not a proof of every statement or a new live acceptance run. The correction commit containing this document changes guidance and one diagnostic, not validators, schemas or remote behavior.
+On 2026-09-19, the English and Korean feature guides for the 18 registered data sources and seven resources were reviewed against the implementation at `fb654c3406e697b0b7d0a0289ff3e3cbbbcec9a8`. The review covered the topics below: supported inputs, identity, collection ownership, update/replacement, import, empty results and failure recovery. This is a manual, scoped review, not a proof of every statement or a new live acceptance run. The corrections from this review change guidance and one diagnostic, not validators, schemas or remote behavior.
 
 ## Corrections
 
@@ -35,10 +35,22 @@ All names below have the `iwinv_` prefix. Each entry covers both `docs/` and the
 | `content_cache` | Authoritative referrers, empty-clear/unknown replacement, write-only password trigger, narrowly classified busy retry and retained identity. | [Resource](../../internal/provider/content_cache_resource.go), [adapter](../../internal/services/hosted/cache.go) |
 | `shared_storage` | Nonempty IPv4→RO/RW map, share-name history, capacity replacement, pre-update parent check and no automatic write retry. | [Resource](../../internal/provider/shared_storage_resource.go), [adapter](../../internal/services/hosted/nas.go) |
 
+## Provider introduction and shared guides
+
+A follow-up review against `5fdf4f856bd2988c169e4d29722049a3b14407e7` covers the remaining three page pairs, completing the current 28-page-per-language review inventory:
+
+| Page pair | Topics compared | Evidence |
+| --- | --- | --- |
+| Provider introduction | Environment/config precedence, independent alias clients, fixed endpoint, no CLI-profile login, development override, sensitive values, supported scope and request timing. | [Provider configuration](../../internal/provider/provider.go), [client](../../internal/client/client.go), [configuration tests](../../internal/provider/provider_test.go), [development procedure](development.md) |
+| Security-group rule guide | One-rule ownership, direction restoration, description/parent replacement, full rule-list validation, parent-first absence checks, failed-write state, exact live-test opt-in and journal requirements. | [Rule adapter](../../internal/services/network/rules.go), [resource](../../internal/provider/security_group_rule_resource.go), [private-journal live harness](../../internal/provider/security_group_rule_live_test.go) |
+| Generated schema reference | Required/optional/computed versus conditional requirements, inherited sensitivity, write-only scope, numeric type versus implementation integer bounds, schema version versus release version. | [Reference generator](../../scripts/check_intro_docs.py), runtime schema comparison in the same script |
+
+The introduction now distinguishes a 30-second HTTP attempt from resource-operation deadlines and per-configuration one-second admission pacing from an account quota. It also links both unsigned and disposable-key signing rehearsals, without claiming Registry trust. Credential whitespace/line-break constraints match the client. The shared rule guide states the configuration-only scope of `prevent_destroy`, consistent with the [official lifecycle reference](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy). No new schema flags, timeout settings, retries or cloud operations are introduced.
+
 ## Evidence boundaries and remaining work
 
 The existing adapter and Terraform Core tests provide executable evidence for these behaviors; the manual review does not replace them. In particular, [webhosting validation tests](../../internal/services/hosted/webhosting_test.go) already reject a password containing a space before any request and check that diagnostics do not contain either password. [Security-group data-source tests](../../internal/provider/security_group_data_source_test.go) distinguish list/detail, unknown input, invalid/missing IDs and API failures. No new cloud resource was needed for these corrections.
 
-T052 remains `in_progress`. The provider introduction and shared guides need a separate narrative review; published Registry navigation, version-specific destinations and a bilingual documentation site remain release work. The six changed feature pages were rechecked in the official Registry body preview: their headings and correction text were visible, frontmatter was hidden, and all six tables rendered. Only those six [page records](../inventory/doc-preview.json) were updated with the observed content hashes and recheck date; the other records retain their earlier evidence. T080 continues to cover structural/schema/example checks only.
+T052 remains `in_progress`. The current provider introduction, shared guides and feature pages have the scoped reviews above; published Registry navigation, version-specific destinations and a bilingual documentation site remain release work. Future behavior or guide changes require renewed review. The six changed feature pages were rechecked in the official Registry body preview: their headings and correction text were visible, frontmatter was hidden, and all six tables rendered. The follow-up introduction/rule-guide changes were also previewed in all four pages: headings and added text appeared, frontmatter was hidden, and the four expected tables rendered. The ten affected [page records](../inventory/doc-preview.json) carry their observed content hashes and recheck date; unchanged pages retain their earlier evidence. T080 continues to cover structural/schema/example checks only.
 
 Control-plane acceptance does not establish packet filtering, database/file access, pricing or billing termination. Existing product-specific live limits, the unresolved webmail cleanup and the unconsented OAuth registration cleanup remain unchanged. Compute adapters are still unregistered candidates; these guide corrections do not add a usable instance resource or a Registry release.

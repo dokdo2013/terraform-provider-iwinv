@@ -35,7 +35,7 @@ python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/pat
 python3 scripts/check_intro_docs.py --provider-dir bin --terraform /absolute/path/to/terraform
 ```
 
-Use an actual Terraform executable, not a home-dependent version-manager wrapper. CI checks without regenerating on Terraform 1.14.0 and 1.14.2. T080 covers this structural/example verification. The [feature-guide behavior review](guide-review.md) records a scoped bilingual review of the 25 registered capabilities and its corrections. T052 still requires narrative review of the introduction/shared guides and published Registry navigation checks; generated tables do not prove default, validator, plan-modifier or live API behavior. A bilingual documentation site and Registry publication remain release work.
+Use an actual Terraform executable, not a home-dependent version-manager wrapper. CI checks without regenerating on Terraform 1.14.0 and 1.14.2. T080 covers this structural/example verification. The [feature-guide behavior review](guide-review.md) records scoped bilingual reviews of the 25 registered capabilities, provider introduction and shared guides, with corrections. T052 still requires published Registry navigation/version-link checks; generated tables do not prove default, validator, plan-modifier or live API behavior. A bilingual documentation site and Registry publication remain release work.
 
 ### Official Registry format validation
 

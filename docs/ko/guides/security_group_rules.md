@@ -22,7 +22,7 @@ API가 방향 수정을 지원하므로 관측한 방향 차이를 state에 반�
 생성 시 빈 설명/생략한 설명은 API null로 반환되며 Terraform 빈 문자열로 표현합니다.
 빈 값과 null로 설명을 수정하면 기존 값이 유지되므로 기존 설명을 비우려면 삭제 후 다시 생성해야 합니다.
 `security_group_id` 변경도 교체입니다. 기존 설명이 비어 있지 않은데 새 값이 unknown이면 교체를 보수적으로 계획합니다.
-교체 중 필터링 공백이 생길 수 있습니다. 적용 전에 검토하고 공백을 허용할 수 없으면 `prevent_destroy`를 사용하세요.
+교체 중 필터링 공백이 생길 수 있습니다. 적용 전에 검토하고 공백을 허용할 수 없으면 `prevent_destroy`를 사용하세요. 이 보호는 해당 리소스 블록이 설정에 남아 있는 동안만 적용되며 블록 제거와 콘솔·API 삭제를 막지 않습니다. [문서화된 범위](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy)를 확인하세요.
 `create_before_destroy`가 성공한다고 가정하지 마세요. API가 완전히 같은 규칙의 중복 생성을 거부하며 Provider는 이 오류 후 기존 규칙을 채택하지 않습니다.
 다른 규칙을 생성하는 것은 실패한 요청의 자동 재시도가 아닙니다.
 

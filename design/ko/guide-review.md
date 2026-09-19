@@ -2,7 +2,7 @@
 
 [English](../en/guide-review.md) · [문서 정책](documentation.md)
 
-2026-09-19 등록된 Data Source 18개와 리소스 7개의 한국어·영어 기능 가이드를 `fb654c3406e697b0b7d0a0289ff3e3cbbbcec9a8` 구현과 대조했습니다. 검토 범위는 아래 표의 지원 입력, 식별자, 전체 목록 소유권, 수정·교체, import, 빈 결과와 실패 복구입니다. 범위를 정한 수동 검토이며 모든 문장의 증명이나 새로운 실환경 acceptance 실행은 아닙니다. 이 문서가 포함된 수정 커밋은 안내와 오류 메시지 하나를 바꾸며 검증기·스키마·원격 동작은 바꾸지 않습니다.
+2026-09-19 등록된 Data Source 18개와 리소스 7개의 한국어·영어 기능 가이드를 `fb654c3406e697b0b7d0a0289ff3e3cbbbcec9a8` 구현과 대조했습니다. 검토 범위는 아래 표의 지원 입력, 식별자, 전체 목록 소유권, 수정·교체, import, 빈 결과와 실패 복구입니다. 범위를 정한 수동 검토이며 모든 문장의 증명이나 새로운 실환경 acceptance 실행은 아닙니다. 이 검토의 수정은 안내와 오류 메시지 하나를 바꾸며 검증기·스키마·원격 동작은 바꾸지 않습니다.
 
 ## 수정 사항
 
@@ -35,10 +35,22 @@
 | `content_cache` | 전체 리퍼러 소유, 빈 목록·unknown의 교체, write-only 비밀번호 트리거, 한정된 busy 재시도, 식별자 유지. | [리소스](../../internal/provider/content_cache_resource.go), [어댑터](../../internal/services/hosted/cache.go) |
 | `shared_storage` | 비어 있지 않은 IPv4→RO/RW 맵, 공유 이름 이력, 용량 교체, 수정 전 부모 대조, 자동 쓰기 재시도 없음. | [리소스](../../internal/provider/shared_storage_resource.go), [어댑터](../../internal/services/hosted/nas.go) |
 
+## Provider 소개와 공통 가이드
+
+후속 검토는 `5fdf4f856bd2988c169e4d29722049a3b14407e7` 구현과 남은 페이지 쌍 세 개를 대조하여 현재 언어별 28페이지의 검토 목록을 채웠습니다.
+
+| 페이지 쌍 | 대조 항목 | 근거 |
+| --- | --- | --- |
+| Provider 소개 | 환경변수·설정 우선순위, alias별 독립 클라이언트, 고정 endpoint, CLI profile 로그인 미사용, 개발 override, 민감 값, 지원 범위와 요청 시간. | [Provider 설정](../../internal/provider/provider.go), [클라이언트](../../internal/client/client.go), [설정 테스트](../../internal/provider/provider_test.go), [개발 절차](development.md) |
+| 보안 그룹 규칙 가이드 | 규칙 하나의 소유권, 방향 복원, 설명·부모 교체, 전체 규칙 목록 검증, 부모 우선 부재 판정, 쓰기 실패 state, 실제 테스트 opt-in과 정리 대장 조건. | [규칙 어댑터](../../internal/services/network/rules.go), [리소스](../../internal/provider/security_group_rule_resource.go), [비공개 대장 실환경 실행기](../../internal/provider/security_group_rule_live_test.go) |
+| 생성 스키마 참조 | 필수·선택·계산과 조건부 필수의 차이, 상속 민감 표시, 쓰기 전용 범위, number 타입과 구현 정수 범위, 스키마 버전과 릴리스 버전 구분. | [참조 생성기](../../scripts/check_intro_docs.py)와 같은 스크립트의 실행 스키마 비교 |
+
+소개에 30초 HTTP 요청 제한과 리소스 전체 작업 시간, 설정별 1초 요청 간격과 계정 quota의 차이를 추가했습니다. 서명 없는 설치와 일회용 키 서명 검증을 모두 연결하되 Registry 신뢰 검증으로 설명하지 않습니다. 키의 공백·줄바꿈 조건도 클라이언트와 맞췄습니다. 공통 규칙 가이드에는 [공식 lifecycle 문서](https://developer.hashicorp.com/terraform/language/meta-arguments/lifecycle#prevent_destroy)에 따라 `prevent_destroy`가 설정에만 적용됨을 명시합니다. 새 스키마 표시·timeout 설정·재시도·클라우드 작업은 추가하지 않습니다.
+
 ## 검증의 범위와 남은 작업
 
 기존 어댑터·Terraform Core 테스트가 동작의 실행 근거이며 수동 검토가 이를 대신하지 않습니다. 특히 [웹호스팅 입력 테스트](../../internal/services/hosted/webhosting_test.go)는 공백 포함 비밀번호를 요청 전에 거절하고 두 비밀번호가 진단에 포함되지 않는지 이미 검사합니다. [보안 그룹 Data Source 테스트](../../internal/provider/security_group_data_source_test.go)는 목록·상세, unknown 입력, 잘못된/없는 ID와 API 오류를 구분합니다. 이번 수정에는 새 클라우드 리소스가 필요하지 않았습니다.
 
-T052는 `in_progress`로 유지합니다. Provider 소개와 공통 가이드는 설명의 별도 검토가 필요하며 실제 게시된 Registry 이동, 버전별 목적지와 양언어 사이트도 출시 작업입니다. 바뀐 기능 페이지 6개는 공식 Registry 본문 미리보기에서 다시 확인했습니다. 제목과 수정 문구가 표시되고 머리말은 숨겨졌으며 표 6개가 모두 렌더링됐습니다. 해당 여섯 [페이지 기록](../inventory/doc-preview.json)만 관측한 내용 해시와 재검증 날짜로 갱신했고 나머지는 이전 근거를 유지합니다. T080은 계속 구조·스키마·예제 검사만 다룹니다.
+T052는 `in_progress`로 유지합니다. 현재 Provider 소개·공통 가이드·기능 페이지는 위 범위로 검토했으며 실제 게시된 Registry 이동, 버전별 목적지와 양언어 사이트는 출시 작업입니다. 앞으로 동작이나 설명을 변경하면 다시 검토해야 합니다. 바뀐 기능 페이지 6개는 공식 Registry 본문 미리보기에서 다시 확인했습니다. 제목과 수정 문구가 표시되고 머리말은 숨겨졌으며 표 6개가 모두 렌더링됐습니다. 후속 소개·규칙 가이드 수정도 네 페이지 모두 미리봤습니다. 제목·추가 문구가 보이고 머리말은 숨겨졌으며 예상 표 4개가 렌더링됐습니다. 바뀐 열 [페이지 기록](../inventory/doc-preview.json)에 관측한 내용 해시와 재검증 날짜를 기록하고 변경 없는 페이지는 이전 근거를 유지합니다. T080은 계속 구조·스키마·예제 검사만 다룹니다.
 
 제어 API acceptance가 패킷 필터링·DB/파일 접속·가격·과금 종료까지 입증하지는 않습니다. 상품별 실환경 한계, 미해결 웹메일 정리와 미동의 OAuth 등록 정리도 그대로 남습니다. Compute 어댑터는 아직 미등록 후보이며 이번 가이드 수정으로 사용 가능한 인스턴스 리소스나 Registry 릴리스가 추가되지 않습니다.

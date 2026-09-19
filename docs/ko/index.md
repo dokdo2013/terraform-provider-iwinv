@@ -35,7 +35,7 @@ output "zone_ids" {
 
 비공개 환경변수나 비밀정보 관리자를 통해 `IWINV_ACCESS_KEY`, `IWINV_SECRET_KEY`를 주입하세요. 콘솔 로그인·SSH·S3 키·MCP OAuth 토큰과 별개인 control-plane API 키입니다. 실제 키를 `.tf`·예제·셸 기록·이슈에 붙여넣지 마세요. 키의 허용 IP가 Terraform 실행 환경의 출발 IP와 맞아야 합니다. Provider는 고정 HTTPS endpoint `https://api-kr.iwinv.kr`에 TLS 검증으로 연결하며 CLI profile을 읽거나 대화형 로그인하지 않습니다.
 
-개발 override를 설정한 뒤 `terraform validate`, `terraform plan` 순서로 실행하세요. validate에는 키가 필요 없고 plan의 실제 조회에는 키가 필요합니다. 이 override 설치 방식에서는 Registry `init`을 생략합니다. 별도의 서명 없는 filesystem mirror 설치 검증은 [릴리스 준비](../../design/ko/release-readiness.md)에 있습니다. 두 방식 모두 서명된 Registry 설치를 검증한 것은 아닙니다.
+개발 override를 설정한 뒤 `terraform validate`, `terraform plan` 순서로 실행하세요. validate에는 키가 필요 없고 plan의 실제 조회에는 키가 필요합니다. 이 override 설치 방식에서는 Registry `init`을 생략합니다. [릴리스 준비](../../design/ko/release-readiness.md)에는 서명 없는 filesystem mirror 설치와 일회용 테스트 키의 서명을 검증한 뒤 mirror로 설치하는 절차가 있습니다. 후자는 산출물 서명을 별도로 검사하며 Terraform의 mirror 설치가 GPG 서명을 인증하는 것은 아닙니다. 두 검증 모두 운영 서명키의 신뢰나 서명된 Registry 설치를 확인한 것은 아닙니다.
 
 ## 설정 인자
 
@@ -44,9 +44,17 @@ output "zone_ids" {
 | `access_key` | optional, sensitive string | 명시한 값이 `IWINV_ACCESS_KEY`보다 우선합니다. 생략/null이면 환경변수를 사용합니다. |
 | `secret_key` | optional, sensitive string | 명시한 값이 `IWINV_SECRET_KEY`보다 우선합니다. 생략/null이면 환경변수를 사용합니다. |
 
-Provider 구성 시 두 값이 모두 알려져 있고 비어 있지 않아야 합니다. 명시적인 빈 값이나 unknown은 오류이며 다른 계정의 환경변수로 전환하지 않습니다. 두 인자를 각각 해석하므로 다른 계정의 alias를 사용할 때는 의도한 같은 계정의 키 **두 개 모두** 지정하세요. Terraform 표준 `alias`, `provider = iwinv.alias_name`으로 설정을 선택할 수 있습니다. `region`, endpoint override, `profile`, `default_tags` 설정은 구현하지 않았습니다.
+Provider 구성 시 두 값이 모두 알려져 있고 공백 외 문자가 있어야 하며 줄바꿈을 포함하면 안 됩니다. 입력을 그대로 사용하므로 앞뒤 공백을 자동으로 제거하지 않습니다. 명시적인 빈 값이나 unknown은 오류이며 다른 계정의 환경변수로 전환하지 않습니다. 두 인자를 각각 해석하므로 다른 계정의 alias를 사용할 때는 의도한 같은 계정의 키 **두 개 모두** 지정하세요. Terraform 표준 `alias`, `provider = iwinv.alias_name`으로 설정을 선택할 수 있습니다. `region`, endpoint override, `profile`, `default_tags` 설정은 구현하지 않았습니다.
 
 `Sensitive`는 일반 CLI 표시를 가리는 기능이며 암호화가 아닙니다. 임의의 Terraform 변수·출력·저장 plan을 공개해도 안전하다는 뜻도 아닙니다. 키는 환경변수 주입을 권장합니다. 리소스 비밀번호와 청구 state의 민감정보 정책은 해당 문서를 확인하세요.
+
+## 요청 간격·시간 제한·복구
+
+클라이언트는 조회와 폴링을 포함해 **Provider 설정 하나당** 요청 시작을 1초 간격으로 조절합니다. 이는 로컬 정책이며 검증된 계정 전체 quota가 아닙니다. 같은 계정을 쓰더라도 alias와 별도 Terraform 프로세스는 독립 클라이언트입니다. 동시 실행을 조율하세요. alias를 추가한다고 계정의 허용 API 호출량이 늘어나지는 않습니다.
+
+각 HTTP 요청에는 고정 30초 제한이 있습니다. 리소스의 `timeouts`는 요청 차례 대기·HTTP 호출·반영 확인 폴링을 포함한 전체 작업을 제한합니다. 현재 리소스 기본값은 `read = "1m"`, `create`/`update`/`delete = "5m"`입니다. 리소스 제한을 늘려도 개별 HTTP 요청의 30초 제한은 늘어나지 않습니다. Data Source의 카탈로그 순회는 여러 번 요청할 수 있고 설정 가능한 `timeouts` 블록이 없으므로 HTTP 제한을 전체 조회의 제한 시간으로 해석하면 안 됩니다.
+
+공통 전송 계층은 HTTP/API 오류·redirect·결과가 불확실한 쓰기를 자동 재시도하지 않습니다. [캐시 리소스](resources/content_cache.md)에는 검증된 작업중 거절 응답에 한정한 예외가 있으므로 해당 복구 규칙을 확인하세요. timeout이나 apply 중단은 iwinv가 이미 접수한 요청을 되돌리지 않습니다. state를 보존하고 정확한 리소스를 확인한 뒤 다시 적용하세요. 시간이 초과됐다는 이유만으로 state를 지우거나 생성을 반복하지 마세요.
 
 ## 필요한 기능 찾기
 

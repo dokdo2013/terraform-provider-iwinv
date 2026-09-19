@@ -35,7 +35,7 @@ output "zone_ids" {
 
 Provide `IWINV_ACCESS_KEY` and `IWINV_SECRET_KEY` through your private environment or secret manager. They are control-plane API credentials, not console login credentials, SSH keys, S3 keys or MCP OAuth tokens. Do not paste real keys into `.tf` files, examples, shell history or issue reports. Keep the key's allowed source IP consistent with the machine running Terraform. The provider uses the fixed HTTPS endpoint `https://api-kr.iwinv.kr`, verifies TLS and does not read CLI profiles or perform interactive login.
 
-With a development override configured, run `terraform validate` and then `terraform plan`. Validation requires no API credentials; reading data during plan does. The override setup deliberately skips Registry `init`. A separate unsigned filesystem-mirror installation rehearsal is described in [release preparation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/release-readiness.md). Neither method proves a signed Registry installation.
+With a development override configured, run `terraform validate` and then `terraform plan`. Validation requires no API credentials; reading data during plan does. The override setup deliberately skips Registry `init`. [Release preparation](https://github.com/dokdo2013/terraform-provider-iwinv/blob/main/design/en/release-readiness.md) describes both unsigned filesystem-mirror installation and signature verification with a disposable test key followed by mirror installation. The latter checks the artifact signature separately; Terraform does not authenticate that GPG signature during mirror installation. Neither rehearsal establishes production signing-key trust or a signed Registry installation.
 
 ## Argument Reference
 
@@ -44,9 +44,17 @@ With a development override configured, run `terraform validate` and then `terra
 | `access_key` | optional, sensitive string | Explicit value takes precedence over `IWINV_ACCESS_KEY`. Omitted/null uses that environment variable. |
 | `secret_key` | optional, sensitive string | Explicit value takes precedence over `IWINV_SECRET_KEY`. Omitted/null uses that environment variable. |
 
-Both resolved values must be non-empty and known when configuring the provider. An explicit empty or unknown value is an error, not a fallback to a different account. Each field resolves independently: when using an alias for another account, provide **both** values from the same intended account. Terraform's standard `alias` and `provider = iwinv.alias_name` select a provider configuration; no `region`, endpoint override, `profile` or `default_tags` setting is implemented.
+Both resolved values must be known, contain a non-whitespace character and contain no line breaks when configuring the provider. Values are sent as supplied; surrounding spaces are not trimmed. An explicit empty or unknown value is an error, not a fallback to a different account. Each field resolves independently: when using an alias for another account, provide **both** values from the same intended account. Terraform's standard `alias` and `provider = iwinv.alias_name` select a provider configuration; no `region`, endpoint override, `profile` or `default_tags` setting is implemented.
 
 `Sensitive` hides ordinary CLI display; it is not encryption and does not make arbitrary Terraform variables, outputs or saved plans safe to share. Prefer environment injection. Resource password handling and billing-state sensitivity are documented on their individual pages.
+
+## Request timing and recovery
+
+The client spaces request admission by one second **per provider configuration**, including reads and polling. This is a local pacing policy, not a verified account-wide quota. Aliases and separate Terraform processes have independent clients, even when they use the same account. Coordinate concurrent runs; adding aliases does not increase the account's allowed API rate.
+
+Each HTTP attempt has a fixed 30-second timeout. Resource `timeouts` instead bound the whole operation, including request admission, HTTP calls and convergence polling: the current resources default to `read = "1m"` and `create`/`update`/`delete = "5m"`. A longer resource timeout does not lengthen the 30-second HTTP attempt. Data-source catalog traversal can make many requests and has no configurable `timeouts` block, so the HTTP timeout is not a total read deadline.
+
+The shared transport does not automatically retry HTTP/API errors, redirects or uncertain writes. The [cache resource](resources/content_cache.md) has a narrowly scoped exception for a verified rejected-busy response; consult its recovery rules. A timeout or interrupted apply does not roll back a request already accepted by iwinv. Keep the state and inspect the exact resource before applying again; do not clear state or repeat creation simply because a request timed out.
 
 ## Find the right data source or resource
 

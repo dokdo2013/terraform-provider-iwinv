@@ -5,11 +5,13 @@
   "pages": [
     {
       "path": "docs/index.md",
-      "sha256": "421a25a9acddd2c869f1806b85d5b560032fea3d5327e2fdbfbeb5c8e180d8ba",
+      "sha256": "aadeb9ce7722768d3853c16797e9888bf209fe8a3576c6547a63404313b6772d",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 2,
-      "source_tables": 2
+      "source_tables": 2,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/data-sources/availability_zones.md",
@@ -227,19 +229,23 @@
     },
     {
       "path": "docs/guides/security_group_rules.md",
-      "sha256": "ec8b1ac1d592c94e9712776b18f1688577ed415b959ca760a4e89b129ae9ad26",
+      "sha256": "baba0bf1326534fa1b65559e6485b5d4feec066242fd8565bfd1d8eaa5dafda5",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 0,
-      "source_tables": 0
+      "source_tables": 0,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/ko/index.md",
-      "sha256": "18a616c1b145b0d7e3e753f65772fbb8c9ce12a33e91e22e0d6af95ba598a745",
+      "sha256": "6ba77e4da136a2df772b1094150e36a01dfca7ee637303170b3e8a94695e3bab",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 2,
-      "source_tables": 2
+      "source_tables": 2,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     },
     {
       "path": "docs/ko/data-sources/availability_zones.md",
@@ -457,11 +463,13 @@
     },
     {
       "path": "docs/ko/guides/security_group_rules.md",
-      "sha256": "52fa125b37c49d5d0ac6fbbdb5d51d1a624c733c8b31a8f234fb3c385eb935c4",
+      "sha256": "9f5e908fabbb6612593d049ca85c3726c37221935b2c0876196f43dd405cc921",
       "heading_visible": true,
       "frontmatter_hidden": true,
       "rendered_tables": 0,
-      "source_tables": 0
+      "source_tables": 0,
+      "correction_visible": true,
+      "rechecked_date": "2026-09-19"
     }
   ]
 }
