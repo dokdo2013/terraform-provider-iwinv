@@ -59,7 +59,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T004 | P1 | mock/live-read | HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다 | in_progress |
 | T005 | P1 | mock/live-read | 작업별 JSON/form/multipart 인코딩을 확인한다 | in_progress |
 | T006 | P1 | mock/live-read | 모든 ID를 중복 없이 조회하고 올바른 조건에서 페이지를 종료한다 | in_progress |
-| T007 | P1 | live-read | 계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다 | not_run |
+| T007 | P1 | live-read | 계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다 | in_progress |
 | T008 | P1 | mock/live-read | 상세 필드 마스크가 필요한 값만 가져오고 비밀번호/콘솔 토큰을 제외한다 | not_run |
 | T009 | P1 | mock/live-read | 누락/null/빈 값과 중첩 배열/객체를 정확히 구분한다 | in_progress |
 | T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | in_progress |

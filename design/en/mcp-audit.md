@@ -63,6 +63,8 @@ Tool/property names can themselves contain private information, so manually revi
 idempotency or permission from a tool name or annotation. The script performs no network requests or tool calls and does not write an
 inventory file automatically. Synthetic pagination, exclusion and failure tests run in the documentation CI without live credentials.
 
+A later same-day reconciliation of the exact returned management URI still returned HTTP 200 and the same registered client. No new client, grant or token was created. The private support draft now includes the registration cleanup issue; it has not been submitted. See the [execution record](contract-progress.md).
+
 ## Remaining work
 
 1. Resolve and verify temporary client registration cleanup.

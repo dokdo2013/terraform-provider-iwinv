@@ -33,5 +33,14 @@
     "Registered client management DELETE did not establish cleanup. No additional clients or grants were created.",
     "No tools/call, cloud mutation, mail send or DNS change was performed.",
     "Client IDs, management credentials, authorization URLs and private responses are excluded."
-  ]
+  ],
+  "latest_registration_reconciliation": {
+    "observed_on": "2026-09-19",
+    "method": "GET",
+    "http": 200,
+    "same_registered_client": true,
+    "cleanup_confirmed": false,
+    "new_grants": 0,
+    "new_registrations": 0
+  }
 }

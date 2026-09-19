@@ -63,7 +63,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T004 | P1 | mock/live-read | HTTP and business errors are both checked without masking unknown codes | in_progress |
 | T005 | P1 | mock/live-read | JSON, form and multipart encoding are proven per operation | in_progress |
 | T006 | P1 | mock/live-read | Pagination returns every ID once and terminates on documented conditions | in_progress |
-| T007 | P1 | live-read | Account inventory and supported-zone visibility agree with console evidence | not_run |
+| T007 | P1 | live-read | Account inventory and supported-zone visibility agree with console evidence | in_progress |
 | T008 | P1 | mock/live-read | Detail fields mask returns required fields without passwords or console tokens | not_run |
 | T009 | P1 | mock/live-read | Null, missing, empty and nested array/object shapes decode correctly | in_progress |
 | T010 | P1 | mock/live-read | Single lookups reject zero or multiple matches; filters cannot select arbitrary first item | in_progress |

@@ -96,8 +96,11 @@
       "method": "live-read",
       "expected_en": "Account inventory and supported-zone visibility agree with console evidence",
       "expected_ko": "계정 목록과 지원 존의 서버 노출이 콘솔 근거와 일치한다",
-      "status": "not_run",
-      "evidence": []
+      "status": "in_progress",
+      "evidence": [
+        "design/en/contract-progress.md",
+        "design/ko/contract-progress.md"
+      ]
     },
     {
       "id": "T008",
