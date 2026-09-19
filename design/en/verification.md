@@ -69,7 +69,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T010 | P1 | mock/live-read | Single lookups reject zero or multiple matches; filters cannot select arbitrary first item | not_run |
 | T011 | P1 | mock/live-read | Provider aliases isolate auth, endpoints and cached data | passed |
 | T012 | P1 | mock | Credentials never follow cross-host redirects or enter diagnostics | passed |
-| T013 | P1 | review | Version ADR defines tested Go/Terraform/Framework combinations and feature gates | in_progress |
+| T013 | P1 | review | Version ADR defines tested Go/Terraform/Framework combinations and feature gates | passed |
 | T014 | P1 | review | Remaining service APIs, CLI flags and authenticated MCP tools are enumerated with gaps | in_progress |
 | T015 | P2 | live | Create returns exactly one stable ID and state preserves it during subsequent failures | failed |
 | T016 | P2 | mock/live | Waiters handle building/pending/work/active/off/error with deadline and cancellation | not_run |
@@ -107,7 +107,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 | T048 | P5 | live | Messaging template review states and allowed updates/delete behavior are verified | not_run |
 | T049 | P5 | mock/live | Send/cancel/timezone/byte limits and duplicate-delivery prevention are verified in scoped tests | not_run |
 | T050 | P5 | review | All remaining remote capabilities have tested support or explicit upstream blockers | not_run |
-| T051 | P6 | CI | All examples format and validate against the built provider without real credentials | in_progress |
+| T051 | P6 | CI | All examples format and validate against the built provider without real credentials | passed |
 | T052 | P6 | CI/review | Korean/English pages cover identical behavior and stable contract/test IDs | not_run |
 | T053 | P6 | CI | Supported OS/architecture binaries, checksums, signatures and clean Registry install pass | not_run |
 | T054 | P6 | CI/live | Previous-version state migration and dependency upgrades keep plans stable | not_run |

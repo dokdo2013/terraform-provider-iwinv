@@ -50,8 +50,10 @@ data "iwinv_availability_zones" "invalid" {
 ''')
         env = os.environ.copy()
         env["TF_CLI_CONFIG_FILE"] = str(config)
-        env.pop("TF_LOG", None)
-        env.pop("TF_LOG_PATH", None)
+        for name in list(env):
+            if name.startswith("TF_LOG") or name.startswith("TF_CLI_ARGS"):
+                env.pop(name)
+        env["TF_DATA_DIR"] = str(root / ".terraform")
         try:
             result = subprocess.run(
                 [terraform, f"-chdir={directory}", "plan", "-json", "-input=false"],

@@ -76,7 +76,8 @@ Adopt Terraform >=1.14 for the initial provider compatibility target and test th
 require Terraform >=1.10 and [write-only arguments](https://developer.hashicorp.com/terraform/plugin/framework/resources/write-only-arguments)
 require >=1.11; those feature floors do not lower this project's intended baseline.
 Actions require their own acceptance and state-reconciliation tests before publication.
-T013 remains in progress until the provider/protocol matrix is exercised.
+The T013 provider/protocol matrix passed CI with Go 1.25.8/1.26.1 and Terraform 1.14.0/1.14.2.
+[Actions](https://developer.hashicorp.com/terraform/plugin/framework/actions/testing) require Terraform >=1.14; this does not claim an implemented action.
 
 Sources: [iwinv signing](https://iwinv-common.readme.io/reference/api-request),
 [response envelope](https://iwinv-common.readme.io/reference/api-response),
@@ -93,7 +94,9 @@ The installer targets `/usr/bin`; the audit instead used a temporary binary with
 [Additional service operations](../inventory/service-operations.json) record separate NAS, Cache, Swift and S3 surfaces.
 Object Storage documents both protocols and separate keys, with the public endpoint `kr.object.iwinv.kr`:
 [authentication](https://help.iwinv.kr/manual/712), [compatibility](https://help.iwinv.kr/manual/738).
-The compatibility tables are images and still need transcription/verification. A CLI `obs://` URL is not proof of full S3 compatibility.
+The [visual transcription ledger](../inventory/object-compatibility.json) records vendor claims for 22 S3 and 22 Swift features; live verification remains separate. A CLI `obs://` URL is not proof of full S3 compatibility.
+The vendor excludes the `x-amz-security-token` request header and version/delete-marker response headers, requiring explicit STS/versioning decisions.
+Swift temporary URLs exclude container keys, and versioning excludes `X-History-Location`.
 S3 policy syntax may legitimately contain AWS-style ARN strings; this does not imply iwinv control-plane IAM/ARN support.
 Swift and S3 must not manage the same bucket/object through competing Terraform resources.
 
@@ -115,3 +118,5 @@ The [official error catalog](https://api-kr.iwinv.kr/error) identifies this as a
 No automatic retry or name-based adoption occurred. Immediate and delayed instance lists were empty.
 The cause, backend outcome and billing state are unverified, so compute CRUD remains gated.
 T015 is failed for this API contract experiment; no Terraform instance resource acceptance was claimed.
+
+[CI evidence](../inventory/evidence.json) links source commits to successful workflow runs.

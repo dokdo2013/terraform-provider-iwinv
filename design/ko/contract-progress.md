@@ -75,7 +75,8 @@ go run ./cmd/contract-probe
 [write-only 인자](https://developer.hashicorp.com/terraform/plugin/framework/resources/write-only-arguments)는 >=1.11이 필요하지만
 개별 기능의 하한이 이 프로젝트의 목표 하한을 낮추지는 않습니다.
 Action은 공개 전에 별도 acceptance와 state 정합성 검증을 통과해야 합니다.
-T013은 Provider/프로토콜 버전 조합 검증 전까지 진행 중입니다.
+T013의 Provider/프로토콜 조합은 Go 1.25.8·1.26.1 및 Terraform 1.14.0·1.14.2 CI에서 통과했습니다.
+[Action](https://developer.hashicorp.com/terraform/plugin/framework/actions/testing)은 Terraform >=1.14가 필요하며 실제 Action 지원을 선언하는 것은 아닙니다.
 
 출처: [iwinv 서명](https://iwinv-common.readme.io/reference/api-request),
 [응답](https://iwinv-common.readme.io/reference/api-response),
@@ -92,7 +93,9 @@ CLI에 계정을 로그인하지 않고 조사했습니다. 설치 스크립트�
 [추가 서비스 작업 대장](../inventory/service-operations.json)에 NAS·Cache·Swift·S3 기능을 기록했습니다.
 Object Storage는 두 프로토콜과 별도 키를 문서화하며 공개 endpoint는 `kr.object.iwinv.kr`입니다.
 [인증](https://help.iwinv.kr/manual/712), [호환 범위](https://help.iwinv.kr/manual/738)를 참고하세요.
-호환 범위 표는 이미지이므로 항목 추출·검증이 더 필요합니다. CLI의 `obs://`만으로 S3 전체 호환을 판단하지 않습니다.
+[이미지 표의 전사 대장](../inventory/object-compatibility.json)에 S3 22개·Swift 22개 기능의 공급사 표기를 기록했습니다. 실환경 검증은 별개입니다. CLI의 `obs://`만으로 S3 전체 호환을 판단하지 않습니다.
+`x-amz-security-token` 요청 및 version/delete-marker 응답 헤더는 미지원으로 표기되어 있어 STS와 버전 관리 의미를 별도 확인해야 합니다.
+Swift Temporary URL의 컨테이너 키와 `X-History-Location`은 지원하지 않는다고 명시되어 있습니다.
 S3 정책 문법에는 AWS 형식 ARN이 실제로 쓰일 수 있지만 iwinv control-plane IAM/ARN 지원을 뜻하지 않습니다.
 Swift와 S3 리소스가 같은 버킷/객체를 동시에 소유하게 만들지 않습니다.
 
@@ -114,3 +117,5 @@ HTTP 500과 `DEV_CHECK_RETURN`이 반환되었고 인스턴스 ID는 없었습�
 자동 재시도나 이름 기반 채택은 하지 않았습니다. 직후와 지연 후 인스턴스 목록은 비어 있었습니다.
 원인·백엔드 처리 결과·과금 상태는 미검증이므로 compute CRUD 공개는 보류합니다.
 이 API 계약 실험의 T015는 실패이며 Terraform 인스턴스 리소스 acceptance를 수행했다고 하지 않습니다.
+
+[CI 실행 증거](../inventory/evidence.json): 소스 commit과 실제 성공한 실행 링크를 기록합니다.

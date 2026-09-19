@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "observed_on": "2026-09-19",
+  "evidence": "Visual transcription of vendor compatibility images; no live service verification",
+  "source": "https://help.iwinv.kr/manual/738",
+  "s3": {
+    "image_source": "https://img.iwinv.kr/upload/TinyMCE/source/s3_support.jpg",
+    "features": [
+      {
+        "name": "List Buckets",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Delete Bucket",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Create Bucket",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket Lifecycle",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket/Object Policy",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket Website",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket ACL Get/Put",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket Location",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket Notification",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket Object Versions",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket HEAD",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Bucket Request Payment",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Put Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Delete Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Get Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Object ACL Get/Put",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Object HEAD",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "POST Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Copy Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Multipart Uploads",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Object Tagging",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Storage Class",
+        "vendor_claim": "supported",
+        "live_verified": false
+      }
+    ],
+    "caveats": [
+      "Canned ACL choices differ.",
+      "Notification, object tagging and storage class details need independent verification."
+    ],
+    "unsupported_common_fields": {
+      "request": [
+        "x-amz-security-token"
+      ],
+      "response": [
+        "Server",
+        "x-amz-delete-marker",
+        "x-amz-id-2",
+        "x-amz-version-id"
+      ]
+    },
+    "unsupported_fields_image_source": "https://img.iwinv.kr/upload/TinyMCE/source/s3_support2.jpg"
+  },
+  "swift": {
+    "image_source": "https://img.iwinv.kr/upload/TinyMCE/source/swift_support_1.jpg",
+    "features": [
+      {
+        "name": "Authentication",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Account Metadata Read",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Swift ACL",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "List Containers",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Delete Container",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Create Container",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Container Metadata Read",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Container Metadata Update",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Container Metadata Delete",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "List Objects",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Static Website",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Create Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Create Large Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Delete Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Get Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Copy Object",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Object Metadata Read",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Object Metadata Update",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Expiring Objects",
+        "vendor_claim": "supported",
+        "live_verified": false
+      },
+      {
+        "name": "Temporary URLs",
+        "vendor_claim": "partial",
+        "live_verified": false
+      },
+      {
+        "name": "Object Versioning",
+        "vendor_claim": "partial",
+        "live_verified": false
+      },
+      {
+        "name": "CORS",
+        "vendor_claim": "supported",
+        "live_verified": false
+      }
+    ],
+    "caveats": [
+      "Only a subset of Swift ACLs is documented.",
+      "Temporary URLs do not support container-level keys.",
+      "Versioning does not support X-History-Location."
+    ]
+  },
+  "provider_policy": [
+    "Treat these as vendor claims, not provider support.",
+    "Do not offer STS/session-token assumptions based on AWS defaults.",
+    "Resolve versioning support versus missing version/delete-marker headers before release.",
+    "Each bucket/object has one owner across S3 and Swift."
+  ]
+}

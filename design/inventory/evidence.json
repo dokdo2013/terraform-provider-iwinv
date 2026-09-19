@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "id": "E001",
+      "kind": "ci",
+      "commit": "749ca0f7fb4154be337754df053313a68c998cc3",
+      "url": "https://github.com/dokdo2013/terraform-provider-iwinv/actions/runs/35413591611",
+      "result": "passed",
+      "scope": [
+        "Go 1.25.8 and 1.26.1 unit/race/vet/build"
+      ],
+      "cloud_requests": false
+    },
+    {
+      "id": "E002",
+      "kind": "ci",
+      "commit": "6c24ca1efa22f8cb4894cd7505cf7e6388a14694",
+      "url": "https://github.com/dokdo2013/terraform-provider-iwinv/actions/runs/35414818100",
+      "result": "passed",
+      "scope": [
+        "Go 1.25.8 and 1.26.1 unit/race/vet/build",
+        "Terraform 1.14.0 and 1.14.2 synthetic protocol tests",
+        "Executable zone example fmt/validate against built provider"
+      ],
+      "cloud_requests": false
+    }
+  ]
+}

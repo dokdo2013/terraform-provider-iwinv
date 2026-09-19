@@ -136,7 +136,8 @@
       "evidence": [
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md",
-        "internal/client/client_test.go"
+        "internal/client/client_test.go",
+        "design/inventory/evidence.json"
       ]
     },
     {
@@ -145,10 +146,11 @@
       "method": "review",
       "expected_en": "Version ADR defines tested Go/Terraform/Framework combinations and feature gates",
       "expected_ko": "Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다",
-      "status": "in_progress",
+      "status": "passed",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "design/inventory/evidence.json"
       ]
     },
     {
@@ -496,11 +498,12 @@
       "method": "CI",
       "expected_en": "All examples format and validate against the built provider without real credentials",
       "expected_ko": "모든 예제가 실제 빌드 Provider로 format/validate를 통과한다",
-      "status": "in_progress",
+      "status": "passed",
       "evidence": [
         "examples/data-sources/iwinv_availability_zones/main.tf",
         "design/en/development.md",
-        "design/ko/development.md"
+        "design/ko/development.md",
+        "design/inventory/evidence.json"
       ]
     },
     {

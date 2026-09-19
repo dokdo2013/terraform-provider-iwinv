@@ -65,7 +65,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T010 | P1 | mock/live-read | 단일 조회가 0개/복수 결과를 거부하고 첫 원소를 임의 선택하지 않는다 | not_run |
 | T011 | P1 | mock/live-read | alias 간 인증/endpoint/캐시가 섞이지 않는다 | passed |
 | T012 | P1 | mock | 인증정보가 다른 호스트 redirect나 진단에 유출되지 않는다 | passed |
-| T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | in_progress |
+| T013 | P1 | review | Go/Terraform/Framework 조합과 기능별 최소 버전을 ADR로 정의한다 | passed |
 | T014 | P1 | review | 나머지 서비스 API/CLI 옵션/인증 MCP 도구를 대조하고 공백을 기록한다 | in_progress |
 | T015 | P2 | live | 생성 ID 한 개가 안정적이며 후속 실패에도 state에서 보존된다 | failed |
 | T016 | P2 | mock/live | 모든 상태와 기한/취소를 완료 대기가 처리한다 | not_run |
@@ -103,7 +103,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 | T048 | P5 | live | 메시징 템플릿 검수 상태와 허용 수정/삭제를 검증한다 | not_run |
 | T049 | P5 | mock/live | 발송/취소/시간대/바이트/중복 방지를 한정된 테스트에서 검증한다 | not_run |
 | T050 | P5 | review | 모든 잔여 원격 기능에 검증된 지원 또는 명시적인 공급사 제약이 있다 | not_run |
-| T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | in_progress |
+| T051 | P6 | CI | 모든 예제가 실제 빌드 Provider로 format/validate를 통과한다 | passed |
 | T052 | P6 | CI/review | 한영 문서가 동일한 동작과 계약/검증 ID를 다룬다 | not_run |
 | T053 | P6 | CI | 지원 OS/아키텍처 바이너리/체크섬/서명/새 Registry 설치를 검증한다 | not_run |
 | T054 | P6 | CI/live | 이전 버전 state migration과 의존성 갱신 후 plan이 안정적이다 | not_run |
