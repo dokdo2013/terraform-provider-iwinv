@@ -29,7 +29,8 @@ client. There was no MCP tools/call, cloud-resource mutation, mail transmission 
 
 Registration identity, management token, browser authorization URL and raw responses remain in private local evidence, never this
 public repository. Do not automatically recreate clients after an observation timeout. Reconcile or reuse the recorded client only
-when its lifecycle and authorization conditions are resolved. The separate webmail cleanup failure also remains open.
+when its lifecycle and authorization conditions are resolved. The separate test webmail service was later
+confirmed deleted by console history and an empty service list; the MCP registration and overall T056 remain open.
 
 ## Offline capture validation
 

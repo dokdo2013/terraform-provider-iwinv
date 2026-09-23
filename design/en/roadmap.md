@@ -1,6 +1,6 @@
 # Roadmap and work packages
 
-[한국어](../ko/roadmap.md) · [Index](../../README.en.md) · Revision: 1
+[한국어](../ko/roadmap.md) · [Index](../../README.en.md) · Revision: 2
 
 No cloud implementation is claimed by this repository's initial commit. Work packages are sequentially gated;
 full API/CLI resource coverage remains the destination even though the first release is small.
@@ -18,14 +18,29 @@ full API/CLI resource coverage remains the destination even though the first rel
 Partial prereleases are allowed after P2; label supported scope clearly. Do not wait for every service to begin
 user feedback, and do not call a partial release full coverage. Exact dates depend on API access and vendor answers.
 
-## Next work: P1
+## Remaining execution order (as of 2026-09-23)
 
-- Confirm a supported account/zone and capture a read-only inventory with pagination.
-- Establish signing, transport encoding, success/error envelope, response IDs, nullability and safe field masks.
-- Compare instance list/detail with creation schema; design import for missing creation history.
-- Enumerate remaining object/NAS/cache service operations and official CLI flags; inspect MCP tools when authenticated.
-- Produce ADRs for naming, versions, mutation/replacement semantics, storage ownership and secret handling.
-- Specify a disposable lifecycle test environment and recovery/budget rules before moving to P2.
+The development provider registers 18 data sources and 7 resources. The [implementation ledger](../inventory/implementation.json)
+defines each capability's live-tested scope; the [checklist](../inventory/checks.json) tracks verification.
+**Of 80 checks, 27 passed, 23 are in progress, 28 have not run, and 2 failed.** These counts are not a support percentage.
+An authenticated read returned HTTP 200/SUCCESS again after the current test IPv4 address was allowed on the API key.
+The test webmail service's cleanup is supported by its authenticated console deletion history and empty service list.
+Deletion of the earlier MCP OAuth registration, eligible Compute API zones and instance lifecycle, and Registry publication remain unverified.
+One cleaned webmail fixture does not pass the overall cleanup check T056. No account IDs, IP addresses, raw responses or secrets belong in public docs.
+
+| Order | Work to execute | Evidence required to advance |
+| --- | --- | --- |
+| **#1 / P1** | Reconcile remaining T001–T010 signing, paging, errors and field masks using restored API access. Ask the vendor about this account's Compute API zones/products, visibility of existing instances, the creation restriction, cleanup of the registered MCP client, and required service credentials. Inspect authenticated MCP tools only after registration cleanup and OAuth scope are resolved. | Record eligible zone/product conditions and a disposable lifecycle fixture; distinguish passing and open G1 evidence. Decide T014 after reconciling CLI, service API and MCP gaps. |
+| **#2 / P2** | Reconcile the existing Compute read/write adapters with live account contracts. Verify one owned instance's creation ID, completion, Read, update, import, drift and deletion before registering `iwinv_instance`. Never replay an ambiguous create or adopt by name. | Resolve the T015 failure; pass T016–T030 and G2/G3 with live and synthetic evidence distinguished. Record cleanup of every created ID and separately assess retained disks and billing. |
+| **#3 / P3** | Retain verified security group/rule support while measuring server attachment add/replace semantics. Verify block-storage creation dependency on an instance, detach/reattach, deletion and retention; choose one connection owner. | Pass T031–T036 and per-capability G4 import, drift and dependency deletion. Do not claim attachment/volume support while instance creation is unavailable. |
+| **#4 / P4** | Expand unverified product variants for existing hosting, DBMS, cache and NAS resources. Establish reliable webmail service Read/deletion and a mailbox list/detail substitute; resolve billing-detail access and time-zone gaps. | Meet C19–C23, T037–T042 and G4 for each advertised feature. Do not publish a managed mailbox without reliable Read. |
+| **#5 / P5** | Implement object storage, NAS/cache data APIs, messaging/templates, explicit Actions and expiring-value Ephemerals against each service's credentials, errors and ownership contracts. Reconcile verified MCP tools with API/CLI inventory. | Pass T043–T050 and cache T079 per capability; link every remote function to an implementation or verified vendor constraint. Send messages and move data only within an agreed test scope. |
+| **#6 / P6** | Review bilingual docs/examples for the exact release scope; prepare production signing custody, Registry public key and least-privilege publication workflow. Sign and publish an immutable version, then verify Registry installation and a real plan in a clean environment. Test previous-state migration once a subsequent version exists. | Assess T051–T056 and G5 from evidence. Reassess T056 only after all work-created resources, including OAuth registration, are reconciled. The first release has no earlier published version, so do not falsely pass T054. |
+
+The immediate execution chain is **#1 vendor eligibility/registration-cleanup inquiry → API contract recheck →
+#2 one disposable instance lifecycle**. Synthetic tests and release design can proceed while a vendor answer is pending,
+but cannot replace live evidence. A limited prerelease may follow P2 and cleanup gates before every service is complete.
+Full API/CLI remote coverage and Korean/English guidance remain the end state across #1–#6.
 
 ## Issue preparation
 

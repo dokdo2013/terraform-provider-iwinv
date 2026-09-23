@@ -741,3 +741,9 @@ Added an unregistered, read-only Compute adapter for fixed-mask list and exact-I
 ## P2 instance write preparation — 2026-09-19
 
 Added a separate unregistered write adapter for one-instance multipart creation, projected metadata updates and exact-ID delete acknowledgements. Create receipts retain known identity even when later acknowledgement checks fail; unexpected multiple valid IDs are retained for reconciliation without choosing a first result. Deletion returns retained-volume information but does not delete volumes, infer absence or clear state. Synthetic tests and a TLS multipart-query/signature test passed. No new live write was attempted. T025 is in progress; the failed live-create T015 and Core-state T029 gates are not marked passed. See [write contract](instance-write-contract.md).
+
+## API access restored and webmail cleanup reconciled — 2026-09-23
+
+After allowing the current single-host test IPv4 address on the test API key, the documented webmail list request returned HTTP 200/SUCCESS with an empty array. Before the change it returned HTTP 403/CHECK_IP. The key, IP and raw responses remain outside public documents.
+
+The authenticated console's combined History records deletion of the exact previously owned test webmail service at 2026-09-21 10:15:14, and the same account's unfiltered webmail list is empty. The earlier **console-resident webmail** issue is therefore reconciled. We did not infer deletion from the API's empty array alone, and the exact billing termination time is unverified. Cleanup of the temporary OAuth registration remains unverified, so overall T056 is still failed. This readback does not verify eligible Compute API zones, MCP tools or Registry publication. See the [current execution order](roadmap.md).

@@ -71,7 +71,7 @@ This tests supported behavior on separate CLI versions. It does not establish an
 
 ## Remaining release gates
 
-- Resolve or explicitly scope outstanding capability contracts and the cleanup failure T056, including the work-created webmail service and unconsented MCP client registration. Never describe them as deleted without evidence.
+- Resolve or explicitly scope outstanding capability contracts and the cleanup failure T056. The work-created webmail service was later confirmed deleted by console history and an empty list. Cleanup of the unconsented MCP client registration is still unverified; one cleaned webmail fixture does not pass overall T056.
 - Overview and capability pages now exist in both languages. Official format checks and all 56 body previews passed; the [scoped narrative review](guide-review.md) covers the current 28 page pairs. Published Registry navigation/version-link checks (T052) remain open. See the documentation policy for the exact preview snapshot and limits.
 - Establish project-specific signing-key custody and recovery. Register its public key in the `dokdo2013` Registry namespace; verify current accepted key algorithms before creation. No production key has been generated or uploaded; the test key is deleted.
 - Add a restricted signing/publication workflow only after the release gates and credential storage are ready. Checksum signing using `GPG_FINGERPRINT` has been exercised with a disposable key. Production key loading and draft release upload have **not** been executed or verified.
