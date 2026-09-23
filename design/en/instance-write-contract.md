@@ -4,7 +4,7 @@
 
 ## Internal candidate, not a registered lifecycle
 
-`InstanceWriter` prepares documented create, metadata update and delete requests independently of the read-only `Service.API` interface. It is not called by any registered Terraform resource. No new live write was executed: Compute creation remains blocked by the observed restricted-zone error. Public registration stays at 18 data sources and 7 resources.
+`InstanceWriter` prepares documented create, metadata update and delete requests independently of the read-only `Service.API` interface. It is not called by any registered Terraform resource. A further API create attempt with a different compatible catalog flavor failed with the same restricted-zone error on 2026-09-23. An ordinary-zone console create succeeded, but it is not an API create or Terraform lifecycle test. Public registration stays at 18 data sources and 7 resources.
 
 Sources checked on 2026-09-19: [create](https://iwinv.readme.io/reference/postv1instances), [metadata update](https://iwinv.readme.io/reference/putv1instancesinstanceid), [delete](https://iwinv.readme.io/reference/deletev1instancesinstanceid), and the [field mask](https://api-kr.iwinv.kr/fields/v1/instances).
 
@@ -35,4 +35,4 @@ Delete receipts preserve sorted retained block-storage IDs; the documented opera
 
 Synthetic tests cover exact single-create fields, omission/empty distinction, Unicode encoding, input isolation, valid IDs surviving count/status errors, unexpected multiple or malformed rows, safe update projection, retained-volume receipts, invalid paths, cancellation and non-replayed transport/business errors. Fixtures are invented; no vendor example secrets or account responses are committed.
 
-T025 is in progress for this no-replay foundation. T015 remains failed from the actual blocked create attempt; T029 still requires Terraform Core lifecycle evidence. Before registration: resolve the zone gate, prove encoding and create identity on an owned fixture, implement bounded readiness/confirmed-absence contracts, verify safe SSH/script and storage ownership, implement CRUD/import/plan behavior, and run full recovery/cleanup acceptance. No successful instance create/update/delete is claimed.
+T025 is in progress for this no-replay foundation. T015 remains failed from the actual blocked API create attempts; T029 still requires Terraform Core lifecycle evidence. Before registration: resolve the zone gate, prove encoding and create identity on an API-owned fixture, implement bounded readiness/confirmed-absence contracts, verify safe SSH/script and storage ownership, implement CRUD/import/plan behavior, and run full recovery/cleanup acceptance. No successful API instance create/update/delete is claimed.

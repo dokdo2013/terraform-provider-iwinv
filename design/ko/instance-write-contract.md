@@ -4,7 +4,7 @@
 
 ## 등록된 수명주기가 아닌 내부 후보
 
-`InstanceWriter`는 읽기 전용 `Service.API`와 분리해 문서화된 생성·정보 수정·삭제 요청을 준비합니다. 등록된 Terraform 리소스에서 호출하지 않습니다. 새 실환경 쓰기는 실행하지 않았으며 Compute 생성은 관찰된 존 이용 제한 오류로 막혀 있습니다. 공개 등록은 Data Source 18개·리소스 7개입니다.
+`InstanceWriter`는 읽기 전용 `Service.API`와 분리해 문서화된 생성·정보 수정·삭제 요청을 준비합니다. 등록된 Terraform 리소스에서 호출하지 않습니다. 2026-09-23에 호환 카탈로그의 다른 상품으로 API 생성을 다시 시도했지만 같은 존 이용 제한 오류가 발생했습니다. 일반 존의 콘솔 생성은 성공했으나 API 생성 성공이나 Terraform 수명주기 검증은 아닙니다. 공개 등록은 Data Source 18개·리소스 7개입니다.
 
 2026-09-19 확인한 출처: [생성](https://iwinv.readme.io/reference/postv1instances), [정보 수정](https://iwinv.readme.io/reference/putv1instancesinstanceid), [삭제](https://iwinv.readme.io/reference/deletev1instancesinstanceid), [필드 마스크](https://api-kr.iwinv.kr/fields/v1/instances).
 
@@ -35,4 +35,4 @@
 
 합성 테스트는 정확한 단일 생성 입력, 생략·빈 값 구분, Unicode 인코딩, 입력 불변성, count·status 오류에도 ID 보존, 예상 밖 복수·잘못된 행, 안전한 수정 조회, 남는 볼륨 접수 정보, 잘못된 경로·취소·전송/API 오류 비재전송을 검증합니다. fixture는 가상 값이며 공급사 예제의 비밀값이나 계정 응답은 커밋하지 않습니다.
 
-T025는 비재전송 기반에 대해 진행 중으로 표시합니다. 실제 생성 제한을 기록한 T015는 failed를 유지하고 T029는 Terraform Core 수명주기 근거가 필요합니다. 등록 전 존 제약 해결, 소유 fixture의 인코딩·생성 ID 확인, 제한된 준비 완료·확정 부재 대기, SSH·스크립트·스토리지 소유권, CRUD·import·plan, 실패 복구·정리 acceptance가 필요합니다. 성공한 실환경 인스턴스 생성·수정·삭제는 주장하지 않습니다.
+T025는 비재전송 기반에 대해 진행 중으로 표시합니다. 실제 API 생성 제한을 기록한 T015는 failed를 유지하고 T029는 Terraform Core 수명주기 근거가 필요합니다. 등록 전 존 제약 해결, API 소유 fixture의 인코딩·생성 ID 확인, 제한된 준비 완료·확정 부재 대기, SSH·스크립트·스토리지 소유권, CRUD·import·plan, 실패 복구·정리 acceptance가 필요합니다. 성공한 실환경 API 인스턴스 생성·수정·삭제는 주장하지 않습니다.

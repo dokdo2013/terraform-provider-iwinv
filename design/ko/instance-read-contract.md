@@ -6,7 +6,7 @@
 
 `internal/services/compute/instances.go`에 내부 목록·정확한 ID 조회를 추가했습니다. Terraform 인스턴스 리소스·Data Source는 등록하지 않았습니다. 공개 지원은 기존 Data Source 18개·리소스 7개입니다. P2의 Read 경계를 준비한 것으로, 막혀 있는 Compute 존 생성 계약을 우회하지 않습니다.
 
-[목록 API](https://iwinv.readme.io/reference/getv1instances)는 API 지원 존의 서버만 보인다고 명시합니다. 빈 목록으로 콘솔의 서버가 삭제됐다고 판단하면 안 됩니다. [상세 API](https://iwinv.readme.io/reference/getv1instancesinstanceid)도 result 배열이므로 정확히 하나의 일치하는 ID를 요구합니다. 빈·복수·다른 ID 결과는 오류로 유지합니다. 인증·404·요청 제한·서버 오류를 부재로 바꾸거나 state를 제거하지 않습니다. 데이터가 있는 소유 fixture의 계약을 확인하기 전까지 import·관리 수명주기는 보류합니다.
+[목록 API](https://iwinv.readme.io/reference/getv1instances)는 API 지원 존의 서버만 보인다고 명시합니다. 2026-09-23에는 같은 계정의 일반 KR1-Z03 존에 콘솔로 새 테스트 서버를 만든 직후에도 인증된 API 목록이 HTTP 200/성공과 0건을 반환했습니다. 콘솔의 서버는 운영 중이었으므로 빈 목록으로 삭제나 계정 전체의 부재를 판단하면 안 됩니다. 콘솔의 숫자 선택 ID와 표시 UUID로 각각 상세 조회를 시도했으나 둘 다 `ID_INVALID`였습니다. 이것은 API 지원 존에 생성한 객체의 상세 계약을 검증한 결과가 아닙니다. [상세 API](https://iwinv.readme.io/reference/getv1instancesinstanceid)도 result 배열이므로 정확히 하나의 일치하는 ID를 요구합니다. 빈·복수·다른 ID 결과는 오류로 유지합니다. 인증·404·요청 제한·서버 오류를 부재로 바꾸거나 state를 제거하지 않습니다. 데이터가 있는 API 소유 fixture의 계약을 확인하기 전까지 import·관리 수명주기는 보류합니다.
 
 ## 선택한 조회 범위
 
