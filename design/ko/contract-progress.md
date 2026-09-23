@@ -762,3 +762,9 @@ GoReleaser 2.18.2로 `0.0.0-dev`의 7개 대상을 빌드하고 유효기간 하
 후속 읽기에서 `GET /v1/zones`는 계속 `available`인 존 한 개를 반환하지만, 콘솔 생성 화면의 `API` 분류에는 선택 가능한 존이 없습니다. `GET /v1/flavors?zone_id=kr1_z03`은 상품 34개를 반환했으나 33개의 실제 `zone_mappings`는 `kr1_z09`이고 나머지 하나에는 매핑이 없었습니다. 같은 `kr1_z03`의 이미지 필터는 0건입니다. 따라서 존의 상태나 상품 필터 결과를 생성 자격·존 호환성으로 취급할 수 없습니다. 새 생성 요청은 보내지 않았고 API 인스턴스 목록은 계속 0건입니다.
 
 콘솔 소유권·실제 ID·주소·원응답은 mode-0600의 Git 외부 대장에만 남겼습니다. 콘솔 서버의 숫자 ID·표시 UUID는 API 상세에서 거부됐고, [공식 생성 응답 예시](https://iwinv.readme.io/reference/postv1instances)는 별도의 `INSTANCE-…` 형식 ID를 사용합니다. 이 서버를 Terraform state에 수동 주입하거나 import한 뒤 `destroy`하는 것은 API 삭제 검증이 아닙니다. 사용자의 정정에 따라 콘솔 삭제 확인창을 취소하고 서버를 소유 테스트 fixture로 유지합니다. API에서 생성·조회되는 별도 서버가 준비되면 Terraform `destroy`와 잔여 디스크·콘솔 부재를 검증합니다. 현재 콘솔 서버의 최종 정리와 과금 종료는 아직 입증하지 않았습니다.
+
+## #1 Compute CLI 목록·상세 부재 판정 대조 — 2026-09-23
+
+[공식 CLI v0.2.2](https://docs.iwinv.kr/developers/cli/commands/instances/)를 격리된 홈 디렉터리에서 같은 테스트 키로 로그인한 후, 읽기 전용 `iwinv instances show --page-size 50`을 실행했습니다. 종료 코드 0과 `0 instances`를 받았고, 콘솔에서 운영 중인 소유 테스트 서버도 목록에 없었습니다. 따라서 현재 CLI 목록 역시 이 서버의 Terraform 관리 가능성이나 삭제 완료를 입증하지 않습니다. 격리 홈에 생긴 CLI 인증정보 사본은 조회 직후 제거했고 원출력은 비공개로 보관했습니다. CLI 생성·수정·삭제 명령은 실행하지 않았습니다.
+
+공식 [인스턴스 삭제 문서](https://iwinv.readme.io/reference/deletev1instancesinstanceid)는 HTTP 202를 처리 접수로 설명하고 목록에서 진행 상태를 확인하도록 안내합니다. 다만 이 계정의 목록은 일반 존 서버를 원래 제외하므로 빈 목록을 삭제 확인으로 사용할 수 없습니다. 존재하지 않는 합성 ID의 상세 조회는 ID 형태에 따라 `ID_INVALID` 또는 `CHECK_IP`를 반환했습니다. 같은 키·출발 IPv4에서 존 목록은 성공했으므로 해당 `CHECK_IP`의 원인을 단정하거나 이를 부재 응답으로 해석하지 않습니다. 정확한 API 생성 ID가 반환된 서버의 상세 조회·삭제 후 확정 부재 계약은 여전히 미검증입니다. `iwinv_instance`는 등록하지 않았고 Terraform `destroy`도 실행하지 않았습니다.

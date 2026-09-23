@@ -32,6 +32,8 @@ Synthetic tests cover fixed query masks, unsolicited credential canaries, Unicod
 
 On 2026-09-19, `TestAccInstanceListRead` passed against the official endpoint with **zero API-visible instances**. This confirms authentication and empty-page metadata for the selected mask only. It does not prove populated projection, field-mask enforcement on populated responses, detail, missing-ID behavior, pagination under load, or resource lifecycle. No cloud resource was created or changed. Private logs contain no public fixtures or credentials in this repository.
 
+On 2026-09-23, the isolated official CLI `instances show` command also returned zero rows with the same test key. The running ordinary-zone console fixture was absent from both API and CLI lists, so neither empty list establishes deletion. Detail reads with invented missing IDs returned `ID_INVALID` or `CHECK_IP`, while the zone read succeeded from the same egress IPv4. We do not map those detail errors to absence; their meaning must be rechecked using a real API-returned ID. The CLI's duplicate credentials were removed immediately after the read.
+
 To repeat the bounded read with credentials already supplied privately:
 
 ```sh

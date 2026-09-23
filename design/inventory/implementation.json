@@ -729,7 +729,7 @@
         }
       ],
       "live_verified": false,
-      "live_scope": "2026-09-19: fixed-mask empty instance list passed. Populated list/detail, missing-ID semantics and lifecycle remain unverified.",
+      "live_scope": "2026-09-19/23: fixed-mask API and authenticated CLI lists both returned zero API-visible instances while an ordinary-zone console fixture ran. Invented-ID detail errors do not establish absence. Populated list/detail, missing-ID semantics and lifecycle remain unverified.",
       "evidence": [
         "internal/services/compute/instances.go",
         "internal/services/compute/instances_test.go",
