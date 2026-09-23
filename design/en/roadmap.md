@@ -22,8 +22,8 @@ user feedback, and do not call a partial release full coverage. Exact dates depe
 
 The development provider registers 18 data sources and 7 resources. The [implementation ledger](../inventory/implementation.json)
 defines each capability's live-tested scope; the [checklist](../inventory/checks.json) tracks verification.
-**Of 80 checks, 27 passed, 23 are in progress, 28 have not run, and 2 failed.** These counts are not a support percentage.
-An authenticated read returned HTTP 200/SUCCESS again after the current test IPv4 address was allowed on the API key.
+**Of 80 checks, 28 passed, 22 are in progress, 28 have not run, and 2 failed.** These counts are not a support percentage.
+The same-key authenticated read changed from HTTP 403/CHECK_IP to 200/SUCCESS after the current test IPv4 address was allowed, passing T003.
 The test webmail service's cleanup is supported by its authenticated console deletion history and empty service list.
 Deletion of the earlier MCP OAuth registration, eligible Compute API zones and instance lifecycle, and Registry publication remain unverified.
 One cleaned webmail fixture does not pass the overall cleanup check T056. No account IDs, IP addresses, raw responses or secrets belong in public docs.

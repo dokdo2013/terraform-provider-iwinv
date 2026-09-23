@@ -31,7 +31,7 @@
       "method": "live-read",
       "expected_en": "Allowed and denied egress IPs produce documented authentication outcomes",
       "expected_ko": "허용/차단 출발 IP의 인증 결과를 확인한다",
-      "status": "in_progress",
+      "status": "passed",
       "evidence": [
         "design/en/contract-progress.md",
         "design/ko/contract-progress.md"

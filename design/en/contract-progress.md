@@ -35,7 +35,8 @@ actual resource IDs or state files are included in this repository.
 | SSH key list | HTTP 200, array, string key IDs; numeric pagination metadata | No key mutation API is documented |
 | Stale timestamp | A signed zones request 600 seconds in the past returns HTTP 401 | Exact boundary and dedicated error classification |
 
-These observations provide partial evidence for T001, T002, T003, T004, T006 and T009.
+These observations provide partial evidence for T001, T002, T004, T006 and T009. T003 passed after
+the same-key and same-path authentication reconciliation below on 2026-09-23.
 T011 includes mock isolation and a native binary test separating a valid-key read from a synthetic-invalid alias. Redirect/error redaction tests satisfy the
 current mock-only T012 scope. None of this proves resource lifecycle acceptance.
 
@@ -747,3 +748,9 @@ Added a separate unregistered write adapter for one-instance multipart creation,
 After allowing the current single-host test IPv4 address on the test API key, the documented webmail list request returned HTTP 200/SUCCESS with an empty array. Before the change it returned HTTP 403/CHECK_IP. The key, IP and raw responses remain outside public documents.
 
 The authenticated console's combined History records deletion of the exact previously owned test webmail service at 2026-09-21 10:15:14, and the same account's unfiltered webmail list is empty. The earlier **console-resident webmail** issue is therefore reconciled. We did not infer deletion from the API's empty array alone, and the exact billing termination time is unverified. Cleanup of the temporary OAuth registration remains unverified, so overall T056 is still failed. This readback does not verify eligible Compute API zones, MCP tools or Registry publication. See the [current execution order](roadmap.md).
+
+## #1 authentication, Compute and MCP read reconciliation — 2026-09-23
+
+For the same test key and `GET /v1/webmail` path, an unlisted egress IP produced HTTP 403/`CHECK_IP` (`0x9`); after its single-host range was allowed, the request produced HTTP 200/`SUCCESS` (`0x00`). Both receipts remain private, without the key, IP or raw account response in Git. This matches the [official API key guide](https://docs.iwinv.kr/developers/api/api-key-management/) on denied egress IPs, so **T003 now passes**. This does not claim exhaustive CIDR or IPv6 behavior.
+
+Fresh read-only requests returned HTTP 200/`SUCCESS` with one catalog row for `GET /v1/zones` and an empty array for `GET /v1/instances?fields=3599&page_size=100`. Catalog visibility does not prove provisioning eligibility or API management of the console's existing server. The prior create restriction has no resolved cause, so no POST was replayed. Authenticated GET of the exact private registration-management URI again returned HTTP 200 and the same temporary MCP client. Registration cleanup remains unverified after the prior DELETE 404. The private vendor-support draft now asks only about Compute eligibility and registration cleanup; the reconciled webmail deletion was removed.
