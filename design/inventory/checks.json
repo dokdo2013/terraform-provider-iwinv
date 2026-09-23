@@ -7,10 +7,11 @@
       "method": "mock/live-read",
       "expected_en": "HMAC vectors match timestamp+path; query/trailing slash handling is exact",
       "expected_ko": "Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다",
-      "status": "in_progress",
+      "status": "passed",
       "evidence": [
         "design/en/contract-progress.md",
-        "design/ko/contract-progress.md"
+        "design/ko/contract-progress.md",
+        "internal/client/client_test.go"
       ]
     },
     {

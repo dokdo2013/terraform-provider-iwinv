@@ -57,7 +57,7 @@ Use the [roadmap](roadmap.md) to schedule the checklist. References: [acceptance
 
 | ID | Phase | Method | Expected outcome | Status |
 | --- | --- | --- | --- | --- |
-| T001 | P1 | mock/live-read | HMAC vectors match timestamp+path; query/trailing slash handling is exact | in_progress |
+| T001 | P1 | mock/live-read | HMAC vectors match timestamp+path; query/trailing slash handling is exact | passed |
 | T002 | P1 | mock/live-read | Clock window errors are diagnosed; every retry signs a fresh timestamp | in_progress |
 | T003 | P1 | live-read | Allowed and denied egress IPs produce documented authentication outcomes | passed |
 | T004 | P1 | mock/live-read | HTTP and business errors are both checked without masking unknown codes | in_progress |

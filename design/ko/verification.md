@@ -53,7 +53,7 @@ CLI 기반 acceptance는 `terraform-plugin-testing`, 프로토콜·오류는 HTT
 
 | ID | 단계 | 방법 | 합격 조건 | 상태 |
 | --- | --- | --- | --- | --- |
-| T001 | P1 | mock/live-read | Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다 | in_progress |
+| T001 | P1 | mock/live-read | Timestamp+path 서명과 query/끝 슬래시 처리가 정확하다 | passed |
 | T002 | P1 | mock/live-read | 시계 오차를 구분하고 재시도마다 새 Timestamp로 서명한다 | in_progress |
 | T003 | P1 | live-read | 허용/차단 출발 IP의 인증 결과를 확인한다 | passed |
 | T004 | P1 | mock/live-read | HTTP와 업무 오류를 함께 판정하고 알 수 없는 코드를 숨기지 않는다 | in_progress |

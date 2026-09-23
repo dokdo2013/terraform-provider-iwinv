@@ -2,10 +2,10 @@
 
 [한국어](../ko/contract-progress.md) · [Verification](verification.md)
 
-Observed 2026-09-19 UTC. This is an implementation checkpoint for [issue #1](https://github.com/dokdo2013/terraform-provider-iwinv/issues/1),
-not a stable release or completion of P1. See the [development guide](development.md) for the working zone data source. The client currently supports a single GET attempt.
+First observed 2026-09-19 UTC. This is a cumulative implementation record for [issue #1](https://github.com/dokdo2013/terraform-provider-iwinv/issues/1),
+not a stable release or completion of P1. See the [implementation ledger](../inventory/implementation.json) for current registered capabilities and the [development guide](development.md) to run them.
 
-## Implemented and tested
+## Initial GET client implementation and tests (2026-09-19)
 
 - Control-plane HMAC-SHA256 with a fresh timestamp per call, query excluded, canonical ASCII paths only.
 - TLS verification, all redirects rejected, 30-second HTTP timeout and 2 MiB response limit.
@@ -16,7 +16,7 @@ not a stable release or completion of P1. See the [development guide](developmen
 - Synthetic tests cover signatures, Korean query encoding, errors, redirects, cancellation,
   client isolation, concurrent calls, response limits, and value-free probe reports.
 
-The client does **not** implement writes, retries, pagination or resource deletion inference yet.
+At this initial checkpoint the client did **not** implement writes, retries, pagination or resource deletion inference. Later write and service-pagination work is recorded by date below.
 It preserves HTTP status, including 202, for service-specific interpretation.
 The probe accepts only HTTP 200 and an array of zone objects.
 
@@ -35,8 +35,8 @@ actual resource IDs or state files are included in this repository.
 | SSH key list | HTTP 200, array, string key IDs; numeric pagination metadata | No key mutation API is documented |
 | Stale timestamp | A signed zones request 600 seconds in the past returns HTTP 401 | Exact boundary and dedicated error classification |
 
-These observations provide partial evidence for T001, T002, T004, T006 and T009. T003 passed after
-the same-key and same-path authentication reconciliation below on 2026-09-23.
+These observations provide partial evidence for T002, T004, T006 and T009. T001 and T003 passed after
+the signing and authentication reconciliation below on 2026-09-23.
 T011 includes mock isolation and a native binary test separating a valid-key read from a synthetic-invalid alias. Redirect/error redaction tests satisfy the
 current mock-only T012 scope. None of this proves resource lifecycle acceptance.
 
@@ -750,6 +750,8 @@ After allowing the current single-host test IPv4 address on the test API key, th
 The authenticated console's combined History records deletion of the exact previously owned test webmail service at 2026-09-21 10:15:14, and the same account's unfiltered webmail list is empty. The earlier **console-resident webmail** issue is therefore reconciled. We did not infer deletion from the API's empty array alone, and the exact billing termination time is unverified. Cleanup of the temporary OAuth registration remains unverified, so overall T056 is still failed. This readback does not verify eligible Compute API zones, MCP tools or Registry publication. See the [current execution order](roadmap.md).
 
 ## #1 authentication, Compute and MCP read reconciliation — 2026-09-23
+
+An independently calculated HMAC vector for `Timestamp+Path` matches the client headers. A TLS mock verifies that the Korean query is encoded once in the request and excluded from the signature; paths with trailing slashes or embedded queries are rejected before network use. Existing authenticated flavor/image pagination also succeeded with query parameters. This matches the [official signing rule](https://iwinv-common.readme.io/reference/api-request), so **T001 now passes** for supported paths. It does not claim API compatibility for non-ASCII or escaped paths that the client currently rejects.
 
 For the same test key and `GET /v1/webmail` path, an unlisted egress IP produced HTTP 403/`CHECK_IP` (`0x9`); after its single-host range was allowed, the request produced HTTP 200/`SUCCESS` (`0x00`). Both receipts remain private, without the key, IP or raw account response in Git. This matches the [official API key guide](https://docs.iwinv.kr/developers/api/api-key-management/) on denied egress IPs, so **T003 now passes**. This does not claim exhaustive CIDR or IPv6 behavior.
 
