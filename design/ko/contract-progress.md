@@ -759,4 +759,6 @@ GoReleaser 2.18.2로 `0.0.0-dev`의 7개 대상을 빌드하고 유효기간 하
 
 일반 콘솔의 KR1-Z03에서는 최소 `vgna_1_n` 상품이 재고 준비중으로 거절됐지만 `vgna_2_n`과 Ubuntu 24.04 LTS로 일회용 서버 한 대가 실제 `운영중`까지 생성됐습니다. 같은 키의 인증된 `GET /v1/instances?page_size=100`은 HTTP 200/`SUCCESS`와 0건을 반환했습니다. 콘솔의 숫자 선택 ID와 표시 UUID를 각각 API 상세 경로에 넣어 읽었을 때도 둘 다 HTTP 400/`ID_INVALID`였습니다. 이는 [공식 목록 문서](https://iwinv.readme.io/reference/getv1instances)의 API 지원 존 제한과 일치하지만, 원인이 계정 자격·존 정책·API 배포 범위 중 무엇인지는 확인되지 않았습니다. 콘솔 생성으로 API 생성이나 `iwinv_instance`의 Terraform 수명주기가 검증된 것은 아닙니다. API 지원 존의 성공 fixture를 얻을 때까지 T015는 실패, T008은 진행 중입니다.
 
-콘솔 소유권·실제 ID·주소·원응답은 mode-0600의 Git 외부 대장에만 남겼습니다. 이 테스트 서버의 삭제는 콘솔의 비밀번호 확인 단계가 필요하며, 삭제 접수와 부재를 검증하기 전에는 정리 완료나 과금 종료를 주장하지 않습니다.
+후속 읽기에서 `GET /v1/zones`는 계속 `available`인 존 한 개를 반환하지만, 콘솔 생성 화면의 `API` 분류에는 선택 가능한 존이 없습니다. `GET /v1/flavors?zone_id=kr1_z03`은 상품 34개를 반환했으나 33개의 실제 `zone_mappings`는 `kr1_z09`이고 나머지 하나에는 매핑이 없었습니다. 같은 `kr1_z03`의 이미지 필터는 0건입니다. 따라서 존의 상태나 상품 필터 결과를 생성 자격·존 호환성으로 취급할 수 없습니다. 새 생성 요청은 보내지 않았고 API 인스턴스 목록은 계속 0건입니다.
+
+콘솔 소유권·실제 ID·주소·원응답은 mode-0600의 Git 외부 대장에만 남겼습니다. 콘솔 서버의 숫자 ID·표시 UUID는 API 상세에서 거부됐고, [공식 생성 응답 예시](https://iwinv.readme.io/reference/postv1instances)는 별도의 `INSTANCE-…` 형식 ID를 사용합니다. 이 서버를 Terraform state에 수동 주입하거나 import한 뒤 `destroy`하는 것은 API 삭제 검증이 아닙니다. 사용자의 정정에 따라 콘솔 삭제 확인창을 취소하고 서버를 소유 테스트 fixture로 유지합니다. API에서 생성·조회되는 별도 서버가 준비되면 Terraform `destroy`와 잔여 디스크·콘솔 부재를 검증합니다. 현재 콘솔 서버의 최종 정리와 과금 종료는 아직 입증하지 않았습니다.

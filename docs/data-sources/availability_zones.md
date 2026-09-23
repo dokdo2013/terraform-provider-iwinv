@@ -39,7 +39,7 @@ All attributes are computed; do not assign values to them in configuration.
 
 ## Behavior and limitations
 
-The provider preserves IDs and status strings exactly. It checks every row, the response count and ID uniqueness. A valid empty array is an empty catalog; malformed data or API errors fail the read. Names and status are not translated into AWS regions or availability guarantees. Zone visibility does not establish that every console server is accessible through this API. Compute provisioning remains unimplemented.
+The provider preserves IDs and status strings exactly. It checks every row, the response count and ID uniqueness. A valid empty array is an empty catalog; malformed data or API errors fail the read. Names and status are not translated into AWS regions or availability guarantees. Zone visibility does not establish that every console server is accessible through this API or that API creation is permitted there. A live create in a zone marked `available` returned a zone-use restriction. Compute provisioning remains unimplemented.
 
 Read-only; import does not apply. API errors do not become empty results.
 

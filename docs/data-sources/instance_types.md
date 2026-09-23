@@ -37,7 +37,7 @@ All attributes are computed; do not assign values to them in configuration.
 
 ## Behavior and limitations
 
-Dots and other supported ID characters are preserved; IDs are not converted into AWS instance types. Ten-row pages are validated against count, page number, page size and a consistent total. Collection ends only when the total is satisfied; duplicate IDs, changed totals, early short pages or later failures reject the entire result. The limit is 1,000 pages, and no snapshot token guarantees atomicity during concurrent changes. A valid zero-total empty catalog is empty. Use [instance_type](instance_type.md) for one product display name. Do not choose by list position or interpret catalog membership as quota, stock, pricing or zone compatibility.
+Dots and other supported ID characters are preserved; IDs are not converted into AWS instance types. Ten-row pages are validated against count, page number, page size and a consistent total. Collection ends only when the total is satisfied; duplicate IDs, changed totals, early short pages or later failures reject the entire result. The limit is 1,000 pages, and no snapshot token guarantees atomicity during concurrent changes. A valid zero-total empty catalog is empty. Use [instance_type](instance_type.md) for one product display name. Do not choose by list position or interpret catalog membership as quota, stock, pricing or zone compatibility. In a live read, a flavor request filtered to an ordinary console zone still returned rows not mapped to that zone; the filter alone cannot prove creation eligibility.
 
 Read-only; import does not apply. API errors do not become empty results.
 
